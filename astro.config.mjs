@@ -1,26 +1,52 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
+import { defineConfig } from "astro/config";
+import starlight from "@astrojs/starlight";
+
+const googleAnalyticsId = "G-4VKP1WY4QJ";
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [
-        starlight({
-            title: 'big-config',
-            social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/amiorin/big-config' }],
-            sidebar: [
-                {
-                    label: 'Guides',
-                    items: [
-                        // Each item here is one entry in the navigation menu.
-                        { label: 'Example Guide', slug: 'guides/example' },
-                    ],
-                },
-                {
-                    label: 'Reference',
-                    autogenerate: { directory: 'reference' },
-                },
-            ],
-        }),
-    ],
+  integrations: [
+    starlight({
+      title: "big-config",
+      head: [
+        // Google Analytics
+        {
+          tag: "script",
+          attrs: {
+            src: `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`,
+          },
+        },
+        {
+          tag: "script",
+          content: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `,
+        },
+      ],
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/amiorin/big-config",
+        },
+      ],
+      sidebar: [
+        {
+          label: "Guides",
+          items: [
+            // Each item here is one entry in the navigation menu.
+            { label: "Example Guide", slug: "guides/example" },
+          ],
+        },
+        {
+          label: "Reference",
+          autogenerate: { directory: "reference" },
+        },
+      ],
+    }),
+  ],
 });
