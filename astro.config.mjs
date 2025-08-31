@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import starlightBlog from "starlight-blog";
 
 const googleAnalyticsId = "G-4VKP1WY4QJ";
 
@@ -8,6 +9,18 @@ const googleAnalyticsId = "G-4VKP1WY4QJ";
 export default defineConfig({
   integrations: [
     starlight({
+      plugins: [
+        starlightBlog({
+          authors: {
+            amiorin: {
+              name: "amiorin",
+              title: "Alberto Miorin",
+              picture: "/avatar.jpg", // Images in the `public` directory are supported.
+              url: "https://albertomiorin.com",
+            },
+          },
+        }),
+      ],
       title: "big-config",
       head: [
         // Google Analytics
