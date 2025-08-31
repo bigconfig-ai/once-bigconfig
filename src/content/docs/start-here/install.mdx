@@ -1,0 +1,44 @@
+---
+title: Install
+description: How to install
+sidebar:
+  order: 2
+---
+## Install
+The core idea of `big-config` is that you should not write configuration files manually but you should have `build` step that generates them. [`deps-new`](https://github.com/seancorfield/deps-new) is used to create a `big-config` project.
+
+``` shell
+clojure -Sdeps '{:deps {io.github.amiorin/big-config {:git/sha "81aec53608e63a97564cd5e7f05cd400fdd5bac7"}}}' \
+    -Tnew create \
+    :template amiorin/big-config \
+    :name my-org/my-artifact \
+    :target-dir my-project \
+    :aws-account-id-dev 111111111111 \
+    :aws-account-id-prod 222222222222 \
+    :aws-profile default \
+    :aws-region eu-west-1 \
+    :overwrite :delete \
+    && cd my-project && bb smoke-test
+```
+
+``` shell
+cd my-project
+
+# List all tasks
+bb tasks
+
+# How to create workflow in the cli
+bb show-help
+
+# List the files of module alpha profile prod
+bb build exec -- alpha prod ls -l
+
+# List the files of module beta profile prod
+bb build exec -- beta prod ls -l
+
+# List the files of module gamma profile prod
+bb build exec -- gamma prod ls -l
+
+# Run the tests, you need to have at least 2 commits
+bb test:bb
+```

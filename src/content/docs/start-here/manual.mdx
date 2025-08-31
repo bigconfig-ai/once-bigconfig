@@ -1,0 +1,39 @@
+---
+title: Manual
+description: Manual
+sidebar:
+  order: 4
+---
+
+## Manual
+```
+Usage: bb <step|cmd>+ -- <module> <profile> [global-args]
+
+The available steps are listed below. Anything that is not a step is considered
+a cmd where `:` is replaced with ` `
+
+Steps
+  build           use `deps-new` to generate the configuration files
+  git-check       check if the working directory is clean and if have pulled all
+                  commits from origin
+  git-push        push your changes
+  lock            acquire the lock
+  unlock-any      release the lock from any owner
+  exec            you can either multiple cmds or a single exec where the cmd
+                  will be provided in the global-args
+
+These two are equivalent
+  bb exec -- alpha prod ansible-playbook main.yml
+  bb ansible-playbook:main.yml -- alpha prod
+
+These two are also equivalent
+  bb tofu:apply tofu:destroy -- alpha prod -auto-approve
+  bb tofu:apply:-auto-approve tofu:destroy:-auto-approve -- alpha prod
+
+Example of cmds:
+  tofu:init                    tofu init
+  tofu:plan                    tofu plan
+  tofu:applay:-auto-approve    tofu apply -auto-approve
+  ansible-playbook:main.yml    ansible-playbook main.yml
+
+```
