@@ -15,7 +15,7 @@ export default defineConfig({
             amiorin: {
               name: "amiorin",
               title: "Alberto Miorin",
-              picture: "/avatar.jpg", // Images in the `public` directory are supported.
+              picture: "/avatar.png", // Images in the `public` directory are supported.
               url: "https://albertomiorin.com",
             },
           },
