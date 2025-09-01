@@ -1,0 +1,45 @@
+---
+title: Why I have replaced Atlantis with big-config
+date: 2025-09-01
+cover:
+  alt: Atlantis
+  image: public/blog/atlantis.png
+---
+As a long-time infrastructure enthusiast, I've had my share of dalliances with various tools and workflows. For a good while, Atlantis was my reliable partner in managing Terraform deployments. It brought order to the chaos of collaborative infrastructure-as-code, and for that, I'll always be grateful.
+
+However, like many relationships, sometimes you just grow apart. And in the rapidly evolving world of DevOps, staying stagnant means falling behind. So, after much deliberation, I've decided to move on from Atlantis for my Terraform needs, and I want to share why.
+
+### The Honeymoon Phase: What Atlantis Did Well
+
+When Atlantis first arrived on the scene, it was a revelation. It solved a very real problem: how to bring a GitOps-like workflow to Terraform.
+
+* **Pull Request Driven Workflow:** This was Atlantis's killer feature. The ability to run `terraform plan` and `terraform apply` directly from a pull request, with comments showing the output, was incredibly powerful. It made code reviews for infrastructure changes intuitive and collaborative.
+* **Centralized State Management:** By running within a controlled environment, Atlantis helped ensure that Terraform state was managed consistently and securely.
+* **Concurrency Control:** It prevented multiple users from running conflicting `terraform apply` commands on the same project, which was a lifesaver for team collaboration.
+* **Simplicity of Setup (Initially):** Getting Atlantis up and running wasn't overly complex, especially for smaller teams.
+
+For years, Atlantis was a solid choice, and it undoubtedly improved the way many teams managed their Terraform.
+
+### The Cracks Begin to Show: Where Atlantis Fell Short
+
+As my software engineering skills matured, some of Atlantis's anti-patterns started to become more apparent.
+
+* **Pull Request Driven Workflow:** Atlantis, by design, has a somewhat opinionated workflow around the PR. But this is an anti-pattern if you follow David Farley's principles of modern software engineering. The Trunk Based Development is incompatible with GitOps.
+* **Hard to upgrade to an API or to a PaaS:**  While this is great for getting started, it becomes an obstacle if you want to upgrade your platform to an API or to a PaaS. The developer experience decreases because you end up with two solutions: one for K8s and for AWS/GCP/Azure resources.
+* **The approval becomes becomes ineffective:** The PR approach is an ineffective guard rail. Most of the reviews are not catching bugs before ending up in production.
+
+### The Modern Alternative: Why I'm Moving On
+
+So, how `big-config` is solving these limits of Atlantis?
+
+* **Workflow client side:** `big-config` has a cli that provides you with a workflow without a server side to coordinate changes made by multiple developers and to make sure that they are always applied sequentially.
+* **It's a library:** The cli is also a library that can be used in any Clojure web service library like Pedestal to upgrade your infracoding to an API or to a PaaS.
+* **Better developer experience:** Let's be honest, `terraform` is fondamentally an interactive tool. The scenario where a developer can write a non-trivial change in one go and then run it in Atlantis without bugs is rare. Most of the time we develop the terraform code incrementally with a sequence of `plan` and `apply` and the PR process increases the delivery time.
+
+### The Verdict: Atlantis is not compatible with modern software development
+
+Let me be clear: Atlantis isn't a "bad" tool. For many teams, especially those that are ok with the limits of the GitOps approach, it can still be a fantastic entry point. But for me, modern software development principles should be applied to both developement and operations.
+
+In Berlin, where innovation moves at a rapid pace, staying agile means constantly re-evaluating your toolchain. My decision to move on from Atlantis is a reflection of that. I'm excited about the possibilities that `big-config` offers, allowing me to focus more on building reusable infrastructure.
+
+Are you still using Atlantis? What are your thoughts? I'd love to [hear](https://www.albertomiorin.com/contact#form) your experiences
