@@ -4,29 +4,33 @@ description: Getting started with big-config
 sidebar:
   order: 1
 ---
-import YouTube from '../../../components/YouTube.astro'
+import { Steps } from '@astrojs/starlight/components';
 
-👋 Hello! Welcome to the `big-config` documentation!
+`big-config` is a workflow and a template engine that enables you to have a
+zero-cost `build` step before running any `devops` tool like `Makefile`, `terraform`, `k8s`,
+and `ansible`.
 
-## What is `big-config`?
-`big-config` adds a zero-cost `build` step to any `devops` tool like `Makefile`, `terraform`, `k8s`, and `ansible`.
+## Zero-cost build step
+<Steps>
+1. Inside a `big-config` project, create an `alias`.
+   ``` shell
+   alias tofu="bb build git-check lock exec git-push unlock-any -- alpha prod tofu"
+   ```
+2. Everything remains the same but now you have a zero-cost build step to increase your productivity.
+   ``` shell
+   tofu init
+   tofu plan
+   tofu apply
+   ```
+</Steps>
 
 ## Features
-
 - **DRY** - Don't repeat yourself. Generate your configurations files instead of manually curate them.
 - **Monorepo ready** - It works for a solo-developer or for hundreds of teams using `modules` and `profiles`.
 - **Zero-Cost build step** - Project operations can only become fewer and faster.
 - **API ready** - Any automation can be upgraded to an API.
-- **Progressive enhancement** - Start small with the identity function and DRY your configuration files one step at the time.
-- **Any config file** - Any config file is supported, from a `.bashrc` to a `main.tf`.
-
-## Videos
-`big-config` from scratch. A demo where I scratch the surface of the capabilities of `big-config`.
-
-<YouTube id="W_piCNJJ-Dk" si="OHF3LEGLhLrab9nq"/>
-
-`big-config` first principles. LLM generated podcast where the hosts explain the ideas behind `big-config`.
-
-<YouTube id="8KR99_DAgRI" si="NCEfPBJcUL4XFyCx"/>
-
-[![project chat](https://img.shields.io/badge/slack-join_chat-brightgreen.svg)](https://clojurians.slack.com/archives/C08LGCKAK8C)
+- **Progressive enhancement** - Start small and DRY your configuration files incrementally.
+- **Any config file** - Any config file can be templated, from a `.bashrc` to a `main.tf`.
+- **Pulumi-like** - Write code instead of HCL files.
+- **Atlantis-like** - Multiple developers can modify the same resources at the same time using an exclusive lock.
+- **Client-only** - Unlike Atlantis, there is no backend required. GitHub tags are used instead.

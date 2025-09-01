@@ -4,6 +4,35 @@ description: How to install
 sidebar:
   order: 2
 ---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Requirements
+`big-config` requires `clojure`, `babashka`, and `deps-new`
+
+<Tabs>
+  <TabItem label="brew">
+``` shell
+brew install clojure/tools/clojure
+brew install borkdude/brew/babashka
+clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
+```
+  </TabItem>
+  <TabItem label="asdf">
+``` shell
+asdf plugin add java https://github.com/halcyon/asdf-java.git
+asdf install java latest:temurin-21
+asdf set --home java latest:temurin-21
+asdf plugin add clojure https://github.com/asdf-community/asdf-clojure.git
+asdf install clojure latest
+asdf set --home clojure latest
+asdf plugin add babashka https://github.com/pitch-io/asdf-babashka.git
+asdf install babashka latest
+asdf set --home babashka latest
+clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
+```
+  </TabItem>
+</Tabs>
+
 ## Install
 The core idea of `big-config` is that you should not write configuration files manually but you should have `build` step that generates them. [`deps-new`](https://github.com/seancorfield/deps-new) is used to create a `big-config` project.
 
