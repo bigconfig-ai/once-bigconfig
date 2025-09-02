@@ -4,16 +4,16 @@ description: Tier-1
 sidebar:
   order: 3
 ---
-## `big-config` and Tier 1 Workflow
+## BigConfig and Tier 1 Workflow
 
 ### Core Problem
 
 The primary problem `big-config` addresses is the significant repetition encountered when curating configuration files (e.g., for Terraform, Kubernetes, Ansible). This repetition arises from the need to express similar logic (such as importing data structures or iterating) within the specific configuration language of each tool.
 
-### `big-config` Solution: A “Zero-Cost” Build Step
+### BigConfig Solution: A “Zero-Cost” Build Step
 
 * **Concept:**
-  `big-config` introduces a build step for configuration files, drawing inspiration from software-development workflows (e.g., JavaScript projects that compile TypeScript).
+  BigConfig introduces a build step for configuration files, drawing inspiration from software-development workflows (e.g., JavaScript projects that compile TypeScript).
 
 * **Process:**
 
@@ -40,14 +40,14 @@ The primary problem `big-config` addresses is the significant repetition encount
   * **CLI tool:** `babashka` provides commands to define and run workflows.
   * **Composed steps:**
 
-    * `build` — run the `big-config` build step
+    * `build` — run the BigConfig build step
     * `exec` — execute any command (e.g., `ansible-playbook`, `terraform plan`) inside `dist/`
     * `git-check` — verify the local branch isn’t behind `origin`
     * `git-push` — push changes
     * `lock` — acquire a pessimistic lock
     * `unlock-any` — release the lock
   * **Sequential execution:** Steps run in order; a failure stops the workflow.
-  * **Integration with `big-config`:** The `build` step is fundamental, enabling a *change → build → run* loop.
+  * **Integration with BigConfig:** The `build` step is fundamental, enabling a *change → build → run* loop.
   * **“Change and run” ideal:** Embedding the build step minimizes perceived overhead.
 
 ### Coordination and Locking
@@ -55,7 +55,7 @@ The primary problem `big-config` addresses is the significant repetition encount
 * **Problem:**
   Multiple developers modifying shared resources (e.g., an AWS account) need coordination to prevent conflicts. Tools like Atlantis handle this for Terraform.
 
-* **`big-config` / Tier 1 solution:**
+* **BigConfig / Tier 1 solution:**
 
   * Uses **Git tags** as an exclusive locking primitive—generic across tools.
   * `lock` / `unlock-any` steps manage these locks within a workflow.
@@ -63,12 +63,12 @@ The primary problem `big-config` addresses is the significant repetition encount
 
 ### Key Takeaways
 
-* **`big-config`** adds a powerful abstraction layer by leveraging Clojure and a build step to reduce repetition and add dynamic logic.
-* The **Tier 1 Workflow** language supplies a flexible CLI for defining and executing configuration workflows—integrating the `big-config` build step.
+* **BigConfig** adds a powerful abstraction layer by leveraging Clojure and a build step to reduce repetition and add dynamic logic.
+* The **Tier 1 Workflow** language supplies a flexible CLI for defining and executing configuration workflows—integrating the BigConfig build step.
 * Combined, they offer a generic Git-based coordination mechanism for shared resources, potentially replacing specialized tools such as Atlantis.
 * The overall goal is to improve developer experience by simplifying both the creation and execution of complex infrastructure configurations.
 * Compared to `atlantis`, `big-config` enables a faster `inner loop`. Only two accounts are needed, `prod` and `dev`. The `lock` step enables developers and CI to share the same AWS account for development and integration. Refactoring the code that generates the configuration files is trivial because the `dist` dir is committed and we can track with `git` any change made by mistake in it.
-* Compared to `cdk`, `big-config` supports only `clojure` and `tofu`. The problem of generating `json` files should not be blown out of proportion.
+* Compared to `cdk`, BigConfig supports only `clojure` and `tofu`. The problem of generating `json` files should not be blown out of proportion.
 
 ## Tier-1 workflow language deep dive
 

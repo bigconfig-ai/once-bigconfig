@@ -21,7 +21,7 @@ export default defineConfig({
           },
         }),
       ],
-      title: "big-config",
+      title: "BigConfig",
       head: [
         // Google Analytics
         {

@@ -1,19 +1,19 @@
 ---
 title: Getting started
-description: Getting started with big-config
+description: Getting started with BigConfig
 sidebar:
   order: 1
 ---
 import { Steps } from '@astrojs/starlight/components';
 
-`big-config` is a workflow and a template engine that enables you to have a
-zero-cost `build` step before running any `devops` tool like `Makefile`, `terraform`, `k8s`,
-and `ansible`.
+BigConfig is a workflow and a template engine that enables you to have a
+zero-cost build step before running any devops tool like Makefile, terraform, k8s,
+and ansible.
 
 ## Zero-cost build step
-This example is for OpenTofu but `big-config` can be used with any `devops` tool.
+This example is for OpenTofu but BigConfig can be used with any devops tool.
 <Steps>
-1. Inside a `big-config` project, create an `alias`.
+1. Inside a BigConfig project, create an alias.
    ``` shell
    alias tofu="bb build git-check lock exec git-push unlock-any -- alpha prod tofu"
    ```
@@ -27,7 +27,7 @@ This example is for OpenTofu but `big-config` can be used with any `devops` tool
 
 ## Features
 - **DRY** - Don't repeat yourself. Generate your configurations files instead of manually curate them.
-- **Monorepo ready** - It works for a solo-developer or for hundreds of teams using `modules` and `profiles`.
+- **Monorepo ready** - It works for a solo-developer or for hundreds of teams using modules and profiles.
 - **Zero-Cost build step** - Project operations can only become fewer and faster.
 - **API ready** - Any automation can be upgraded to an API.
 - **Progressive enhancement** - Start small and DRY your configuration files incrementally.
