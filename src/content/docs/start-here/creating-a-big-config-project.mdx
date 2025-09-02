@@ -1,5 +1,5 @@
 ---
-title: Install
+title: Creating a big-config project
 description: How to install
 sidebar:
   order: 2
@@ -33,8 +33,8 @@ clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
   </TabItem>
 </Tabs>
 
-## Install
-The core idea of `big-config` is that you should not write configuration files manually but you should have `build` step that generates them. [`deps-new`](https://github.com/seancorfield/deps-new) is used to create a `big-config` project.
+## Creating a big-config project
+The fastest way to start with `big-config` is to use the official template.
 
 ``` shell
 clojure -Sdeps '{:deps {io.github.amiorin/big-config {:git/sha "81aec53608e63a97564cd5e7f05cd400fdd5bac7"}}}' \
@@ -49,6 +49,40 @@ clojure -Sdeps '{:deps {io.github.amiorin/big-config {:git/sha "81aec53608e63a97
     :overwrite :delete \
     && cd my-project && bb smoke-test
 ```
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+
+- env/ ignore for now
+- resources
+  - my_org
+    - my_artifact
+      - alpha example of OpenTofu module
+        - main.tf
+      - build files copied by deps-new in the target root
+        - projectile for emacs users
+      - config.edn project config files parsed with aero
+      - files additional file for the alpha module
+        - user_data.sh
+      - gamma example of Ansible module
+        - ansible.cfg
+        - inventory.ini
+        - main.yml
+      - template.edn main config file for deps-new
+- src/
+- test/ ignore for now
+- .dir-locals.el for emacs users
+- .envrc for direnv users
+- .gitignore
+- .projectile for emacs users
+- bb.edn babashka config file
+- CHANGELOG.md
+- deps.edn clojure config file
+- LICENSE
+- README.md
+
+</FileTree>
 
 ``` shell
 cd my-project

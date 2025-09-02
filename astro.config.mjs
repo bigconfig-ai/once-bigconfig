@@ -52,6 +52,10 @@ export default defineConfig({
           label: "Start Here",
           autogenerate: { directory: "start-here" },
         },
+        {
+          label: "Guides",
+          autogenerate: { directory: "guides" },
+        },
       ],
     }),
   ],
