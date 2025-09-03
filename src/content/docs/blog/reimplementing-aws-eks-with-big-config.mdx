@@ -10,7 +10,7 @@ The world of cloud infrastructure often involves interacting with complex APIs. 
 
 ### Why Reimplement?
 
-Before we dive into the how, let's consider the why. K8s, Spark, ClickHouse, Postgres, and so on are all good candidates for an in-house software as a service. Reimplementing a cloud API might seem counterintuitive, but it can be beneficial for:
+Before we dive into the how, let's consider the why. K8s, Spark, ClickHouse, Postgres, and so on are all good candidates for an in-house software as a service solution. Reimplementing a cloud API might seem counterintuitive, but it can be beneficial for:
 
   * **Avoiding vendor lock-in:** This can be relevant for some companies.
   * **Multi-cloud strategy:** You need an EKS-like solution in multiple cloud providers and you need a generic API.
@@ -44,13 +44,13 @@ User.t1 -> API.t1: upsert resource with client-token
 API -> Rama: upsert the desired state with client-token
 API.t1 -> User.t1: return the resource-id/client-token
 Rama
-GitHub
 BigConfig
 Cloud
-BigConfig executed by Rama instead of a user: {
-  Rama.t1 -> GitHub: clone the infracode
-  Rama.t1 -> BigConfig: build the infracode with the desired state
-  Rama.t1 -> Cloud: create the resources
+BigConfig executed inside Rama: {
+  Rama.t1 -> BigConfig.t1: Workflow start
+  BigConfig.t1 -> BigConfig.t1: build step
+  BigConfig.t1 -> Cloud: provision the resources
+  BigConfig.t1 -> Rama.t1: Workflow end
 }
 User.t2 -> API.t2: describe the resource
 API.t2 -> Rama: query the PState
@@ -61,9 +61,9 @@ API.t2 -> User.t2: return the description of the resource
 ### Deliverables
 
 * **Pedestal API**: to create and describe clusters.
-* **Rama Module**: to store the desired state, clone the repo, and invoke BigConfig with the desired state.
+* **Rama Module**: to store the desired state, and invoke the BigConfig module with the desired state.
 * **BigConfig Module**: this is where the heavy lifting is happening:
-    * **Workflow**: achieved the desired state will require multiple steps.
+    * **Workflow**: achieving the desired state will require multiple steps.
     * **Lock**: to be sure that changes are ACID.
     * **Build**: to generate the configuration files for Terraform based on the desired state.
     * **Apply**: to run `terraform apply` programmatically.
@@ -71,9 +71,9 @@ API.t2 -> User.t2: return the description of the resource
 ### Perks of the solution
 
 * **Modularity:** Every deliverable can be developed in parallel by adopting contracts.
-* **Uniformity:** BigConfig, Rama, and Pedestal deliverables are written in Clojure.
+* **Uniformity:** BigConfig, Rama, and Pedestal deliverables are all written in Clojure.
 * **Declerative:** Creating an EC2 instance programmatically can be done faster with Terraform and we don't need to worry about the life cycle management.
-* **Reusability:** The GitOps code can be reused. This is a killer feature. The code to provision one resource with GitOps or multiple resources with an API, doesn't require to change from Terraform to the AWS SDK. The API is just a virtual admin.
+* **Reusability:** The GitOps code can be reused. The code to provision one K8s cluster with GitOps or multiple K8s clusters with an API, doesn't require to change from Terraform to the AWS SDK. The API is just a virtual admin. The GitOps version developed interactivly by an admin can be package as a Clojure dependency and reused inside Rama. **This is a killer feature of BigConfig.**
 
 ### The code
 
@@ -89,6 +89,6 @@ This is a basic example, but you can extend it significantly:
 
 ### Conclusion
 
-By combining BigConfig, Rame, and Pedestal, we've built a foundation for a custom EKS-like API in Clojure. This approach provides a high degree of control, flexibility, and the ability to tailor your infrastructure management precisely to your needs. This project serves as an excellent starting point for exploring the potential of building custom cloud-native services with Clojure.
+By combining BigConfig, Rama, and Pedestal, we've built a foundation for a in-house EKS-like API in Clojure. This approach provides a high degree of control, flexibility, and the ability to tailor your infrastructure management precisely to your needs. This project serves as an excellent starting point for exploring the potential of building custom cloud-native services with Clojure.
 
 Would you like to have a follow-up on this topic? What are your thoughts? I'd love to [hear](https://www.albertomiorin.com/contact#form) your experiences.
