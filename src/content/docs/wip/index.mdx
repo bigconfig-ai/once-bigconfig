@@ -2,3 +2,33 @@
 title: wip
 ---
 The core idea of BigConfig is that you should not write configuration files manually but you should have `build` step that generates them. [`deps-new`](https://github.com/seancorfield/deps-new) is used to create a BigConfig project.
+
+```d2
+Create resource: {
+shape: sequence_diagram
+API -> GHA API: create resource
+GHA API -> GHA Runner: create run
+}
+```
+
+Create a resource
+1. clone the repo
+1. branch with the client token
+1. lock the branch
+1. build
+    1. generate/update resource.edn
+    1. commit the new files
+1. git-check
+1. exec
+1.
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+
+- foobar it contains the infracoding to generate the foobar resource
+- foobar-client-token it's an instance
+
+</FileTree>
+
+New command: branch:client-token
