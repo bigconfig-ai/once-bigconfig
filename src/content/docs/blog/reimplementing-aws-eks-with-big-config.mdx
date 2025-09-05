@@ -8,8 +8,9 @@ cover:
   alt: K8s
   image: public/blog/k8s.png
 ---
+import ExternalLink from '~/components/ExternalLink.astro'
 
-The world of cloud infrastructure often involves interacting with complex APIs. While services like AWS EKS provide robust management for Kubernetes clusters, there might be scenarios where you need a more tailored or localized control plane. This article will guide you through reimplementing the AWS EKS API using a powerful Clojure stack: Pedestal for the API, BigConfig to wrap Terraform and Ansible in a workflow, and Rama for state and jobs.
+The world of cloud infrastructure often involves interacting with complex APIs. While services like AWS EKS provide robust management for Kubernetes clusters, there might be scenarios where you need a more tailored or localized control plane. This article will guide you through reimplementing the AWS EKS API using a powerful Clojure stack: <ExternalLink href="https://pedestal.io">Pedestal</ExternalLink> for the API, <ExternalLink href="https://big-config.it">BigConfig</ExternalLink> to wrap Terraform and Ansible in a workflow, and <ExternalLink href="https://redplanetlabs.com">Rama</ExternalLink> for state and jobs.
 
 ### Why Reimplement?
 

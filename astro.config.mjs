@@ -4,6 +4,8 @@ import starlight from "@astrojs/starlight";
 import starlightBlog from "starlight-blog";
 import astroD2 from "astro-d2";
 
+import tailwindcss from "@tailwindcss/vite";
+
 const googleAnalyticsId = "G-4VKP1WY4QJ";
 
 // https://astro.build/config
@@ -24,6 +26,10 @@ export default defineConfig({
         }),
       ],
       title: "BigConfig",
+      customCss: [
+        // Path to your Tailwind base styles:
+        "./src/styles/global.css",
+      ],
       head: [
         // Google Analytics
         {
@@ -61,4 +67,8 @@ export default defineConfig({
       ],
     }),
   ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

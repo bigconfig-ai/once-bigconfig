@@ -1,0 +1,20 @@
+---
+import { Icon } from 'astro-icon';
+
+// Define the component props. We require an 'href' and capture any other props.
+const { href, ...props } = Astro.props;
+
+// For security reasons, it's a best practice to include 'rel="noopener noreferrer"'
+// when using target="_blank". It prevents the new page from accessing the window.opener
+// property of the originating page.
+const relAttribute = props.rel || "noopener noreferrer";
+---
+
+<a href={href} target="_blank" rel={relAttribute} {...props} class="no-underline inline-flex items-center gap-1.5 hover:dark:text-white hover:text-back transition-colors">
+  <slot />
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+    <polyline points="15 3 21 3 21 9"></polyline>
+    <line x1="10" x2="21" y1="14" y2="3"></line>
+  </svg>
+</a>
