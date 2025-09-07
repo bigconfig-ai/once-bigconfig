@@ -21,13 +21,13 @@ clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
 ``` shell
 asdf plugin add java https://github.com/halcyon/asdf-java.git
 asdf install java latest:temurin-21
-asdf set --home java latest:temurin-21
+asdf global java latest:temurin-21
 asdf plugin add clojure https://github.com/asdf-community/asdf-clojure.git
 asdf install clojure latest
-asdf set --home clojure latest
+asdf global clojure latest
 asdf plugin add babashka https://github.com/pitch-io/asdf-babashka.git
 asdf install babashka latest
-asdf set --home babashka latest
+asdf global babashka latest
 clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
 ```
   </TabItem>
