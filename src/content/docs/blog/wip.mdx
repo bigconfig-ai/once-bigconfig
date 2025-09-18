@@ -1,0 +1,84 @@
+---
+title: "The Unsung Hero: Why Ansible Still Rules for Your Dev Environment"
+date: 2025-09-10
+draft: true
+---
+
+Back in the day, before Red Hat acquired Ansible, I was using it to provision Cloudera clusters in massive data centers. And let me tell you, its killer feature wasn't some complex, enterprise-grade capability. It was pure **simplicity**.
+
+You just needed SSH, and you were ready to go. The feedback loop was in seconds—a refreshing change from the slow, manual processes we were used to. It was a DevOps dream.
+
+Then came Docker. For many use cases, containers were the new king. They offered a more lightweight, portable solution for shipping applications. And for a while, it seemed like Ansible might get relegated to the history books.
+
+But not so fast. While Docker took over for application deployment, Ansible found its true calling: **provisioning the remote development environment**.
+
+---
+
+### The New Remote Frontier 🌎
+
+Remote development has gone mainstream. Whether you're using a GUI or a terminal, working on a remote machine makes you more productive. It’s not just a trend; it's a fundamental shift.
+
+Think about it:
+
+* **No more "it works on my computer!"** Everyone's environment is the same. No more chasing down dependency hell.
+* **No more wasted time.** Your environment is always up to date. The days of `git pull` followed by hours of fixing a broken dev setup are gone.
+* **More resources, less cost.** Remote machines can be shared, giving you access to powerful hardware for a fraction of the price.
+* **Easy authentication.** With SSH agent forwarding, pulling and pushing changes to your code repositories is seamless.
+
+It’s a developer's paradise. But there's a catch...
+
+---
+
+### The Problem with Ansible's Language 📝
+
+Ansible is fantastic for this, but its configuration language—YAML—has a few pain points:
+
+* **It's another language to master.** You have to learn the specific syntax and structure, which can feel like a steep climb on top of everything else you already know.
+* **It's not flexible enough.** Manually curating dozens of YAML files—like `packages.yml`, `repos.yml`, and `ssh-config.yml`—can be tedious and error-prone. The more complex your environment, the messier it gets.
+
+Wouldn't it be great if you could just **write code** to generate your configurations?
+
+---
+
+### Introducing BigConfig: The Code-First Approach 🚀
+
+This is where a tool like BigConfig comes in.  Imagine a world where you write a simple script to generate your Ansible inventory and playbook files. No more manual YAML curation. You can leverage the power of a real programming language to create dynamic configurations.
+
+Here's the secret: **JSON is valid YAML.**
+
+This simple fact allows us to generate JSON files with a `.yml` extension. BigConfig can take your code and spit out a perfect, machine-readable Ansible configuration.
+
+The next logical step? Making the provisioning of your remote development environment an **API**.
+
+You could simply send a request to a service, and it would provision a new, perfect environment for a new team member in minutes. BigConfig can handle this too, turning a manual, file-based process into a programmable, scalable service.
+
+While some tools come and go, others adapt and find their niche. For provisioning remote development environments, Ansible remains a powerhouse. It just needs a little help from the next generation of tools to unleash its full potential.
+
+What are your thoughts on remote development? Share your favorite tools or challenges in the comments below! 👇
+
+## ignore
+I started using Ansible to provision Cloudera clusters in data centers before it was acquire Red Hat.
+Simplicity was its killer feature. Just ssh and you are ready to go.
+Feedback loop in seconds.
+I was not able to understand the enterprise version of Ansible to be honest.
+Docker eventually replaced Ansible in many use cases.
+But for provisioning your development environment, ansible is still the best option.
+It's becoming mainstream to develop remotly. Both GUI and terminal developement makes developer more productive.
+* no more "it works on my computer "
+* no more time wasted to keep the environment up to date.
+* more resources for a fraction of the cost because the remote machine can be shared by multiple developers.
+* ssh agent forwarding makes easier to pull and push changes.
+But ansible configuration language has the following problems.
+* it's another configuration language to master
+* it's not flexibable enough
+BigConfig can fix this and I write code instead of curating files manually
+* The inventory file
+* The options file
+* Some playbook files
+  * packages.yml
+  * repos.yml
+  * ssh-config.yml
+JSON is valid YAML and we can leverate that to generate json files with the yml extension.
+
+The next step is to make the provisioning of the remote development environment an API.
+BigConfig can also do that.
