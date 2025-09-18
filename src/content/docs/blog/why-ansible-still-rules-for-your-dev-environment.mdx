@@ -1,9 +1,7 @@
 ---
-title: "The Unsung Hero: Why Ansible Still Rules for Your Dev Environment"
-date: 2025-09-10
-draft: true
+title: Why Ansible Still Rules for Your Dev Environment
+date: 2025-09-18
 ---
-
 Back in the day, before Red Hat acquired Ansible, I was using it to provision Cloudera clusters in massive data centers. And let me tell you, its killer feature wasn't some complex, enterprise-grade capability. It was pure **simplicity**.
 
 You just needed SSH, and you were ready to go. The feedback loop was in seconds—a refreshing change from the slow, manual processes we were used to. It was a DevOps dream.
@@ -12,9 +10,7 @@ Then came Docker. For many use cases, containers were the new king. They offered
 
 But not so fast. While Docker took over for application deployment, Ansible found its true calling: **provisioning the remote development environment**.
 
----
-
-### The New Remote Frontier 🌎
+### The New Remote Frontier
 
 Remote development has gone mainstream. Whether you're using a GUI or a terminal, working on a remote machine makes you more productive. It’s not just a trend; it's a fundamental shift.
 
@@ -27,9 +23,7 @@ Think about it:
 
 It’s a developer's paradise. But there's a catch...
 
----
-
-### The Problem with Ansible's Language 📝
+### The Problem with Ansible's Language
 
 Ansible is fantastic for this, but its configuration language—YAML—has a few pain points:
 
@@ -38,9 +32,7 @@ Ansible is fantastic for this, but its configuration language—YAML—has a few
 
 Wouldn't it be great if you could just **write code** to generate your configurations?
 
----
-
-### Introducing BigConfig: The Code-First Approach 🚀
+### Introducing BigConfig: The Code-First Approach
 
 This is where a tool like BigConfig comes in.  Imagine a world where you write a simple script to generate your Ansible inventory and playbook files. No more manual YAML curation. You can leverage the power of a real programming language to create dynamic configurations.
 
@@ -54,31 +46,22 @@ You could simply send a request to a service, and it would provision a new, perf
 
 While some tools come and go, others adapt and find their niche. For provisioning remote development environments, Ansible remains a powerhouse. It just needs a little help from the next generation of tools to unleash its full potential.
 
-What are your thoughts on remote development? Share your favorite tools or challenges in the comments below! 👇
+### Show me the code
+This project is specific to my setup but it can be forked and adapted to your needs. I use an iMac and two minipc (soyo and firebat) to develop in the terminal using ssh and tailscale so that I can also code when I am on the road with my Macbook Pro. The ansible project provisions multiple users on both minipc. I use nix and devenv.
 
-## ignore
-I started using Ansible to provision Cloudera clusters in data centers before it was acquire Red Hat.
-Simplicity was its killer feature. Just ssh and you are ready to go.
-Feedback loop in seconds.
-I was not able to understand the enterprise version of Ansible to be honest.
-Docker eventually replaced Ansible in many use cases.
-But for provisioning your development environment, ansible is still the best option.
-It's becoming mainstream to develop remotly. Both GUI and terminal developement makes developer more productive.
-* no more "it works on my computer "
-* no more time wasted to keep the environment up to date.
-* more resources for a fraction of the cost because the remote machine can be shared by multiple developers.
-* ssh agent forwarding makes easier to pull and push changes.
-But ansible configuration language has the following problems.
-* it's another configuration language to master
-* it's not flexibable enough
-BigConfig can fix this and I write code instead of curating files manually
-* The inventory file
-* The options file
-* Some playbook files
-  * packages.yml
-  * repos.yml
-  * ssh-config.yml
-JSON is valid YAML and we can leverate that to generate json files with the yml extension.
+https://github.com/amiorin/dotfiles-v3/tree/ansible
 
-The next step is to make the provisioning of the remote development environment an API.
-BigConfig can also do that.
+Any BigConfig module is also a Clojure artifact and here you can see that I can use the BigConfig module with a complete different configuration.
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+
+- bb.edn require the BigConfig module
+- bb
+  - config.clj it provides a different configuration map to the BigConfig module
+</FileTree>
+
+https://github.com/amiorin/dotfiles-v3/tree/babashka
+
+Would you like to have a follow-up on this topic? What are your thoughts? I'd love to [hear](https://www.albertomiorin.com/contact#form) your experiences.
