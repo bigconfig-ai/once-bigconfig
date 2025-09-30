@@ -1,0 +1,128 @@
+---
+title: Wip
+date: 2025-09-30
+description: Description
+authors: amiorin
+draft: true
+cover:
+  alt: ansible
+  image: public/blog/ansible.png
+---
+import ExternalLink from '~/components/ExternalLink.astro'
+
+<ExternalLink href="https://www.chezmoi.io/">Chezmoi</ExternalLink> and <ExternalLink href="https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html">Stow</ExternalLink> are the most used tools for managing dotfiles.
+I wanted to show that <ExternalLink href="https://www.big-config.it/">BigConfig</ExternalLink> can also manage configuration files.
+I wanted to combine the simplicity of Stow with the power of Chezmoi.
+
+``` shell
+# if you don't use Devenv
+brew install borkdude/brew/babashka
+brew install direnv
+git clone https://github.com/amiorin/dotfiles-v3
+bb diff macos
+```
+
+That's it. You will be able to compare your dotfiles with mine.
+If you want to adopt BigConfig for your dotfiles, just fork the repo <ExternalLink href="https://github.com/amiorin/dotfiles-v3">amiorin/dotfiles-v3</ExternalLink>
+and replace the dotfiles with yours.
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- dist/ this directory contains your rendered dotfiles. It is used for install and diff. Passwords, token, and secrets are resolved. This directory is not committed.
+- resources/
+  - stage-1/ passwords, token, and secrets are not resolved yet
+    - common/ the dotfiles shared between all targets
+    - macos/ the dotfiles specific to macos
+    - ubuntu/ the dotfiles specific to ubuntu
+  - stage-2/ passwords, token, and secrets are not resolved yet
+    - macos/ common and macos are merged
+    - ubuntu/ common and ubuntu are merged
+- src/
+  - dotfiles.clj code to implement the rendering pipeline and the commands install and diff
+- test/
+  - dotfiles_test.clj test code
+- .envrc Load the Devenv environment automatically
+- .envrc.private Your passwords, token, and secrets as environment variables. This file is not committed.
+- bb.edn the cli tasks: install, diff, render
+- deps.edn the dependencies
+</FileTree>
+
+## Problem statement
+I use both macos and ubuntu. The dotfiles are similar but not identical. Sometimes the dotfiles exists only in one target and not in the other one.
+
+## The code
+
+``` clojure
+(defn run-steps [s opts & step-fns]
+  (let [{:keys [profile]} (step/parse-module-and-profile s)
+        dir (format "dist/%s" profile)
+        opts (merge opts
+                    {::run/shell-opts {:dir dir}
+                     ::render/templates [{:template "stage-1"
+                                          :target-dir (format "resources/stage-2/%s" profile)
+                                          :overwrite :delete
+                                          :transform [["common"
+                                                       :raw]
+                                                      ["{{ profile }}"
+                                                       :raw]]}
+                                         {:template "stage-2"
+                                          :target-dir dir
+                                          :overwrite :delete
+                                          :transform [["{{ profile }}"]]}]})]
+    (if step-fns
+      (apply step/run-steps s opts step-fns)
+      (step/run-steps s opts))))
+```
+
+* `run-steps` is provided by BigConfig and it is rendering the dotfiles.
+* `profile` can be ubuntu or macos.
+* `dir` is target directory where the rendered dotfiles are created and it is not committed.
+* `opts` is the recipe to render the dotfiles.
+* `::render/templates` is rendering in two steps. `stage-1` to `stage-2` and `stage-2` to `dist`. The first two are committed.
+
+### Rendering language
+One of the differences between Chezmoi and BigConfig is that Chezmoi embeds the transformation in the name of the dotfiles while BigConfig uses a data structure.
+
+``` clojure
+[{:template "stage-1"
+  :target-dir (format "resources/stage-2/%s" profile)
+  :overwrite :delete
+  :transform [["common"
+               :raw]
+              ["{{ profile }}"
+               :raw]]}
+ {:template "stage-2"
+  :target-dir dir
+  :overwrite :delete
+  :transform [["{{ profile }}"]]}]
+```
+
+* `:template` from
+* `:target-dir` to
+* `:overwrite :delete` recreate the `target-dir` every time
+* `:transform` the DSL for copying files
+* `["common" :raw] copy the directory common without rendering threating the dotfiles as templates to the root of the `target-dir`
+* `["{{ profile }}" :raw]` copy the directory with the name of the `profile` (`macos` or `ubuntu`) to the root of the `target-dir`
+* `["{{ profile }}"]` copy the directory with the name of the `profile` (`macos` or  `ubuntu`) but this time threat the files as template
+
+## The developer experience
+It's a Clojure project with three Babashka tasks. If you are familiar with Clojure development, you just need to learn BigConfig library. When I change the dotfiles I use the following commands:
+``` shell
+bb tasks
+echo "export DOTFILES_PROFILE=macos" | tee -a .envrc.private
+
+bb install
+bb install macos|ubuntu
+bb diff
+bb diff macos|ubuntu
+bb render
+bb render all
+bb render macos|ubuntu
+```
+When I change the code, I use the REPL and the tests.
+
+## Conclusion
+Stow was too simple for my use cases and Chezmoi was too complex. BigConfig doesn't hide the code. Managing your dotfiles is part of automation and automation requires always to write code that it is specific to your use case. Chezmoi is trying to hide the code from you and the result is a juggernaut. The statically linked binary in Go is an anti-pattern for dotfiles. Rendering dotfiles and static website are similar task. Astro written in TypeScript has surpass Hugo written in Go. Your dotfiles are stored anyway in a repo. BigConfig stores your dotfiles and the code in the same repo and the result is a better developer experience.
+
+Would you like to have a follow-up on this topic? What are your thoughts? I'd love to [hear](https://www.albertomiorin.com/contact#form) your experiences.

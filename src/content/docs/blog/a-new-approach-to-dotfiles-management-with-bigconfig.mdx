@@ -1,0 +1,126 @@
+---
+title: A New Approach to Dotfiles management with BigConfig
+date: 2025-09-30
+description: "Managing dotfiles—the configuration files that personalize your user environment—is a crucial part of a developer's workflow. The go-to tools for this have long been Chezmoi and Stow. While Stow is celebrated for its simplicity, Chezmoi offers powerful templating and secret management. However, what if you need the best of both worlds? This is where BigConfig comes in, offering a new way to manage your configurations by combining the simplicity of a declarative approach with the power of code."
+authors: amiorin
+cover:
+  alt: dotfiles
+  image: public/blog/dotfiles.png
+---
+import ExternalLink from '~/components/ExternalLink.astro'
+
+Managing dotfiles—the configuration files that personalize your user environment—is a crucial part of a developer's workflow. The go-to tools for this have long been <ExternalLink href="https://www.chezmoi.io/">Chezmoi</ExternalLink> and <ExternalLink href="https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html">Stow</ExternalLink>. While Stow is celebrated for its simplicity, Chezmoi offers powerful templating and secret management. However, what if you need the best of both worlds? This is where <ExternalLink href="https://www.big-config.it/">BigConfig</ExternalLink> comes in, offering a new way to manage your configurations by combining the simplicity of a declarative approach with the power of code.
+
+### The Problem with the Old Ways
+
+Like many developers, I use both macOS and Ubuntu, and the dotfiles for these environments are similar but not identical. Some configurations only exist on one platform, while others need slight tweaks. Stow, while easy for symlinking, lacks the flexibility for this kind of conditional logic. Chezmoi, on the other hand, embeds its logic within the filename, which can become unwieldy and less transparent as your needs grow.
+
+This complexity led me to seek a solution that treats dotfile management as an automation problem—one that's best solved with code.
+
+## Introducing BigConfig
+
+BigConfig takes a different approach. Instead of embedding logic in filenames, it uses a **data structure** to define the rendering pipeline for your dotfiles. This means your configuration files are kept clean, and the logic for how they are applied is externalized in a dedicated file.
+
+The core of this system is a two-stage rendering process:
+
+  * **Stage 1:** Common dotfiles are merged with platform-specific ones (e.g., `common` and `macos` are merged into `resources/stage-2/macos`). At this stage, secrets and tokens are not yet resolved.
+  * **Stage 2:** The merged files from Stage 1 are rendered, and all secrets and environment variables are resolved, creating the final configuration in a `dist/` directory. This is the directory used for installation and comparison.
+
+This structure allows you to maintain a clean separation of concerns: your source files (`resources/stage-1`) are never committed with secrets, and the final rendered output (`dist/`) is never committed at all. Your private information is stored securely in an `.envrc.private` file, which is kept out of your Git repository.
+
+## A Look at the Code
+
+BigConfig's rendering logic is defined in a **Clojure** data structure. Here's a snippet that shows how this two-step process is defined:
+
+```clojure
+[{:template "stage-1"
+  :target-dir (format "resources/stage-2/%s" profile)
+  :overwrite :delete
+  :transform [["common"
+               :raw]
+              ["{{ profile }}"
+               :raw]]}
+ {:template "stage-2"
+  :target-dir dir
+  :overwrite :delete
+  :transform [["{{ profile }}"]]}]
+```
+
+This data structure is a clear "recipe" for how your dotfiles should be built. It tells BigConfig:
+
+  * **`:template`**: The source directory for the files.
+  * **`:target-dir`**: The destination directory.
+  * **`:overwrite :delete`**: Ensure the target is clean before rendering.
+  * **`:transform`**: The core logic for copying and rendering files. For example, `["common" :raw]` copies the contents of the `common` directory without treating them as templates, while `["{{ profile }}"]` copies the contents of the `macos` or `ubuntu` directory and treats the files within as templates, resolving variables and secrets.
+
+This declarative approach makes the process transparent and easy to debug.
+
+## The Developer Experience
+
+The developer experience with BigConfig is centered around **Babashka** tasks, making it feel like a standard Clojure project. You get a clear set of commands:
+
+```shell
+bb install macos|ubuntu
+bb diff macos|ubuntu
+bb render macos|ubuntu
+```
+
+The `diff` command is particularly useful, allowing you to compare your current dotfiles against the rendered versions before installing them. This gives you a clear, human-readable way to see exactly what's about to change.
+
+By keeping the code and the dotfiles in the same repository, BigConfig provides a cohesive and powerful developer experience.
+
+## Adopting BigConfig for your dotfiles
+If you want to compare my dotfiles with yours, just run this code if you don't use <ExternalLink href="https://devenv.sh/">devenv</ExternalLink>
+``` shell
+# if you don't use devenv
+brew install borkdude/brew/babashka
+brew install direnv
+git clone https://github.com/amiorin/dotfiles-v3
+bb diff macos
+```
+If you want to adopt BigConfig for your dotfiles, just fork the repo <ExternalLink href="https://github.com/amiorin/dotfiles-v3">amiorin/dotfiles-v3</ExternalLink>
+and replace the dotfiles with yours.
+
+It might seem excessive to learn Clojure and a tool like BigConfig just to manage dotfiles, but the real value comes from applying that investment across a broader range of automation tasks. Clojure's strengths—its functional nature, immutability, and powerful data manipulation capabilities—make it a strong choice for configuration-as-code. By using a single, cohesive language, you can unify your automation stack and create a more maintainable, expressive system.
+
+## Why Clojure for Configuration-as-Code?
+
+Clojure's core design principles make it an excellent fit for complex configuration tasks. Unlike static languages or rigid data formats like YAML or JSON, Clojure's Lisp-based syntax treats **code as data**. This allows you to programmatically generate and manipulate configuration files with functions, macros, and conditional logic.
+
+For example, instead of manually copying and pasting large YAML blocks across multiple environments, you could define a single function that takes environment-specific parameters (e.g., development, staging, production) and generates the correct configuration for each. This reduces redundancy and the risk of manual errors.
+
+## Expanding Beyond Dotfiles
+
+While managing dotfiles is a great starting point, the true return on investment for learning Clojure and a tool like BigConfig lies in its applicability to other areas of the software development lifecycle.
+
+### Local Development Bootstrap
+A unified configuration system can automate the setup of a new developer's machine. Instead of relying on a multi-step, error-prone manual process, you can use Clojure to define a single script that:
+* Installs necessary dependencies (e.g., Homebrew packages, language runtimes).
+* Clones required repositories.
+* Configures local databases, environment variables, and services.
+* Sets up the development environment, including IDE settings and editor configurations.
+
+### CI/CD Pipelines with GitHub Actions
+GitHub Actions workflows are defined in YAML, which can become unwieldy and difficult to manage as they grow in complexity. By using a tool that integrates Clojure, you can dynamically generate these workflow files. This allows you to:
+* Use a single source of truth for your build, test, and deploy steps.
+* Parameterize workflows to run across different platforms or branches.
+* Create reusable, composable functions to define common CI/CD patterns, making your pipelines more DRY (**D**on't **R**epeat **Y**ourself).
+
+### Infrastructure as Code (IaC) with Terraform and Ansible
+The modern approach to managing cloud infrastructure is through code, but traditional IaC tools like Terraform and Ansible have their own configuration languages (HCL and YAML, respectively). While powerful, these languages can lack the full expressiveness of a general-purpose programming language. Using Clojure, you can:
+* **Generate Terraform HCL files**: Create complex Terraform configurations for large-scale cloud deployments, such as a Kubernetes cluster, by leveraging Clojure's data manipulation capabilities.
+* **Create dynamic Ansible playbooks**: Instead of a static playbook, you can write Clojure code that generates an Ansible playbook based on dynamic inputs or the state of your infrastructure. This is particularly useful for provisioning environments that vary slightly from one another.
+
+### Kubernetes (K8s) Cluster Management
+Kubernetes configuration is notoriously verbose, with extensive YAML manifests for deployments, services, and ingresses. By using Clojure as a configuration generator, you can simplify this process by:
+* **Templating YAML manifests**: Define a base template in Clojure and generate multiple, consistent Kubernetes manifests from it.
+* **Automating cluster deployments**: Use a single script to deploy an entire application stack, from pods and services to persistent volumes and secrets.
+* **Enforcing best practices**: Embed validation and sanity checks within your Clojure code to ensure all generated manifests adhere to your organization's standards before deployment.
+
+## Conclusion
+
+Stow and Chezmoi are great, but for those with complex, multi-platform needs, they can fall short. BigConfig doesn't try to hide the underlying logic; it embraces it. It recognizes that managing dotfiles is an automation task that benefits from explicit, readable code. Just as <ExternalLink href="https://astro.build/">Astro</ExternalLink>, a modern static site generator, has gained popularity over tools like <ExternalLink href="https://gohugo.io/">Hugo</ExternalLink> by being more transparent and flexible, BigConfig offers a similar paradigm shift for dotfile management.
+
+Ultimately, your dotfiles are part of your automation workflow. Shouldn't your tool for managing them be as powerful and flexible as the rest of your toolchain? BigConfig says yes.
+
+Would you like to have a follow-up on this topic? What are your thoughts? I'd love to <ExternalLink href="https://www.albertomiorin.com/contact#form">hear</ExternalLink> your experiences.
