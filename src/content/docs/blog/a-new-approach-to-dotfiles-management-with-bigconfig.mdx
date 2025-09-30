@@ -11,7 +11,7 @@ import ExternalLink from '~/components/ExternalLink.astro'
 
 Managing dotfiles—the configuration files that personalize your user environment—is a crucial part of a developer's workflow. The go-to tools for this have long been <ExternalLink href="https://www.chezmoi.io/">Chezmoi</ExternalLink> and <ExternalLink href="https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html">Stow</ExternalLink>. While Stow is celebrated for its simplicity, Chezmoi offers powerful templating and secret management. However, what if you need the best of both worlds? This is where <ExternalLink href="https://www.big-config.it/">BigConfig</ExternalLink> comes in, offering a new way to manage your configurations by combining the simplicity of a declarative approach with the power of code.
 
-### The Problem with the Old Ways
+## The Problem with the Old Ways
 
 Like many developers, I use both macOS and Ubuntu, and the dotfiles for these environments are similar but not identical. Some configurations only exist on one platform, while others need slight tweaks. Stow, while easy for symlinking, lacks the flexibility for this kind of conditional logic. Chezmoi, on the other hand, embeds its logic within the filename, which can become unwieldy and less transparent as your needs grow.
 
