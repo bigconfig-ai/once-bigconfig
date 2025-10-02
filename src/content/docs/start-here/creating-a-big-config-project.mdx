@@ -14,7 +14,6 @@ BigConfig requires Clojure, Babashka, and deps-new.
 ``` shell
 brew install clojure/tools/clojure
 brew install borkdude/brew/babashka
-clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 ```
   </TabItem>
   <TabItem label="asdf">
@@ -28,7 +27,6 @@ asdf global clojure latest
 asdf plugin add babashka https://github.com/pitch-io/asdf-babashka.git
 asdf install babashka latest
 asdf global babashka latest
-clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 ```
   </TabItem>
 </Tabs>
@@ -93,4 +91,7 @@ clojure -A:deps -Tbig-config help/doc
 #
 #   Example:
 #     clojure -Tbig-config terraform :region us-west-1
+
+# Invoke one of the templates with your options
+clojure -Tbig-config terraform
 ```
