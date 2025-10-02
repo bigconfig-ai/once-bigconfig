@@ -15,7 +15,7 @@ This example is for OpenTofu but BigConfig can be used with any devops tool.
 <Steps>
 1. Inside a BigConfig project, create an alias.
    ``` shell
-   alias tofu="bb build git-check lock exec git-push unlock-any -- alpha prod tofu"
+   alias tofu="bb render git-check lock exec git-push unlock-any -- alpha prod tofu"
    ```
 2. Everything remains the same but now you have a zero-cost build step to increase your productivity.
    ``` shell

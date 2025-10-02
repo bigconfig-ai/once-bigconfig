@@ -4,30 +4,28 @@ description: Tier-1
 sidebar:
   order: 3
 ---
-## BigConfig and Tier 1 Workflow
+## Core Problem
 
-### Core Problem
+The primary problem `big-config` addresses is the significant repetition encountered when curating configuration files (e.g., for Terraform, Kubernetes, Ansible, and so on). This repetition arises from the need to express similar logic (such as importing data structures or iterating) within the specific configuration language of each tool.
 
-The primary problem `big-config` addresses is the significant repetition encountered when curating configuration files (e.g., for Terraform, Kubernetes, Ansible). This repetition arises from the need to express similar logic (such as importing data structures or iterating) within the specific configuration language of each tool.
-
-### BigConfig Solution: A “Zero-Cost” Build Step
+## BigConfig Solution: A “Zero-Cost” Build Step
 
 * **Concept:**
-  BigConfig introduces a build step for configuration files, drawing inspiration from software-development workflows (e.g., JavaScript projects that compile TypeScript).
+  BigConfig introduces a build step for configuration files, drawing inspiration from software-development workflows (e.g., TypeScrip projects that compiles to JavaScript).
 
 * **Process:**
 
-  1. Users maintain configuration **source** files (often Clojure code) in a `src/` directory.
+  1. Users maintain configuration **source** files (often Clojure code) in `src/` and `resources/` directories.
   2. A build step transforms these sources into **output** files in a `dist/` directory, using the syntax required by the target tool (Terraform, Kubernetes, etc.).
 
 * **Benefits:**
 
   * **Reduced repetition:** Common logic is handled in Clojure rather than duplicated in each tool’s DSL.
   * **Abstraction:** Clojure can manipulate data structures, making configuration more dynamic and less verbose.
-  * **Templating:** Two template engines are supported—`deps-new` (via `build.tools`) and **Selmer** (similar to Jinja)—to generate config dynamically.
+  * **Templating:** Selmer (similar to Jinja)— is used to generate config files dynamically.
   * **“Zero-Cost” ideal:** The build step aims to feel invisible, letting developers work as if editing the final files directly.
 
-### Tier 1 Workflow Language
+## Tier 1 Workflow Language
 
 * **Purpose:**
   A small Domain-Specific Language (DSL) for composing command-line steps—an alternative to Makefiles.
@@ -40,17 +38,17 @@ The primary problem `big-config` addresses is the significant repetition encount
   * **CLI tool:** `babashka` provides commands to define and run workflows.
   * **Composed steps:**
 
-    * `build` — run the BigConfig build step
+    * `render` — run the BigConfig build step
     * `exec` — execute any command (e.g., `ansible-playbook`, `terraform plan`) inside `dist/`
     * `git-check` — verify the local branch isn’t behind `origin`
     * `git-push` — push changes
     * `lock` — acquire a pessimistic lock
-    * `unlock-any` — release the lock
+    * `unlock-any` — release the lock acquired ignoring the owner
   * **Sequential execution:** Steps run in order; a failure stops the workflow.
-  * **Integration with BigConfig:** The `build` step is fundamental, enabling a *change → build → run* loop.
-  * **“Change and run” ideal:** Embedding the build step minimizes perceived overhead.
+  * **Integration with BigConfig:** The `render` step is fundamental, enabling a *change → render → run* loop.
+  * **“Change and run” ideal:** Embedding the render step minimizes perceived overhead.
 
-### Coordination and Locking
+## Coordination and Locking
 
 * **Problem:**
   Multiple developers modifying shared resources (e.g., an AWS account) need coordination to prevent conflicts. Tools like Atlantis handle this for Terraform.
@@ -61,7 +59,7 @@ The primary problem `big-config` addresses is the significant repetition encount
   * `lock` / `unlock-any` steps manage these locks within a workflow.
   * Provides a more general alternative to specialized services like Atlantis.
 
-### Key Takeaways
+## Key Takeaways
 
 * **BigConfig** adds a powerful abstraction layer by leveraging Clojure and a build step to reduce repetition and add dynamic logic.
 * The **Tier 1 Workflow** language supplies a flexible CLI for defining and executing configuration workflows—integrating the BigConfig build step.
@@ -79,10 +77,10 @@ The tier-1 workflow language is a simple DSL that allows developer to compose di
 
 These primitives are necessary to enable multiple developers to work at the same time on the same infrastructure without any further coordination.
 
-### Example
+## Example
 
 ```
-bb build lock git-check tofu:init tofu:apply:-auto-approve git-push unlock-any -- alpha prod
+bb render lock git-check tofu:init tofu:apply:-auto-approve git-push unlock-any -- alpha prod
 ```
 
 is a tier-1 workflow defined in the command line using `big-config` and invoked using `babashka`. The `build` step will use `deps-new` to generate the `alpha` module using the `prod` profile. The `lock` step will acquire a lock to make sure that we are the only one running (same capability of `atlantis`). The `git-check` step will make sure that our working directory is clean and not behind `origin`. The `tofu:init` step will run `tofu init` in the `target-dir`. The `tofu:apply:-auto-approve` step will run `tofu apply -auto-approve` in the `target-dir`. The `git-push` step will push our commits. The `unlock-any` step will release the lock.

@@ -14,7 +14,7 @@ BigConfig requires Clojure, Babashka, and deps-new.
 ``` shell
 brew install clojure/tools/clojure
 brew install borkdude/brew/babashka
-clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
+clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 ```
   </TabItem>
   <TabItem label="asdf">
@@ -28,80 +28,69 @@ asdf global clojure latest
 asdf plugin add babashka https://github.com/pitch-io/asdf-babashka.git
 asdf install babashka latest
 asdf global babashka latest
-clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
+clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 ```
   </TabItem>
 </Tabs>
 
 ## Creating a BigConfig project
-The fastest way to start with BigConfig is to use the official template.
+The fastest way to start with BigConfig is to use one of the official templates.
+* ansible
+* devenv
+* dotfiles
+* terraform
 
 ``` shell
-clojure -Sdeps '{:deps {io.github.amiorin/big-config {:git/sha "81aec53608e63a97564cd5e7f05cd400fdd5bac7"}}}' \
-    -Tnew create \
-    :template amiorin/big-config \
-    :name my-org/my-artifact \
-    :target-dir my-project \
-    :aws-account-id-dev 111111111111 \
-    :aws-account-id-prod 222222222222 \
-    :aws-profile default \
-    :aws-region eu-west-1 \
-    :overwrite :delete \
-    && cd my-project && bb smoke-test
-```
+# Add big-config as tool to Clojure
+clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 
-import { FileTree } from '@astrojs/starlight/components';
-
-<FileTree>
-
-- env/ ignore for now
-- resources
-  - my_org
-    - my_artifact
-      - alpha example of OpenTofu module
-        - main.tf
-      - build files copied by deps-new in the target root
-        - projectile for emacs users
-      - config.edn project config files parsed with aero
-      - files additional file for the alpha module
-        - user_data.sh
-      - gamma example of Ansible module
-        - ansible.cfg
-        - inventory.ini
-        - main.yml
-      - template.edn main config file for deps-new
-- src/
-- test/ ignore for now
-- .dir-locals.el for emacs users
-- .envrc for direnv users
-- .gitignore
-- .projectile for emacs users
-- bb.edn babashka config file
-- CHANGELOG.md
-- deps.edn clojure config file
-- LICENSE
-- README.md
-
-</FileTree>
-
-``` shell
-cd my-project
-
-# List all tasks
-bb tasks
-
-# How to create workflow in the cli
-bb show-help
-
-# List the files of module alpha profile prod
-bb build exec -- alpha prod ls -l
-
-# List the files of module beta profile prod
-bb build exec -- beta prod ls -l
-
-# List the files of module gamma profile prod
-bb build exec -- gamma prod ls -l
-
-# Run the tests, you need to have at least 2 commits
-bb test:bb
+# Print the help of all templates
+clojure -A:deps -Tbig-config help/doc
+# -------------------------
+# big-config.tools/ansible
+# ([& {:as args}])
+#   Create a repo to manage Ansible projects with BigConfig.
+#
+#   Options:
+#   - :target-dir  target directory for the template (`ansible` is the default)
+#   - :overwrite   true or :delete (the target directory)
+#
+#   Example:
+#     clojure -Tbig-config ansible
+# -------------------------
+# big-config.tools/devenv
+# ([& {:as args}])
+#   Create the devenv files for Clojure and Babashka development.
+#
+#   Options:
+#   - :target-dir  target directory for the template (current directory is the default)
+#
+#   Example:
+#     clojure -Tbig-config devenv
+# -------------------------
+# big-config.tools/dotfiles
+# ([& {:as args}])
+#   Create a repo to manage dotfiles with BigConfig.
+#
+#   Options:
+#   - :target-dir  target directory for the template (`dotfiles` is the default)
+#   - :overwrite   true or :delete (the target directory)
+#
+#   Example:
+#     clojure -Tbig-config dotfiles
+# -------------------------
+# big-config.tools/terraform
+# ([& {:as args}])
+#   Create a repo to manage Terraform/Tofu projects with BigConfig.
+#
+#   Options:
+#   - :target-dir  target directory for the template (`terrafom` is the default)
+#   - :overwrite   true or :delete (the target directory)
+#   - :aws-profile aws profile in ~/.aws/crendentials
+#   - :region      aws region
+#   - :dev         aws account id for dev
+#   - :prod        aws account id for prod
+#
+#   Example:
+#     clojure -Tbig-config terraform :region us-west-1
 ```
