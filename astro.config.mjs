@@ -64,6 +64,10 @@ export default defineConfig({
           label: "Guides",
           autogenerate: { directory: "guides" },
         },
+        {
+          label: "Use cases",
+          autogenerate: { directory: "use-cases" },
+        },
       ],
     }),
   ],
