@@ -70,16 +70,7 @@ The `diff` command is particularly useful, allowing you to compare your current 
 By keeping the code and the dotfiles in the same repository, BigConfig provides a cohesive and powerful developer experience.
 
 ## Adopting BigConfig for your dotfiles
-If you want to compare my dotfiles with yours, just run this code if you don't use <ExternalLink href="https://devenv.sh/">devenv</ExternalLink>
-``` shell
-# if you don't use devenv
-brew install borkdude/brew/babashka
-brew install direnv
-git clone https://github.com/amiorin/dotfiles-v3
-bb diff macos
-```
-If you want to adopt BigConfig for your dotfiles, just fork the repo <ExternalLink href="https://github.com/amiorin/dotfiles-v3">amiorin/dotfiles-v3</ExternalLink>
-and replace the dotfiles with yours.
+If you want to adopt BigConfig for your dotfiles, just follow this <ExternalLink href="/use-cases/dotfiles/">tutorial</ExternalLink> or have a look at <ExternalLink href="https://github.com/amiorin/dotfiles-v3">mine</ExternalLink>
 
 It might seem excessive to learn Clojure and a tool like BigConfig just to manage dotfiles, but the real value comes from applying that investment across a broader range of automation tasks. Clojure's strengths—its functional nature, immutability, and powerful data manipulation capabilities—make it a strong choice for configuration-as-code. By using a single, cohesive language, you can unify your automation stack and create a more maintainable, expressive system.
 
