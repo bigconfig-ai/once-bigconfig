@@ -16,27 +16,33 @@ clojure -A:deps -Ttools help/doc
 
 ## Your templates
 The predefined templates are a starting point but eventually you should define the templates that make sense for your environment.
-Create a clojure repo or use an existing project. Adapt `:path`, `:ns`, and `:name`.
-``` shell
-# Create your initial version of `tools.clj`
-cd clj-proj
-clojure -Tbig-config tools :path src :ns mybc :name tools.clj
-```
-Any `deps.edn` project can become a tool. Add this key at the root level and adapt `:ns-default`.
-```
- :tools/usage {:ns-default big-config.tools}
-```
-Now you are ready to install your repo as a tool in development mode or from GitHub if you are on a different machine.
-``` shell
-# Install the tool as mybc in development mode
-clojure -Ttools install io.github.USER/REPO '{:local/root "."}' :as mybc
-```
-Now you can create as many templates you want like <ExternalLink href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj">the default templates</ExternalLink>.
 
-``` shell
-# Use template foo
-clojure -Tmybc foo
-```
+import { Steps } from '@astrojs/starlight/components';
 
+<Steps>
+1. Create a clojure repo or use an existing project. Adapt `:path`, `:ns`, and `:name` to your project.
+   ``` shell
+   # Create your initial version of `tools.clj`
+   cd clj-proj
+   clojure -Tbig-config tools :path src :ns mybc :name tools.clj
+   ```
+1. Any `deps.edn` project can become a tool. Add this key at the root level and adapt `:ns-default`.
+   ```
+    :tools/usage {:ns-default big-config.tools}
+   ```
+1. Use <ExternalLink href="https://github.com/babashka/neil">Neil</ExternalLink> to add BigConfig as dependency to your project.
+   ``` shell
+   neil add dep io.github.amiorin/big-config
+   ```
+1. Now you are ready to install your repo as a tool in development mode or from GitHub if you are on a different machine.
+   ``` shell
+   # Install the tool as mybc in development mode
+   clojure -Ttools install io.github.USER/REPO '{:local/root "."}' :as mybc
+   ```
+1. Now you can create as many templates you want. You can check the <ExternalLink href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj">the default templates</ExternalLink>.
 
-
+   ``` shell
+   # Use template foo
+   clojure -Tmybc foo
+   ```
+</Steps>
