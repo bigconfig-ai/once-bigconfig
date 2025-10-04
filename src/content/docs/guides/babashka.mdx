@@ -34,7 +34,7 @@ To achieve a zero-cost build step, BigConfig has a simple DSL for the shell. Thi
 
 In the multi template there are 3 modules:
 * alpha - Hello world in Terraform.
-* beta - `main.tf.json` generate with Clojure code.
+* beta - `main.tf.json` generated with Clojure code.
 * gamma - Hello world in Ansible.
 
 There are also 2 profiles:
@@ -76,9 +76,9 @@ Usually teams don't use Terraform from their dev machines but they use Atlantis 
 bb render git-check lock tofu:init tofu:apply:-auto-approve git-push unlock-any -- alpha prod
 ```
 
-* render — BigConfig will render the configuration files. If there is an error in the code and the configuration files cannot be generated the workflow will stop and show the error so that the developer can fix it.
-* git-check — The it will check that we are not behind `origin` and the local working directory is clean.
+* render — It will render the configuration files. If there is an error in the code and the configuration files cannot be generated the workflow will stop and show the error so that the developer can fix it.
+* git-check — It will check that we are not behind `origin` and the local working directory is clean.
 * lock — If the previous steps are successful, now it makes sense to acquire the pessimistic lock to block other developers from making their changes in parallel.
 * tofu:init and tofu:apply:-auto-approve — There are the commands to apply the changes. They can be interactive or not.
-* git-push — Usually the developer prepare the commit before making the changes and this steps automate the push of the commit.
-* unlock-any — All the previous steps were successful. We have made the changes in isolation and we have pushed them to `origin`. The three environments working directory, origin, infrastructure are aligned. Therefore we can release the lock so that other developer can also make changes after us.
+* git-push — Usually the developer prepares the commit before making the changes and this step automates the push of the commit.
+* unlock-any — All the previous steps were successful. We have made the changes in isolation and we have pushed them to `origin`. The three environments working directory, origin, and infrastructure are aligned. Therefore we can release the lock so that other developer can also make changes after us.
