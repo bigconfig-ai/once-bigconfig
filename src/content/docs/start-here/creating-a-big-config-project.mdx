@@ -27,18 +27,29 @@ devbox global add babashka
 
 ## Creating a BigConfig project
 The fastest way to start with BigConfig is to use one of the official templates.
+* action - A single file to run CI for a Clojure/Babashka project.
 * ansible - A project to manage two ubuntu minipcs.
 * devenv - A better `init` for <ExternalLink href="https://devenv.sh/">devenv</ExternalLink>.
 * dotfiles - An alternative to <ExternalLink href="https://www.chezmoi.io/">chezmoi</ExternalLink>.
 * multi - A monorepo with three modules for Ansible and Terraform.
 * terraform - A project to manage AWS resources with Terraform.
+* tools - A single file to add Clojure Tools to your Clojure project.
 
 ``` shell
 # Add big-config as tool to Clojure
 clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 
-# Print the help of all templates
-clojure -A:deps -Tbig-config help/doc
+# -------------------------
+# big-config.tools/action
+# ([& {:as args}])
+#   Create a GitHub action for the CI of a Clojure project.
+#
+#   Options:
+#   - :target-dir  target directory for the template (`action` is the default)
+#   - :overwrite   true or :delete (the target directory)
+#
+#   Example:
+#     clojure -Tbig-config action
 # -------------------------
 # big-config.tools/ansible
 # ([& {:as args}])
@@ -77,12 +88,12 @@ clojure -A:deps -Tbig-config help/doc
 #   Create a repo to manage both Ansible and Terraform projects with BigConfig.
 #
 #   Options:
-#   - :target-dir  target directory for the template (`ansible` is the default)
+#   - :target-dir  target directory for the template (`multi` is the default)
 #   - :overwrite   true or :delete (the target directory)
 #
 #   Example:
 #     clojure -Tbig-config multi
-# # -------------------------
+# -------------------------
 # big-config.tools/terraform
 # ([& {:as args}])
 #   Create a repo to manage Terraform/Tofu projects with BigConfig.
@@ -97,6 +108,19 @@ clojure -A:deps -Tbig-config help/doc
 #
 #   Example:
 #     clojure -Tbig-config terraform :region us-west-1
+# -------------------------
+# big-config.tools/tools
+# ([& {:as args}])
+#   Create a tools.clj for a Clojure project.
+#
+#   Options:
+#   - :target-dir  target directory for the template (current directory is the default)
+#   - :path        path for the clojure source code
+#   - :ns          namespace containing the file tools.clj
+#   - :name        override the default name `tools`
+#k
+#   Example:
+#     clojure -Tbig-config tools
 
 # Invoke one of the templates with your options
 clojure -Tbig-config terraform
