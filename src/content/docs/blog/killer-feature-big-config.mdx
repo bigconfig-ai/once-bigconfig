@@ -35,14 +35,14 @@ Here's where the magic truly happens! By combining OpenTofu, BigConfig, and a si
 Consider this powerful shell alias:
 
 ```bash
-alias tofu="bb build git-check lock exec git-push unlock-any -- alpha prod tofu"
+alias tofu="bb render git-check lock exec git-push unlock-any -- alpha prod tofu"
 ```
 
 Let's break down what this alias does:
 
 1.  **`alias tofu="..."`**: This redefines your `tofu` command for the session. Now, whenever you type `tofu`, it executes BigConfig instead of `tofu`. Every step of the workflow is executed only if the previous step is successful.
-2.  **`build`**: This is the BigConfig step to initiate a build process and achieve DRY like Atmos. If this fails, there is not reason to proceed. That's why this step is always present and it is the first step.
-3.  **`git-check`**: `build` should not make the Git working directory dirty and `git-check` ensures your Git working directory is clean and up to date.
+2.  **`render`**: This is the BigConfig step to initiate a build process and achieve DRY like Atmos. If this fails, there is not reason to proceed. That's why this step is always present and it is the first step.
+3.  **`git-check`**: `render` should not make the Git working directory dirty and `git-check` ensures your Git working directory is clean and up to date.
 4.  **`lock`**: It then acquires a lock for the module `alpha` and the profile `prod`, preventing concurrent changes from other developers.
 5.  **`exec`**: This is the core execution step, where BigConfig will run your OpenTofu commands. In case of failure of `exec`, the workflow will stop and the next steps will not be executed. In particular the lock will not be released and the changes will not be pushed so that the developer can fix or revert the change.
 6.  **`git-push`**: This automatically pushes the just applied change to your Git repository. You should be always one commit ahead of `origin` when you make changes.
