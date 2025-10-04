@@ -32,11 +32,11 @@ It's a modified version of <ExternalLink href="https://github.com/seancorfield/d
 * `template.edn` has been replaced by `::render/templates`.
 * Intead of one template, you can have multiple templates.
 * The template language is <ExternalLink href="https://github.com/yogthos/Selmer">Selmer</ExternalLink>.
-* `:template` is the resource path containing `root`.
-* if `:transform` is provided, then `root` is ignored.
+* `:template` is the resource path containing `root` directory.
+* if `:transform` is provided, then `:root` is ignored.
 
 ### predefined keys
-Any key besides these one will be part of `data` together with the keys `:module` and `:profile`.
+Any key besides these will be part of `data` along with the keys `:module` and `:profile`.
 * `:template`
 * `:target-dir`
 * `:overwrite`

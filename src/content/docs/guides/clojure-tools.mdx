@@ -14,7 +14,7 @@ The purpose of BigConfig is to incrase developer productivity by automation. The
 clojure -A:deps -Ttools help/doc
 ```
 
-## Your templates
+## Create your templates
 The predefined templates are a starting point but eventually you should define the templates that make sense for your environment.
 
 import { Steps } from '@astrojs/starlight/components';
@@ -46,3 +46,6 @@ import { Steps } from '@astrojs/starlight/components';
    clojure -Tmybc foo
    ```
 </Steps>
+
+## Conclusion
+BigConfig doesn't have a CLI on purpose. Going back to first principles it was clear that code is better than configuration files and there is no need to design a new CLI tool that will work in any use case and minimize the configuration written manually at the same time because this tool already exists and it is any dynamic language interpreter (Python, JavaScript, and Clojure). Most of the CLI tools are nowdays implemented in Go and they are short lived. Helm, Helmfile, and Kustomize are example of multiple attempts to solve the same problem. BigConfig provides the two primitives needed for automation: the workflow and the template engine without hiding the programming language.
