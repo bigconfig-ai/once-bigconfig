@@ -15,11 +15,20 @@ hero:
       icon: external
       variant: minimal
 ---
-
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { Card } from '@astrojs/starlight/components';
 
 <CardGrid>
   <LinkCard title="Documentation" href="/start-here/getting-started" />
   <LinkCard title="Blog" href="/blog" />
   <LinkCard title="Support" href="https://albertomiorin.com" />
+</CardGrid>
+
+<CardGrid>
+<Card title="Code as configuration">
+We realized that designing a CLI for automation is an anti-pattern. The core principle is simple: code is a more effective and flexible tool than configuration languages. Instead of creating a new CLI tool to improve productivity, we chose to leverage something that already works exceptionally well: dynamic programming languages.
+</Card>
+<Card title="Dynamic programming languages">
+With languages like Python, JavaScript, and Clojure, you already have the ability to handle any use case. This is a contrast to many modern CLI tools, like Helm, Helmfile, and Kustomize, which are often short-lived attempts to solve the same problem. BigConfig, implemented in Clojure, provides the essential building blocks — a **workflow** and a **template** engine — that let you use the full power of a dynamic programming language without compromise.
+</Card>
 </CardGrid>
