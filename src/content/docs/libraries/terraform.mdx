@@ -1,0 +1,284 @@
+---
+title: Terraform
+description: How to use BigConfig Terraform library
+sidebar:
+  order: 1
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import ExternalLink from '~/components/ExternalLink.astro'
+
+## AWS
+There are some functions specific to AWS. Other Cloud providers will be added in the future.
+
+### Account id
+It's very common to get the AWS account id at runtime.
+
+<Tabs syncKey="account-id">
+  <TabItem label="clojure">
+``` clojure
+(construct caller-identity)
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data "aws_caller_identity" "current" {}
+```
+  </TabItem>
+</Tabs>
+<Tabs syncKey="account-id">
+  <TabItem label="clojure">
+``` clojure
+(root-arn caller-identity)
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+```
+  </TabItem>
+</Tabs>
+
+### Blocks
+The defrecord Construct is used to construct any type of block. Naming is simplified by qualified keyword: `::foo` becomes `"org_app_foo::foo"`.
+
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(ns org.app)
+(construct (map->Construct {:group :data
+                            :type :aws_iam_policy_document
+                            :fqn ::foo
+                            :block {}}))
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data "aws_iam_policy_document" "org_app_foo" {}
+```
+  </TabItem>
+</Tabs>
+
+### Reference
+You can reference any property.
+
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(ns org.app)
+(reference (map->Construct {:group :data
+                            :type :aws_iam_policy_document
+                            :fqn ::foo
+                            :block {}})
+           :json)
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data.aws_iam_policy_document.org_app_foo.json
+```
+  </TabItem>
+</Tabs>
+
+### Arn
+Some arn for common AWS resources are already defined.
+
+#### Iam role
+<Tabs>
+  <TabItem label="clojure">
+
+``` clojure
+(arn (map->Construct {:group :resource
+                      :type :aws_iam_role
+                      :fqn ::foo
+                      :block {:name "name"}}) "111111111111")
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+arn:aws:iam::111111111111:role/name
+```
+  </TabItem>
+</Tabs>
+
+#### Secret manager secret
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(arn (map->Construct {:group :resource
+                      :type :aws_secretsmanager_secret
+                      :fqn ::foo
+                      :block {:name "name"}}) "111111111111" "us-west-1")
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+arn:aws:secretsmanager:us-west-1:111111111111:secret/name
+```
+  </TabItem>
+</Tabs>
+
+### Flow Control
+BigConfig enables you to use Clojure instead of HCL. You should minimize the dynamic features of HCL that you use and use Clojure language features instead. `count` is an example of dynamic feature that you should avoid. The `for` expression in Clojure will achieve the same result. `sort-nested-map` will make sure the the JSON output is always the same, so that you can commit the `main.tf.json` like you do with `main.tf` and refactor you Clojure code with confidence because Git will signal to you unexpected changes of `main.tf.json`.
+
+The `sort-nested-map` function ensures that the resulting JSON output is consistent. This allows you to commit the `main.tf.json` file to Git, just as you would with a `main.tf` file. Committing this file provides a safety net: if you refactor your Clojure code, Git will flag any unexpected changes in the `main.tf.json` file, giving you confidence in your refactoring process.
+
+The **`deep-merge`** operation is essential in Terraform because it allows for the correct merging of attributes within blocks that share a namespace. This ensures that only the **leaf nodes** (individual attributes) are merged, preventing overwrites of entire nested structures.
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(ns core
+  (:require
+   [big-config.utils :refer [deep-merge sort-nested-map]]
+   [big-tofu.core :refer [add-suffix construct]]
+   [big-tofu.create :as create]
+   [cheshire.core :as json]))
+
+(let [{:keys [aws-account-id
+              region] :as data} {:aws-account-id "111111111111"
+                                 :region "eu-west-1"
+                                 :module "example"}
+      queues (->> (for [n (range 2)]
+                    (create/sqs (add-suffix :alpha/big-sqs (str "-" n))))
+                  flatten
+                  (map construct))
+      kms (->> (create/kms :alpha/big-kms)
+               (map construct))
+      bucket (format "tf-state-%s-%s" aws-account-id region)
+      provider (create/provider (assoc data :bucket bucket))
+      m (->> [provider]
+             (into kms)
+             (into queues)
+             (apply deep-merge)
+             sort-nested-map)]
+  (json/generate-string m {:pretty true}))
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_policy_document" {
+  alpha_big_kms_data_policy = {
+    statement = {
+      actions = ["kms:*"]
+
+      effect = Allow
+
+      principals = {
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+
+        type = AWS
+      }
+
+      resources = ["*"]
+    }
+  }
+}
+
+provider "aws" {
+  region = eu-west-1
+}
+
+resource "aws_kms_key" "alpha_big_kms" {}
+
+resource "aws_kms_key_policy" "alpha_big_kms_resource_policy" {
+  key_id = resource.aws_kms_key.alpha_big_kms.id
+
+  policy = data.aws_iam_policy_document.alpha_big_kms_data_policy.json
+}
+
+resource "aws_sqs_queue" "alpha_big_sqs_0" {
+  name = alpha_big_sqs_0
+}
+
+resource "aws_sqs_queue" "alpha_big_sqs_1" {
+  name = alpha_big_sqs_1
+}
+
+terraform {
+  backend "s3" {
+    bucket = tf-state-111111111111-eu-west-1
+
+    encrypt = true
+
+    key = example.tfstate
+
+    region = eu-west-1
+  }
+
+  required_providers "aws" {
+    source = hashicorp / aws
+
+    version = "~> 5.0"
+  }
+
+  required_version = ">= 1.8.0"
+}
+```
+  </TabItem>
+  <TabItem label="JSON">
+``` json
+{
+  "data" : {
+    "aws_caller_identity" : {
+      "current" : { }
+    },
+    "aws_iam_policy_document" : {
+      "alpha_big_kms_data_policy" : [ {
+        "statement" : [ {
+          "actions" : [ "kms:*" ],
+          "effect" : "Allow",
+          "principals" : [ {
+            "identifiers" : [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" ],
+            "type" : "AWS"
+          } ],
+          "resources" : [ "*" ]
+        } ]
+      } ]
+    }
+  },
+  "provider" : {
+    "aws" : {
+      "region" : "eu-west-1"
+    }
+  },
+  "resource" : {
+    "aws_kms_key" : {
+      "alpha_big_kms" : { }
+    },
+    "aws_kms_key_policy" : {
+      "alpha_big_kms_resource_policy" : {
+        "key_id" : "${resource.aws_kms_key.alpha_big_kms.id}",
+        "policy" : "${data.aws_iam_policy_document.alpha_big_kms_data_policy.json}"
+      }
+    },
+    "aws_sqs_queue" : {
+      "alpha_big_sqs_0" : {
+        "name" : "alpha_big_sqs_0"
+      },
+      "alpha_big_sqs_1" : {
+        "name" : "alpha_big_sqs_1"
+      }
+    }
+  },
+  "terraform" : {
+    "backend" : {
+      "s3" : {
+        "bucket" : "tf-state-111111111111-eu-west-1",
+        "encrypt" : true,
+        "key" : "example.tfstate",
+        "region" : "eu-west-1"
+      }
+    },
+    "required_providers" : {
+      "aws" : {
+        "source" : "hashicorp/aws",
+        "version" : "~> 5.0"
+      }
+    },
+    "required_version" : ">= 1.8.0"
+  }
+}
+```
+  </TabItem>
+</Tabs>

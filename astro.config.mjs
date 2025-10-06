@@ -68,6 +68,10 @@ export default defineConfig({
           label: "Use cases",
           autogenerate: { directory: "use-cases" },
         },
+        {
+          label: "Libraries",
+          autogenerate: { directory: "libraries" },
+        },
       ],
     }),
   ],
