@@ -33,7 +33,7 @@ It's a modified version of <ExternalLink href="https://github.com/seancorfield/d
 * Intead of one template, you can have multiple templates.
 * The template language is <ExternalLink href="https://github.com/yogthos/Selmer">Selmer</ExternalLink>.
 * `:template` is the resource path containing `root` directory.
-* if `:transform` is provided, then `:root` is ignored.
+* `:root` has been removed to improve validation.
 
 ### predefined keys
 Any key besides these will be part of `data` along with the keys `:module` and `:profile`.
@@ -43,7 +43,6 @@ Any key besides these will be part of `data` along with the keys `:module` and `
 * `:data-fn`
 * `:template-fn`
 * `:post-process-fn`
-* `:root`
 * `:transform`
 
 ```clojure
