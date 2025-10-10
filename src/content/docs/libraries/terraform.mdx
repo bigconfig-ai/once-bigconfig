@@ -10,113 +10,6 @@ import ExternalLink from '~/components/ExternalLink.astro'
 ## AWS
 There are some functions specific to AWS. Other Cloud providers will be added in the future.
 
-### Account id
-It's very common to get the AWS account id at runtime.
-
-<Tabs syncKey="account-id">
-  <TabItem label="clojure">
-``` clojure
-(construct caller-identity)
-```
-  </TabItem>
-  <TabItem label="HCL">
-``` terraform
-data "aws_caller_identity" "current" {}
-```
-  </TabItem>
-</Tabs>
-<Tabs syncKey="account-id">
-  <TabItem label="clojure">
-``` clojure
-(root-arn caller-identity)
-```
-  </TabItem>
-  <TabItem label="HCL">
-``` terraform
-"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-```
-  </TabItem>
-</Tabs>
-
-### Blocks
-The defrecord Construct is used to construct any type of block. Naming is simplified by qualified keyword: `::foo` becomes `"org_app_foo::foo"`.
-
-<Tabs>
-  <TabItem label="clojure">
-``` clojure
-(ns org.app)
-(construct (map->Construct {:group :data
-                            :type :aws_iam_policy_document
-                            :fqn ::foo
-                            :block {}}))
-```
-  </TabItem>
-  <TabItem label="HCL">
-``` terraform
-data "aws_iam_policy_document" "org_app_foo" {}
-```
-  </TabItem>
-</Tabs>
-
-### Reference
-You can reference any property.
-
-<Tabs>
-  <TabItem label="clojure">
-``` clojure
-(ns org.app)
-(reference (map->Construct {:group :data
-                            :type :aws_iam_policy_document
-                            :fqn ::foo
-                            :block {}})
-           :json)
-```
-  </TabItem>
-  <TabItem label="HCL">
-``` terraform
-data.aws_iam_policy_document.org_app_foo.json
-```
-  </TabItem>
-</Tabs>
-
-### Arn
-Some arn for common AWS resources are already defined.
-
-#### Iam role
-<Tabs>
-  <TabItem label="clojure">
-
-``` clojure
-(arn (map->Construct {:group :resource
-                      :type :aws_iam_role
-                      :fqn ::foo
-                      :block {:name "name"}}) "111111111111")
-```
-  </TabItem>
-  <TabItem label="HCL">
-``` terraform
-"arn:aws:iam::111111111111:role/name"
-```
-  </TabItem>
-</Tabs>
-
-#### Secret manager secret
-<Tabs>
-  <TabItem label="clojure">
-``` clojure
-(arn (map->Construct {:group :resource
-                      :type :aws_secretsmanager_secret
-                      :fqn ::foo
-                      :block {:name "name"}}) "111111111111" "us-west-1")
-```
-  </TabItem>
-  <TabItem label="HCL">
-``` terraform
-"arn:aws:secretsmanager:us-west-1:111111111111:secret/name"
-```
-  </TabItem>
-</Tabs>
-
 ### Flow Control
 BigConfig enables you to use Clojure instead of HCL. You should minimize the dynamic features of HCL that you use and use Clojure language features instead. `count` is an example of dynamic feature that you should avoid. The `for` expression in Clojure will achieve the same result. `sort-nested-map` will make sure the the JSON output is always the same, so that you can commit the `main.tf.json` like you do with `main.tf` and refactor you Clojure code with confidence because Git will signal to you unexpected changes of `main.tf.json`.
 
@@ -269,6 +162,113 @@ terraform {
     "required_version" : ">= 1.8.0"
   }
 }
+```
+  </TabItem>
+</Tabs>
+
+### Account id
+It's very common to get the AWS account id at runtime.
+
+<Tabs syncKey="account-id">
+  <TabItem label="clojure">
+``` clojure
+(construct caller-identity)
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data "aws_caller_identity" "current" {}
+```
+  </TabItem>
+</Tabs>
+<Tabs syncKey="account-id">
+  <TabItem label="clojure">
+``` clojure
+(root-arn caller-identity)
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+```
+  </TabItem>
+</Tabs>
+
+### Blocks
+The defrecord Construct is used to construct any type of block. Naming is simplified by qualified keyword: `::foo` becomes `"org_app_foo::foo"`.
+
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(ns org.app)
+(construct (map->Construct {:group :data
+                            :type :aws_iam_policy_document
+                            :fqn ::foo
+                            :block {}}))
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data "aws_iam_policy_document" "org_app_foo" {}
+```
+  </TabItem>
+</Tabs>
+
+### Reference
+You can reference any property.
+
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(ns org.app)
+(reference (map->Construct {:group :data
+                            :type :aws_iam_policy_document
+                            :fqn ::foo
+                            :block {}})
+           :json)
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data.aws_iam_policy_document.org_app_foo.json
+```
+  </TabItem>
+</Tabs>
+
+### Arn
+Some arn for common AWS resources are already defined.
+
+#### Iam role
+<Tabs>
+  <TabItem label="clojure">
+
+``` clojure
+(arn (map->Construct {:group :resource
+                      :type :aws_iam_role
+                      :fqn ::foo
+                      :block {:name "name"}}) "111111111111")
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+"arn:aws:iam::111111111111:role/name"
+```
+  </TabItem>
+</Tabs>
+
+#### Secret manager secret
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(arn (map->Construct {:group :resource
+                      :type :aws_secretsmanager_secret
+                      :fqn ::foo
+                      :block {:name "name"}}) "111111111111" "us-west-1")
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+"arn:aws:secretsmanager:us-west-1:111111111111:secret/name"
 ```
   </TabItem>
 </Tabs>
