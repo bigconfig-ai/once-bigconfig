@@ -11,11 +11,74 @@ import ExternalLink from '~/components/ExternalLink.astro'
 
 Managing dotfiles—the configuration files that personalize your user environment—is a crucial part of a developer's workflow. The go-to tools for this have long been <ExternalLink href="https://www.chezmoi.io/">Chezmoi</ExternalLink> and <ExternalLink href="https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html">Stow</ExternalLink>. While Stow is celebrated for its simplicity, Chezmoi offers powerful templating and secret management. However, what if you need the best of both worlds? This is where <ExternalLink href="https://www.big-config.it/">BigConfig</ExternalLink> comes in, offering a new way to manage your configurations by combining the simplicity of a declarative approach with the power of code.
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+  <TabItem label="common">
+```toml
+[user]
+    email = 32617+amiorin@users.noreply.github.com
+    name = Alberto Miorin
+[pull]
+    ff = only
+    rebase = true
+[init]
+    defaultBranch = main
+{%- if profile = "macos" %}
+[url "https://{{ "GITHUB_TOKEN" | lookup-env }}:x-oauth-basic@github.com/"]
+    insteadOf = https://github.com/
+{%- endif %}
+```
+  </TabItem>
+  <TabItem label="macos">
+```toml
+[user]
+    email = 32617+amiorin@users.noreply.github.com
+    name = Alberto Miorin
+[pull]
+    ff = only
+    rebase = true
+[init]
+    defaultBranch = main
+[url "https://*************:x-oauth-basic@github.com/"]
+    insteadOf = https://github.com/
+```
+  </TabItem>
+  <TabItem label="ubuntu">
+```toml
+[user]
+    email = 32617+amiorin@users.noreply.github.com
+    name = Alberto Miorin
+[pull]
+    ff = only
+    rebase = true
+[init]
+    defaultBranch = main
+```
+  </TabItem>
+</Tabs>
+
+## The Developer Experience
+
+The developer experience with BigConfig is centered around **Babashka** tasks, making it feel like a standard Clojure project. You get a clear set of commands:
+
+```shell
+bb install -p [macos|ubuntu]
+bb diff -p [macos|ubuntu]
+bb render -p [macos|ubuntu|all]
+```
+
+The `diff` command is particularly useful, allowing you to compare your current dotfiles against the rendered versions before installing them. This gives you a clear, human-readable way to see exactly what's about to change.
+
+By keeping the code and the dotfiles in the same repository, BigConfig provides a cohesive and powerful developer experience.
+
+
 ## The Problem with the Old Ways
 
 Like many developers, I use both macOS and Ubuntu, and the dotfiles for these environments are similar but not identical. Some configurations only exist on one platform, while others need slight tweaks. Stow, while easy for symlinking, lacks the flexibility for this kind of conditional logic. Chezmoi, on the other hand, embeds its logic within the filename, which can become unwieldy and less transparent as your needs grow.
 
 This complexity led me to seek a solution that treats dotfile management as an automation problem—one that's best solved with code.
+
 
 ## Introducing BigConfig
 
@@ -54,20 +117,6 @@ This data structure is a clear "recipe" for how your dotfiles should be built. I
   * **`:transform`**: The core logic for copying and rendering files. For example, `["common" :raw]` copies the contents of the `common` directory without treating them as templates, while `["{{ profile }}"]` copies the contents of the `macos` or `ubuntu` directory and treats the files within as templates, resolving variables and secrets.
 
 This declarative approach makes the process transparent and easy to debug.
-
-## The Developer Experience
-
-The developer experience with BigConfig is centered around **Babashka** tasks, making it feel like a standard Clojure project. You get a clear set of commands:
-
-```shell
-bb install macos|ubuntu
-bb diff macos|ubuntu
-bb render macos|ubuntu
-```
-
-The `diff` command is particularly useful, allowing you to compare your current dotfiles against the rendered versions before installing them. This gives you a clear, human-readable way to see exactly what's about to change.
-
-By keeping the code and the dotfiles in the same repository, BigConfig provides a cohesive and powerful developer experience.
 
 ## Adopting BigConfig for your dotfiles
 If you want to adopt BigConfig for your dotfiles, just follow this <ExternalLink href="/use-cases/dotfiles/">tutorial</ExternalLink> or have a look at <ExternalLink href="https://github.com/amiorin/dotfiles-v3">mine</ExternalLink>
