@@ -19,9 +19,9 @@ If you've ever spent an afternoon debugging why your local database port clashes
 
 Let's dive into a concrete example — a complex but typical setup — and see how <ExternalLink href="https://www.big-config.it/">BigConfig </ExternalLink> transforms this chaos into an automated, zero-cost development experience.
 
-## The Configuration Challenge: A Deep Dive into rama-jdbc
+## The Configuration Challenge: A Deep Dive into Rama JDBC
 
-In our case, we're building a system that leverages <ExternalLink href="https://github.com/amiorin/rama-jdbc/blob/main/.big-config/src/rama_jdbc.clj">rama-jdbc</ExternalLink> to implement the robust **Outbox Pattern** using SQL triggers. This already introduces a host of configuration demands:
+In our case, we're configuring the <ExternalLink href="https://github.com/amiorin/rama-jdbc/blob/main/.big-config/src/rama_jdbc.clj">rama-jdbc</ExternalLink> development environment. Rama JDBC implements the robust **Outbox Pattern** using SQL triggers. This already introduces a host of configuration demands:
 
 1.  **Cloud-Native Credentials:** Connecting to our staging **AWS RDS** instance to introspect and replicate the target schema requires fetching credentials securely from **AWS Secrets Manager**.
 2.  **Polyglot Tooling:** Our system is a mix of languages and utilities:
