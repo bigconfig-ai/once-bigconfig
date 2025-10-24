@@ -19,8 +19,12 @@ The proliferation of configuration languages like **HCL, CUE, Dhall, Pkl, and KC
 ## Pulumi
 **Pulumi** is an **infrastructure-as-code (IaC) tool** that can **replace** traditional provisioning tools like **Terraform** and **AWS CloudFormation**. In contrast, **BigConfig** is designed to **scale the development** of configuration files for tools like Terraform and CloudFormation **without replacing them**.
 
+Polyglot frameworks, such as the Pulumi, must often sacrifice advanced, language-specific features to maintain compatibility and parity across all supported programming languages.
+
 ## CDK for CloudFormation, Terraform, and K8s
 While BigConfig and the Cloud Development Kit (CDK) are conceptually aligned, they diverge significantly in their language scope. **CDK is polyglot (multi-language), while BigConfig is Clojure-exclusive**. This constraint provides a strategic benefit for BigConfig users: the codebase developed to generate configuration files can be **seamlessly repurposed** for building a dedicated control plane, offering a clear path forward when GitOps methodologies reach their scaling limits.
+
+Polyglot frameworks, such as the AWS CDK, must often sacrifice advanced, language-specific features to maintain compatibility and parity across all supported programming languages.
 
 ## Crossplane
 **One-time execution of tools like Terraform eventually doesn't scale** because they lack a continuous control loop for monitoring and reconciliation. Similarly, relying on **state stored solely in a Git repository** (a common GitOps approach) also introduces scaling challenges; a dedicated **API is needed to define and manage the desired state** effectively.
