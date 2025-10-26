@@ -18,7 +18,7 @@ Then came Docker. For many use cases, containers were the new king. They offered
 
 But not so fast. While Docker took over for application deployment, Ansible found its true calling: **provisioning the remote development environment**.
 
-### The New Remote Frontier
+## The New Remote Frontier
 
 Remote development has gone mainstream. Whether you're using a GUI or a terminal, working on a remote machine makes you more productive. It’s not just a trend; it's a fundamental shift.
 
@@ -31,7 +31,7 @@ Think about it:
 
 It’s a developer's paradise. But there's a catch...
 
-### The Problem with Ansible's Language
+## The Problem with Ansible's Language
 
 Ansible is fantastic for this, but its configuration language—YAML—has a few pain points:
 
@@ -40,7 +40,7 @@ Ansible is fantastic for this, but its configuration language—YAML—has a few
 
 Wouldn't it be great if you could just **write code** to generate your configurations?
 
-### Introducing BigConfig: The Code-First Approach
+## Introducing BigConfig: The Code-First Approach
 
 This is where a tool like BigConfig comes in.  Imagine a world where you write a simple script to generate your Ansible inventory and playbook files. No more manual YAML curation. You can leverage the power of a real programming language to create dynamic configurations.
 
@@ -54,7 +54,7 @@ You could simply send a request to a service, and it would provision a new, perf
 
 While some tools come and go, others adapt and find their niche. For provisioning remote development environments, Ansible remains a powerhouse. It just needs a little help from the next generation of tools to unleash its full potential.
 
-### Show me the code
+## Show me the code
 <ExternalLink href="https://github.com/amiorin/dotfiles-v3/tree/ansible/dist/machines/ansible">This project</ExternalLink> is specific to my setup but it can be forked and adapted to your needs. I use an iMac and two minipc (soyo and firebat) to develop in the terminal using ssh and tailscale so that I can also code when I am on the road with my Macbook Pro. The ansible project provisions multiple users on both minipc. I use <ExternalLink href="https://nixos.org/">Nix</ExternalLink> and <ExternalLink href="https://devenv.sh/">devenv</ExternalLink>.
 
 
@@ -75,12 +75,12 @@ import { FileTree } from '@astrojs/starlight/components';
 - main.yml
 </FileTree>
 
-### Go faster
+## Go faster
 Imagine that you have to provision hundreds of user per machine. It will take too long but if every host becomes the combination of the user + the host then Ansible will provision these users in parallel because they look like different hosts.
 
 ![A starry night sky.](public/blog/ansible-run.png)
 
-### Conclusion
+## Conclusion
 Even in an age dominated by containers and cloud-native solutions, Ansible remains a crucial tool, not for what it once was, but for what it has become. Its core strength—its **simplicity**—makes it the ideal choice for a new, pervasive use case: provisioning remote development environments.
 
 While Docker excels at application deployment, Ansible found its niche in ensuring developers have consistent, powerful, and reproducible workspaces. This solves the persistent problem of "it works on my machine" and significantly reduces time spent on setup and maintenance. It's a fundamental shift in how we approach development, making it more efficient and collaborative.
