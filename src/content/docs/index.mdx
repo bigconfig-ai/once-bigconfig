@@ -37,7 +37,7 @@ The `sort-nested-map` function ensures that the resulting JSON output is consist
 ## Terraform
 You can convert your HCP files to EDN.
 ```sh
-cat your.tf | docker run -i tmccombs/hcl2json | jet --from json --to edn --pretty --keywordize
+cat main.tf | hcl2json | jet --from json --to edn --pretty --keywordize
 ```
 Eventually you can DRY your resources with functions.
 <Tabs>
