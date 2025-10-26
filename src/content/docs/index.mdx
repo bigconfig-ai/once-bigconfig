@@ -1,10 +1,10 @@
 ---
 title: DRY your configuration files with BigConfig
-description: Stop writing configuration files and start writing infrastructure programs! If HCL or YAML is feeling like a restrictive intermediate language, BigConfig offers the escape hatch you've been searching for. Give it a try and experience a more productive, flexible, and powerful IaC workflow.
+description: Stop writing configuration files and start writing infrastructure programs! If HCL or JSON/YAML is feeling like a restrictive intermediate language, BigConfig offers the escape hatch you've been searching for. Give it a try and experience a more productive, flexible, and powerful IaC workflow.
 
 template: splash
 hero:
-  tagline: Stop writing configuration files and start writing infrastructure programs! If HCL or YAML is feeling like a restrictive intermediate language, BigConfig offers the escape hatch you've been searching for. Give it a try and experience a more productive, flexible, and powerful IaC workflow.
+  tagline: Stop writing configuration files and start writing infrastructure programs! If HCL or JSON/YAML is feeling like a restrictive intermediate language, BigConfig offers the escape hatch you've been searching for. Give it a try and experience a more productive, flexible, and powerful IaC workflow.
   image:
     file: ../../assets/houston.webp
   actions:
@@ -17,13 +17,8 @@ hero:
       variant: minimal
 ---
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 import { Card } from '@astrojs/starlight/components';
-
-<CardGrid>
-  <LinkCard title="Documentation" href="/start-here/getting-started" />
-  <LinkCard title="Blog" href="/blog" />
-  <LinkCard title="Support" href="https://albertomiorin.com" />
-</CardGrid>
 
 <CardGrid>
 <Card icon="document" title="Configuration as code">
@@ -32,4 +27,248 @@ We realized that designing a CLI for automation is an anti-pattern. The core pri
 <Card icon="rocket" title="Powered by Clojure">
 With Clojure, you already have the ability to handle any automation task. This is a contrast to many modern CLI tools, like Helm, Helmfile, Kustomize, CUE, Dhall, Jsonnet, KCL, and Pkl. BigConfig, implemented in Clojure, provides the essential building blocks — a **workflow** and a **template** engine — that let you use the full power of a dynamic programming language without compromise.
 </Card>
+<Card icon="setting" title="Flow control">
+Use Clojure instead of HCL. You should minimize the dynamic features of HCL that you use and use Clojure language features instead. `count` is an example of dynamic feature that you should avoid. The `for` expression in Clojure will achieve the same result.
+</Card>
+<Card icon="heart" title="Refactoring is trivial">
+The `sort-nested-map` function ensures that the resulting JSON output is consistent. This allows you to commit the `main.tf.json` file to Git, just as you would with a `main.tf` file. Committing this file provides a safety net: if you refactor your Clojure code, Git will flag any unexpected changes in the `main.tf.json` file, giving you confidence in your refactoring process.
+</Card>
+</CardGrid>
+## Terraform
+You can convert your HCP files to EDN.
+```sh
+cat your.tf | docker run -i tmccombs/hcl2json | jet --from json --to edn --pretty --keywordize
+```
+Eventually you can DRY your resources with functions.
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(ns core
+  (:require
+   [big-config.utils :refer [deep-merge sort-nested-map]]
+   [big-tofu.core :refer [add-suffix construct]]
+   [big-tofu.create :as create]
+   [cheshire.core :as json]))
+
+(let [{:keys [aws-account-id
+              region] :as data} {:aws-account-id "111111111111"
+                                 :region "eu-west-1"
+                                 :module "example"}
+      queues (->> (for [n (range 2)]
+                    (create/sqs (add-suffix :alpha/big-sqs (str "-" n))))
+                  flatten
+                  (map construct))
+      kms (->> (create/kms :alpha/big-kms)
+               (map construct))
+      bucket (format "tf-state-%s-%s" aws-account-id region)
+      provider (create/provider (assoc data :bucket bucket))
+      m (->> [provider]
+             (into kms)
+             (into queues)
+             (apply deep-merge)
+             sort-nested-map)]
+  (json/generate-string m {:pretty true}))
+```
+  </TabItem>
+  <TabItem label="HCL">
+``` terraform
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_policy_document" {
+  alpha_big_kms_data_policy = {
+    statement = {
+      actions = ["kms:*"]
+      effect = Allow
+      principals = {
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        type = AWS
+      }
+      resources = ["*"]
+    }
+  }
+}
+
+provider "aws" {
+  region = eu-west-1
+}
+
+resource "aws_kms_key" "alpha_big_kms" {}
+
+resource "aws_kms_key_policy" "alpha_big_kms_resource_policy" {
+  key_id = resource.aws_kms_key.alpha_big_kms.id
+  policy = data.aws_iam_policy_document.alpha_big_kms_data_policy.json
+}
+
+resource "aws_sqs_queue" "alpha_big_sqs_0" {
+  name = alpha_big_sqs_0
+}
+
+resource "aws_sqs_queue" "alpha_big_sqs_1" {
+  name = alpha_big_sqs_1
+}
+
+terraform {
+  backend "s3" {
+    bucket = tf-state-111111111111-eu-west-1
+    encrypt = true
+    key = example.tfstate
+    region = eu-west-1
+  }
+
+  required_providers "aws" {
+    source = hashicorp / aws
+    version = "~> 5.0"
+  }
+  required_version = ">= 1.8.0"
+}
+```
+  </TabItem>
+  <TabItem label="JSON">
+``` json
+{
+  "data" : {
+    "aws_caller_identity" : {
+      "current" : { }
+    },
+    "aws_iam_policy_document" : {
+      "alpha_big_kms_data_policy" : [ {
+        "statement" : [ {
+          "actions" : [ "kms:*" ],
+          "effect" : "Allow",
+          "principals" : [ {
+            "identifiers" : [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" ],
+            "type" : "AWS"
+          } ],
+          "resources" : [ "*" ]
+        } ]
+      } ]
+    }
+  },
+  "provider" : {
+    "aws" : {
+      "region" : "eu-west-1"
+    }
+  },
+  "resource" : {
+    "aws_kms_key" : {
+      "alpha_big_kms" : { }
+    },
+    "aws_kms_key_policy" : {
+      "alpha_big_kms_resource_policy" : {
+        "key_id" : "${resource.aws_kms_key.alpha_big_kms.id}",
+        "policy" : "${data.aws_iam_policy_document.alpha_big_kms_data_policy.json}"
+      }
+    },
+    "aws_sqs_queue" : {
+      "alpha_big_sqs_0" : {
+        "name" : "alpha_big_sqs_0"
+      },
+      "alpha_big_sqs_1" : {
+        "name" : "alpha_big_sqs_1"
+      }
+    }
+  },
+  "terraform" : {
+    "backend" : {
+      "s3" : {
+        "bucket" : "tf-state-111111111111-eu-west-1",
+        "encrypt" : true,
+        "key" : "example.tfstate",
+        "region" : "eu-west-1"
+      }
+    },
+    "required_providers" : {
+      "aws" : {
+        "source" : "hashicorp/aws",
+        "version" : "~> 5.0"
+      }
+    },
+    "required_version" : ">= 1.8.0"
+  }
+}
+```
+  </TabItem>
+</Tabs>
+
+## Ansible
+A dynamic inventory written in Clojure can save a lot of time.
+<Tabs>
+  <TabItem label="clojure">
+``` clojure
+(defn inventory
+  [{:keys [sudoer hosts users]}]
+  (let [users (-> (filter (complement :remove) users)
+                  (->> (map #(for [host hosts]
+                               (assoc % :host host))))
+                  flatten)
+        admins (-> [{:ansible_user sudoer}]
+                   (->> (map #(for [host hosts]
+                                (-> %
+                                    (merge {:host host
+                                            :name "ubuntu"})))))
+                   flatten)
+        users-hosts (reduce #(let [{:keys [name uid host]} %2]
+                               (assoc %1 (format "%s@%s" name host) {:ansible_host host
+                                                                     :ansible_user name
+                                                                     :uid uid})) {} users)
+        admins-hosts (reduce #(let [{:keys [name host]} %2]
+                                (assoc %1 (format "root@%s" host) {:ansible_host host
+                                                                   :ansible_user name})) {} admins)
+        res {:all {:children {:admin {:hosts admins-hosts}
+                              :users {:hosts users-hosts}}}}]
+    (generate-string res {:pretty true})))
+```
+  </TabItem>
+  <TabItem label="JSON">
+``` json
+{
+  "all" : {
+    "children" : {
+      "admin" : {
+        "hosts" : {
+          "root@firebat" : {
+            "ansible_host" : "firebat",
+            "ansible_user" : "ubuntu"
+          },
+          "root@soyo" : {
+            "ansible_host" : "soyo",
+            "ansible_user" : "ubuntu"
+          }
+        }
+      },
+      "users" : {
+        "hosts" : {
+          "ubuntu@firebat" : {
+            "ansible_host" : "firebat",
+            "ansible_user" : "ubuntu",
+            "uid" : "1000"
+          },
+          "ubuntu@soyo" : {
+            "ansible_host" : "soyo",
+            "ansible_user" : "ubuntu",
+            "uid" : "1000"
+          },
+          "vscode@firebat" : {
+            "ansible_host" : "firebat",
+            "ansible_user" : "vscode",
+            "uid" : "1001"
+          },
+          "vscode@soyo" : {
+            "ansible_host" : "soyo",
+            "ansible_user" : "vscode",
+            "uid" : "1001"
+          }
+        }
+      }
+    }
+  }
+}
+```
+  </TabItem>
+</Tabs>
+
+<CardGrid>
+  <LinkCard title="Documentation" href="/start-here/getting-started" />
+  <LinkCard title="Blog" href="/blog" />
+  <LinkCard title="Support" href="https://albertomiorin.com" />
 </CardGrid>
