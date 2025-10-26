@@ -1,5 +1,5 @@
 ---
-title: DRY your configuration files
+title: DRY your configuration files with BigConfig
 description: Stop writing configuration files and start writing infrastructure programs! If HCL or YAML is feeling like a restrictive intermediate language, BigConfig offers the escape hatch you've been searching for. Give it a try and experience a more productive, flexible, and powerful IaC workflow.
 
 template: splash
@@ -26,10 +26,10 @@ import { Card } from '@astrojs/starlight/components';
 </CardGrid>
 
 <CardGrid>
-<Card title="Configuration as code">
+<Card icon="document" title="Configuration as code">
 We realized that designing a CLI for automation is an anti-pattern. The core principle is simple: code is a more effective and flexible tool than configuration languages. Instead of creating a new CLI tool to improve productivity, we chose to leverage something that already works exceptionally well: a dynamic programming language like Clojure.
 </Card>
-<Card title="Clojure">
+<Card icon="rocket" title="Powered by Clojure">
 With Clojure, you already have the ability to handle any automation task. This is a contrast to many modern CLI tools, like Helm, Helmfile, Kustomize, CUE, Dhall, Jsonnet, KCL, and Pkl. BigConfig, implemented in Clojure, provides the essential building blocks — a **workflow** and a **template** engine — that let you use the full power of a dynamic programming language without compromise.
 </Card>
 </CardGrid>
