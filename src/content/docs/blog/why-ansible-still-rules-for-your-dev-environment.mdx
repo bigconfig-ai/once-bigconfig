@@ -8,6 +8,8 @@ cover:
   alt: ansible
   image: public/blog/ansible.png
 ---
+import ExternalLink from '~/components/ExternalLink.astro'
+
 Back in the day, before Red Hat acquired Ansible, I was using it to provision Cloudera clusters in massive data centers. And let me tell you, its killer feature wasn't some complex, enterprise-grade capability. It was pure **simplicity**.
 
 You just needed SSH, and you were ready to go. The feedback loop was in seconds—a refreshing change from the slow, manual processes we were used to. It was a DevOps dream.
@@ -53,22 +55,25 @@ You could simply send a request to a service, and it would provision a new, perf
 While some tools come and go, others adapt and find their niche. For provisioning remote development environments, Ansible remains a powerhouse. It just needs a little help from the next generation of tools to unleash its full potential.
 
 ### Show me the code
-This project is specific to my setup but it can be forked and adapted to your needs. I use an iMac and two minipc (soyo and firebat) to develop in the terminal using ssh and tailscale so that I can also code when I am on the road with my Macbook Pro. The ansible project provisions multiple users on both minipc. I use nix and devenv.
+<ExternalLink href="https://github.com/amiorin/dotfiles-v3/tree/ansible/dist/machines/ansible">This project</ExternalLink> is specific to my setup but it can be forked and adapted to your needs. I use an iMac and two minipc (soyo and firebat) to develop in the terminal using ssh and tailscale so that I can also code when I am on the road with my Macbook Pro. The ansible project provisions multiple users on both minipc. I use <ExternalLink href="https://nixos.org/">Nix</ExternalLink> and <ExternalLink href="https://devenv.sh/">devenv</ExternalLink>.
 
-https://github.com/amiorin/dotfiles-v3/tree/ansible
 
-Any BigConfig module is also a Clojure artifact and here you can see that I can use the BigConfig module with a complete different configuration.
 
 import { FileTree } from '@astrojs/starlight/components';
 
 <FileTree>
-
-- bb.edn require the BigConfig module
-- bb
-  - config.clj it provides a different configuration map to the BigConfig module
+- roles/
+  - users/
+    - task/
+      - main.yml Includes the other yml files
+      - packages.yml All nix packages to be installed (rendered)
+      - repos.yml All repositories and branches to be cloned in worktrees (rendered)
+        - ssh-config.yml All tailscale entries for ssh (rendered)
+- ansible.cfg
+- default.config.yml Centralized configuration (rendered)
+- inventory.json Inventory (rendered)
+- main.yml
 </FileTree>
-
-https://github.com/amiorin/dotfiles-v3/tree/babashka
 
 ### Go faster
 Imagine that you have to provision hundreds of user per machine. It will take too long but if every host becomes the combination of the user + the host then Ansible will provision these users in parallel because they look like different hosts.
@@ -85,4 +90,4 @@ However, Ansible's YAML configuration language can be cumbersome. The need to ma
 
 In short, Ansible's journey is a testament to its adaptability. It has evolved from a tool for provisioning data centers to the cornerstone of modern remote development. Paired with a tool like BigConfig, its simple, powerful core is unlocked, proving that some of the best tools aren't those that are replaced, but those that find a new purpose.
 
-Would you like to have a follow-up on this topic? What are your thoughts? I'd love to [hear](https://www.albertomiorin.com/contact#form) your experiences.
+Would you like to have a follow-up on this topic? What are your thoughts? I'd love to <ExternalLink href="https://www.albertomiorin.com/contact#form">hear</ExternalLink> your experiences.
