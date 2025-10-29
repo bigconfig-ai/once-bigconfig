@@ -8,6 +8,7 @@ cover:
   image: public/blog/control-plane.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
+import { LinkCard } from '@astrojs/starlight/components';
 
 A **control plane** acts as an **API** for provisioning and managing infrastructure. Well-known examples include **AWS** itself and **Kubernetes (K8s)**.
 
@@ -82,7 +83,9 @@ p diff-state
 p apply-state
 ```
 
-This dynamic state management is powered by the **Prevalent System design pattern** and uses pure functions to handle state logic. You can explore the implementation details in <ExternalLink href="https://github.com/amiorin/big-config/blob/control-plane/src/clj/control_plane.clj">control_plane.clj</ExternalLink>.
+This dynamic state management is powered by the **Prevalent System design pattern** and uses pure functions to handle state logic. You can explore the implementation details in the GitHub repository.
+
+<LinkCard title="Show me the code" href="https://github.com/amiorin/big-config/blob/control-plane/src/clj/control_plane.clj" />
 
 ## Conclusion
 Terraform remains the go-to tool for modern DevOps and infrastructure management. While some platform teams have attempted to replace it with control planes, this demonstration showed the true strength of Terraform: its ability to abstract the low-level cloud provider APIs. This capability actually makes control plane implementation faster and more efficient rather than competing with it.
