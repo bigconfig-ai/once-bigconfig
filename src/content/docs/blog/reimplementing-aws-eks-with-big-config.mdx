@@ -9,6 +9,7 @@ cover:
   image: public/blog/k8s.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
+import { LinkCard } from '@astrojs/starlight/components';
 
 The world of cloud infrastructure often involves interacting with complex APIs. While services like AWS EKS provide robust management for Kubernetes clusters, there might be scenarios where you need a more tailored or localized control plane. This article will guide you through reimplementing the AWS EKS API using a powerful Clojure stack: <ExternalLink href="https://pedestal.io">Pedestal</ExternalLink> for the API, <ExternalLink href="https://big-config.it">BigConfig</ExternalLink> to wrap Terraform and Ansible in a workflow, and <ExternalLink href="https://redplanetlabs.com">Rama</ExternalLink> for state and jobs.
 
@@ -80,8 +81,9 @@ API.t2 -> User.t2: return the description of the resource
 * **Reusability:** The GitOps code can be reused. The code to provision one K8s cluster with GitOps or multiple K8s clusters with an API, doesn't require to change from Terraform to the AWS SDK. The API is just a virtual admin. The GitOps version developed interactivly by an admin can be package as a Clojure dependency and reused inside Rama. **This is a killer feature of BigConfig.**
 
 ### The code
+A first version that uses the Prevalent System design pattern instead of Rama and the CLI instead of Pedestal is available. Instead of EKS, the proof of concept create, delete, and rename AWS users.
 
-I'm working on the code right now. Stay tuned, I will update the blog post as soon as I have the first version.
+<LinkCard title="Show me the code" href="https://github.com/amiorin/big-config/blob/control-plane/src/clj/control_plane.clj" />
 
 ### Further Enhancements
 
