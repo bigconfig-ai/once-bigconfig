@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # as root
-# curl -fsSL https://big-config.it/create-user.sh | bash
+# curl -fsSL https://bigconfig.it/create-user.sh | bash
 set -eu
 
 __wrap__() {
