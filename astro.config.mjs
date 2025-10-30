@@ -26,6 +26,11 @@ export default defineConfig({
         }),
       ],
       title: "BigConfig",
+      logo: {
+        light: '/src/assets/logo-light.svg',
+        dark: '/src/assets/logo-dark.svg',
+        replacesTitle: true,
+      },
       customCss: [
         // Path to your Tailwind base styles:
         "./src/styles/global.css",
