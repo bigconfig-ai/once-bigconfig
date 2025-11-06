@@ -1,0 +1,77 @@
+---
+title: Control plane
+description: How to use BigConfig Store library
+sidebar:
+  order: 2
+---
+import { Steps } from '@astrojs/starlight/components';
+import ExternalLink from '~/components/ExternalLink.astro'
+import { LinkCard } from '@astrojs/starlight/components';
+
+## Store
+
+BigConfig Store is a library for implementing the desired state of a control plane with an audit log. It uses Redis Sorted Sets to store the events and the snapshots.
+
+## Usage
+
+* Get enough RAM to hold all your data.
+* Implement the business logic of the control plane as a <ExternalLink href="https://en.wikipedia.org/wiki/Deterministic_algorithm">PURE</ExternalLink> event-handling function.
+* Keep the control loop separate from the event-handling function.
+* All events need to be replayable and produce the same state.
+
+<Steps>
+1. Start Redis in a shell
+   ``` shell
+   redis-server
+   ```
+1. Require the store library
+   ```clojure
+   (ns big-config.store
+     (:require
+      [big-config.store :refer [store! handle!]]))
+   ```
+1. The pure business logic
+   ```clojure
+   ; Your business logic as a pure function. Returns the new state with event applied.
+   (defn my-business [state event timestamp]
+     (case event
+       :reset {:counter 0}
+       :inc (update state :counter inc)))
+   ```
+1. Increment the counter two times
+   ```clojure
+   (with-open [p1 (store! {:business-fn my-business
+                           :wcar-opts {:pool :none}})]
+     ; The default initial state is an empty map.
+     ; :reset will set the state to {:counter 0}
+     (handle! p1 :reset)
+     (assert (= @p1 {:counter 0}))
+     ; Your events can be any Clojure value or Serializable object.
+     (handle! p1 :inc)
+     (handle! p1 :inc)
+     ; Your system state with the events applied.
+     (assert (= @p1 {:counter 2}))
+     @p1)
+   ```
+1. Read the counter again
+   ```clojure
+   (with-open [p2 (store! {:business-fn my-business
+                           :wcar-opts {:pool :none}})]
+     ; the state is recovered, even if there was a system crash.
+     (assert (= @p2 {:counter 2}))
+     @p2)
+   ```
+</Steps>
+
+## Shortcomings
+
+* RAM: It requires enough RAM to hold all the data in your business state.
+* Start-up time: The entire state is read into RAM.
+
+## Credit
+
+BigConfig Store is a reimplementation of <ExternalLink href="https://github.com/klauswuestefeld/prevayler-clj">prevayler-clj</ExternalLink> in Redis.
+
+<LinkCard title="Use case" description="Control plane" href="/use-cases/control-plane/" />
+
+<LinkCard title="Blog article" description="Demystifying the control plane: the easy upgrade path from GitOps with BigConfig" href="/blog/demystifying-the-control-plane-the-easy-upgrade-path-from-gitops-with-bigconfig/" />
