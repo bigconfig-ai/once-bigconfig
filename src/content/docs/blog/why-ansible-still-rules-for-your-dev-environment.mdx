@@ -1,9 +1,21 @@
 ---
 title: Why Ansible Still Rules for Your Dev Environment
 date: 2025-09-18
-description: >-
-  Back in the day, before Red Hat acquired Ansible, I was using it to provision Cloudera clusters in massive data centers. And let me tell you, its killer feature wasn't some complex, enterprise-grade capability. It was pure simplicity. You just needed SSH, and you were ready to go. The feedback loop was in seconds—a refreshing change from the slow, manual processes we were used to. It was a DevOps dream. Then came Docker. For many use cases, containers were the new king. They offered a more lightweight, portable solution for shipping applications. And for a while, it seemed like Ansible might get relegated to the history books. But not so fast. While Docker took over for application deployment, Ansible found its true calling: provisioning the remote development environment. The world of cloud infrastructure often involves interacting with complex APIs. While services like AWS EKS provide robust management for Kubernetes clusters, there might be scenarios where you need a more tailored or localized control plane. This article will guide you through reimplementing the AWS EKS API using a powerful Clojure stack: Pedestal for the API, BigConfig to wrap Terraform and Ansible in a workflow, and Rama for state and jobs.
+excerpt: |-
+  Back in the day, before Red Hat acquired Ansible, I was using it to provision Cloudera clusters in massive data centers. And let me tell you, its killer feature wasn't some complex, enterprise-grade capability. It was pure simplicity.
+
+  You just needed SSH, and you were ready to go. The feedback loop was in seconds—a refreshing change from the slow, manual processes we were used to. It was a DevOps dream.
+
+  Then came Docker. For many use cases, containers were the new king. They offered a more lightweight, portable solution for shipping applications. And for a while, it seemed like Ansible might get relegated to the history books.
+
+  But not so fast. While Docker took over for application deployment, Ansible found its true calling: provisioning the remote development environment.
 authors: amiorin
+tags:
+  - ansible
+  - bigconfig
+  - devenvironment
+  - devmachine
+  - code-first
 cover:
   alt: ansible
   image: public/blog/ansible.png

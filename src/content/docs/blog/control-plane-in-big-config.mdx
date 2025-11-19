@@ -1,8 +1,22 @@
 ---
 title: Control planes in BigConfig
 date: 2025-10-29
-description: "A control plane acts as an API for provisioning and managing infrastructure. Well-known examples include AWS itself and Kubernetes (K8s). A common pain point when using infrastructure-as-code (IaC) tools like Terraform (using HCL) and GitOps is the difficulty in transitioning or upgrading to an internal control plane. Teams that have invested significant time in writing Terraform’s HCL code traditionally face a complete rewrite to build a custom control plane API over their existing infrastructure definitions."
+excerpt: |-
+  A control plane acts as an API for provisioning and managing infrastructure. Well-known examples include AWS itself and Kubernetes (K8s).
+
+  A common pain point when using infrastructure-as-code (IaC) tools like Terraform (using HCL) and GitOps is the difficulty in transitioning or upgrading to an internal control plane.
+
+  Teams that have invested significant time in writing Terraform’s HCL code traditionally face a complete rewrite to build a custom control plane API over their existing infrastructure definitions.
+
+  This limitation is no longer the case with BigConfig. We've demonstrated that a functional control plane can be created with as little as 200 lines of code, leveraging existing Terraform configurations.
 authors: amiorin
+tags:
+  - control plane
+  - terraform
+  - bigconfig
+  - gitops
+  - hcl
+  - iac
 cover:
   alt: rama-jdbc
   image: public/blog/control-plane.png

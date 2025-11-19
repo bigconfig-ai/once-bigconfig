@@ -15,6 +15,7 @@ export default defineConfig({
     starlight({
       plugins: [
         starlightBlog({
+          postCount: 10,
           authors: {
             amiorin: {
               name: "amiorin",
@@ -27,8 +28,8 @@ export default defineConfig({
       ],
       title: "BigConfig",
       logo: {
-        light: '/src/assets/logo-light.svg',
-        dark: '/src/assets/logo-dark.svg',
+        light: "/src/assets/logo-light.svg",
+        dark: "/src/assets/logo-dark.svg",
         replacesTitle: true,
       },
       customCss: [
