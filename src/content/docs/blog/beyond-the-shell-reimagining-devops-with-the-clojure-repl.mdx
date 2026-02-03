@@ -104,3 +104,30 @@ Thanks to Clojure’s **qualified keywords**, I never have to worry about naming
 Traditional DevOps workflows are often bogged down by the "Edit/Run" loop, requiring developers to constantly switch between editors, directories, and terminal tabs. BigConfig solves this by leveraging a persistent Clojure REPL to create a unified "Edit/Evaluate" environment. By orchestrating tools like Terraform through a centralized "workbench map," BigConfig eliminates context switching and replaces traditional debugging with instant, stateful feedback. It transforms fragmented operations into a seamless, code-driven flow where infrastructure and development live in a single, interactive workspace.
 
 Would you like to have a follow-up on this topic? What are your thoughts? I'd love to <ExternalLink href="https://www.albertomiorin.com/contact#form">hear</ExternalLink> your experiences.
+
+## Update
+I received an interesting question and wanted to share my response here.
+
+### Question
+The REPL often suffers from reproducibility issues due to out-of-order execution. Does BigConfig address this in some way?
+
+### Answer
+This is addressed both by Clojure itself and within BigConfig’s architecture.
+
+Clojure provides the foundation because out-of-order execution would be detrimental to any serious development. By using Clojure for operations—rather than Python or Node—we can leverage the same robust patterns used in traditional Clojure REPL-driven development.
+
+BigConfig specifically solves this by introducing a new control flow: the workflow. A workflow is a function that invokes other functions, called steps, similar to AWS Step Functions (which served as an inspiration for BigConfig). If you are modifying a specific step, such as `prepare`, you would edit it like this:
+
+```clojure
+(comment
+  (do
+    (defn prepare [opts]
+      ; you are developing the code of this step
+      )
+    (into (sorted-map) (hcloud-wf {::bc/env :repl
+                                   ::test-name "hcloud"}))))
+```
+
+In my editor, I simply press `C-c C-c` to evaluate everything in the correct order. I can then inspect the workbench map in one window and the stdout in another, ensuring a predictable and reproducible state every time.
+
+![repl](public/blog/repl.png)
