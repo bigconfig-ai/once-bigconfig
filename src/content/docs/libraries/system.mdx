@@ -22,7 +22,7 @@ BigConfig System is a library for implementing system lifecycles as programmable
      (:require
       [babashka.process :as p]
       [big-config.core :refer [->workflow]]
-      [big-config.system :as system :refer [stop stop! add-stop-fn re-program env destroy-forcibly]]))
+      [big-config.system :as system :refer [stop stop! add-stop-fn re-process env destroy-forcibly]]))
    ```
 1. Trivial background process in place of a real database for example
    ```clojure
@@ -30,14 +30,16 @@ BigConfig System is a library for implementing system lifecycles as programmable
    ;; Start the process in the background and block the main thread
    ;; until the regex is found or the timeout triggers.
    (defn background-process [opts]
-      (let [cmd "bash -c 'for i in {10..1}; do echo $i; sleep 0.1; done;'"
-            regex #"7"]
-        (-> (re-program cmd regex ::proc opts)
-            (add-stop-fn (fn [{:keys [::proc] :as opts}]
-                           (when proc
-                             @(p/destroy-tree proc)
-                             @(destroy-forcibly proc))
-                           opts)))))
+     (let [re-opts (into {} [#_[:cmd "bash -c 'exit 1'"]
+                             [:cmd  "bash -c 'for i in {10..1}; do echo $i; sleep 0.1; done;'"]
+                             [:regex #"7"]
+                             [:key ::proc]])]
+       (-> (re-process re-opts opts)
+           (add-stop-fn (fn [{:keys [::proc] :as opts}]
+                          (when proc
+                            @(p/destroy-tree proc)
+                            @(destroy-forcibly proc))
+                          opts)))))
    ```
 1. The system function is just a BigConfig workflow
    ```clojure
