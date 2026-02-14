@@ -27,8 +27,8 @@ BigConfig System is a library for implementing system lifecycles as programmable
 1. Trivial background process in place of a real database for example
    ```clojure
    (let [kill-timeout 150
-          shutdown-timeout 100
-          clj-timeout 3000]
+         shutdown-timeout 100
+         clj-timeout 3000]
       ;; Define a managed background process with a specific lifecycle
       ;; Start the process in the background and block the main thread
       ;; until the regex is found or the timeout triggers.
