@@ -55,35 +55,44 @@ Here is how BigConfig System expresses a managed process as a programmable workf
 
 ```clojure
 (comment
-  (do
+  (let [kill-timeout 150
+        shutdown-timeout 100
+        clj-timeout 3000]
     ;; Define a managed background process with a specific lifecycle
     ;; Start the process in the background and block the main thread
     ;; until the regex is found or the timeout triggers.
     (defn background-process [opts]
-      (let [cmd "bash -c 'for i in {10..1}; do echo $i; sleep 0.1; done;'"
-            regex #"7"]
-        (-> (re-program cmd regex ::proc opts)
-            (add-stop-fn (fn [{:keys [::proc] :as opts}]
-                           (when proc
-                             @(p/destroy-tree proc)
-                             @(destroy-forcibly proc))
-                           opts)))))
-
+      (let [re-opts (into {} [[:cmd (format "clj -X big-config.system/main :shutdown-timeout %s" shutdown-timeout)]
+                              [:regex #"token"]
+                              [:timeout clj-timeout]
+                              [:key ::proc]])
+            opts (re-process re-opts opts)]
+        (add-stop-fn opts (fn [{:keys [::proc] :as opts}]
+                            (when proc
+                              (destroy! proc kill-timeout))))))
     ;; Define the system as a stateful, wired workflow
-    (def ->system 
-      (->workflow {:first-step ::start
-                   :wire-fn (fn [step _]
-                              (case step
-                                ::start [background-process ::end]
-                                ::end [stop]))}))
-
+    (def ->system (->workflow {:first-step ::start
+                               :wire-fn (fn [step _]
+                                          (case step
+                                            ::start [background-process ::end]
+                                            ::end [stop]))}))
     ;; sys1 starts and stops the system. It useful during the development of the system itself.
     ;; sys2 starts only. This is useful in all the other cases.
-    (into {} [[:sys1 (->system [log-step-fn] {::bc/env :repl})]
-              [:sys2 (let [system (atom (->system [log-step-fn] 
-                                                 {::bc/env :repl ::async true}))]
+    (into {} [[:sys1 (into (sorted-map) (->system [log-step-fn] {::bc/env :repl}))]
+              [:sys2 (let [system (atom (into (sorted-map) (->system [log-step-fn] {::bc/env :repl
+                                                                                    ::async true})))]
                        (stop! @system)
                        @system)]])))
+
+(defn main [& {:keys [shutdown-timeout]}]
+  (assert shutdown-timeout)
+  (.addShutdownHook (Runtime/getRuntime)
+                    (Thread. (fn []
+                               (println "\n[Shutdown Hook] Cleaning up resources before exit...")
+                               (Thread/sleep shutdown-timeout))))
+  (println "Script is running... (Press Ctrl+C to test)")
+  (println "token")
+  @(promise))
 ```
 
 ![emacs](public/blog/system.png)
