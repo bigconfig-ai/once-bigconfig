@@ -90,7 +90,7 @@ Here is how BigConfig System expresses a managed process as a programmable workf
                     (Thread. (fn []
                                (println "\n[Shutdown Hook] Cleaning up resources before exit...")
                                (Thread/sleep shutdown-timeout))))
-  (println "Script is running... (Press Ctrl+C to test)")
+  (println "Script is running... (Press Ctrl+C to stop)")
   (println "token")
   @(promise))
 ```

@@ -22,24 +22,35 @@ BigConfig System is a library for implementing system lifecycles as programmable
      (:require
       [babashka.process :as p]
       [big-config.core :refer [->workflow]]
-      [big-config.system :as system :refer [stop stop! add-stop-fn re-process env destroy-forcibly]]))
+      [big-config.system :as system :refer [stop stop! add-stop-fn re-process env destroy!]]))
    ```
 1. Trivial background process in place of a real database for example
    ```clojure
-   ;; Define a managed background process with a specific lifecycle
-   ;; Start the process in the background and block the main thread
-   ;; until the regex is found or the timeout triggers.
-   (defn background-process [opts]
-     (let [re-opts (into {} [#_[:cmd "bash -c 'exit 1'"]
-                             [:cmd  "bash -c 'for i in {10..1}; do echo $i; sleep 0.1; done;'"]
-                             [:regex #"7"]
-                             [:key ::proc]])]
-       (-> (re-process re-opts opts)
-           (add-stop-fn (fn [{:keys [::proc] :as opts}]
-                          (when proc
-                            @(p/destroy-tree proc)
-                            @(destroy-forcibly proc))
-                          opts)))))
+   (let [kill-timeout 150
+          shutdown-timeout 100
+          clj-timeout 3000]
+      ;; Define a managed background process with a specific lifecycle
+      ;; Start the process in the background and block the main thread
+      ;; until the regex is found or the timeout triggers.
+      (defn background-process [opts]
+        (let [re-opts (into {} [[:cmd (format "clj -X big-config.system/main :shutdown-timeout %s" shutdown-timeout)]
+                                [:regex #"token"]
+                                [:timeout clj-timeout]
+                                [:key ::proc]])
+              opts (re-process re-opts opts)]
+          (add-stop-fn opts (fn [{:keys [::proc] :as opts}]
+                              (when proc
+                                (destroy! proc kill-timeout)))))))
+                                
+   (defn main [& {:keys [shutdown-timeout]}]
+     (assert shutdown-timeout)
+     (.addShutdownHook (Runtime/getRuntime)
+                       (Thread. (fn []
+                                  (println "\n[Shutdown Hook] Cleaning up resources before exit...")
+                                  (Thread/sleep shutdown-timeout))))
+     (println "Script is running... (Press Ctrl+C to test)")
+     (println "token")
+     @(promise))
    ```
 1. The system function is just a BigConfig workflow
    ```clojure
@@ -59,7 +70,7 @@ BigConfig System is a library for implementing system lifecycles as programmable
               [:sys2 (let [system (atom (->system [log-step-fn]
                                                  {::bc/env :repl ::async true}))]
                        (stop! @system)
-                       @system)]])))
+                       @system)]])
    ```
 </Steps>
 
