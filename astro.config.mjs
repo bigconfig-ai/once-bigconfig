@@ -79,6 +79,10 @@ export default defineConfig({
           label: "Libraries",
           autogenerate: { directory: "libraries" },
         },
+        {
+          label: "API",
+          autogenerate: { directory: "API" },
+        },
       ],
     }),
   ],

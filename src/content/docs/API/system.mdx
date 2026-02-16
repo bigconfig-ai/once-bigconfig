@@ -1,0 +1,80 @@
+---
+title: system
+description: BigConfig System
+sidebar:
+  order: 2
+---
+# <a name="big-config.system">big-config.system</a>
+
+
+An alternative to Integrant to create a `system` using `big-config.core/->workflow`.
+
+
+
+
+## <a name="big-config.system/add-stop-fn">`add-stop-fn`</a>
+``` clojure
+(add-stop-fn opts f)
+```
+Function.
+
+`f` does not return `opts`
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L90-L93">Source</a></sub></p>
+
+## <a name="big-config.system/destroy!">`destroy!`</a>
+``` clojure
+(destroy! proc & [timeout])
+```
+Function.
+
+Destroy a `babashka.process/process`.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L31-L37">Source</a></sub></p>
+
+## <a name="big-config.system/env">`env`</a>
+``` clojure
+(env key default-value)
+```
+Function.
+
+Map of the environment variables keywordized.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L23-L26">Source</a></sub></p>
+
+## <a name="big-config.system/re-process">`re-process`</a>
+``` clojure
+(re-process re-opts opts)
+```
+Function.
+
+Creates a child process and blocks until `:timeout` or the `:regex` is
+  found. `re-opts` is pass to `babashka.process/process`.
+
+  Supported options in `re-opts`:
+   - all `babashka.process/process` options.
+   - `:cmd`: like `babashka.process/process`. By default is to redirect `:err` to `:out`.
+   - `:regex`: the regex to match from either `:std` or `:err` or both of the process.
+   - `:key`: the key used to store the process created when returning `opts`.
+   - `:capture`: either `:err` or `:out`. By default is `:out`.
+   - `:line-fn`: a function to do something with every line. By default it prints to `*err*` and it flushes it.
+   - `:timeout`: the timeout for finding the `:regex`. By default is 1 second.
+   - `:kill-timeout`: the timeout for invoking [`destroy!`](#big-config.system/destroy!). By default is 1 second. 
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L45-L88">Source</a></sub></p>
+
+## <a name="big-config.system/stop">`stop`</a>
+``` clojure
+("stop[{:keys [::stop-fns ::async] :as opts}]")
+```
+Function.
+
+it returns the same version of `opts` that it has received. To be used in the
+  `:wire-fn` with the last step.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L95-L102">Source</a></sub></p>
+
+## <a name="big-config.system/stop!">`stop!`</a>
+``` clojure
+(stop! system)
+```
+Function.
+
+it stops a `system` created with `:async true`.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L104-L108">Source</a></sub></p>
+
