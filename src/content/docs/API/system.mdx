@@ -18,8 +18,24 @@ An alternative to Integrant to create a `system` using `big-config.core/->workfl
 ```
 Function.
 
-`f` does not return `opts`
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L90-L93">Source</a></sub></p>
+It returns `opts` but `f` does not return `opts`. While Integrant has an
+  `init-key` and an `halt-key`, here you have only a `step` and [`add-stop-fn`](#big-config.system/add-stop-fn)
+  that adds a `f` for future invocations to halt the pending resources.
+
+  Example:
+
+  ```clojure
+  (defn background-process [opts]
+    (let [re-opts (into {} [[:cmd cmd ]
+                            [:regex regex]
+                            [:timeout 1000]
+                            [:key ::proc]])
+          opts (re-process re-opts opts)]
+      (add-stop-fn opts (fn [{:keys [::proc] :as opts}]
+                          (when proc
+                            (destroy! proc 1000))))))
+  ```
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L119-L138">Source</a></sub></p>
 
 ## <a name="big-config.system/destroy!">`destroy!`</a>
 ``` clojure
@@ -28,7 +44,15 @@ Function.
 Function.
 
 Destroy a `babashka.process/process`.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L31-L37">Source</a></sub></p>
+
+  Example:
+
+  ```clojure
+  (add-stop-fn opts (fn [{:keys [::proc] :as opts}]
+                      (when proc
+                        (destroy! proc kill-timeout))))
+  ```
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L38-L52">Source</a></sub></p>
 
 ## <a name="big-config.system/env">`env`</a>
 ``` clojure
@@ -36,8 +60,15 @@ Destroy a `babashka.process/process`.
 ```
 Function.
 
-Map of the environment variables keywordized.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L23-L26">Source</a></sub></p>
+Map of the environment variables keywordized. All `_` are transformed
+  to `-`. All `.` are transformed to `-`. All evironment variables are
+  lowercased.
+  Example
+
+  ```clojure
+  (env :path)
+  ```
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L23-L33">Source</a></sub></p>
 
 ## <a name="big-config.system/re-process">`re-process`</a>
 ``` clojure
@@ -56,18 +87,42 @@ Creates a child process and blocks until `:timeout` or the `:regex` is
    - `:capture`: either `:err` or `:out`. By default is `:out`.
    - `:line-fn`: a function to do something with every line. By default it prints to `*err*` and it flushes it.
    - `:timeout`: the timeout for finding the `:regex`. By default is 1 second.
-   - `:kill-timeout`: the timeout for invoking [`destroy!`](#big-config.system/destroy!). By default is 1 second. 
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L45-L88">Source</a></sub></p>
+   - `:kill-timeout`: the timeout for invoking [`destroy!`](#big-config.system/destroy!). By default is 1 second.
+
+  Example of [`re-process`](#big-config.system/re-process)
+
+  ```clojure
+  (defn background-process [opts]
+    (let [re-opts (into {} [[:cmd cmd ]
+                            [:regex regex]
+                            [:timeout 1000]
+                            [:key ::proc]])
+          opts (re-process re-opts opts)]
+      (add-stop-fn opts (fn [{:keys [::proc] :as opts}]
+                          (when proc
+                            (destroy! proc 1000))))))
+  ```
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L60-L117">Source</a></sub></p>
 
 ## <a name="big-config.system/stop">`stop`</a>
 ``` clojure
-("stop[{:keys [::stop-fns ::async] :as opts}]")
+(stop opts)
 ```
 Function.
 
 it returns the same version of `opts` that it has received. To be used in the
   `:wire-fn` with the last step.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L95-L102">Source</a></sub></p>
+
+  Example:
+
+  ```clojure
+  (->workflow {:first-step ::start
+               :wire-fn (fn [step _]
+                          (case step
+                            ::start [background-process ::end]
+                            ::end [stop]))})
+  ```
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L140-L158">Source</a></sub></p>
 
 ## <a name="big-config.system/stop!">`stop!`</a>
 ``` clojure
@@ -76,5 +131,5 @@ it returns the same version of `opts` that it has received. To be used in the
 Function.
 
 it stops a `system` created with `:async true`.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L104-L108">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L160-L164">Source</a></sub></p>
 
