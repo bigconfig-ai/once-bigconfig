@@ -81,6 +81,10 @@ export default defineConfig({
         },
         {
           label: "API",
+          badge: {
+            text: "📖",
+            variant: "success",
+          },
           autogenerate: { directory: "API" },
         },
       ],
