@@ -85,7 +85,7 @@ export default defineConfig({
             text: "📖",
             variant: "success",
           },
-          autogenerate: { directory: "API" },
+          autogenerate: { directory: "api" },
         },
       ],
     }),
