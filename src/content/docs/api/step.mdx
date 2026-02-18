@@ -1,0 +1,44 @@
+---
+title: step
+description: BigConfig Step
+sidebar:
+  order: 3
+---
+# <a name="big-config.step">big-config.step</a>
+
+
+
+
+
+
+## <a name="big-config.step/parse-module-and-profile">`parse-module-and-profile`</a>
+``` clojure
+(parse-module-and-profile s)
+```
+Function.
+
+Given a BigConfig DSL, it returns `module` and `profile`
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/step.clj#L98-L103">Source</a></sub></p>
+
+## <a name="big-config.step/print-step-fn">`print-step-fn`</a>
+``` clojure
+(print-step-fn step opts)
+```
+Function.
+
+Print all steps of the workflow.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/step.clj#L17-L52">Source</a></sub></p>
+
+## <a name="big-config.step/run-steps">`run-steps`</a>
+``` clojure
+(run-steps s)
+(run-steps s opts)
+(run-steps s opts step-fns)
+(run-steps opts step-fns steps cmds module profile)
+```
+Function.
+
+A function that takes a BigConfig DSL and an `opts` map. It run a dynamic
+  workflow based on the steps defined in the DSL.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/step.clj#L138-L158">Source</a></sub></p>
+
