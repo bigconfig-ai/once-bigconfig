@@ -35,7 +35,7 @@ It returns `opts` but `f` does not return `opts`. While Integrant has an
                           (when proc
                             (destroy! proc 1000))))))
   ```
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L119-L138">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L114-L133">Source</a></sub></p>
 
 ## <a name="big-config.system/destroy!">`destroy!`</a>
 ``` clojure
@@ -52,7 +52,7 @@ Destroy a `babashka.process/process`.
                       (when proc
                         (destroy! proc kill-timeout))))
   ```
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L38-L52">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L39-L53">Source</a></sub></p>
 
 ## <a name="big-config.system/env">`env`</a>
 ``` clojure
@@ -68,7 +68,7 @@ Map of the environment variables keywordized. All `_` are transformed
   ```clojure
   (env :path)
   ```
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L23-L33">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L24-L34">Source</a></sub></p>
 
 ## <a name="big-config.system/re-process">`re-process`</a>
 ``` clojure
@@ -102,7 +102,7 @@ Creates a child process and blocks until `:timeout` or the `:regex` is
                           (when proc
                             (destroy! proc 1000))))))
   ```
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L60-L117">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L55-L112">Source</a></sub></p>
 
 ## <a name="big-config.system/stop">`stop`</a>
 ``` clojure
@@ -122,7 +122,7 @@ it returns the same version of `opts` that it has received. To be used in the
                             ::start [background-process ::end]
                             ::end [stop]))})
   ```
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L140-L158">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L135-L153">Source</a></sub></p>
 
 ## <a name="big-config.system/stop!">`stop!`</a>
 ``` clojure
@@ -131,5 +131,5 @@ it returns the same version of `opts` that it has received. To be used in the
 Function.
 
 it stops a `system` created with `:async true`.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L160-L164">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/system.clj#L155-L159">Source</a></sub></p>
 

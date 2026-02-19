@@ -4,6 +4,11 @@ description: BigConfig Workflow
 sidebar:
   order: 5
 ---
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+  `big-config.workflow` has replaced `big-config.step`.
+</Aside>
 # <a name="big-config.workflow">big-config.workflow</a>
 
 
@@ -13,16 +18,17 @@ sidebar:
   pipelines.
 
   ### Workflow Types
-  * **`shell-workflow`**: The fundamental unit. It renders templates and
-  executes CLI tools (e.g., Terraform/OpenTofu, Ansible). It is driven by
-  `::params`.
+  * **`tool-workflow`**: The fundamental unit. It renders templates and
+  executes CLI tools (e.g., Terraform/OpenTofu, Ansible).
   * **`comp-workflow`**: A high-level orchestrator that sequences multiple
-  `shell-workflows` to create a unified lifecycle (e.g., `create`, `delete`).
+  `tool-workflows` to create a unified lifecycle (e.g., `create`, `delete`).
 
   ### Usage Syntax
+  BigConfig Workflow can be used as a library or as a CLI using Babashka.
+
   ```shell
-  # Execute a shell workflow directly
-  bb <shell-workflow> <step|cmd>+ [-- <raw-command>]
+  # Execute a tool workflow directly
+  bb <tool-workflow> <step|cmd>+ [-- <raw-command>]
 
   # Execute a composite workflow
   bb <comp-workflow> <step>+
@@ -31,35 +37,96 @@ sidebar:
   ### Examples
   ```shell
   # Individual development/testing
-  bb shell-wf-a render tofu:init -- tofu apply -auto-approve
-  bb shell-wf-b render ansible-playbook:main.yml
+  bb tool-wf-a render tofu:init -- tofu apply -auto-approve
+  bb tool-wf-b render ansible-playbook:main.yml
 
   # Orchestrated execution
   bb comp-wf-c create
   ```
 
-  In this example, `comp-wf-c` composes `shell-wf-a` and `shell-wf-b`.
-  Development and debugging happen within the individual shell workflows, while
+  In this example, `comp-wf-c` composes `tool-wf-a` and `tool-wf-b`.
+  Development and debugging happen within the individual tool workflows, while
   the composite workflow manages the sequence.
+
+  ### Available Steps
+  #### `tool-workflow`
+  | Step       | Description                                                     |
+  | :----      | :----                                                           |
+  | **render**     | Generate the configuration files.                               |
+  | **git-check**  | Verifies the working directory is clean and synced with origin. |
+  | **git-push**   | Pushes local commits to the remote repository.                  |
+  | **lock**       | Acquires an execution lock.                                     |
+  | **unlock-any** | Force-releases the lock, regardless of the current owner.       |
+  | **exec**       | Executes commands provided.                                     |
+  #### `comp-workflow`
+  | Step       | Description                                                     |
+  | :----      | :----                                                           |
+  | **create**     | Invokes one or more `tool-workflows` to create a resource.        |
+  | **delete**     | Invokes one or more `tool-workflows` to delete a resource.        |
 
   ### Core Logic & Functions
   * **[`run-steps`](#big-config.workflow/run-steps)**: The engine for dynamic workflow execution.
-  * **`prepare`**: Shared logic for rendering templates and initializing
+  * **[`prepare`](#big-config.workflow/prepare)**: Shared logic for rendering templates and initializing
   execution environments.
-  * **`parse-shell-args` / `parse-comp-args`**: Utility functions to normalize
-  string or vector-based arguments.
+  * **[`parse-args`](#big-config.workflow/parse-args)**: Utility function to normalize string or vector-based
+  arguments.
+  * **[`select-globals`](#big-config.workflow/select-globals)**: Utility function to copy the global options across
+  workflows.
 
-  #### Configuration Options (`opts`)
-  * `::path-fn`: Logic for resolving file paths.
-  * `::params`: The input data for the workflow.
-  * `::name`: The unique identifier for the workflow instance.
-  * `::dirs`: Directory context for execution and output discovery.
+  ### Options for `opts` and step `render`
+  * `::name` (required): The unique identifier for the workflow instance.
+  * `::dirs` (generated): Directory context for execution and output discovery.
+  It is generated automatically by [`prepare`](#big-config.workflow/prepare).
+  * `::path-fn` (optional): Logic for resolving file paths.
+  * `::params` (optional): The input data for the workflow.
+
+  ### Options for `prepare-opts` and step `render`
+  * `::name` (required): The unique identifier for the workflow instance.
+
+  ### Options for `prepare-overrides` and step `render`
+  * `::path-fn` (optional): Logic for resolving file paths.
+  * `::params` (optional): The input data for the workflow.
+
+  ### Options for `opts` and step `create` or `delete`
+  * `::create-fn` (required): The workflow to create the resource.
+  * `::delete-fn` (required): The workflow to delete the resource.
 
   ### Naming Conventions
   To distinguish between the library core and the Babashka CLI implementation:
 
-  * **`tofu*`**: The library-level function. Requires `step-fns` and `opts`.
-  * **`tofu`**: The Babashka-ready task. Accepts `args` and optional `opts`.
+  * **`[workflow name]`**: The library-level function. Requires `step-fns` and `opts`.
+  * **`[workflow name]*`**: The Babashka-ready task. Accepts `args` and optional `opts`.
+
+  ```clojure
+  ; wf.clj
+  (defn tofu
+    [step-fns opts]
+    (let [opts (prepare {::name ::tofu
+                         ::render/templates [{:template "tofu"
+                                              :overwrite true
+                                              :transform [["tofu"
+                                                           :raw]]}]}
+                        opts)]
+      (run-steps step-fns opts)))
+
+  (defn tofu*
+    [args & [opts]]
+    (let [opts (merge (parse-args args)
+                      opts)]
+      (tofu [] opts)))
+  ```
+  ```clojure
+  ; bb.edn
+  {:deps {group/artifact {:local/root "."}}
+   :tasks
+   {:requires ([group.artifact.wf :as wf])
+    tofu {:doc "bb tofu render tofu:init tofu:apply:-auto-approve"
+          :task (wf/tofu* *command-line-args* {:big-config/env :shell})}
+    ansible {:doc "bb ansible render -- ansible-playbook main.yml"
+             :task (wf/ansible* *command-line-args* {:big-config/env :shell})}
+    resource {:doc "bb resource create and delete a resource"
+              :task (wf/resource* *command-line-args* {:big-config/env :shell})}}}
+  ```
 
   ### Decoupled Data Sharing
   Standard Terraform/HCL patterns often lead to tight coupling, where downstream
@@ -68,7 +135,7 @@ sidebar:
 
   **BigConfig Workflow solves this through Parameter Adaptation:**
 
-  1. **Isolation**: `shell-wf-b` (Ansible) never talks directly to `shell-wf-a`
+  1. **Isolation**: `tool-wf-b` (Ansible) never talks directly to `tool-wf-a`
   (Tofu).
   2. **Orchestration**: The `comp-workflow` acts as a glue layer. It uses
   `::dirs` to discover outputs from the first workflow (via `tofu output
@@ -79,20 +146,136 @@ sidebar:
 
   > **Note:** Resource naming and state booking are outside the scope of BigConfig Workflow.
 
+  ### Composite workflow
+  This is an example of composite workflow that contains two tool workflows.
+  Tool workflows must be isolated by using distinct opts maps.
+
+  * **`extract-params`**: The function to extract outputs from a tool workflow
+  and use them as parameters for another tool workflow.
+  * **`resource-create`**: The composite workflow to create the resource.
+  * **`resource-delete`**: The composite workflow to delete the resource.
+  * **`resource`**: The composite workflow to expose the steps interface.
+
+  ```clojure
+  (defn extract-params
+    [{:keys [::workflow/dirs]}]
+    (let [ip (-> (p/shell {:dir (::tofu dirs)
+                           :out :string} "tofu show --json")
+                 :out
+                 (json/parse-string keyword)
+                 (->> (s/select-one [:values :root_module :resources s/FIRST :values :ipv4_address])))]
+      {::workflow/params {:ip ip}}))
+  ```
+
+  ```clojure
+  (defn resource-create
+    [step-fns {:keys [::tofu-opts ::ansible-opts] :as opts}]
+    (let [globals-opts (workflow/select-globals opts)
+          tofu-opts (merge (workflow/parse-args "render tofu:init tofu:apply:-auto-approve")
+                           globals-opts
+                           tofu-opts)
+          ansible-opts (merge (workflow/parse-args "render ansible-playbook:main.yml")
+                              globals-opts
+                              ansible-opts)
+          opts* (atom opts)
+          wf (core/->workflow {:first-step ::start
+                               :wire-fn (fn [step step-fns]
+                                          (case step
+                                            ::start [core/ok ::tofu]
+                                            ::tofu [(partial tofu step-fns) ::ansible]
+                                            ::ansible [(partial ansible step-fns) ::end]
+                                            ::end [identity]))
+                               :next-fn (fn [step next-step {:keys [::bc/exit ::workflow/dirs] :as opts}]
+                                          (if (#{::tofu ::ansible} step)
+                                            (do
+                                              (swap! opts* merge (select-keys opts [::bc/exit ::bc/err]))
+                                              (swap! opts* update ::workflow/dirs merge dirs)
+                                              (swap! opts* assoc step opts))
+                                            (reset! opts* opts))
+                                          (cond
+                                            (= step ::end)
+                                            [nil @opts*]
+
+                                            (> exit 0)
+                                            [::end @opts*]
+
+                                            :else
+                                            [next-step (case next-step
+                                                         ::tofu tofu-opts
+                                                         ::ansible (merge-with merge ansible-opts (extract-params @opts*))
+                                                         @opts*)]))})]
+      (wf step-fns opts)))
+  ```
+
+  ```clojure
+  (defn resource-delete
+    [step-fns opts]
+    (let [opts (merge (workflow/parse-args "render tofu:destroy:-auto-approve")
+                      opts)]
+      (tofu step-fns opts)))
+  ```
+
+  ```clojure
+  (defn resource
+    [step-fns opts]
+    (let [opts (merge {::workflow/create-fn resource-create
+                       ::workflow/delete-fn resource-delete}
+                      opts)
+          wf (core/->workflow {:first-step ::start
+                               :wire-fn (fn [step step-fns]
+                                          (case step
+                                            ::start [(partial workflow/run-steps step-fns) ::end]
+                                            ::end [identity]))})]
+      (wf step-fns opts)))
+  ```
 
 
 
 
-## <a name="big-config.workflow/run-steps">`run-steps`</a>
 
-
-
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L100-L105">Source</a></sub></p>
-
-## <a name="big-config.workflow/run-steps*">`run-steps*`</a>
+## <a name="big-config.workflow/parse-args">`parse-args`</a>
 ``` clojure
-("run-steps*[step-fns {:keys [::steps] :as opts}]")
+(parse-args str-or-args)
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L83-L98">Source</a></sub></p>
+
+Utility functions to normalize string or vector-based arguments. See the
+  namespace [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L345-L386">Source</a></sub></p>
+
+## <a name="big-config.workflow/prepare">`prepare`</a>
+``` clojure
+(prepare opts overrides)
+```
+Function.
+
+Prepare `opts`. See the namespace [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L391-L404">Source</a></sub></p>
+
+## <a name="big-config.workflow/print-step-fn">`print-step-fn`</a>
+``` clojure
+(print-step-fn step opts)
+```
+Function.
+
+Print all steps of the workflow. See the namespace
+  [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L234-L268">Source</a></sub></p>
+
+## <a name="big-config.workflow/run-steps">`run-steps`</a>
+``` clojure
+(run-steps step-fns opts)
+```
+Function.
+
+A dynamic workflow that takes a list of steps, a create function, and a
+  delete function. See the namespace [`big-config.workflow`](#big-config.workflow)
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L284-L329">Source</a></sub></p>
+
+## <a name="big-config.workflow/select-globals">`select-globals`</a>
+``` clojure
+(select-globals {:keys [globals], :as opts})
+```
+Function.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L280-L282">Source</a></sub></p>
 
