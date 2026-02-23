@@ -96,7 +96,8 @@ import { Aside } from '@astrojs/starlight/components';
   * **`[workflow name]*`**: The Babashka-ready task. Accepts `args` and optional `opts`.
 
   ```clojure
-  ; wf.clj
+  (ns wf)
+
   (defn tofu
     [step-fns opts]
     (let [opts (prepare {::name ::tofu
@@ -106,6 +107,10 @@ import { Aside } from '@astrojs/starlight/components';
                                                            :raw]]}]}
                         opts)]
       (run-steps step-fns opts)))
+  ```
+
+  ```clojure
+  (ns wf)
 
   (defn tofu*
     [args & [opts]]
@@ -113,11 +118,12 @@ import { Aside } from '@astrojs/starlight/components';
                       opts)]
       (tofu [] opts)))
   ```
+
   ```clojure
   ; bb.edn
   {:deps {group/artifact {:local/root "."}}
    :tasks
-   {:requires ([group.artifact.wf :as wf])
+   {:requires ([wf :as wf])
     tofu {:doc "bb tofu render tofu:init tofu:apply:-auto-approve"
           :task (wf/tofu* *command-line-args* {:big-config/env :shell})}
     ansible {:doc "bb ansible render -- ansible-playbook main.yml"
@@ -238,7 +244,7 @@ Function.
 
 Utility functions to normalize string or vector-based arguments. See the
   namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L342-L383">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L348-L389">Source</a></sub></p>
 
 ## <a name="big-config.workflow/path">`path`</a>
 ``` clojure
@@ -247,7 +253,7 @@ Utility functions to normalize string or vector-based arguments. See the
 Function.
 
 Find the path of a previous workflow to extract the outputs.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L388-L391">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L394-L397">Source</a></sub></p>
 
 ## <a name="big-config.workflow/prepare">`prepare`</a>
 ``` clojure
@@ -256,7 +262,7 @@ Find the path of a previous workflow to extract the outputs.
 Function.
 
 Prepare `opts`. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L396-L408">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L402-L414">Source</a></sub></p>
 
 ## <a name="big-config.workflow/print-step-fn">`print-step-fn`</a>
 ``` clojure
@@ -266,7 +272,7 @@ Function.
 
 Print all steps of the workflow. See the namespace
   [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L231-L265">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L237-L271">Source</a></sub></p>
 
 ## <a name="big-config.workflow/run-steps">`run-steps`</a>
 ``` clojure
@@ -276,12 +282,12 @@ Function.
 
 A dynamic workflow that takes a list of steps, a create function, and a
   delete function. See the namespace [`big-config.workflow`](#big-config.workflow)
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L281-L326">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L287-L332">Source</a></sub></p>
 
 ## <a name="big-config.workflow/select-globals">`select-globals`</a>
 ``` clojure
 (select-globals {:keys [globals], :as opts})
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L277-L279">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L283-L285">Source</a></sub></p>
 
