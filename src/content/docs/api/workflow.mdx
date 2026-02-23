@@ -75,8 +75,6 @@ import { Aside } from '@astrojs/starlight/components';
 
   ### Options for `opts` and step `render`
   * `::name` (required): The unique identifier for the workflow instance.
-  * `::dirs` (generated): Directory context for execution and output discovery.
-  It is generated automatically by [`prepare`](#big-config.workflow/prepare).
   * `::path-fn` (optional): Logic for resolving file paths.
   * `::params` (optional): The input data for the workflow.
 
@@ -137,8 +135,8 @@ import { Aside } from '@astrojs/starlight/components';
 
   1. **Isolation**: `tool-wf-b` (Ansible) never talks directly to `tool-wf-a`
   (Tofu).
-  2. **Orchestration**: The `comp-workflow` acts as a glue layer. It uses
-  `::dirs` to discover outputs from the first workflow (via `tofu output
+  2. **Orchestration**: The `comp-workflow` acts as a glue layer. It uses [`path`](#big-config.workflow/path)
+  to discover outputs from the previous workflows (e.g., via `tofu output
   --json`) and maps them to the `::params` required by the next.
   3. **Interchangeability**: You can swap a Hetzner workflow for an AWS workflow
   without modifying the downstream Ansible code. Only the mapping logic in the
@@ -158,8 +156,8 @@ import { Aside } from '@astrojs/starlight/components';
 
   ```clojure
   (defn extract-params
-    [{:keys [::workflow/dirs]}]
-    (let [ip (-> (p/shell {:dir (::tofu dirs)
+    [opts]
+    (let [ip (-> (p/shell {:dir (workflow/path opts ::tofu)
                            :out :string} "tofu show --json")
                  :out
                  (json/parse-string keyword)
@@ -185,11 +183,10 @@ import { Aside } from '@astrojs/starlight/components';
                                             ::tofu [(partial tofu step-fns) ::ansible]
                                             ::ansible [(partial ansible step-fns) ::end]
                                             ::end [identity]))
-                               :next-fn (fn [step next-step {:keys [::bc/exit ::workflow/dirs] :as opts}]
+                               :next-fn (fn [step next-step {:keys [::bc/exit] :as opts}]
                                           (if (#{::tofu ::ansible} step)
                                             (do
                                               (swap! opts* merge (select-keys opts [::bc/exit ::bc/err]))
-                                              (swap! opts* update ::workflow/dirs merge dirs)
                                               (swap! opts* assoc step opts))
                                             (reset! opts* opts))
                                           (cond
@@ -241,7 +238,16 @@ Function.
 
 Utility functions to normalize string or vector-based arguments. See the
   namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L345-L386">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L342-L383">Source</a></sub></p>
+
+## <a name="big-config.workflow/path">`path`</a>
+``` clojure
+("path[{:keys [::prefix]} name]")
+```
+Function.
+
+Find the path of a previous workflow to extract the outputs.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L388-L391">Source</a></sub></p>
 
 ## <a name="big-config.workflow/prepare">`prepare`</a>
 ``` clojure
@@ -250,7 +256,7 @@ Utility functions to normalize string or vector-based arguments. See the
 Function.
 
 Prepare `opts`. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L391-L404">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L396-L408">Source</a></sub></p>
 
 ## <a name="big-config.workflow/print-step-fn">`print-step-fn`</a>
 ``` clojure
@@ -260,7 +266,7 @@ Function.
 
 Print all steps of the workflow. See the namespace
   [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L234-L268">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L231-L265">Source</a></sub></p>
 
 ## <a name="big-config.workflow/run-steps">`run-steps`</a>
 ``` clojure
@@ -270,12 +276,12 @@ Function.
 
 A dynamic workflow that takes a list of steps, a create function, and a
   delete function. See the namespace [`big-config.workflow`](#big-config.workflow)
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L284-L329">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L281-L326">Source</a></sub></p>
 
 ## <a name="big-config.workflow/select-globals">`select-globals`</a>
 ``` clojure
 (select-globals {:keys [globals], :as opts})
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L280-L282">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L277-L279">Source</a></sub></p>
 
