@@ -63,15 +63,27 @@ import { Aside } from '@astrojs/starlight/components';
   | :----      | :----                                                           |
   | **create**     | Invokes one or more `tool-workflows` to create a resource.        |
   | **delete**     | Invokes one or more `tool-workflows` to delete a resource.        |
+  | **git-check**  | Verifies the working directory is clean and synced with origin. |
+  | **git-push**   | Pushes local commits to the remote repository.                  |
+  | **lock**       | Acquires an execution lock.                                     |
+  | **unlock-any** | Force-releases the lock, regardless of the current owner.       |
 
   ### Core Logic & Functions
   * **[`run-steps`](#big-config.workflow/run-steps)**: The engine for dynamic workflow execution.
+  * **[`->workflow*`](#big-config.workflow/->workflow*)**: Creates a workflow of workflows.
   * **[`prepare`](#big-config.workflow/prepare)**: Shared logic for rendering templates and initializing
   execution environments.
   * **[`parse-args`](#big-config.workflow/parse-args)**: Utility function to normalize string or vector-based
   arguments.
   * **[`select-globals`](#big-config.workflow/select-globals)**: Utility function to copy the global options across
   workflows.
+
+  ### Options for `wf*-opts`.
+  * `:first-step` (required): First step of the workflow.
+  * `:last-step` (optional): Optional last step.
+  * `:wire-map` (required): An entry is the qualified keyword of the tool
+  workflow, the args for the tool workflow, and an optional function to select
+  the outputs from previous tool workflows.
 
   ### Options for `opts` and step `render`
   * `::name` (required): The unique identifier for the workflow instance.
@@ -88,6 +100,8 @@ import { Aside } from '@astrojs/starlight/components';
   ### Options for `opts` and step `create` or `delete`
   * `::create-fn` (required): The workflow to create the resource.
   * `::delete-fn` (required): The workflow to delete the resource.
+  * `::create-opts` (optional): The override opts for `create`.
+  * `::delete-opts` (optional): The override opts for `delete`.
 
   ### Naming Conventions
   To distinguish between the library core and the Babashka CLI implementation:
@@ -125,11 +139,11 @@ import { Aside } from '@astrojs/starlight/components';
    :tasks
    {:requires ([wf :as wf])
     tofu {:doc "bb tofu render tofu:init tofu:apply:-auto-approve"
-          :task (wf/tofu* *command-line-args* {:big-config/env :shell})}
+          :task (wf/tofu* *command-line-args*)}
     ansible {:doc "bb ansible render -- ansible-playbook main.yml"
-             :task (wf/ansible* *command-line-args* {:big-config/env :shell})}
-    resource {:doc "bb resource create and delete a resource"
-              :task (wf/resource* *command-line-args* {:big-config/env :shell})}}}
+             :task (wf/ansible* *command-line-args*)}
+    resource {:doc "bb resource create"
+              :task (wf/resource* *command-line-args*)}}}
   ```
 
   ### Decoupled Data Sharing
@@ -163,7 +177,7 @@ import { Aside } from '@astrojs/starlight/components';
   ```clojure
   (defn extract-params
     [opts]
-    (let [ip (-> (p/shell {:dir (workflow/path opts ::tofu)
+    (let [ip (-> (p/shell {:dir (workflow/path opts ::tool/tofu)
                            :out :string} "tofu show --json")
                  :out
                  (json/parse-string keyword)
@@ -172,50 +186,19 @@ import { Aside } from '@astrojs/starlight/components';
   ```
 
   ```clojure
-  (defn resource-create
-    [step-fns {:keys [::tofu-opts ::ansible-opts] :as opts}]
-    (let [globals-opts (workflow/select-globals opts)
-          tofu-opts (merge (workflow/parse-args "render tofu:init tofu:apply:-auto-approve")
-                           globals-opts
-                           tofu-opts)
-          ansible-opts (merge (workflow/parse-args "render ansible-playbook:main.yml")
-                              globals-opts
-                              ansible-opts)
-          opts* (atom opts)
-          wf (core/->workflow {:first-step ::start
-                               :wire-fn (fn [step step-fns]
-                                          (case step
-                                            ::start [core/ok ::tofu]
-                                            ::tofu [(partial tofu step-fns) ::ansible]
-                                            ::ansible [(partial ansible step-fns) ::end]
-                                            ::end [identity]))
-                               :next-fn (fn [step next-step {:keys [::bc/exit] :as opts}]
-                                          (if (#{::tofu ::ansible} step)
-                                            (do
-                                              (swap! opts* merge (select-keys opts [::bc/exit ::bc/err]))
-                                              (swap! opts* assoc step opts))
-                                            (reset! opts* opts))
-                                          (cond
-                                            (= step ::end)
-                                            [nil @opts*]
-
-                                            (> exit 0)
-                                            [::end @opts*]
-
-                                            :else
-                                            [next-step (case next-step
-                                                         ::tofu tofu-opts
-                                                         ::ansible (merge-with merge ansible-opts (extract-params @opts*))
-                                                         @opts*)]))})]
-      (wf step-fns opts)))
+  (def resource-create
+    (workflow/->workflow* {:first-step ::start-create
+                           :last-step :end-create
+                           :wire-map {::tool/tofu ["render tofu:init tofu:apply:-auto-approve"]
+                                      ::tool/ansible ["render ansible-playbook:main.yml" extract-params]
+                                      ::tool/ansible-local ["render ansible-playbook:main.yml" extract-params]}}))
   ```
 
   ```clojure
-  (defn resource-delete
-    [step-fns opts]
-    (let [opts (merge (workflow/parse-args "render tofu:destroy:-auto-approve")
-                      opts)]
-      (tofu step-fns opts)))
+  (def resource-delete
+    (workflow/->workflow* {:first-step ::start-delete
+                           :last-step ::end-delete
+                           :wire-map {::tool/tofu ["render tofu:destroy:-auto-approve"]}}))
   ```
 
   ```clojure
@@ -231,10 +214,19 @@ import { Aside } from '@astrojs/starlight/components';
                                             ::end [identity]))})]
       (wf step-fns opts)))
   ```
+  
 
 
 
 
+## <a name="big-config.workflow/->workflow*">`->workflow*`</a>
+``` clojure
+(->workflow* wf*-opts)
+```
+Function.
+
+Creates a workflow of workflows. See the namespace [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L380-L431">Source</a></sub></p>
 
 ## <a name="big-config.workflow/parse-args">`parse-args`</a>
 ``` clojure
@@ -244,7 +236,7 @@ Function.
 
 Utility functions to normalize string or vector-based arguments. See the
   namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L348-L389">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L331-L372">Source</a></sub></p>
 
 ## <a name="big-config.workflow/path">`path`</a>
 ``` clojure
@@ -253,7 +245,7 @@ Utility functions to normalize string or vector-based arguments. See the
 Function.
 
 Find the path of a previous workflow to extract the outputs.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L394-L397">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L440-L443">Source</a></sub></p>
 
 ## <a name="big-config.workflow/prepare">`prepare`</a>
 ``` clojure
@@ -262,7 +254,7 @@ Find the path of a previous workflow to extract the outputs.
 Function.
 
 Prepare `opts`. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L402-L414">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L448-L460">Source</a></sub></p>
 
 ## <a name="big-config.workflow/print-step-fn">`print-step-fn`</a>
 ``` clojure
@@ -272,7 +264,7 @@ Function.
 
 Print all steps of the workflow. See the namespace
   [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L237-L271">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L220-L254">Source</a></sub></p>
 
 ## <a name="big-config.workflow/run-steps">`run-steps`</a>
 ``` clojure
@@ -282,12 +274,12 @@ Function.
 
 A dynamic workflow that takes a list of steps, a create function, and a
   delete function. See the namespace [`big-config.workflow`](#big-config.workflow)
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L287-L332">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L270-L315">Source</a></sub></p>
 
 ## <a name="big-config.workflow/select-globals">`select-globals`</a>
 ``` clojure
 (select-globals {:keys [globals], :as opts})
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L283-L285">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L266-L268">Source</a></sub></p>
 
