@@ -1,0 +1,150 @@
+---
+title: tools
+description: BigConfig Render
+sidebar:
+  order: 7
+---
+# <a name="big-config.tools">big-config.tools</a>
+
+
+
+  This is the list of templates available in BigConfig out of the box.
+  See [Clojure Tools](/guides/clojure-tools/) guide.
+  
+
+
+
+
+## <a name="big-config.tools/action">`action`</a>
+``` clojure
+(action & {:as args})
+```
+Function.
+
+Create a GitHub action for the CI of a Clojure project.
+
+  Options:
+  - :target-dir  target directory for the template ([`action`](#big-config.tools/action) is the default)
+  - :overwrite   true or :delete (the target directory)
+
+  Example:
+    clojure -Tbig-config action
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L229-L245">Source</a></sub></p>
+
+## <a name="big-config.tools/ansible">`ansible`</a>
+``` clojure
+(ansible & {:as args})
+```
+Function.
+
+Create a repo to manage Ansible projects with BigConfig.
+
+  Options:
+  - :target-dir  target directory for the template ([`ansible`](#big-config.tools/ansible) is the default)
+  - :overwrite   true or :delete (the target directory)
+
+  Example:
+    clojure -Tbig-config ansible
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L183-L199">Source</a></sub></p>
+
+## <a name="big-config.tools/devenv">`devenv`</a>
+``` clojure
+(devenv & {:as args})
+```
+Function.
+
+Create the devenv files for Clojure and Babashka development.
+
+  Options:
+  - :target-dir  target directory for the template (current directory is the default)
+
+  Example:
+    clojure -Tbig-config devenv
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L139-L154">Source</a></sub></p>
+
+## <a name="big-config.tools/dotfiles">`dotfiles`</a>
+``` clojure
+(dotfiles & {:as args})
+```
+Function.
+
+Create a repo to manage dotfiles with BigConfig.
+
+  Options:
+  - :target-dir  target directory for the template ([`dotfiles`](#big-config.tools/dotfiles) is the default)
+  - :overwrite   true or :delete (the target directory)
+
+  Example:
+    clojure -Tbig-config dotfiles
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L161-L176">Source</a></sub></p>
+
+## <a name="big-config.tools/generic">`generic`</a>
+``` clojure
+(generic & {:as args})
+```
+Function.
+
+Create a repo to manage a generic projects with BigConfig.
+
+  Options:
+  - :target-dir  target directory for the template ([`generic`](#big-config.tools/generic) is the default)
+  - :overwrite   true or :delete (the target directory)
+
+  Example:
+    clojure -Tbig-config generic
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L285-L302">Source</a></sub></p>
+
+## <a name="big-config.tools/multi">`multi`</a>
+``` clojure
+(multi & {:as args})
+```
+Function.
+
+Create a repo to manage both Ansible and Terraform projects with BigConfig.
+
+  Options:
+  - :target-dir  target directory for the template ([`multi`](#big-config.tools/multi) is the default)
+  - :overwrite   true or :delete (the target directory)
+
+  Example:
+    clojure -Tbig-config multi
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L206-L222">Source</a></sub></p>
+
+## <a name="big-config.tools/terraform">`terraform`</a>
+``` clojure
+(terraform & {:as args})
+```
+Function.
+
+Create a repo to manage Terraform/Tofu projects with BigConfig.
+
+  Options:
+  - :target-dir  target directory for the template (`terrafom` is the default)
+  - :overwrite   true or :delete (the target directory)
+  - :aws-profile aws profile in ~/.aws/crendentials
+  - :region      aws region
+  - :dev         aws account id for dev
+  - :prod        aws account id for prod
+
+  Example:
+    clojure -Tbig-config terraform :region us-west-1
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L104-L128">Source</a></sub></p>
+
+## <a name="big-config.tools/tools">`tools`</a>
+``` clojure
+(tools & {:as args})
+```
+Function.
+
+Create a tools.clj for a Clojure project.
+
+  Options:
+  - :target-dir  target directory for the template (current directory is the default)
+  - :path        path for the clojure source code
+  - :ns          namespace containing the file tools.clj
+  - :name        override the default name [`tools`](#big-config.tools/tools)
+
+  Example:
+    clojure -Tbig-config tools
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L255-L275">Source</a></sub></p>
+
