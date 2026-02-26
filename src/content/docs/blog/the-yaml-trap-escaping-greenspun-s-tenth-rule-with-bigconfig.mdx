@@ -1,0 +1,83 @@
+---
+title: "The YAML Trap: Escaping Greenspun’s Tenth Rule with BigConfig"
+excerpt: |-
+  Greenspun’s Tenth Rule warns that every complex system eventually reinvents a buggy version of Lisp. From YAML-hell in CI/CD to the "accidental" programming languages of Helm, Terraform and Ansible, the DevOps world is living this prophecy. Discover how shifting from rigid configuration to the power of Clojure and BigConfig can help you escape the trap of ad-hoc infrastructure logic.
+tags:
+  - lisp
+  - clojure
+  - bigconfig
+  - bigconfig package
+  - helm
+  - ansible
+  - terraform
+  - kubernetes
+date: 2026-02-26
+cover:
+  alt: K8s
+  image: public/blog/assimilation.png
+featured: true
+---
+import ExternalLink from '~/components/ExternalLink.astro'
+
+Greenspun's Tenth Rule is a famous (and delightfully cynical) adage in computer science. While it was born in the era of C and Fortran, it has never been more relevant than it is today in the world of Platform Engineering.
+
+If you’ve ever felt like your CI/CD pipeline is held together by duct tape, YAML-indentation prayers, and sheer willpower, you’ve lived this rule.
+
+## What is Greenspun's Tenth Rule?
+
+In the early 90s, Philip Greenspun stated:
+
+> "Any sufficiently complicated C or Fortran program contains an ad-hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp."
+
+The core insight is that once a system reaches a certain level of complexity, it inevitably requires high-level abstraction, automation, and dynamic logic. Instead of starting with a powerful, established language (like Lisp) built for those tasks, developers often "accidentally" reinvent a mediocre version of one using brittle configuration files and makeshift scripts.
+
+## The Rule in the DevOps Ecosystem
+
+In DevOps, we strive for Infrastructure as Code (IaC). However, because we started with static configuration formats (YAML/JSON) and tried to force them to perform complex logic, we’ve essentially proven Greenspun right.
+
+### 1. The YAML "Programming" Trap
+
+Tools like Terraform, Ansible, Helm, and GitHub Actions began as simple configuration formats. But as users demanded loops, conditionals, and variables, these tools evolved into "accidental" languages.
+
+* **The Problem:** You end up writing complex business logic inside strings within a YAML file.
+* **The Reality:** You are using a "bug-ridden implementation" of a real programming language, but without the benefit of a debugger, a compiler, or proper unit testing.
+
+### 2. Kubernetes as a Distributed Lisp
+
+Some architects argue that Kubernetes is the ultimate manifestation of this rule. Its control loop the constant cycle of reconciling desired state vs. actual state mimics the recursive nature of Lisp environments. It is, in essence, a programmable platform designed to manage other programs.
+
+## Escaping the Trap: Putting Lisp Back in Ops
+
+The industry has invested massive human capital into building Ansible roles, Helm charts, and Terraform modules. We shouldn’t throw them away, but we must stop trying to make them do things they weren't designed for.
+
+How do we escape Greenspun's trap without rebuilding everything from scratch? By assimilating these tools (to borrow a 90s Star Trek reference).
+
+This is the core design principle of BigConfig. Instead of fighting against limited YAML DSLs, BigConfig uses Clojure a modern, production-grade Lisp to wrap and orchestrate existing tools.
+
+> **The BigConfig Philosophy:** Express infrastructure logic with the most powerful dynamic language available, while still leveraging the ecosystem you already have.
+
+## Why it Matters: The Power of Assimilation
+
+The Tenth Rule is a warning: Don't reinvent the wheel poorly. If your infrastructure requires complex logic, stop forcing it into a flat config file.
+
+### From Static Files to Fractal Architecture
+
+While a standard Helm package is limited strictly to Kubernetes, a <ExternalLink href="/api/package/">BigConfig package</ExternalLink> is a Clojure function. Because BigConfig assimilates Ansible and Terraform alongside Helm, it isn't siloed.
+
+* **Truly Cloud Native:** A Kubernetes application that requires specific cloud resources (like an S3 bucket or an RDS instance) can be abstracted into a single, cohesive unit.
+* **First-Class Functions:** In BigConfig, everything is a function. This leads to a fractal architecture where every layer from a single container to a multi-region cloud deployment is governed by the same recursive logic: Observe, Diff, and Act.
+
+### Ready to stop writing logic in YAML?
+
+Operations is a hard problem. YAML is too rigid, and Go is too low-level for rapid infrastructure iteration. While Python and JavaScript are popular, they lack the REPL-driven development flow that makes infrastructure-as-code feel truly interactive.
+
+Clojure is the most robust Lisp available today and it won't let you down.
+
+## Conclusion
+Greenspun’s Tenth Rule isn't just a witty observation; it’s a technical debt warning. When we try to solve 21st-century infrastructure challenges using static configuration files, we inevitably end up building "shadow" programming languages that are difficult to test, impossible to debug, and fragile to scale.
+
+By embracing a functional, Lisp-based approach through BigConfig, we stop fighting the limitations of YAML and start leveraging the power of actual logic. Instead of building a "bug-ridden implementation of half of Common Lisp," we use the real thing Clojure to orchestrate, automate, and scale.
+
+The goal of Platform Engineering shouldn't be to write more scripts; it should be to create elegant, recursive systems that can manage themselves. It’s time to move past the duct tape and prayers and give our infrastructure the robust, dynamic foundation it deserves.
+
+Would you like to have a follow-up on this topic? What are your thoughts? I'd love to <ExternalLink href="https://www.albertomiorin.com/contact#form">hear</ExternalLink> your experiences.
