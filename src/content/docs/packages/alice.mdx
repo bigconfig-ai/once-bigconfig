@@ -1,0 +1,36 @@
+---
+title: alice
+sidebar:
+  order: 2
+---
+import ExternalLink from '~/components/ExternalLink.astro'
+
+## Package properties
+| Property    | Value                                                                                            |
+|-------------|--------------------------------------------------------------------------------------------------|
+| git         | <ExternalLink href="https://github.com/amiorin/alice">https://github.com/amiorin/alice</ExternalLink>                                                                |
+| homepage    | <ExternalLink href="https://github.com/amiorin/alice">https://github.com/amiorin/alice</ExternalLink>                                                                |
+| description | Alice creates a droplet and add an entry to the local `ssh/config`|
+
+## Package params
+| Params   | Value                             |
+|----------|-----------------------------------|
+
+## Babashka
+```clojure
+{:deps {io.github.amiorin/alice {:git/sha "9c214edce47419297e6bd8212a63bb0ab93bcf86"}}
+ :tasks
+ {:requires ([io.github.amiorin.alice.package :as package]
+             [io.github.amiorin.alice.tools :as tools])
+  tidy {:doc "tidy clojure files"
+        :task (do (shell "clojure-lsp clean-ns")
+                  (shell "clojure-lsp format"))}
+  tofu {:doc "bb tofu render tofu:init lock tofu:apply:-auto-approve"
+        :task (tools/tofu* *command-line-args*)}
+  ansible {:doc "bb ansible render ansible-playbook:main.yml unlock-any"
+           :task (tools/ansible* *command-line-args*)}
+  ansible-local {:doc "bb ansible render ansible-playbook:main.yml unlock-any"
+                 :task (tools/ansible-local* *command-line-args*)}
+  alice {:doc "bb alice create"
+         :task (package/alice* *command-line-args*)}}}
+```

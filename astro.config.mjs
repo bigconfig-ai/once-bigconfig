@@ -87,6 +87,10 @@ export default defineConfig({
           },
           autogenerate: { directory: "api" },
         },
+        {
+          label: "Packages",
+          autogenerate: { directory: "packages" },
+        },
       ],
     }),
   ],

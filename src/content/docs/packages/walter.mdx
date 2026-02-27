@@ -1,0 +1,34 @@
+---
+title: walter
+sidebar:
+  order: 1
+---
+import ExternalLink from '~/components/ExternalLink.astro'
+
+## Package properties
+| Property    | Value                                                                                            |
+|-------------|--------------------------------------------------------------------------------------------------|
+| git         | <ExternalLink href="https://github.com/amiorin/walter">https://github.com/amiorin/walter</ExternalLink>                                                                |
+| homepage    | <ExternalLink href="https://github.com/amiorin/walter">https://github.com/amiorin/walter</ExternalLink>                                                                |
+| description | Walter creates a remote development environment in Hetzner Cloud. It requires an Hetzner token. |
+
+## Package params
+| Params   | Value                             |
+|----------|-----------------------------------|
+
+## Babashka
+```clojure
+{:deps {io.github.amiorin/walter {:git/sha "ac409a2e204df9f4dc809f6cde807618905ec5b7"}}
+ :tasks
+ {:requires ([io.github.amiorin.walter.package :as package]
+             [io.github.amiorin.walter.tools :as tools])
+  tidy {:doc "tidy clojure files"
+        :task (do (shell "clojure-lsp clean-ns")
+                  (shell "clojure-lsp format"))}
+  tofu {:doc "bb tofu render tofu:init lock tofu:apply:-auto-approve"
+        :task (tools/tofu* *command-line-args*)}
+  ansible {:doc "bb ansible render ansible-playbook:main.yml unlock-any"
+           :task (tools/ansible* *command-line-args*)}
+  walter {:doc "bb walter create"
+          :task (package/walter* *command-line-args*)}}}
+```
