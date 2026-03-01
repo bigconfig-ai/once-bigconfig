@@ -29,7 +29,7 @@ A step function is a function that accepts three arguments: the step, the
 
   These side-effect functions are executed immediately before and after a workflow
   step and receive the current execution context.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L181-L206">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L161-L186">Source</a></sub></p>
 
 ## <a name="big-config.core/->workflow">`->workflow`</a>
 ``` clojure
@@ -42,9 +42,6 @@ Creates a workflow based on the following `wf-opts` map:
      initial step in the workflow. Defaults typically to `::start`.
    * **`:last-step`** (Optional): The qualified keyword for the final step. If
      omitted, it defaults to `::end`, sharing the same namespace as `:first-step`.
-   * **`:step-fns`** (Optional): An array of functions to be executed before and
-     after every step. Useful for cross-cutting concerns like logging, telemetry,
-     or tracing.
    * **`:wire-fn`** (Required): A function that accepts two arguments—the
      current step and the `step-fns`. `step-fns` is used to invoke subworkflow
      using `partial`. It must return a `seq` of function and next step.
@@ -91,7 +88,7 @@ Creates a workflow based on the following `wf-opts` map:
                                                :opts opts})))}))
   ```
   A workflow can be invoked with a `seq` of `opts` maps.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L68-L167">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L68-L147">Source</a></sub></p>
 
 ## <a name="big-config.core/choice">`choice`</a>
 ``` clojure

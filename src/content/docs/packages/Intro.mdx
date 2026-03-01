@@ -4,8 +4,15 @@ sidebar:
   order: 1
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
+import { LinkCard } from '@astrojs/starlight/components';
 
-A BigConfig Package (<ExternalLink href="https://bigconfig.it/blog/introducing-bigconfig-package/">announcement</ExternalLink>) is a standard Clojure project. The core logic of a package is a function authored via the <ExternalLink href="https://bigconfig.it/api/workflow/">BigConfig Workflow</ExternalLink>.
+A BigConfig Package (<ExternalLink href="/blog/introducing-bigconfig-package/">announcement</ExternalLink>) is a standard Clojure project. The core logic of a package is a function authored via the <ExternalLink href="/api/workflow/">BigConfig Workflow</ExternalLink>.
+
+<LinkCard
+  title="Scaffold a BigConfig Package"
+  href="/use-cases/package"
+  description="Kickstart your project using our official starter template."
+/>
 
 ## Babashka
 Your package is a dependency within your `bb.edn` and it is mapped to a Babashka task.

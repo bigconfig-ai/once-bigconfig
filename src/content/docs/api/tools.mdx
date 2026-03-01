@@ -29,7 +29,7 @@ Create a GitHub action for the CI of a Clojure project.
 
   Example:
     clojure -Tbig-config action
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L229-L245">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L219-L235">Source</a></sub></p>
 
 ## <a name="big-config.tools/ansible">`ansible`</a>
 ``` clojure
@@ -45,7 +45,14 @@ Create a repo to manage Ansible projects with BigConfig.
 
   Example:
     clojure -Tbig-config ansible
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L183-L199">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L173-L189">Source</a></sub></p>
+
+## <a name="big-config.tools/data-fn">`data-fn`</a>
+``` clojure
+(data-fn {:keys [service owner repository], :as data} _ops)
+```
+Function.
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L301-L307">Source</a></sub></p>
 
 ## <a name="big-config.tools/devenv">`devenv`</a>
 ``` clojure
@@ -60,7 +67,7 @@ Create the devenv files for Clojure and Babashka development.
 
   Example:
     clojure -Tbig-config devenv
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L139-L154">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L129-L144">Source</a></sub></p>
 
 ## <a name="big-config.tools/dotfiles">`dotfiles`</a>
 ``` clojure
@@ -76,7 +83,7 @@ Create a repo to manage dotfiles with BigConfig.
 
   Example:
     clojure -Tbig-config dotfiles
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L161-L176">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L151-L166">Source</a></sub></p>
 
 ## <a name="big-config.tools/generic">`generic`</a>
 ``` clojure
@@ -92,7 +99,7 @@ Create a repo to manage a generic projects with BigConfig.
 
   Example:
     clojure -Tbig-config generic
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L285-L302">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L275-L292">Source</a></sub></p>
 
 ## <a name="big-config.tools/multi">`multi`</a>
 ``` clojure
@@ -108,7 +115,32 @@ Create a repo to manage both Ansible and Terraform projects with BigConfig.
 
   Example:
     clojure -Tbig-config multi
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L206-L222">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L196-L212">Source</a></sub></p>
+
+## <a name="big-config.tools/package">`package`</a>
+``` clojure
+(package & {:as args})
+```
+Function.
+
+Create a BigConfig package.
+
+  Options:
+  - :owner       GitHub owner
+  - :repository  GitHub repository
+  - :ssh-key     Digitalocean ssh-key
+  - :target-dir  target directory for the template ([`package`](#big-config.tools/package) is the default)
+  - :overwrite   true or :delete (the target directory)
+
+  Example:
+    clojure -Tbig-config package
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L309-L345">Source</a></sub></p>
+
+## <a name="big-config.tools/step-fns">`step-fns`</a>
+
+
+
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L76-L77">Source</a></sub></p>
 
 ## <a name="big-config.tools/terraform">`terraform`</a>
 ``` clojure
@@ -128,7 +160,7 @@ Create a repo to manage Terraform/Tofu projects with BigConfig.
 
   Example:
     clojure -Tbig-config terraform :region us-west-1
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L104-L128">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L94-L118">Source</a></sub></p>
 
 ## <a name="big-config.tools/tools">`tools`</a>
 ``` clojure
@@ -146,5 +178,5 @@ Create a tools.clj for a Clojure project.
 
   Example:
     clojure -Tbig-config tools
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L255-L275">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L245-L265">Source</a></sub></p>
 
