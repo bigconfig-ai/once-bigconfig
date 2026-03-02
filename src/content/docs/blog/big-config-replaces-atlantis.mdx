@@ -47,11 +47,11 @@ So, how <ExternalLink href="/">BigConfig</ExternalLink> is solving these limits 
 
 * **Workflow client side:** BigConfig has a cli that provides you with a workflow without a server side to coordinate changes made by multiple developers and to make sure that they are always applied sequentially.
 * **It's a library:** The cli is also a library that can be used in any Clojure web service library like Pedestal to upgrade your infracoding to an API or to a PaaS.
-* **Better developer experience:** Let's be honest, `terraform` is fondamentally an interactive tool. The scenario where a developer can write a non-trivial change in one go and then run it in Atlantis without bugs is rare. Most of the time we develop the terraform code incrementally with a sequence of `plan` and `apply` and the PR process increases the delivery time.
+* **Better developer experience:** Let's be honest, `terraform` is fundamentally an interactive tool. The scenario where a developer can write a non-trivial change in one go and then run it in Atlantis without bugs is rare. Most of the time we develop the terraform code incrementally with a sequence of `plan` and `apply` and the PR process increases the delivery time.
 
 ### The Verdict: Atlantis is not compatible with modern software development
 
-Let me be clear: Atlantis isn't a "bad" tool. For many teams, especially those that are ok with the limits of the GitOps approach, it can still be a fantastic entry point. But for me, modern software development principles should be applied to both developement and operations.
+Let me be clear: Atlantis isn't a "bad" tool. For many teams, especially those that are ok with the limits of the GitOps approach, it can still be a fantastic entry point. But for me, modern software development principles should be applied to both development and operations.
 
 In Berlin, where innovation moves at a rapid pace, staying agile means constantly re-evaluating your toolchain. My decision to move on from Atlantis is a reflection of that. I'm excited about the possibilities that BigConfig offers, allowing me to focus more on building reusable infrastructure.
 

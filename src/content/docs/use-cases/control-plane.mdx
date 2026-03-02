@@ -15,7 +15,7 @@ A control plane acts as an API for provisioning and managing infrastructure. Wel
 There is a blog <ExternalLink href="/blog/control-plane-in-big-config/">article</ExternalLink> about this proof of concept.
 
 ## Requirements
-`ctlp` (control plane) requires Clojure. It doesn't work with Babashka. Direnv is not required but it is convinient.
+`ctlp` (control plane) requires Clojure. It doesn't work with Babashka. Direnv is not required but it is convenient.
 
 <Tabs>
   <TabItem label="brew">
@@ -38,7 +38,7 @@ The best way to learn how it works is to install the Clojure tool in development
    ``` shell
    git clone -b control-plane https://github.com/amiorin/big-config.git big-config/control-plane && cd big-config/control-plane
    ```
-1. Add ctrlp as tool to Clojure
+1. Add ctlp as tool to Clojure
    ``` shell
    clojure -Ttools install big-config/control-plane '{:local/root "."}' :as ctlp
    ```

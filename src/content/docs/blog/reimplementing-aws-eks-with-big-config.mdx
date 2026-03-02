@@ -47,7 +47,7 @@ Let's imagine the core entities we want to manage: EKS Clusters. For simplicity,
 ### First principles
 
   * **Reuse GitOps:** Building a single K8s cluster with GitOps should be reuseable. Replacing GitOps with an API should not require to reimplement everything from scratch. The solution should contain a more generalized version of the GitOps one for one cluster.
-  * **Declerative when possible:** Terraform should be used to create resources instead of the AWS APIs whenever it is possible.
+  * **Declarative when possible:** Terraform should be used to create resources instead of the AWS APIs whenever it is possible.
 
 ### Sequence diagram
 
@@ -86,8 +86,8 @@ API.t2 -> User.t2: return the description of the resource
 
 * **Modularity:** Every deliverable can be developed in parallel by adopting contracts.
 * **Uniformity:** BigConfig, Rama, and Pedestal deliverables are all written in Clojure.
-* **Declerative:** Creating an EC2 instance programmatically can be done faster with Terraform and we don't need to worry about the life cycle management.
-* **Reusability:** The GitOps code can be reused. The code to provision one K8s cluster with GitOps or multiple K8s clusters with an API, doesn't require to change from Terraform to the AWS SDK. The API is just a virtual admin. The GitOps version developed interactivly by an admin can be package as a Clojure dependency and reused inside Rama. **This is a killer feature of BigConfig.**
+* **Declarative:** Creating an EC2 instance programmatically can be done faster with Terraform and we don't need to worry about the life cycle management.
+* **Reusability:** The GitOps code can be reused. The code to provision one K8s cluster with GitOps or multiple K8s clusters with an API, doesn't require to change from Terraform to the AWS SDK. The API is just a virtual admin. The GitOps version developed interactively by an admin can be package as a Clojure dependency and reused inside Rama. **This is a killer feature of BigConfig.**
 
 ### The code
 A first version that uses the Prevalent System design pattern instead of Rama and the CLI instead of Pedestal is available. Instead of EKS, the proof of concept create, delete, and rename AWS users.

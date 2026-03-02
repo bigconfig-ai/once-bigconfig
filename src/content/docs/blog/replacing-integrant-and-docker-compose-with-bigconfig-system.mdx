@@ -40,7 +40,7 @@ Instead of a binary "started/stopped" toggle, BigConfig manages a granular execu
 * **Environment Prep:** Dynamically set variables for project-root/.postgres/[profile].
 * **Filesystem Cleanup:** Ensure a clean slate by wiping stale data from previous runs.
 * **Initialization:** Programmatically execute initdb.
-* **Smart Startup:** Launch Posgres via babashka/process, grepping logs for the "ready to accept connections" regex.
+* **Smart Startup:** Launch Postgres via babashka/process, grepping logs for the "ready to accept connections" regex.
 * **Provisioning:** Chain-load createuser, createdb, and sql-migrate.
 * **Teardown:** A dedicated stop-fn ensures the process tree is destroyed cleanly.
 

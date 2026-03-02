@@ -30,7 +30,7 @@ Most of the time you will use the step `render`. The `opts` key is `:big-config.
 It's a modified version of <ExternalLink href="https://github.com/seancorfield/deps-new/blob/develop/doc/templates.md">deps-new</ExternalLink> template DSL.
 
 * `template.edn` has been replaced by `::render/templates`.
-* Intead of one template, you can have multiple templates.
+* Instead of one template, you can have multiple templates.
 * The template language is <ExternalLink href="https://github.com/yogthos/Selmer">Selmer</ExternalLink>.
 * `:template` is the resource path containing `root` directory.
 * `:root` has been removed to improve validation.
@@ -80,7 +80,7 @@ This function is called with `data` and `edn` to enable the modification of all 
               :raw]]}
 ```
 
-* after `files` there is another map to overide the Selmer delimiters.
+* after `files` there is another map to override the Selmer delimiters.
 ```clojure
 {:transform [["root"
               {"projectile" ".projectile"}
