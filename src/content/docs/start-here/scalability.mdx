@@ -6,30 +6,30 @@ sidebar:
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
 
-**Scaling** means being able to handle **more developers, more applications, more complexity, and more frequent changes** without a linear increase in human effort or errors. **Code** is the only medium that offers the necessary level of automation, control, and structure to achieve that kind of non-linear scalability.
+Scaling means being able to handle more developers, more applications, more complexity, and more frequent changes without a linear increase in human effort or errors. Code is the only medium that offers the necessary level of automation, control, and structure to achieve that kind of non-linear scalability.
 
-This principle has yielded successful tools across domains: <ExternalLink href="https://airflow.apache.org/">Airflow</ExternalLink> is the gold standard for **pipelines as code** in data engineering, and <ExternalLink href="https://temporal.io/">Temporal</ExternalLink> is its counterpart for **workflows as code** in backend engineering.
+This principle has yielded successful tools across domains: <ExternalLink href="https://airflow.apache.org/">Airflow</ExternalLink> is the gold standard for pipelines as code in data engineering, and <ExternalLink href="https://temporal.io/">Temporal</ExternalLink> is its counterpart for workflows as code in backend engineering.
 
 ## Configurations files
-**Manually curating JSON/YAML isn't sustainable for growth.** While effective for small-scale projects, scaling this practice dramatically increases **human effort** and the potential for **costly errors**.
+Manually curating JSON/YAML isn't sustainable for growth. While effective for small-scale projects, scaling this practice dramatically increases human effort and the potential for costly errors.
 
 ## Configuration languages
-The proliferation of configuration languages like **HCL, CUE, Dhall, Pkl, and KCL** mirrors the notorious "**JavaScript fatigue**." This relentless, fragmented introduction of new tools and best practices creates significant stress and inefficiency, forcing developers to constantly pivot and re-learn. In stark contrast, **Clojure** is widely valued within its community for its **exceptional stability and strong commitment to backward compatibility**.
+The proliferation of configuration languages like HCL, CUE, Dhall, Pkl, and KCL mirrors the notorious "JavaScript fatigue." This relentless, fragmented introduction of new tools and best practices creates significant stress and inefficiency, forcing developers to constantly pivot and re-learn. In stark contrast, Clojure is widely valued within its community for its exceptional stability and strong commitment to backward compatibility.
 
 ## Pulumi
-**Pulumi** is an **infrastructure-as-code (IaC) tool** that can **replace** traditional provisioning tools like **Terraform** and **AWS CloudFormation**. In contrast, **BigConfig** is designed to **scale the development** of configuration files for tools like Terraform and CloudFormation **without replacing them**.
+Pulumi is an infrastructure-as-code (IaC) tool that can replace traditional provisioning tools like Terraform and AWS CloudFormation. In contrast, BigConfig is designed to scale the development of configuration files for tools like Terraform and CloudFormation without replacing them.
 
 Polyglot frameworks, such as the Pulumi, must often sacrifice advanced, language-specific features to maintain compatibility and parity across all supported programming languages.
 
 ## CDK for CloudFormation, Terraform, and K8s
-While BigConfig and the Cloud Development Kit (CDK) are conceptually aligned, they diverge significantly in their language scope. **CDK is polyglot (multi-language), while BigConfig is Clojure-exclusive**. This constraint provides a strategic benefit for BigConfig users: the codebase developed to generate configuration files can be **seamlessly repurposed** for building a dedicated control plane, offering a clear path forward when GitOps methodologies reach their scaling limits.
+While BigConfig and the Cloud Development Kit (CDK) are conceptually aligned, they diverge significantly in their language scope. CDK is polyglot (multi-language), while BigConfig is Clojure-exclusive. This constraint provides a strategic benefit for BigConfig users: the codebase developed to generate configuration files can be seamlessly repurposed for building a dedicated control plane, offering a clear path forward when GitOps methodologies reach their scaling limits.
 
 Polyglot frameworks, such as the AWS CDK, must often sacrifice advanced, language-specific features to maintain compatibility and parity across all supported programming languages.
 
 ## Crossplane
-**One-time execution of tools like Terraform eventually doesn't scale** because they lack a continuous control loop for monitoring and reconciliation. Similarly, relying on **state stored solely in a Git repository** (a common GitOps approach) also introduces scaling challenges; a dedicated **API is needed to define and manage the desired state** effectively.
+One-time execution of tools like Terraform eventually doesn't scale because they lack a continuous control loop for monitoring and reconciliation. Similarly, relying on state stored solely in a Git repository (a common GitOps approach) also introduces scaling challenges; a dedicated API is needed to define and manage the desired state effectively.
 
-While **Crossplane** offers a Kubernetes-centric control plane solution, **BigConfig** and <ExternalLink href="https://redplanetlabs.com/">Rama</ExternalLink> provide an alternative pathway. They allow organizations to **evolve their existing GitOps solutions into a full control plane** without requiring a complete start from scratch.
+While Crossplane offers a Kubernetes-centric control plane solution, BigConfig and <ExternalLink href="https://redplanetlabs.com/">Rama</ExternalLink> provide an alternative pathway. They allow organizations to evolve their existing GitOps solutions into a full control plane without requiring a complete start from scratch.
 
 ## Chezmoi, Stow, and cookiecutter
-**BigConfig’s core advantage is its unified scope.** While **Configuration as Code** and **GitOps** manage infrastructure, and tools like <ExternalLink href="https://www.chezmoi.io/">chezmoi</ExternalLink> or **stow** focus solely on local **dotfiles**, BigConfig handles this entire spectrum. It manages local development environments (dotfiles) and generates project structures (scaffolding) with the same powerful engine. The fact that BigConfig can effectively replace specialized dotfile managers like chezmoi and stow is a direct result of its inherent **scalability**: **it absorbs new use-cases, like dotfiles and scaffolding, without ever requiring a new tool.**
+BigConfig’s core advantage is its unified scope. While Configuration as Code and GitOps manage infrastructure, and tools like <ExternalLink href="https://www.chezmoi.io/">chezmoi</ExternalLink> or stow focus solely on local dotfiles, BigConfig handles this entire spectrum. It manages local development environments (dotfiles) and generates project structures (scaffolding) with the same powerful engine. The fact that BigConfig can effectively replace specialized dotfile managers like chezmoi and stow is a direct result of its inherent scalability: it absorbs new use-cases, like dotfiles and scaffolding, without ever requiring a new tool.
