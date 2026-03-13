@@ -17,23 +17,16 @@ brew install clojure/tools/clojure
 brew install borkdude/brew/babashka
 ```
   </TabItem>
-  <TabItem label="devbox">
+  <TabItem label="nix">
 ``` shell
-devbox global add clojure
-devbox global add babashka
+nix profile add nixpkgs#clojure
+nix profile add nixpkgs#babashka
 ```
   </TabItem>
 </Tabs>
 
 ## Creating a BigConfig project
-The fastest way to start with BigConfig is to use one of the official templates.
-* **action** — A single file to run CI for a Clojure/Babashka project.
-* **ansible** — A project to manage two ubuntu minipcs.
-* **devenv** — A better `init` for <ExternalLink href="https://devenv.sh/">devenv</ExternalLink>.
-* **dotfiles** — An alternative to <ExternalLink href="https://www.chezmoi.io/">chezmoi</ExternalLink>.
-* **multi** — A monorepo with three modules for Ansible and Terraform.
-* **terraform** — A project to manage AWS resources with Terraform.
-* **tools** — A single file to add Clojure Tools to your Clojure project.
+The fastest way to start with BigConfig is to use one of the official templates. The `package` template creates BigConfig Package to create a DigitalOcean droplet running Redis. The `:ssh-key` is optional if you don't have a DigitalOcean account.
 
 ``` shell
 # Add big-config as tool to Clojure
@@ -43,5 +36,5 @@ clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
 clojure -A:deps -Tbig-config help/doc
 
 # Invoke one of the templates with your options
-clojure -Tbig-config terraform
+clojure -Tbig-config package :owner <github-owner> :repository <github-repository> :ssh-key <1234>
 ```

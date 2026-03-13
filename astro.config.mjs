@@ -68,18 +68,6 @@ export default defineConfig({
           autogenerate: { directory: "start-here" },
         },
         {
-          label: "Guides",
-          autogenerate: { directory: "guides" },
-        },
-        {
-          label: "Use cases",
-          autogenerate: { directory: "use-cases" },
-        },
-        {
-          label: "Libraries",
-          autogenerate: { directory: "libraries" },
-        },
-        {
           label: "API",
           badge: {
             text: "📖",
@@ -90,6 +78,18 @@ export default defineConfig({
         {
           label: "Packages",
           autogenerate: { directory: "packages" },
+        },
+        {
+          label: "Guides",
+          autogenerate: { directory: "guides" },
+        },
+        {
+          label: "Templates",
+          autogenerate: { directory: "templates" },
+        },
+        {
+          label: "Libraries",
+          autogenerate: { directory: "libraries" },
         },
       ],
     }),

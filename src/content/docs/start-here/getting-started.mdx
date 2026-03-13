@@ -7,14 +7,15 @@ sidebar:
 import { Steps } from '@astrojs/starlight/components';
 
 BigConfig is a workflow and a template engine that enables you to have a
-zero-cost build step before running any CLI tool like GNU Make, Terraform, Kubectl, Helm, Kustomize, and Ansible.
+zero-cost build step before running any CLI tool like GNU Make, Terraform,
+Kubectl, Helm, Kustomize, and Ansible.
 
 ## Zero-cost build step
 This example is for OpenTofu but BigConfig can be used with any CLI tool.
 <Steps>
 1. Inside a BigConfig project, create an alias.
    ``` shell
-   alias tofu="bb render git-check lock exec git-push unlock-any -- alpha prod tofu"
+   alias tofu="bb render git-check lock exec git-push unlock-any -- tofu"
    ```
 2. Everything remains the same but now you have a zero-cost build step to increase your productivity.
    ``` shell
