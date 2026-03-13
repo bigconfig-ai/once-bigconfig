@@ -1,0 +1,73 @@
+---
+title: "The Power of Framing: Why BigConfig is Rebranding as a Package Manager"
+date: 2026-03-13
+excerpt: |-
+  BigConfig started as a modest script to simplify complex Terraform projects, but it has grown into something far more ambitious. By moving beyond the "library" mindset and embracing the role of a package manager for infrastructure, BigConfig overcomes the traditional barriers of language adoption. This article explores how a unified Clojure-based workflow—spanning the REPL, the Shell, and the Library—offers a total solution for developers tired of juggling fragmented YAML templates and rigid deployment schemas.
+authors: amiorin
+tags:
+  - package manager
+  - bigconfig
+  - clojure
+  - babashka
+  - nix
+  - guix
+  - helm
+cover:
+  alt: Package Manager
+  image: public/blog/package-manager.png
+featured: true
+---
+import ExternalLink from '~/components/ExternalLink.astro';
+
+BigConfig began as a simple <ExternalLink href="https://babashka.org/">Babashka</ExternalLink> script designed to DRY up a complex <ExternalLink href="https://developer.hashicorp.com/terraform">Terraform</ExternalLink> project for a data platform. Since those humble beginnings, it has evolved through several iterations into a robust template and workflow engine. But as the tool matured, I realized that technical power wasn't enough; the way it was framed was the true barrier to adoption.
+
+## The Language Barrier (and the Loophole)
+
+BigConfig is powerful as a library, but I’ve faced a hard truth: very few developers will learn a language like <ExternalLink href="https://clojure.org/">Clojure</ExternalLink> just to use a library. However, history shows that developers will learn a new language if it solves a fundamental deployment problem.
+
+People learned Ruby to master <ExternalLink href="https://brew.sh/">Homebrew</ExternalLink>; they learn <ExternalLink href="https://nixos.org/">Nix</ExternalLink> for reproducible builds. Meanwhile, tools like <ExternalLink href="https://helm.sh/">Helm</ExternalLink> force users to juggle the awkward marriage of YAML and Go templates—a "solution" many endure only because no better alternative exists. To get developers to cross the language barrier, you have to offer more than a tool; you have to offer a total solution.
+
+## The "Package Manager" Epiphany
+
+I noticed a significant shift in engagement depending on how I framed the project. When I describe BigConfig as a library, it feels abstract—like "more work" added to a developer's plate. When I introduce it as a package manager, the interest is immediate.
+
+In the mind of a developer, a library is a component you have to manage. A package manager is the system that manages things for you. By shifting the perspective, BigConfig goes from being a "Clojure utility" to an "Infrastructure Orchestrator."
+
+## How BigConfig Differs
+
+Like Nix and <ExternalLink href="https://guix.gnu.org/">Guix</ExternalLink>
+, BigConfig embraces a full programming language. However, it avoids the "two-language architecture" common in those ecosystems—where you often have a compiled language for the CLI and a separate interpreted one for the user.
+
+BigConfig is Clojure all the way down (in the spirirt of Emacs). This allows it to support three distinct environments seamlessly:
+
+1. **The REPL:** For interactive development and real-time exploration.
+2. **The Shell:** For traditional CLI workflows and CI/CD pipelines.
+3. **The Library:** For embedding directly into your own control planes or APIs.
+
+Beyond the language, BigConfig introduces robust client-side coordination, featuring an Atlantis-style locking mechanism that uses GitHub tags to prevent developer collisions in shared environments.
+
+## Limitless Abstraction
+
+The level of abstraction is where BigConfig truly shines. When you adopt the system, you aren't locked into a rigid schema; you can adapt the entire engine to your specific needs. Complex tasks—like deploying the same architecture across different hyperscalers—are reduced from massive refactors to simply updating a property. It moves the conversation from *how* to deploy to *what* to deploy.
+
+## The Roadmap
+
+The next phase is focused on expanding the ecosystem and making package discovery seamless:
+
+* **Hyperscaler Support:** Having already added <ExternalLink href="https://www.digitalocean.com/">DigitalOcean</ExternalLink>
+, <ExternalLink href="https://www.hetzner.com/">Hetzner</ExternalLink>
+, and <ExternalLink href="https://www.oracle.com/cloud/">Oracle Cloud</ExternalLink>
+, I am now prioritizing <ExternalLink href="https://aws.amazon.com/">AWS</ExternalLink>, <ExternalLink href="https://cloud.google.com/">Google Cloud</ExternalLink>
+, and <ExternalLink href="https://azure.microsoft.com/">Azure</ExternalLink>
+.
+* **Application Packages:** While the first "app"—a remote development environment—is a niche use case, I’m expanding into high-demand stacks like <ExternalLink href="https://airflow.apache.org/">Airflow</ExternalLink>
+ and <ExternalLink href="https://redplanetlabs.com/">Rama</ExternalLink>
+.
+* **The Ecosystem:** I am currently defining the formal package manifest and building a registry where users can discover, version, and publish their own infrastructure packages.
+
+## Conclusion
+The evolution of BigConfig is a testament to the idea that the right abstraction is just as important as the right code. By reframing the tool from a utility you have to manage into a system that manages for you, we bridge the gap between complex cloud resources and developer productivity.
+
+As we expand our hyperscaler support and formalize our package registry, the goal remains the same: to move infrastructure management away from the "how" and toward the "what." Whether you are deploying a niche remote environment or a massive data stack like a Data Lake, BigConfig provides the language and the logic to make your infrastructure as versionable and reproducible as your software.
+
+Would you like to have a follow-up on this topic? What are your thoughts? I'd love to <ExternalLink href="https://www.albertomiorin.com/contact#form">hear</ExternalLink> your experiences.
