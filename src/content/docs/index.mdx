@@ -1,7 +1,6 @@
 ---
 title: The package manager for any stack
 description: BigConfig is the best way to find, share, and use software built for any stack
-
 template: splash
 hero:
   tagline: BigConfig is the best way to find, share, and use software built for any stack
@@ -18,33 +17,51 @@ hero:
 banner:
   content: BigConfig <a href="/api/workflow">Workflow</a> has replaced BigConfig <a href="/api/step">Step</a>
 ---
-import { LinkCard, CardGrid } from '@astrojs/starlight/components';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Card } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid, Tabs, TabItem, Card } from '@astrojs/starlight/components';
 
 <CardGrid>
-<Card icon="document" title="Deploy Any Software to Any Stack">
-Stop inflating your infrastructure just to accommodate new software requirements. With BigConfig, you package your applications to fit your existing environment, not the other way around.
+<Card icon="document" title="Deploy Anything, Anywhere">
+Stop over-provisioning infrastructure just to meet rigid software requirements. BigConfig lets you package applications to fit your existing environment—not the other way around.
 </Card>
-<Card icon="heart" title="No Kubernetes, no problem">
-Forget the "Kubernetes tax"—you shouldn't have to manage a complex K8s cluster simply because a vendor distributed their tool via Helm. BigConfig empowers you to build packages tailored to your specific stack, giving you total control over your deployment architecture.
+<Card icon="heart" title="No Kubernetes? No Problem">
+Escape the "Kubernetes tax." You shouldn't have to manage a complex K8s cluster just because a vendor distributed a tool via Helm. BigConfig empowers you to build packages tailored to your specific stack, giving you total sovereignty over your architecture.
 </Card>
 <Card icon="setting" title="Master the Brownfield">
-You don't need a "greenfield" project or a fresh start to see the value of BigConfig. We meet you exactly where you are. BigConfig allows you to automate legacy, manual provisioning processes without the "rip and replace" headache. It acts as a high-level orchestrator, unifying your existing tools and workflows into a streamlined, automated pipeline.
+You don't need a "greenfield" project to see immediate value. BigConfig meets you where you are, automating legacy provisioning without the "rip and replace" headache. It acts as a high-level orchestrator, unifying your existing tools into a streamlined, automated pipeline.
 </Card>
-<Card icon="rocket" title="Powered by Clojure">
-With Clojure, you already have the ability to handle any automation task. This is a contrast to many modern CLI tools, like Helm, Helmfile, Kustomize, CUE, Dhall, Jsonnet, KCL, and Pkl. BigConfig, implemented in Clojure, provides the essential building blocks — a **workflow** and a **template** engine — that let you use the full power of a dynamic programming language without compromise.
+<Card icon="rocket" title="The Power of Clojure">
+Stop fighting the limitations of static configuration like Helm, Kustomize, or Jsonnet. Implemented in Clojure, BigConfig provides a robust **workflow** and **template** engine, giving you the full power of a dynamic programming language without compromise.
 </Card>
 </CardGrid>
 
-## Videos
+## Exceptional Developer Experience
+Deploying complex software should feel like a built-in command. BigConfig transforms manual provisioning into a clean, repeatable CLI experience.
+
+### Example: Managing Redis
+Deploy Redis to your specific stack:
+```shell
+bb redis create
+
+```
+
+Tear down the instance when no longer needed:
+
+```shell
+bb redis delete
+
+```
+
+---
+
+## See it in Action
+
 import YouTube from '~/components/YouTube.astro'
 
 <YouTube id="3qu1XqQefTU" si="MJMT6b0QSQwrscaR"/>
 
 <CardGrid>
-  <LinkCard title="Documentation" href="/start-here/getting-started" />
-  <LinkCard title="Blog" href="/blog" />
-  <LinkCard title="Support" href="https://albertomiorin.com" />
-  <LinkCard title="API" href="/api/core" />
+<LinkCard title="Documentation" href="/start-here/getting-started" />
+<LinkCard title="Blog" href="/blog" />
+<LinkCard title="Support" href="https://albertomiorin.com" />
+<LinkCard title="API Reference" href="/api/core" />
 </CardGrid>
