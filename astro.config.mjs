@@ -80,10 +80,6 @@ export default defineConfig({
           autogenerate: { directory: "packages" },
         },
         {
-          label: "Guides",
-          autogenerate: { directory: "guides" },
-        },
-        {
           label: "Templates",
           autogenerate: { directory: "templates" },
         },

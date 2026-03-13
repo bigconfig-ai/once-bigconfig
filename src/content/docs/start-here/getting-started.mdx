@@ -4,34 +4,131 @@ description: Getting started with BigConfig
 sidebar:
   order: 1
 ---
-import { Steps } from '@astrojs/starlight/components';
+import ExternalLink from '~/components/ExternalLink.astro';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-BigConfig is a workflow and a template engine that enables you to have a
-zero-cost build step before running any CLI tool like GNU Make, Terraform,
-Kubectl, Helm, Kustomize, and Ansible.
+A BigConfig Package (<ExternalLink href="/blog/introducing-bigconfig-package/">announcement</ExternalLink>) is a standard Clojure project. The core logic of a package is a function authored via the <ExternalLink href="/api/workflow/">BigConfig Workflow</ExternalLink>.
 
-## Zero-cost build step
-This example is for OpenTofu but BigConfig can be used with any CLI tool.
-<Steps>
-1. Inside a BigConfig project, create an alias.
-   ``` shell
-   alias tofu="bb render git-check lock exec git-push unlock-any -- tofu"
-   ```
-2. Everything remains the same but now you have a zero-cost build step to increase your productivity.
-   ``` shell
-   tofu init
-   tofu plan
-   tofu apply
-   ```
-</Steps>
+<LinkCard
+  title="Scaffold a BigConfig Package"
+  href="/templates/package"
+  description="Kickstart your project using our official starter template."
+/>
 
-## Features
-- **DRY** — Don't repeat yourself. Generate your configurations files instead of manually curate them.
-- **Monorepo ready** — It works for a solo-developer or for hundreds of teams using modules and profiles.
-- **Zero-Cost build step** — Project operations can only become fewer and faster.
-- **API ready** — Any automation can be upgraded to an API.
-- **Progressive enhancement** — Start small and DRY your configuration files incrementally.
-- **Any config file** — Any config file can be templated, from a `.bashrc` to a `main.tf`.
-- **Pulumi-like** — Write code instead of HCL files.
-- **Atlantis-like** — Multiple developers can modify the same resources at the same time using an exclusive lock.
-- **Client-only** — Unlike Atlantis, there is no backend required. GitHub tags are used instead.
+## Requirements
+BigConfig requires <ExternalLink href="https://clojure.org/">Clojure</ExternalLink> and <ExternalLink href="https://book.babashka.org/">Babashka</ExternalLink>. BigConfig doesn't have a CLI and you will use Babashka and <ExternalLink href="https://clojure.org/reference/clojure_cli#tools">Clojure Tools</ExternalLink> to interact with it from the shell.
+
+<Tabs>
+  <TabItem label="brew">
+``` shell
+brew install clojure/tools/clojure
+brew install borkdude/brew/babashka
+```
+  </TabItem>
+  <TabItem label="nix">
+``` shell
+nix profile add nixpkgs#clojure
+nix profile add nixpkgs#babashka
+```
+  </TabItem>
+</Tabs>
+
+## Babashka
+Your package is a dependency within your `bb.edn` and it is mapped to a Babashka task.
+
+**1. Register the Task**: Add the package to your `:deps` and define the task in `bb.edn`:
+
+```clojure
+# bb.edn
+{:deps {io.github.amiorin/alice {:git/sha "9c214edce47419297e6bd8212a63bb0ab93bcf86"}}
+ :tasks
+ {:requires ([io.github.amiorin.alice.package :as package])
+  alice {:doc "bb alice create"
+         :task (package/alice* *command-line-args*)}}}
+```
+
+**2. Execute via CLI**: Standardize your lifecycle commands. Note that we use `create` rather than `install` to reflect that infrastructure is being actively provisioned as part of the delivery.
+
+```bash
+# Provision the infrastructure and software
+bb alice create
+
+# Tear down the resources
+bb alice delete
+```
+> **Note:** Because BigConfig leverages Babashka, startup times are near-instant, making it ideal for CI/CD pipelines and developer inner-loops alike.
+
+## Development
+Clone the repo and change the dependency from remote to local. The `bb.edn` of the repo is also a good start.
+
+```clojure
+{:deps {io.github.amiorin/alice {:local/root "../path/to/cloned/repo"}
+ :tasks
+ {:requires ([io.github.amiorin.alice.package :as package])
+  alice {:doc "bb alice create"
+         :task (package/alice* *command-line-args*)}}}
+```
+
+## Available Steps
+### Main steps
+| Step       | Description                                                     |
+| :----      | :----                                                           |
+| **create**     | Create the delivery                                             |
+| **delete**     | Delete the delivery                                             |
+### Coordination steps
+You can use these client side steps to achieve the same thing you have with
+Atlantis for Terraform.
+| Step       | Description                                                     |
+| :----      | :----                                                           |
+| **git-check**  | Verifies the working directory is clean and synced with origin. |
+| **git-push**   | Pushes local commits to the remote repository.                  |
+| **lock**       | Acquires an execution lock.                                     |
+| **unlock-any** | Force-releases the lock, regardless of the current owner.       |
+
+
+## Options
+
+The user can pass his options to the package
+
+```clojure
+{:deps {io.github.amiorin/alice {:git/sha "9c214edce47419297e6bd8212a63bb0ab93bcf86"}}
+ :tasks
+ {:requires ([io.github.amiorin.alice.package :as package])
+  alice {:doc "bb alice create"
+         :task (package/alice* *command-line-args* {:big-config.render/profile "prod"})}}}
+```
+
+> **Note:** bb.edn doesn't support the `::` notation like Clojure files.
+
+## Advanced cases
+If you need to override the `step-fns` or generate options dynamically, you
+can override the `<workflow>*` function itself.
+
+```clojure
+(ns io.github.new-user.alice.package
+  (:require
+   [big-config :as bc]
+   [big-config.render :as render]
+   [big-config.workflow :as workflow]
+   [io.github.amiorin.alice.package :as p]))
+
+(defn alice*
+  [args & [opts]]
+  (let [profile "default"
+        step-fns [(fn [f step opts] (f step opts))]
+        opts (merge (workflow/parse-args args)
+                    {::bc/env :shell
+                     ::render/profile profile
+                     ::workflow/prefix (format ".dist/%s" profile)}
+                    opts)]
+    (p/alice step-fns opts)))
+```
+
+```clojure
+{:deps {io.github.new-user.alice {:local/root "."}}
+ :tasks
+ {:requires ([io.github.new-user.alice.package :as package])
+  ;; Provision my version of Alice
+  alice (package/alice* *command-line-args*)}}
+```
