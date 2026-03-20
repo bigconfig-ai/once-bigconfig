@@ -7,19 +7,26 @@ sidebar:
 # <a name="big-config.tools">big-config.tools</a>
 
 
+These are the templates available in BigConfig out of the box.
 
-  This is the list of templates available in BigConfig out of the box.
+  ### Available Templates
 
-  Available templates:
-  * **[`terraform`](#big-config.tools/terraform)**: Scaffold a project to manage Terraform/Tofu with BigConfig.
-  * **[`devenv`](#big-config.tools/devenv)**: Generate devenv files for Clojure and Babashka development.
-  * **[`dotfiles`](#big-config.tools/dotfiles)**: Manage user configuration (dotfiles) with templates.
-  * **[`ansible`](#big-config.tools/ansible)**: Scaffold an Ansible-based infrastructure project.
-  * **[`multi`](#big-config.tools/multi)**: A hybrid template for projects using both Ansible and Terraform.
-  * **[`action`](#big-config.tools/action)**: Create GitHub Actions workflows for Clojure projects.
-  * **[`package`](#big-config.tools/package)**: Scaffold a BigConfig package for deep automation.
-  * **[`generic`](#big-config.tools/generic)**: A base template for generic infrastructure projects.
-  * **[`tools`](#big-config.tools/tools)**: Create a `tools.clj` for programmatic workflow control.
+    * [`package`](#big-config.tools/package): Scaffold a BigConfig package for deep automation.
+    * [`devenv`](#big-config.tools/devenv): Generate [`devenv`](#big-config.tools/devenv) files for Clojure and Babashka development.
+    * [`action`](#big-config.tools/action): Create GitHub Actions workflows for Clojure projects.
+
+  -----
+
+  ### DEPRECATED Templates
+
+  > **Note:** These templates must be migrated from `step` to `workflow`.
+
+    * [`terraform`](#big-config.tools/terraform): Scaffold a project to manage Terraform/OpenTofu with BigConfig.
+    * [`dotfiles`](#big-config.tools/dotfiles): Manage user configuration (dotfiles) with templates.
+    * [`ansible`](#big-config.tools/ansible): Scaffold an Ansible-based infrastructure project.
+    * [`multi`](#big-config.tools/multi): A hybrid template for projects using both Ansible and Terraform.
+    * [`tools`](#big-config.tools/tools): Create a `tools.clj` for programmatic workflow control.
+    * [`generic`](#big-config.tools/generic): A base template for generic infrastructure projects.
 
   See [Clojure Tools](/guides/clojure-tools/) guide.
   
@@ -41,7 +48,7 @@ Create a GitHub action for the CI of a Clojure project.
 
   Example:
     clojure -Tbig-config action
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L231-L247">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L305-L321">Source</a></sub></p>
 
 ## <a name="big-config.tools/ansible">`ansible`</a>
 ``` clojure
@@ -49,7 +56,9 @@ Create a GitHub action for the CI of a Clojure project.
 ```
 Function.
 
-Create a repo to manage Ansible projects with BigConfig.
+DEPRECATED, use the [`package`](#big-config.tools/package) template
+
+  Create a repo to manage Ansible projects with BigConfig.
 
   Options:
   - :target-dir  target directory for the template ([`ansible`](#big-config.tools/ansible) is the default)
@@ -57,14 +66,14 @@ Create a repo to manage Ansible projects with BigConfig.
 
   Example:
     clojure -Tbig-config ansible
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L185-L201">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L255-L273">Source</a></sub></p>
 
 ## <a name="big-config.tools/data-fn">`data-fn`</a>
 ``` clojure
 (data-fn {:keys [owner repository], :as data} _ops)
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L313-L319">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L118-L124">Source</a></sub></p>
 
 ## <a name="big-config.tools/devenv">`devenv`</a>
 ``` clojure
@@ -79,7 +88,7 @@ Create the devenv files for Clojure and Babashka development.
 
   Example:
     clojure -Tbig-config devenv
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L141-L156">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L209-L224">Source</a></sub></p>
 
 ## <a name="big-config.tools/dotfiles">`dotfiles`</a>
 ``` clojure
@@ -87,7 +96,9 @@ Create the devenv files for Clojure and Babashka development.
 ```
 Function.
 
-Create a repo to manage dotfiles with BigConfig.
+DEPRECATED: clone https://github.com/amiorin/dotfiles-v3
+
+  Create a repo to manage dotfiles with BigConfig.
 
   Options:
   - :target-dir  target directory for the template ([`dotfiles`](#big-config.tools/dotfiles) is the default)
@@ -95,7 +106,7 @@ Create a repo to manage dotfiles with BigConfig.
 
   Example:
     clojure -Tbig-config dotfiles
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L163-L178">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L231-L248">Source</a></sub></p>
 
 ## <a name="big-config.tools/generic">`generic`</a>
 ``` clojure
@@ -103,7 +114,9 @@ Create a repo to manage dotfiles with BigConfig.
 ```
 Function.
 
-Create a repo to manage a generic projects with BigConfig.
+DEPRECATED, use the [`package`](#big-config.tools/package) template
+
+  Create a repo to manage a generic projects with BigConfig.
 
   Options:
   - :target-dir  target directory for the template ([`generic`](#big-config.tools/generic) is the default)
@@ -111,7 +124,7 @@ Create a repo to manage a generic projects with BigConfig.
 
   Example:
     clojure -Tbig-config generic
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L287-L304">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L363-L382">Source</a></sub></p>
 
 ## <a name="big-config.tools/multi">`multi`</a>
 ``` clojure
@@ -119,7 +132,9 @@ Create a repo to manage a generic projects with BigConfig.
 ```
 Function.
 
-Create a repo to manage both Ansible and Terraform projects with BigConfig.
+DEPRECATED, use the [`package`](#big-config.tools/package) template
+
+  Create a repo to manage both Ansible and Terraform projects with BigConfig.
 
   Options:
   - :target-dir  target directory for the template ([`multi`](#big-config.tools/multi) is the default)
@@ -127,7 +142,7 @@ Create a repo to manage both Ansible and Terraform projects with BigConfig.
 
   Example:
     clojure -Tbig-config multi
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L208-L224">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L280-L298">Source</a></sub></p>
 
 ## <a name="big-config.tools/package">`package`</a>
 ``` clojure
@@ -146,13 +161,13 @@ Create a BigConfig package.
 
   Example:
     clojure -Tbig-config package
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L321-L353">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L126-L159">Source</a></sub></p>
 
 ## <a name="big-config.tools/step-fns">`step-fns`</a>
 
 
 
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L87-L89">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L97-L99">Source</a></sub></p>
 
 ## <a name="big-config.tools/terraform">`terraform`</a>
 ``` clojure
@@ -160,7 +175,9 @@ Create a BigConfig package.
 ```
 Function.
 
-Create a repo to manage Terraform/Tofu projects with BigConfig.
+DEPRECATED, use the [`package`](#big-config.tools/package) template
+
+  Create a repo to manage Terraform/Tofu projects with BigConfig.
 
   Options:
   - :target-dir  target directory for the template (`terrafom` is the default)
@@ -172,7 +189,7 @@ Create a repo to manage Terraform/Tofu projects with BigConfig.
 
   Example:
     clojure -Tbig-config terraform :region us-west-1
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L106-L130">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L172-L198">Source</a></sub></p>
 
 ## <a name="big-config.tools/tools">`tools`</a>
 ``` clojure
@@ -180,7 +197,9 @@ Create a repo to manage Terraform/Tofu projects with BigConfig.
 ```
 Function.
 
-Create a tools.clj for a Clojure project.
+DEPRECATED, use https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj
+
+  Create a tools.clj for a Clojure project.
 
   Options:
   - :target-dir  target directory for the template (current directory is the default)
@@ -190,5 +209,5 @@ Create a tools.clj for a Clojure project.
 
   Example:
     clojure -Tbig-config tools
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L257-L277">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj#L331-L353">Source</a></sub></p>
 
