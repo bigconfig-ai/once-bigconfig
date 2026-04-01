@@ -77,6 +77,8 @@ import { Aside } from '@astrojs/starlight/components';
   arguments.
   * **[`select-globals`](#big-config.workflow/select-globals)**: Utility function to copy the global options across
   workflows.
+  * **[`merge-params`](#big-config.workflow/merge-params)**: Utility function to merge the package params with the
+  tool params. `tools` is a sequence of qualified keywords.
 
   ### Options for `wf*-opts`.
   * `:first-step` (required): First step of the workflow.
@@ -233,7 +235,16 @@ import { Aside } from '@astrojs/starlight/components';
 Function.
 
 Creates a workflow of workflows. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L410-L468">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L412-L470">Source</a></sub></p>
+
+## <a name="big-config.workflow/merge-params">`merge-params`</a>
+``` clojure
+(merge-params tools params opts)
+```
+Function.
+
+Merge the package params with the tool params. See the namespace [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L514-L523">Source</a></sub></p>
 
 ## <a name="big-config.workflow/parse-args">`parse-args`</a>
 ``` clojure
@@ -243,7 +254,7 @@ Function.
 
 Utility functions to normalize string or vector-based arguments. See the
   namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L338-L379">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L340-L381">Source</a></sub></p>
 
 ## <a name="big-config.workflow/path">`path`</a>
 ``` clojure
@@ -251,8 +262,8 @@ Utility functions to normalize string or vector-based arguments. See the
 ```
 Function.
 
-Find the path of a previous workflow to extract the outputs.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L486-L489">Source</a></sub></p>
+Find the path of a previous workflow to extract the outputs. See the namespace [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L488-L491">Source</a></sub></p>
 
 ## <a name="big-config.workflow/prepare">`prepare`</a>
 ``` clojure
@@ -261,7 +272,7 @@ Find the path of a previous workflow to extract the outputs.
 Function.
 
 Prepare `opts`. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L494-L506">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L496-L508">Source</a></sub></p>
 
 ## <a name="big-config.workflow/print-step-fn">`print-step-fn`</a>
 ``` clojure
@@ -271,7 +282,7 @@ Function.
 
 Print all steps of the workflow. See the namespace
   [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L227-L261">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L229-L263">Source</a></sub></p>
 
 ## <a name="big-config.workflow/run-steps">`run-steps`</a>
 ``` clojure
@@ -281,12 +292,12 @@ Function.
 
 A dynamic workflow that takes a list of steps, a create function, and a
   delete function. See the namespace [`big-config.workflow`](#big-config.workflow)
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L277-L322">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L279-L324">Source</a></sub></p>
 
 ## <a name="big-config.workflow/select-globals">`select-globals`</a>
 ``` clojure
 (select-globals {:keys [globals], :as opts})
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L273-L275">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L275-L277">Source</a></sub></p>
 
