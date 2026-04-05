@@ -22,9 +22,13 @@ import { Aside } from '@astrojs/starlight/components';
   executes CLI tools (e.g., Terraform/OpenTofu, Ansible).
   * **`comp-workflow`**: A high-level orchestrator that sequences multiple
   `tool-workflows` to create a unified lifecycle (e.g., `create`, `delete`).
+  * **`system-workflow`**: A lifecycle management engine (see `big-config.system`)
+  that coordinates starting and stopping system components as an alternative to Integrant.
 
   ### Usage Syntax
   BigConfig Workflow can be used as a library or as a CLI using Babashka.
+  The engine is powered by **[pluggable steps](../pluggable)**, allowing for
+  seamless extension via multimethods.
 
   ```shell
   # Execute a tool workflow directly
@@ -68,38 +72,87 @@ import { Aside } from '@astrojs/starlight/components';
   | **lock**       | Acquires an execution lock.                                     |
   | **unlock-any** | Force-releases the lock, regardless of the current owner.       |
 
+  ### Extending Workflows with Custom Steps
+
+  The workflow engine is powered by **[pluggable steps](../pluggable)**.
+  You can extend or override any step by defining a method for the
+  `big-config.pluggable/handle-step` multimethod. This allows you to add custom
+  logic or completely change the behavior of built-in steps like `render` or `lock`.
+
+  ```clojure
+  (require '[big-config.pluggable :as pluggable])
+  (require '[big-config.core :as core])
+
+  (defmethod pluggable/handle-step ::my-custom-step
+    [step step-fns opts]
+    ;; Your custom logic here
+    (println "Executing custom step!")
+    (core/ok opts))
+
+  ;; Usage in a workflow
+  (run-steps step-fns {::workflow/steps [:my-custom-step]})
+  ```
+
+  When using [`parse-args`](#big-config.workflow/parse-args) (e.g., in Babashka tasks), you might need to register
+  new step names so they are recognized as steps rather than shell commands.
+  This is done by rebinding the dynamic var [`*parse-args-steps*`](#big-config.workflow/*parse-args-steps*). Note that
+  steps are keywords, not strings.
+
+  ```clojure
+  (binding [workflow/*parse-args-steps* (conj workflow/*parse-args-steps* :my-custom-step)]
+    (workflow/parse-args ["my-custom-step" "render"]))
+  ```
+
   ### Core Logic & Functions
-  * **[`run-steps`](#big-config.workflow/run-steps)**: The engine for dynamic workflow execution.
+  * **[`run-steps`](#big-config.workflow/run-steps)**: The engine for dynamic workflow execution. It's a pluggable workflow.
   * **[`->workflow*`](#big-config.workflow/->workflow*)**: Creates a workflow of workflows.
   * **[`prepare`](#big-config.workflow/prepare)**: Shared logic for rendering templates and initializing
   execution environments.
   * **[`parse-args`](#big-config.workflow/parse-args)**: Utility function to normalize string or vector-based
   arguments.
   * **[`select-globals`](#big-config.workflow/select-globals)**: Utility function to copy the global options across
-  workflows.
+  workflows. Propagates `::bc/env`, `::run/shell-opts`, `::render/module`,
+  `::render/profile`, `::prefix`, `::object-prefix`, and `::globals`.
   * **[`merge-params`](#big-config.workflow/merge-params)**: Utility function to merge the package params with the
   tool params. `tools` is a sequence of qualified keywords.
+  * **[`read-bc-pars`](#big-config.workflow/read-bc-pars)**: Utility function to override the package params with
+  environment variable.
 
   ### Options for `wf*-opts`.
   * `:first-step` (required): First step of the workflow.
-  * `:last-step` (optional): Optional last step.
+  * `:last-step` (optional): Optional last step (defaults to `<namespace-of-first-step>/end`).
   * `:pipeline` (required): A vector containing the repetition of:
     * The qualified keyword of the tool workflow (e.g., `::tools/tofu`).
     * A vector containing:
       * Arguments for the tool workflow (e.g., `["render ..."]`).
       * An optional `opts-fn` to adapt/merge outputs from previous steps into the current params.
+  > **Note:** [`->workflow*`](#big-config.workflow/->workflow*) calls [`new-prefix`](#big-config.workflow/new-prefix) on the globals derived from `opts`,
+  > which stamps a unique hash into both `::prefix` and `::object-prefix`. Each
+  > invocation of the composite workflow therefore writes to an isolated directory
+  > and object path, avoiding collisions when the same workflow is run concurrently.
 
   ### Options for `opts` and step `render`
   * `::name` (required): The unique identifier for the workflow instance.
   * `::path-fn` (optional): Logic for resolving file paths.
-  * `::params` (optional): The input data for the workflow.
+  * `::object-fn` (optional): Logic for resolving the target object name (defaults to `<object-prefix>/<name-as-dashed-string>`).
+  * `::prefix` (optional): The base directory prefix (defaults to `.dist`).
+  * `::object-prefix` (optional): The base object prefix used to compute `:target-object` in template params (defaults to `tofu`).
+  * `::params` (optional): The input data for the workflow. The conventions is
+  to use unqualified keywords with prefixes like: `:oci-config-file-profile` or
+  `:hcloud-server-type`.
 
   ### Options for `prepare-opts` and step `render`
   * `::name` (required): The unique identifier for the workflow instance.
 
   ### Options for `prepare-overrides` and step `render`
   * `::path-fn` (optional): Logic for resolving file paths.
+  * `::object-fn` (optional): Logic for resolving the target object name.
+  * `::prefix` (optional): Override for the base directory prefix.
+  * `::object-prefix` (optional): Override for the base object prefix.
   * `::params` (optional): The input data for the workflow.
+
+  > **Note:** [`prepare`](#big-config.workflow/prepare) injects `:target-dir` and `:target-object` into every
+  > template map so templates can reference them without repeating path logic.
 
   ### Options for `opts` and step `create` or `delete`
   * `::create-fn` (required): The workflow to create the resource.
@@ -228,6 +281,12 @@ import { Aside } from '@astrojs/starlight/components';
 
 
 
+## <a name="big-config.workflow/*parse-args-steps*">`*parse-args-steps*`</a>
+
+
+
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L418-L418">Source</a></sub></p>
+
 ## <a name="big-config.workflow/->workflow*">`->workflow*`</a>
 ``` clojure
 (->workflow* wf*-opts)
@@ -235,7 +294,7 @@ import { Aside } from '@astrojs/starlight/components';
 Function.
 
 Creates a workflow of workflows. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L412-L470">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L501-L559">Source</a></sub></p>
 
 ## <a name="big-config.workflow/merge-params">`merge-params`</a>
 ``` clojure
@@ -243,8 +302,9 @@ Creates a workflow of workflows. See the namespace [`big-config.workflow`](#big-
 ```
 Function.
 
-Merge the package params with the tool params. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L514-L523">Source</a></sub></p>
+Merge the package params with the tool params. Tools is a seq of qualified
+  keywords. See the namespace [`big-config.workflow`](#big-config.workflow).
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L607-L617">Source</a></sub></p>
 
 ## <a name="big-config.workflow/parse-args">`parse-args`</a>
 ``` clojure
@@ -254,7 +314,7 @@ Function.
 
 Utility functions to normalize string or vector-based arguments. See the
   namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L340-L381">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L420-L461">Source</a></sub></p>
 
 ## <a name="big-config.workflow/path">`path`</a>
 ``` clojure
@@ -263,7 +323,7 @@ Utility functions to normalize string or vector-based arguments. See the
 Function.
 
 Find the path of a previous workflow to extract the outputs. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L488-L491">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L577-L580">Source</a></sub></p>
 
 ## <a name="big-config.workflow/prepare">`prepare`</a>
 ``` clojure
@@ -272,7 +332,7 @@ Find the path of a previous workflow to extract the outputs. See the namespace [
 Function.
 
 Prepare `opts`. See the namespace [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L496-L508">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L585-L600">Source</a></sub></p>
 
 ## <a name="big-config.workflow/print-step-fn">`print-step-fn`</a>
 ``` clojure
@@ -282,7 +342,21 @@ Function.
 
 Print all steps of the workflow. See the namespace
   [`big-config.workflow`](#big-config.workflow).
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L229-L263">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L284-L318">Source</a></sub></p>
+
+## <a name="big-config.workflow/read-bc-pars">`read-bc-pars`</a>
+``` clojure
+(read-bc-pars opts)
+(read-bc-pars opts env)
+```
+Function.
+
+Function to override any `params` with an environment variable. If the
+  `param` is `cloudflare-zone-id` then the environment variable is `export
+  BC_PAR_CLOUDFLARE_ZONE_ID="your-zone-id"` See the namespace
+  [`big-config.workflow`](#big-config.workflow).
+  
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L626-L643">Source</a></sub></p>
 
 ## <a name="big-config.workflow/run-steps">`run-steps`</a>
 ``` clojure
@@ -292,12 +366,12 @@ Function.
 
 A dynamic workflow that takes a list of steps, a create function, and a
   delete function. See the namespace [`big-config.workflow`](#big-config.workflow)
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L279-L324">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L340-L390">Source</a></sub></p>
 
 ## <a name="big-config.workflow/select-globals">`select-globals`</a>
 ``` clojure
 (select-globals {:keys [globals], :as opts})
 ```
 Function.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L275-L277">Source</a></sub></p>
+<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/workflow.clj#L330-L338">Source</a></sub></p>
 
