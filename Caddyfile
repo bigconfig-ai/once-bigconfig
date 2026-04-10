@@ -1,0 +1,11 @@
+:80 {
+	handle /up {
+		header Content-Type text/plain; charset=utf-8
+		respond `OK` 200
+	}
+
+	handle {
+		root * /srv
+		file_server
+	}
+}
