@@ -1,6 +1,7 @@
 .*
 !.gitignore
 !.envrc
+!.github
 
 # build output
 dist/
