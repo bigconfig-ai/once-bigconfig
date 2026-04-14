@@ -46,6 +46,9 @@ The `bb.edn` contains the dependency https://github.com/amiorin/once
 You can download https://github.com/amiorin/once to see how it works.
 https://github.com/amiorin/once is built on top of https://github.com/amiorin/big-config
 You can download https://github.com/amiorin/big-config to see how it works.
+All the options should be defined in the `bb.edn`.
+Only the package task should be created.
+Only io.github.amiorin.once.package should be required in `bb.edn`
 The domain is bigconfig.online.
 The host is www.bigconfig.online.
 The container is ghcr.io/amiorin/big-config-website:latest
@@ -58,56 +61,44 @@ You need to create the `.envrc` to store environment variable for the credential
 </TabItem>
 <TabItem label="bb.edn">
 ```clojure title="bb.edn"
-{:deps {io.amiorin.once {:git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
- :tasks
- {:requires ([big-config.render :as render]
-             [big-config.workflow :as workflow]
-             [io.github.amiorin.once.package :as package]
-             [io.github.amiorin.once.params :as params]
-             [io.github.amiorin.once.tools :as tools])
+{:deps  {io.github.amiorin/once {:git/url "https://github.com/amiorin/once"
+                                 :git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
+ :tasks {:requires ([io.github.amiorin.once.package :as pkg])
+         package   {:doc  "bb package create | bb package delete"
+                    :task (pkg/once*
+                           *command-line-args*
+                           {:big-config.render/profile "online"
+                            :big-config.workflow/params
+                            {:domain  "bigconfig.online"
+                             :package "online"
+                             :once    {:applications [{:host  "www.bigconfig.online"
+                                                       :image "ghcr.io/amiorin/big-config-website:latest"}]}
 
-  :init (def bigconfig-online
-          {:big-config.render/profile "online"
-           :big-config.workflow/params
-           {:package "online"
-            :domain  "bigconfig.online"
+                             :provider-compute            "oci"
+                             :oci-config-file-profile     "DEFAULT"
+                             :oci-display-name            "bigconfig-online"
+                             :oci-shape                   "VM.Standard.A1.Flex"
+                             :oci-ocpus                   1
+                             :oci-memory-in-gbs           6
+                             :oci-boot-volume-size-in-gbs 50
+                             :oci-boot-volume-vpus-per-gb 30
+                             :oci-ssh-authorized-keys     "~/.ssh/id_ed25519.pub"
 
-            :provider-compute           "oci"
-            :oci-config-file-profile    "DEFAULT"
-            :oci-compartment-id         "FILL-ME-IN"
-            :oci-subnet-id              "FILL-ME-IN"
-            :oci-availability-domain    "FILL-ME-IN"
-            :oci-display-name           "bigconfig-online"
-            :oci-shape                  "VM.Standard.A1.Flex"
-            :oci-ocpus                  1
-            :oci-memory-in-gbs          6
-            :oci-boot-volume-size-in-gbs 50
-            :oci-boot-volume-vpus-per-gb 30
-            :oci-ssh-authorized-keys    "~/.ssh/id_ed25519.pub"
+                             :provider-smtp   "resend"
+                             :resend-server   "smtp.resend.com"
+                             :resend-port     587
+                             :resend-username "resend"
 
-            :provider-smtp   "resend"
-            :resend-server   "smtp.resend.com"
-            :resend-port     587
-            :resend-username "resend"
+                             :provider-dns "cloudflare"
 
-            :provider-dns "cloudflare"
-
-            :provider-backend "s3"
-            :s3-bucket        "FILL-ME-IN"
-            :s3-region        "eu-west-1"
-
-            :once {:applications [{:host  "www.bigconfig.online"
-                                   :image "ghcr.io/amiorin/big-config-website"}]}}})
-
-  once {:doc  "bb once create | bb once delete"
-        :task (package/once* *command-line-args* bigconfig-online)}}}
+                             :provider-backend "s3"}})}}}
 ```
 </TabItem>
 <TabItem label="Run">
 ```shell
-bb once create
+bb package create
 
-bb once delete
+bb package delete
 ```
 </TabItem>
 </Tabs>
