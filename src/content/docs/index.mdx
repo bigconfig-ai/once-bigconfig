@@ -1,9 +1,9 @@
 ---
-title: The package manager for any stack
-description: BigConfig is the best way to find, share, and use software built for any stack
+title: The first agentic package manager
+description: BigConfig is the first package manager designed to work with Claude Code out of the box.
 template: splash
 hero:
-  tagline: BigConfig is the best way to find, share, and use software built for any stack
+  tagline: You don't need to learn BigConfig, Claude Code can operate it for you.
   image:
     file: ../../assets/logo.svg
   actions:
@@ -14,50 +14,105 @@ hero:
       link: https://github.com/amiorin/big-config
       icon: external
       variant: minimal
-banner:
-  content: BigConfig <a href="/api/workflow">Workflow</a> has replaced BigConfig <a href="/api/step">Step</a>
 ---
 import { LinkCard, CardGrid, Tabs, TabItem, Card } from '@astrojs/starlight/components';
 
 <CardGrid>
-<Card icon="document" title="Deploy Anything, Anywhere">
-Stop over-provisioning infrastructure just to meet rigid software requirements. BigConfig lets you package applications to fit your existing environment—not the other way around.
-</Card>
-<Card icon="heart" title="No Kubernetes? No Problem">
-Escape the "Kubernetes tax." You shouldn't have to manage a complex K8s cluster just because a vendor distributed a tool via Helm. BigConfig empowers you to build packages tailored to your specific stack, giving you total sovereignty over your architecture.
+<Card icon="pencil" title="Deploy in plain English">
+Deploying non-trivial software is possible in English without writing a single line of code — try it yourself with the `plan.md` below.
 </Card>
 <Card icon="setting" title="Master the Brownfield">
 You don't need a "greenfield" project to see immediate value. BigConfig meets you where you are, automating legacy provisioning without the "rip and replace" headache. It acts as a high-level orchestrator, unifying your existing tools into a streamlined, automated pipeline.
+
+Ask Claude Code to convert your existing DevOps project to a BigConfig package.
 </Card>
-<Card icon="rocket" title="The Power of Clojure">
-Stop fighting the limitations of static configuration like Helm, Kustomize, or Jsonnet. Implemented in Clojure, BigConfig provides a robust **workflow** and **template** engine, giving you the full power of a dynamic programming language without compromise.
+<Card icon="heart" title="No Kubernetes? No Problem">
+Escape the "Kubernetes tax". You shouldn't have to manage a complex K8s cluster just because a vendor distributed a tool via Helm. BigConfig empowers you to build packages tailored to your specific stack, giving you total sovereignty over your architecture.
+</Card>
+<Card icon="document" title="Deploy Anything, Anywhere">
+Stop over-provisioning infrastructure just to meet rigid software requirements. BigConfig lets you package applications to fit your existing environment—not the other way around.
 </Card>
 </CardGrid>
 
-## Exceptional Developer Experience
-Deploying complex software should feel like a built-in command. BigConfig transforms manual provisioning into a clean, repeatable CLI experience.
+## Deploy with Claude Code
+Describe the deployment in plain English. Claude Code refines the plan, writes a single `bb.edn`, and runs it.
 
-### Example: Managing Redis
-Deploy Redis to your specific stack:
-```shell
-bb redis create
-
+<Tabs>
+<TabItem label="plan.md">
+```text title="plan.md"
+You need to create a project to deploy a web application.
+This project contains only the `bb.edn` file.
+The `bb.edn` contains the dependency https://github.com/amiorin/once
+You can download https://github.com/amiorin/once to see how it works.
+https://github.com/amiorin/once is built on top of https://github.com/amiorin/big-config
+You can download https://github.com/amiorin/big-config to see how it works.
+The domain is bigconfig.online.
+The host is www.bigconfig.online.
+The container is ghcr.io/amiorin/big-config-website:latest
+The compute provider is OCI with 6 GB, 1 core, and 50 GB of disk.
+The dns provider is Cloudflare.
+The smtp provider is Resend.
+The backend provider is S3.
+You need to create the `.envrc` to store environment variable for the credentials, I will provide the values later.
 ```
+</TabItem>
+<TabItem label="bb.edn">
+```clojure title="bb.edn"
+{:deps {io.amiorin.once {:git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
+ :tasks
+ {:requires ([big-config.render :as render]
+             [big-config.workflow :as workflow]
+             [io.github.amiorin.once.package :as package]
+             [io.github.amiorin.once.params :as params]
+             [io.github.amiorin.once.tools :as tools])
 
-Tear down the instance when no longer needed:
+  :init (def bigconfig-online
+          {:big-config.render/profile "online"
+           :big-config.workflow/params
+           {:package "online"
+            :domain  "bigconfig.online"
 
-```shell
-bb redis delete
+            :provider-compute           "oci"
+            :oci-config-file-profile    "DEFAULT"
+            :oci-compartment-id         "FILL-ME-IN"
+            :oci-subnet-id              "FILL-ME-IN"
+            :oci-availability-domain    "FILL-ME-IN"
+            :oci-display-name           "bigconfig-online"
+            :oci-shape                  "VM.Standard.A1.Flex"
+            :oci-ocpus                  1
+            :oci-memory-in-gbs          6
+            :oci-boot-volume-size-in-gbs 50
+            :oci-boot-volume-vpus-per-gb 30
+            :oci-ssh-authorized-keys    "~/.ssh/id_ed25519.pub"
 
+            :provider-smtp   "resend"
+            :resend-server   "smtp.resend.com"
+            :resend-port     587
+            :resend-username "resend"
+
+            :provider-dns "cloudflare"
+
+            :provider-backend "s3"
+            :s3-bucket        "FILL-ME-IN"
+            :s3-region        "eu-west-1"
+
+            :once {:applications [{:host  "www.bigconfig.online"
+                                   :image "ghcr.io/amiorin/big-config-website"}]}}})
+
+  once {:doc  "bb once create | bb once delete"
+        :task (package/once* *command-line-args* bigconfig-online)}}}
 ```
+</TabItem>
+<TabItem label="Run">
+```shell
+bb once create
 
----
+bb once delete
+```
+</TabItem>
+</Tabs>
 
-## See it in Action
-
-import YouTube from '~/components/YouTube.astro'
-
-<YouTube id="3qu1XqQefTU" si="MJMT6b0QSQwrscaR"/>
+Using a BigConfig package takes a single file — `bb.edn` — and Claude Code can create it for you.
 
 <CardGrid>
 <LinkCard title="Documentation" href="/start-here/getting-started" />
