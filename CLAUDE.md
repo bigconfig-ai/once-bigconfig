@@ -203,7 +203,6 @@ From recent commit history:
 - **Do not commit `.env*` files** — gitignored by default
 - **Do not modify `pnpm-lock.yaml` manually** — always let pnpm manage it
 - **Do not add test files** — there is no test infrastructure in this project
-- **Do not create new Astro pages in `src/pages/`** — all content is managed through Starlight's content collections in `src/content/docs/`
 
 ---
 
