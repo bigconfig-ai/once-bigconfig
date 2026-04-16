@@ -368,7 +368,7 @@ const features = [
         status.classList.remove("hidden");
         status.textContent = "Sending…";
         try {
-          const res = await fetch("https://app.bigconfig.website/clickhouse", {
+          const res = await fetch("https://app-v2.bigconfig.website/clickhouse", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
