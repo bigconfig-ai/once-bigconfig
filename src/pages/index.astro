@@ -1,0 +1,411 @@
+---
+import "~/styles/global.css";
+import logo from "~/assets/logo-light.svg";
+
+const features = [
+  {
+    title: "Deploy in plain English",
+    body: "Deploying non-trivial software is possible in English without writing a single line of code — try it yourself with the plan.md below.",
+    icon: "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z",
+  },
+  {
+    title: "Master the Brownfield",
+    body: "You don't need a \"greenfield\" project to see immediate value. BigConfig meets you where you are, automating legacy provisioning without the \"rip and replace\" headache. Ask your agent to convert your existing DevOps project to a BigConfig package.",
+    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+  },
+  {
+    title: "No Kubernetes? No Problem",
+    body: "Escape the \"Kubernetes tax\". You shouldn't have to manage a complex K8s cluster just because a vendor distributed a tool via Helm. BigConfig empowers you to build packages tailored to your specific stack, giving you total sovereignty over your architecture.",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+  },
+  {
+    title: "Deploy Anything, Anywhere",
+    body: "Stop over-provisioning infrastructure just to meet rigid software requirements. BigConfig lets you package applications to fit your existing environment—not the other way around.",
+    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+  },
+];
+
+const links = [
+  {
+    title: "Documentation",
+    body: "Getting started guides, tutorials, and reference.",
+    href: "/start-here/getting-started",
+  },
+  {
+    title: "Blog",
+    body: "Articles about Agentic DevOps and BigConfig.",
+    href: "/blog",
+  },
+  {
+    title: "Support",
+    body: "Consulting and training from the author.",
+    href: "https://albertomiorin.com",
+  },
+  {
+    title: "API Reference",
+    body: "Core, Workflow, Step, Pluggable, Render.",
+    href: "/api/core",
+  },
+];
+
+const planMd = `You need to create a project to deploy a web application.
+This project contains only the \`bb.edn\` file.
+The \`bb.edn\` contains the dependency https://github.com/amiorin/once
+You can download https://github.com/amiorin/once to see how it works.
+https://github.com/amiorin/once is built on top of https://github.com/amiorin/big-config
+You can download https://github.com/amiorin/big-config to see how it works.
+All the options should be defined in the \`bb.edn\`.
+Only the package task should be created.
+Only io.github.amiorin.once.package should be required in \`bb.edn\`
+The domain is bigconfig.online.
+The host is www.bigconfig.online.
+The container is ghcr.io/amiorin/big-config-website:latest
+The compute provider is OCI with 6 GB, 1 core, and 50 GB of disk.
+The dns provider is Cloudflare.
+The smtp provider is Resend.
+The backend provider is S3.
+You need to create the \`.envrc\` to store environment variable for the credentials, I will provide the values later.`;
+
+const bbEdn = `{:deps  {io.github.amiorin/once {:git/url "https://github.com/amiorin/once"
+                                 :git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
+ :tasks {:requires ([io.github.amiorin.once.package :as pkg])
+         package   {:doc  "bb package create | bb package delete"
+                    :task (pkg/once*
+                           *command-line-args*
+                           {:big-config.render/profile "online"
+                            :big-config.workflow/params
+                            {:domain  "bigconfig.online"
+                             :package "online"
+                             :once    {:applications [{:host  "www.bigconfig.online"
+                                                       :image "ghcr.io/amiorin/big-config-website:latest"}]}
+
+                             :provider-compute            "oci"
+                             :oci-config-file-profile     "DEFAULT"
+                             :oci-display-name            "bigconfig-online"
+                             :oci-shape                   "VM.Standard.A1.Flex"
+                             :oci-ocpus                   1
+                             :oci-memory-in-gbs           6
+                             :oci-boot-volume-size-in-gbs 50
+                             :oci-boot-volume-vpus-per-gb 30
+                             :oci-ssh-authorized-keys     "~/.ssh/id_ed25519.pub"
+
+                             :provider-smtp   "resend"
+                             :resend-server   "smtp.resend.com"
+                             :resend-port     587
+                             :resend-username "resend"
+
+                             :provider-dns "cloudflare"
+
+                             :provider-backend "s3"}})}}}`;
+
+const runSh = `bb package create
+
+bb package delete`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BigConfig — The first agentic package manager</title>
+    <meta
+      name="description"
+      content="BigConfig is the first package manager designed to work with agents out of the box."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VKP1WY4QJ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-4VKP1WY4QJ");
+    </script>
+    <style is:global>
+      body {
+        margin-top: 0;
+        font-family:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+      }
+      a {
+        text-decoration: none;
+      }
+      :where(button) {
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+      }
+      pre {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-neutral-950 text-neutral-100 antialiased">
+    <div
+      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(6,82,233,0.15),_transparent_60%)]"
+    >
+    </div>
+
+    <div
+      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+    >
+      <header
+        class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+      >
+        <a
+          href="/"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+        >
+          <img src={logo.src} alt="" class="h-7 w-auto" />
+        </a>
+        <nav class="hidden gap-8 text-sm md:flex">
+          <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
+          <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
+          <a href="/marketplace" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
+          <a href="/start-here/getting-started" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
+          <a href="/blog" class="text-white hover:text-[#62e1e9]">Blog ↗</a>
+        </nav>
+        <a
+          href="https://github.com/amiorin/big-config"
+          class="rounded-full bg-[#0652e9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e6cf3]"
+        >
+          GitHub
+        </a>
+      </header>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-6 pt-6">
+      <div
+        class="rounded-full border border-[#62e1e9]/30 bg-[#62e1e9]/5 px-4 py-2 text-center text-sm text-neutral-300"
+      >
+        <span aria-hidden="true">🎉</span> Early access to <a
+          href="/clickhouse"
+          class="font-semibold text-[#62e1e9] hover:text-[#8ce9ed]"
+          >ClickHouse</a
+        > and <a
+          href="/marketplace"
+          class="font-semibold text-[#62e1e9] hover:text-[#8ce9ed]"
+          >Marketplace</a
+        > <span aria-hidden="true">🎉</span>
+      </div>
+    </div>
+
+    <section class="mx-auto max-w-6xl px-6 pt-16 pb-24 text-center md:pt-20 md:pb-28">
+      <div
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
+        Agentic DevOps · Clojure-native
+      </div>
+      <h1
+        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
+      >
+        The first<br />
+        <span
+          class="bg-gradient-to-r from-[#62e1e9] via-[#3a8cec] to-[#0652e9] bg-clip-text text-transparent"
+          >agentic package manager.</span
+        >
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">
+        You don't need to learn BigConfig, your agent can operate it for you.
+      </p>
+      <div
+        class="mx-auto mt-10 flex max-w-md flex-col items-stretch justify-center gap-4 px-4 sm:max-w-none sm:flex-row sm:items-center sm:px-0"
+      >
+        <a
+          href="/start-here/getting-started"
+          class="rounded-full bg-[#0652e9] px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-[#1e6cf3]"
+        >
+          Get started →
+        </a>
+        <a
+          href="https://github.com/amiorin/big-config"
+          class="rounded-full border border-neutral-700 px-8 py-4 text-center text-base font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+        >
+          View on GitHub
+        </a>
+      </div>
+    </section>
+
+    <section id="features" class="mx-auto max-w-6xl px-6 py-20">
+      <div class="mb-16 text-center">
+        <div
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+        >
+          Why BigConfig
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+          Built for your agent<br />that will operate it.
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        {
+          features.map((f) => (
+            <div class="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-[#62e1e9]/40 hover:bg-neutral-900">
+              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#62e1e9] ring-1 ring-[#62e1e9]/20">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d={f.icon}
+                  />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-white">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+                {f.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="deploy" class="mx-auto max-w-6xl px-6 py-24">
+      <div class="mb-12 text-center">
+        <div
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+        >
+          Deploy with your agent
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+          Describe it.<br />Your agent writes the config.
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+          Describe the deployment in plain English. Your agent refines the plan,
+          writes a single <code
+            class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
+            >bb.edn</code
+          >, and runs it.
+        </p>
+      </div>
+
+      <div
+        class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
+      >
+        <div
+          class="flex border-b border-neutral-800 bg-neutral-950/60"
+          role="tablist"
+        >
+          <button
+            class="tab-btn border-b-2 border-[#62e1e9] bg-neutral-900/60 px-6 py-3 text-sm font-medium text-white hover:text-white"
+            data-tab="plan"
+            type="button"
+          >
+            plan.md
+          </button>
+          <button
+            class="tab-btn border-b-2 border-transparent bg-transparent px-6 py-3 text-sm font-medium text-neutral-400 hover:bg-neutral-900/60 hover:text-white"
+            data-tab="bbedn"
+            type="button"
+          >
+            bb.edn
+          </button>
+          <button
+            class="tab-btn border-b-2 border-transparent bg-transparent px-6 py-3 text-sm font-medium text-neutral-400 hover:bg-neutral-900/60 hover:text-white"
+            data-tab="run"
+            type="button"
+          >
+            Run
+          </button>
+        </div>
+        <div class="p-6 md:p-8">
+          <pre
+            class="tab-panel overflow-x-auto text-sm leading-relaxed"
+            data-tab="plan"><code class="font-mono text-neutral-300">{planMd}</code></pre>
+          <pre
+            class="tab-panel hidden overflow-x-auto text-sm leading-relaxed"
+            data-tab="bbedn"><code class="font-mono text-neutral-300">{bbEdn}</code></pre>
+          <pre
+            class="tab-panel hidden overflow-x-auto text-sm leading-relaxed"
+            data-tab="run"><code class="font-mono text-neutral-300">{runSh}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-6 py-24">
+      <div class="mb-16 text-center">
+        <div
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+        >
+          Dive deeper
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+          Start here.
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {
+          links.map((l) => (
+            <a
+              href={l.href}
+              class="group flex flex-col rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-[#62e1e9]/40 hover:bg-neutral-900"
+            >
+              <h3 class="text-lg font-semibold text-white group-hover:text-[#62e1e9]">
+                {l.title}
+              </h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-400">
+                {l.body}
+              </p>
+              <div class="mt-4 text-sm font-semibold text-[#62e1e9]">
+                Open →
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <footer
+      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500"
+    >
+      © {new Date().getFullYear()} BigConfig · <a
+        href="/"
+        class="text-white hover:text-neutral-300">bigconfig.it</a
+      >
+    </footer>
+
+    <script is:inline>
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabPanels = document.querySelectorAll(".tab-panel");
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.getAttribute("data-tab");
+          tabBtns.forEach((b) => {
+            const active = b === btn;
+            b.classList.toggle("border-[#62e1e9]", active);
+            b.classList.toggle("bg-neutral-900/60", active);
+            b.classList.toggle("text-white", active);
+            b.classList.toggle("border-transparent", !active);
+            b.classList.toggle("bg-transparent", !active);
+            b.classList.toggle("text-neutral-400", !active);
+            b.classList.toggle("hover:bg-neutral-900/60", !active);
+          });
+          tabPanels.forEach((p) => {
+            p.classList.toggle(
+              "hidden",
+              p.getAttribute("data-tab") !== tab,
+            );
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
