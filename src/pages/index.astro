@@ -175,11 +175,60 @@ bb package delete`;
         </nav>
         <a
           href="https://github.com/amiorin/big-config"
-          class="rounded-full bg-[#0652e9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e6cf3]"
+          class="hidden rounded-full bg-[#0652e9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e6cf3] md:inline-block"
         >
           GitHub
         </a>
+        <button
+          id="mobile-menu-toggle"
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-800 text-white md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg
+            id="mobile-menu-icon-open"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg
+            id="mobile-menu-icon-close"
+            xmlns="http://www.w3.org/2000/svg"
+            class="hidden h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18L18 6" />
+          </svg>
+        </button>
       </header>
+      <nav
+        id="mobile-menu"
+        class="hidden border-t border-neutral-800/80 px-6 py-4 md:hidden"
+      >
+        <div class="flex flex-col gap-4 text-sm">
+          <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
+          <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
+          <a href="/marketplace" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
+          <a href="/start-here/getting-started" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
+          <a href="/blog" class="text-white hover:text-[#62e1e9]">Blog ↗</a>
+          <a
+            href="https://github.com/amiorin/big-config"
+            class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
+          >
+            GitHub
+          </a>
+        </div>
+      </nav>
     </div>
 
     <div class="mx-auto max-w-6xl px-6 pt-6">
@@ -383,6 +432,26 @@ bb package delete`;
     </footer>
 
     <script is:inline>
+      const mobileToggle = document.getElementById("mobile-menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const iconOpen = document.getElementById("mobile-menu-icon-open");
+      const iconClose = document.getElementById("mobile-menu-icon-close");
+      if (mobileToggle && mobileMenu) {
+        const setOpen = (open) => {
+          mobileMenu.classList.toggle("hidden", !open);
+          mobileToggle.setAttribute("aria-expanded", open ? "true" : "false");
+          iconOpen?.classList.toggle("hidden", open);
+          iconClose?.classList.toggle("hidden", !open);
+        };
+        mobileToggle.addEventListener("click", () => {
+          const isOpen = mobileMenu.classList.contains("hidden");
+          setOpen(isOpen);
+        });
+        mobileMenu.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => setOpen(false));
+        });
+      }
+
       const tabBtns = document.querySelectorAll(".tab-btn");
       const tabPanels = document.querySelectorAll(".tab-panel");
       tabBtns.forEach((btn) => {
