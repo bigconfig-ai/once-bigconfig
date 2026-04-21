@@ -40,43 +40,45 @@ const packages = [
     name: "ClickHouse",
     author: "BigConfig",
     tagline: "Self-hosted data warehouse, operated by your agent.",
-    tags: ["database", "analytics"],
+    tags: ["source-available", "database", "analytics"],
     price: "Contact",
     href: "/clickhouse",
   },
   {
-    name: "Postgres HA",
-    author: "Coming soon",
-    tagline: "Streaming replication, automated failover, PITR backups.",
-    tags: ["database", "ha"],
-    price: "—",
+    name: "Once",
+    author: "BigConfig",
+    tagline: "Self-host any Basecamp ONCE app, in a single command.",
+    tags: ["open-source", "self-hosted", "apps"],
+    price: "Open source",
+    href: "/once",
+    palette: "cyan",
   },
   {
     name: "Kafka",
     author: "Coming soon",
     tagline: "Multi-broker cluster with schema registry and connect.",
-    tags: ["streaming"],
+    tags: ["source-available", "streaming"],
     price: "—",
   },
   {
     name: "Redis Cluster",
     author: "Coming soon",
     tagline: "Sharded, replicated, with sentinel failover runbooks.",
-    tags: ["cache", "database"],
+    tags: ["source-available", "cache", "database"],
     price: "—",
   },
   {
     name: "Prometheus + Grafana",
     author: "Coming soon",
     tagline: "Full observability stack with alerting and long-term storage.",
-    tags: ["observability"],
+    tags: ["source-available", "observability"],
     price: "—",
   },
   {
     name: "Elasticsearch",
     author: "Coming soon",
     tagline: "Search cluster with snapshot backups and rolling upgrades.",
-    tags: ["search"],
+    tags: ["source-available", "search"],
     price: "—",
   },
 ];
@@ -293,7 +295,9 @@ const packages = [
               href={p.href}
               class={`flex flex-col rounded-2xl border p-8 transition ${
                 p.href
-                  ? "border-yellow-400/30 bg-yellow-400/5 hover:border-yellow-400/60 hover:bg-yellow-400/10"
+                  ? p.palette === "cyan"
+                    ? "border-[#62e1e9]/30 bg-[#62e1e9]/5 hover:border-[#62e1e9]/60 hover:bg-[#62e1e9]/10"
+                    : "border-yellow-400/30 bg-yellow-400/5 hover:border-yellow-400/60 hover:bg-yellow-400/10"
                   : "border-neutral-800 bg-neutral-900/40 hover:border-yellow-400/40 hover:bg-neutral-900"
               }`}
             >
