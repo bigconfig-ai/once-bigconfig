@@ -5,83 +5,123 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 const features = [
   {
-    title: "Own the stack",
-    body: "The app you vibecoded, running on infrastructure you own. No vendor lock-in, no hosting subscription, no surprise bill.",
-    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-  },
-  {
-    title: "Multi-cloud provisioning",
-    body: "Hetzner Cloud, Oracle Cloud, or bring your own server with no-infra. One package, every target — swap profiles in bb.edn.",
+    title: "Any cloud",
+    body: "Hetzner Cloud, Oracle Cloud Infrastructure, or bring your own server. Swap providers in bb.edn — the dev environment stays identical.",
     icon: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
   },
   {
-    title: "DNS, handled",
-    body: "Cloudflare records are generated from your config — including the records needed for SMTP domain verification.",
-    icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "SMTP, handled",
-    body: "Resend is wired up end-to-end — domain verification, DKIM, SPF — so your ONCE app can send mail from day one.",
-    icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-  },
-  {
-    title: "Ansible for the host",
-    body: "Docker, firewall, TLS, s-nail SMTP test harness — every machine-level concern codified as a playbook, not a wiki page.",
-    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
-  },
-  {
-    title: "One-command lifecycle",
-    body: "`bb once create` and `bb once delete`. Agent-operable, reproducible, reversible — spin it up, tear it down, leave no orphaned resources.",
+    title: "One-command provisioning",
+    body: "`bb walter create` spins up the VM, runs Ansible, installs devbox, clones your repos, hands you a ready box. `bb walter delete` tears it down.",
     icon: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Reproducible toolchain",
+    body: "Declare your team's languages, runtimes, and CLIs once. Devbox installs them pinned and reproducible — identical across every engineer's box.",
+    icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
+  },
+  {
+    title: "Personalized shell, by default",
+    body: "Doom Emacs, Zellij, Fish, Atuin — codified once, installed everywhere. New hires get the team standard the moment the box finishes provisioning.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+  },
+  {
+    title: "Repos & worktrees pre-cloned",
+    body: "Your team's repositories arrive on the box with worktrees already set up for the branches you work on. No first-day dance to get to code.",
+    icon: "M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2",
+  },
+  {
+    title: "Ansible-managed host",
+    body: "Users, SSH keys, firewall rules, base packages — every machine-level concern codified as a playbook, not a runbook in a wiki.",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
   },
 ];
 
-const planMd = `You need to create a project to deploy a Basecamp ONCE app.
+const comparison = [
+  {
+    axis: "Infrastructure",
+    gcw: "GCP only",
+    walter: "Any cloud — Hetzner, OCI, or BYO server",
+  },
+  {
+    axis: "Pricing model",
+    gcw: "Per-seat, per-hour through GCP",
+    walter: "The cost of your own VM — no markup",
+  },
+  {
+    axis: "Toolchain",
+    gcw: "Container images you build, push, and maintain",
+    walter: "Declarative devbox.json, Nix-pinned",
+  },
+  {
+    axis: "Shell & editors",
+    gcw: "Whatever's baked into the image",
+    walter: "Doom Emacs, Zellij, Fish, Atuin — codified",
+  },
+  {
+    axis: "Data residency",
+    gcw: "Google's regions",
+    walter: "Your provider, your region, your jurisdiction",
+  },
+  {
+    axis: "Ops surface",
+    gcw: "GCP console, IAM, gcloud",
+    walter: "`bb walter` — agent-operable from a prompt",
+  },
+  {
+    axis: "Lock-in",
+    gcw: "GCP-native configuration",
+    walter: "Portable bb.edn + Ansible, runs anywhere",
+  },
+  {
+    axis: "Air-gapped / on-prem",
+    gcw: "Not supported",
+    walter: "Supported via BYO server",
+  },
+];
+
+const planMd = `You need to create a project to provision a cloud dev environment for your team.
 This project contains only the \`bb.edn\` file.
-The \`bb.edn\` contains the dependency https://github.com/amiorin/once
-You can download https://github.com/amiorin/once to see how it works.
-https://github.com/amiorin/once is built on top of https://github.com/amiorin/big-config
+The \`bb.edn\` contains the dependency https://github.com/amiorin/walter
+You can download https://github.com/amiorin/walter to see how it works.
+https://github.com/amiorin/walter is built on top of https://github.com/amiorin/big-config
 All the options should be defined in the \`bb.edn\`.
-Only the \`once\` task should be created.
-The domain is example.com.
-The host is chat.example.com.
-The container is basecamp/once-campfire:latest
-The compute provider is Hetzner with 4 GB, 2 vCPU, and 40 GB of disk.
-The DNS provider is Cloudflare.
-The SMTP provider is Resend.
-You need to create the \`.envrc\` for HCLOUD_TOKEN, CLOUDFLARE_API_TOKEN, RESEND_API_KEY — I will provide the values later.`;
+Only the \`walter\` task should be created.
+The compute provider is Hetzner with 8 GB RAM, 4 vCPUs, 80 GB disk.
+Each team member gets a user with their SSH public key.
+The devbox toolchain includes the languages and CLIs your team uses.
+Your team's dotfiles repository is cloned into every user's home.
+Your team's project repositories are cloned with worktrees for active branches.
+Personalized environment includes Doom Emacs, Zellij, Fish, and Atuin.
+You need to create the \`.envrc\` for HCLOUD_TOKEN — I will provide the value later.`;
 
-const bbEdn = `{:deps  {io.github.amiorin/once {:git/url "https://github.com/amiorin/once"
-                                 :git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
- :tasks {:requires ([io.github.amiorin.once.package :as pkg])
-         once      {:doc  "bb once create | bb once delete"
-                    :task (pkg/once*
+const bbEdn = `{:deps  {io.github.amiorin/walter {:git/url "https://github.com/amiorin/walter"
+                                    :git/sha "REPLACE_WITH_LATEST_SHA"}}
+ :tasks {:requires ([io.github.amiorin.walter.package :as pkg])
+         walter    {:doc  "bb walter create | bb walter delete"
+                    :task (pkg/walter*
                            *command-line-args*
-                           {:big-config.render/profile "campfire"
+                           {:big-config.render/profile "team-dev"
                             :big-config.workflow/params
-                            {:domain  "example.com"
-                             :package "campfire"
-                             :once    {:applications [{:host  "chat.example.com"
-                                                       :image "basecamp/once-campfire:latest"}]}
-
-                             :provider-compute   "hcloud"
-                             :hcloud-server-type "cax21"
+                            {:provider-compute   "hcloud"
+                             :hcloud-server-type "cax31"
                              :hcloud-location    "nbg1"
                              :hcloud-image       "ubuntu-24.04"
                              :hcloud-ssh-keys    ["id_ed25519"]
 
-                             :provider-smtp   "resend"
-                             :resend-server   "smtp.resend.com"
-                             :resend-port     587
-                             :resend-username "resend"
-
-                             :provider-dns "cloudflare"
+                             :walter
+                             {:users        [{:name    "<teammate>"
+                                              :ssh-key "<public-key>"}]
+                              :dotfiles     "git@github.com:<org>/dotfiles"
+                              :repositories [{:url       "git@github.com:<org>/<repo>"
+                                              :worktrees ["main" "develop"]}]
+                              :devbox       {:packages ["<language>" "<cli>"]}
+                              :tools        [:doom-emacs :zellij :fish :atuin]}
 
                              :provider-backend "s3"}})}}}`;
 
-const runSh = `$ bb once create
+const runSh = `$ bb walter create
 
-$ bb once delete`;
+$ bb walter delete`;
 ---
 
 <!doctype html>
@@ -89,10 +129,10 @@ $ bb once delete`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BigConfig once — Self-host ONCE apps in a single command</title>
+    <title>BigConfig walter — Standardized cloud dev environments for your team</title>
     <meta
       name="description"
-      content="Deploy any Basecamp ONCE app to your own infrastructure. BigConfig provisions the server, wires up DNS and SMTP, and hands operations to your agent."
+      content="Walter provisions consistent, high-productivity cloud dev boxes on any infrastructure — Hetzner, OCI, or bring your own. Like Google Cloud Workstations, with your team's toolchain, your team's data, your team's bill."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script
@@ -190,11 +230,12 @@ $ bb once delete`;
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
           <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
+          <a href="#compare" class="text-white hover:text-[#62e1e9]">vs Cloud Workstations</a>
           <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
           <a href="#how" class="text-white hover:text-[#62e1e9]">How it works</a>
         </nav>
         <a
-          href="https://github.com/amiorin/once"
+          href="https://github.com/amiorin/walter"
           class="hidden rounded-full bg-[#0652e9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e6cf3] md:inline-block"
         >
           GitHub
@@ -237,11 +278,12 @@ $ bb once delete`;
       >
         <div class="flex flex-col gap-4 text-sm">
           <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
+          <a href="#compare" class="text-white hover:text-[#62e1e9]">vs Cloud Workstations</a>
           <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
           <a href="#how" class="text-white hover:text-[#62e1e9]">How it works</a>
-          <a href="/start-here/getting-started" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
+          <a href="/packages/walter/" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
           <a
-            href="https://github.com/amiorin/once"
+            href="https://github.com/amiorin/walter"
             class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
           >
             GitHub
@@ -255,21 +297,21 @@ $ bb once delete`;
         class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
-        BigConfig package · Once
+        BigConfig package · Walter
       </div>
       <h1
         class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
       >
-        Self-host ONCE apps,<br />
+        Cloud dev environments,<br />
         <span
           class="bg-gradient-to-r from-[#62e1e9] via-[#3a8cec] to-[#0652e9] bg-clip-text text-transparent"
-          >in a single command.</span
+          >standardized for your team.</span
         >
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">
-        Deploy any Basecamp ONCE app or your own vibe-coded app to your own infrastructure. BigConfig
-        provisions the server, wires up DNS and SMTP, configures the host,
-        and hands operations to your agent.
+        Provision consistent, high-productivity dev boxes for every engineer on your team —
+        on any infrastructure. Walter sets up the machine, installs the toolchain,
+        clones your repos, and leaves a personalized environment your agent can manage.
       </p>
       <div
         class="mx-auto mt-10 flex max-w-md flex-col items-stretch justify-center gap-4 px-4 sm:max-w-none sm:flex-row sm:items-center sm:px-0"
@@ -281,14 +323,14 @@ $ bb once delete`;
           Get started →
         </a>
         <a
-          href="https://github.com/amiorin/once"
+          href="https://github.com/amiorin/walter"
           class="rounded-full border border-neutral-700 px-8 py-4 text-center text-base font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
         >
           View on GitHub
         </a>
       </div>
       <p class="mt-6 text-sm text-neutral-500">
-        For teams who want total control — without operational headaches.
+        Like Google Cloud Workstations — on any cloud, with your team's software.
       </p>
     </section>
 
@@ -298,10 +340,10 @@ $ bb once delete`;
       >
         {
           [
-            ["Any", "ONCE app, any cloud"],
-            ["1", "command to deploy"],
-            ["Auto", "DNS, SMTP, server config"],
-            ["Yours", "app, data, and infrastructure"],
+            ["Any", "cloud, any toolchain"],
+            ["1", "command per box"],
+            ["Nix", "reproducible toolchain"],
+            ["Yours", "infra, data, bill"],
           ].map(([stat, label]) => (
             <div class="bg-neutral-950 p-6 text-center">
               <div class="text-3xl font-semibold text-white md:text-4xl">
@@ -324,12 +366,12 @@ $ bb once delete`;
           What you get
         </div>
         <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-          A deploy pipeline,<br />not a README.
+          A team standard,<br />not a wiki page.
         </h2>
         <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
-          The BigConfig once package is everything between "I vibecoded the
-          application" and "it's live on my domain" — codified, agent-operable,
-          and yours to keep.
+          The BigConfig walter package codifies every decision — host specs,
+          toolchain, dotfiles, repos, access — as a declarative Clojure config
+          your team can clone, version, and ship to any cloud.
         </p>
       </div>
 
@@ -363,6 +405,55 @@ $ bb once delete`;
       </div>
     </section>
 
+    <section id="compare" class="mx-auto max-w-6xl px-6 py-24">
+      <div class="mb-12 text-center">
+        <div
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+        >
+          Walter vs Google Cloud Workstations
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+          Same idea.<br />Different shape.
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+          Cloud Workstations standardizes dev environments — on Google's terms.
+          Walter does the same job on your infrastructure, with your software,
+          on your bill.
+        </p>
+      </div>
+
+      <div
+        class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
+      >
+        <div class="hidden grid-cols-3 border-b border-neutral-800 bg-neutral-950/60 px-6 py-4 text-xs font-semibold tracking-widest text-neutral-400 uppercase md:grid">
+          <div></div>
+          <div>Google Cloud Workstations</div>
+          <div class="text-[#62e1e9]">BigConfig Walter</div>
+        </div>
+        {
+          comparison.map((row, idx) => (
+            <div
+              class={`grid grid-cols-1 gap-2 px-6 py-5 md:grid-cols-3 md:gap-6 ${idx !== comparison.length - 1 ? "border-b border-neutral-800" : ""}`}
+            >
+              <div class="text-sm font-semibold text-white">{row.axis}</div>
+              <div class="text-sm text-neutral-400">
+                <span class="mr-2 inline-block text-[10px] font-semibold tracking-widest text-neutral-500 uppercase md:hidden">
+                  Cloud Workstations
+                </span>
+                {row.gcw}
+              </div>
+              <div class="text-sm text-neutral-200">
+                <span class="mr-2 inline-block text-[10px] font-semibold tracking-widest text-[#62e1e9] uppercase md:hidden">
+                  Walter
+                </span>
+                {row.walter}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
     <section id="deploy" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-12 text-center">
         <div
@@ -374,8 +465,8 @@ $ bb once delete`;
           Describe it.<br />Your agent writes the config.
         </h2>
         <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
-          Describe the deployment in plain English. Your agent refines the plan,
-          writes a single <code
+          Describe the team environment in plain English. Your agent refines the
+          plan, writes a single <code
             class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
             >bb.edn</code
           >, and runs it.
@@ -407,32 +498,32 @@ $ bb once delete`;
           How it works
         </div>
         <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
-          Three steps from ONCE app to production.
+          Three steps from empty cloud account to working dev box.
         </h2>
         <ol class="mt-12 grid list-none gap-10 pl-0 md:grid-cols-3">
           <li>
             <div class="mb-3 text-sm font-semibold text-[#62e1e9]">01 — Describe</div>
-            <h3 class="text-lg font-semibold text-white">Tell your agent what you want</h3>
+            <h3 class="text-lg font-semibold text-white">Tell your agent what the team needs</h3>
             <p class="mt-2 text-sm text-neutral-400">
-              Which ONCE app, what size server, which domain. The agent turns
-              the conversation into a single <code class="rounded bg-neutral-800 px-1 py-0.5 font-mono text-xs text-[#62e1e9]">bb.edn</code>.
+              Which cloud, what size box, which toolchain, which repos. The
+              agent turns the conversation into a single <code class="rounded bg-neutral-800 px-1 py-0.5 font-mono text-xs text-[#62e1e9]">bb.edn</code>.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-[#62e1e9]">02 — Deploy</div>
+            <div class="mb-3 text-sm font-semibold text-[#62e1e9]">02 — Provision</div>
             <h3 class="text-lg font-semibold text-white">Ship it to your infrastructure</h3>
             <p class="mt-2 text-sm text-neutral-400">
-              <code class="rounded bg-neutral-800 px-1 py-0.5 font-mono text-xs text-[#62e1e9]">bb once create</code>
-              provisions the server, configures DNS and SMTP, installs Docker,
-              pulls the container, hands you a URL.
+              <code class="rounded bg-neutral-800 px-1 py-0.5 font-mono text-xs text-[#62e1e9]">bb walter create</code>
+              provisions the VM, configures users and firewall, installs devbox,
+              clones your repos, and hands you an SSH endpoint.
             </p>
           </li>
           <li>
             <div class="mb-3 text-sm font-semibold text-[#62e1e9]">03 — Operate</div>
             <h3 class="text-lg font-semibold text-white">Hand ops over to the agent</h3>
             <p class="mt-2 text-sm text-neutral-400">
-              Backups, upgrades, teardown — every runbook is a BigConfig
-              workflow your agent can execute on your behalf.
+              Upgrades, rebuilds, teardown — every runbook is a BigConfig
+              workflow your agent can execute on behalf of the team.
             </p>
           </li>
         </ol>

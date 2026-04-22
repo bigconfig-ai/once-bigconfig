@@ -1,6 +1,7 @@
 ---
 import "~/styles/global.css";
 import logo from "~/assets/logo-light.svg";
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 const features = [
   {
@@ -145,6 +146,47 @@ $ bb package delete`;
       }
       pre {
         margin: 0;
+      }
+      .code-tabs {
+        --sl-color-text-accent: #62e1e9;
+      }
+      .code-tabs starlight-tabs {
+        display: block;
+      }
+      .code-tabs .tablist-wrapper {
+        background: rgba(10, 10, 10, 0.6);
+        border-bottom: 1px solid rgb(38, 38, 38);
+        margin: 0;
+      }
+      .code-tabs [role="tablist"] {
+        border-bottom: 0;
+        padding: 0;
+        margin: 0;
+      }
+      .code-tabs [role="tab"] {
+        color: rgb(163, 163, 163);
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-bottom-width: 2px;
+      }
+      .code-tabs [role="tab"][aria-selected="true"] {
+        color: #fff;
+        background: rgba(23, 23, 23, 0.6);
+        border-color: #62e1e9;
+      }
+      .code-tabs [role="tab"]:hover:not([aria-selected="true"]) {
+        color: #fff;
+        background: rgba(23, 23, 23, 0.6);
+      }
+      .code-tabs [role="tabpanel"] {
+        padding: 1.5rem;
+        margin-top: 0;
+      }
+      @media (min-width: 768px) {
+        .code-tabs [role="tabpanel"] {
+          padding: 2rem;
+        }
       }
     </style>
   </head>
@@ -346,45 +388,19 @@ $ bb package delete`;
       </div>
 
       <div
-        class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
+        class="code-tabs overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
       >
-        <div
-          class="flex border-b border-neutral-800 bg-neutral-950/60"
-          role="tablist"
-        >
-          <button
-            class="tab-btn border-b-2 border-[#62e1e9] bg-neutral-900/60 px-6 py-3 text-sm font-medium text-white hover:text-white"
-            data-tab="plan"
-            type="button"
-          >
-            plan.md
-          </button>
-          <button
-            class="tab-btn border-b-2 border-transparent bg-transparent px-6 py-3 text-sm font-medium text-neutral-400 hover:bg-neutral-900/60 hover:text-white"
-            data-tab="bbedn"
-            type="button"
-          >
-            bb.edn
-          </button>
-          <button
-            class="tab-btn border-b-2 border-transparent bg-transparent px-6 py-3 text-sm font-medium text-neutral-400 hover:bg-neutral-900/60 hover:text-white"
-            data-tab="run"
-            type="button"
-          >
-            Run
-          </button>
-        </div>
-        <div class="p-6 md:p-8">
-          <pre
-            class="tab-panel overflow-x-auto text-sm leading-relaxed"
-            data-tab="plan"><code class="font-mono text-neutral-300">{planMd}</code></pre>
-          <pre
-            class="tab-panel hidden overflow-x-auto text-sm leading-relaxed"
-            data-tab="bbedn"><code class="font-mono text-neutral-300">{bbEdn}</code></pre>
-          <pre
-            class="tab-panel hidden overflow-x-auto text-sm leading-relaxed"
-            data-tab="run"><code class="font-mono text-neutral-300">{runSh}</code></pre>
-        </div>
+        <Tabs>
+          <TabItem label="plan.md">
+            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{planMd}</code></pre>
+          </TabItem>
+          <TabItem label="bb.edn">
+            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{bbEdn}</code></pre>
+          </TabItem>
+          <TabItem label="Run">
+            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{runSh}</code></pre>
+          </TabItem>
+        </Tabs>
       </div>
     </section>
 
@@ -452,29 +468,6 @@ $ bb package delete`;
         });
       }
 
-      const tabBtns = document.querySelectorAll(".tab-btn");
-      const tabPanels = document.querySelectorAll(".tab-panel");
-      tabBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const tab = btn.getAttribute("data-tab");
-          tabBtns.forEach((b) => {
-            const active = b === btn;
-            b.classList.toggle("border-[#62e1e9]", active);
-            b.classList.toggle("bg-neutral-900/60", active);
-            b.classList.toggle("text-white", active);
-            b.classList.toggle("border-transparent", !active);
-            b.classList.toggle("bg-transparent", !active);
-            b.classList.toggle("text-neutral-400", !active);
-            b.classList.toggle("hover:bg-neutral-900/60", !active);
-          });
-          tabPanels.forEach((p) => {
-            p.classList.toggle(
-              "hidden",
-              p.getAttribute("data-tab") !== tab,
-            );
-          });
-        });
-      });
     </script>
   </body>
 </html>
