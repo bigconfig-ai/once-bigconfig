@@ -11,6 +11,12 @@ const googleAnalyticsId = "G-4VKP1WY4QJ";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.bigconfig.it",
+  redirects: {
+    "/packages/walter/": "/walter",
+    "/packages/walter": "/walter",
+    "/packages/once/": "/once",
+    "/packages/once": "/once",
+  },
   integrations: [
     astroD2(),
     starlight({
@@ -74,10 +80,6 @@ export default defineConfig({
             variant: "success",
           },
           autogenerate: { directory: "api" },
-        },
-        {
-          label: "Packages",
-          autogenerate: { directory: "packages" },
         },
         {
           label: "Templates",
