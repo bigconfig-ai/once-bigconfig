@@ -1,0 +1,59 @@
+---
+title: "The Future of Software Distribution: How LLMs are Challenging the SaaS Dominance"
+date: 2026-04-22
+excerpt: |-
+  The SaaS era assumed running software yourself was too expensive. AI agents are changing that math — and with it, the case for licensed, self-hosted software over subscriptions.
+authors: amiorin
+tags:
+  - saas
+  - llm
+  - ai-agents
+  - open-source
+  - licensing
+  - bigconfig
+  - walter
+  - cloud dev environment
+cover:
+  alt: The future of software distribution — from SaaS to licensed based model
+  image: public/blog/distribution.png
+featured: true
+---
+import ExternalLink from '~/components/ExternalLink.astro';
+
+For a long time, the software industry has operated under the assumption that Software as a Service (SaaS) is the undisputed king of software distribution. But this long-held belief is being called into question by the rapid rise of Large Language Models (LLMs).
+
+The classic "buy versus build" dilemma for companies is becoming more complex. In the SaaS era, the choice was often simple: buy if you don't want to operate it, self-host if you do. Now, LLMs and AI agents are making self-hosting more attractive and cost-effective.
+
+## The Snowflake Example and the Return to Licensing
+
+Take <ExternalLink href="https://www.snowflake.com">Snowflake</ExternalLink>, arguably one of the most successful SaaS products. It displaced traditional, license-based data warehouses like Teradata and Vertica with a closed-source SaaS model. However, we may be on the verge of a trend reversal.
+
+In the future, a software license for a product like Snowflake could become more appealing than a SaaS subscription for several reasons:
+* **Data Sovereignty:** Paying for a license allows a company to keep its data within its own country because it maintains control over the hardware.
+* **Compliance and Security:** Navigating regulatory requirements can be easier with on-premises or licensed software.
+* **Simplified Legalities:** Companies may be able to avoid complex data processing agreements.
+
+## The Role of the Platform Team and AI Agents
+
+Implementing SaaS in large organizations is rarely a "plug-and-play" experience. It typically requires a dedicated internal team to act as a bridge between the company's requirements and the SaaS provider. This team handles onboarding, ticket management, compliance, and cost optimization.
+
+As AI agents begin to automate these tasks and even the management of hardware, the burden of running software in-house significantly decreases. Picture an agent that provisions a Postgres cluster, monitors replication lag, applies security patches during a maintenance window, rolls back a failed upgrade, and files a postmortem ticket — all without a human on call. The operational tax that once justified the SaaS premium shrinks toward zero. Since large companies are already equipped to run their own software, the transition back to licensed models, supported by AI, becomes a much smaller hurdle.
+
+## The Open-Source Illusion and the Shift in Monetization
+
+The relationship between open-source and SaaS is also evolving. Many companies have used open-source software as a "funnel", building a community of users who eventually become paying customers for a proprietary SaaS version. This strategy has focused on growth over immediate profitability.
+
+However, the LLM era is disrupting this cycle. Investors and companies are starting to doubt whether they can monetize these large user bases in the future. As AI companies like <ExternalLink href="https://openai.com">OpenAI</ExternalLink> and <ExternalLink href="https://www.anthropic.com">Anthropic</ExternalLink> begin to capture more of the market with their tokens and agents, the traditional SaaS margin is being cannibalized.
+
+## A Return to Proprietary, Licensed Software?
+
+We may be heading toward a future where:
+* **Open-source's role is redefined:** Its synergy with SaaS is weakening as AI changes the value proposition.
+* **Proprietary software returns:** Users might download software for free for limited use (e.g., one computer or one project) but pay a license fee for larger deployments.
+* **The database remains closed-source:** While the software to manage a database might be open-source, the database engine itself — which is much harder to replicate — will likely remain closed-source and license-based.
+
+In this shifting landscape, competition among token providers will likely remain high, which is good news for the industry. But the SaaS model of software distribution will have to adapt.
+
+## Where BigConfig Fits
+
+This is the world BigConfig is built for. If AI agents make self-hosting cheap, the missing piece is a way to *describe* infrastructure declaratively enough that agents — not humans — can operate it. Take <ExternalLink href="/walter">Walter</ExternalLink>, a BigConfig package for cloud development environments that competes directly with SaaS offerings like <ExternalLink href="https://cloud.google.com/workstations">Google Cloud Workstations</ExternalLink>. Instead of paying a per-seat subscription, you install Walter on your own infrastructure and let an agent handle provisioning, lifecycle, and cleanup. The community writes the package; you run it on your own hardware; the SaaS premium disappears and the control stays with you.
