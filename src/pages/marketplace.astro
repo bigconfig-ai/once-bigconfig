@@ -561,7 +561,7 @@ const packages = [
         status.classList.remove("hidden");
         status.textContent = "Sending…";
         try {
-          const res = await fetch("https://app-v2.bigconfig.website/clickhouse", {
+          const res = await fetch("https://forms.bigconfig.website/form/marketplace", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -571,7 +571,7 @@ const packages = [
           form.reset();
         } catch (err) {
           status.textContent =
-            "Something went wrong. Email marketplace@bigconfig.website and we'll sort it out.";
+            "Something went wrong. Email marketplace@bigconfig.it and we'll sort it out.";
           button.disabled = false;
         }
       });
