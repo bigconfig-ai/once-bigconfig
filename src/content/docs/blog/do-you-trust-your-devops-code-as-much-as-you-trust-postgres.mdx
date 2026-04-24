@@ -1,0 +1,57 @@
+---
+title: "Do you trust your DevOps code as much as you trust Postgres?"
+date: 2026-04-24
+excerpt: |-
+  Postgres is trusted because it is hardened by decades of production use. Most Terraform code is not. Here is why BigConfig packages aim for "Postgres-level" reliability — and a real incident that shows why it matters.
+authors: amiorin
+tags:
+  - bigconfig
+  - terraform
+  - package manager
+  - ai-agents
+  - gitops
+  - marketplace
+cover:
+  alt: "Do you trust your DevOps code as much as you trust Postgres?"
+  image: public/blog/postgres.png
+featured: true
+---
+import ExternalLink from '~/components/ExternalLink.astro';
+import { LinkCard } from '@astrojs/starlight/components';
+
+You shouldn't. Most DevOps teams write Terraform from scratch, yet no Backend team would try to write their own database engine. Postgres is reliable because it has been hardened by decades of production workloads, across every imaginable failure mode.
+
+In the age of AI agents, we are generating more Terraform code than ever. But without a standardized foundation, that code is "alpha" — as risky as using a database that was just uploaded to GitHub yesterday.
+
+## The problem: the "bespoke platform" trap
+
+In operations, we are all solving the same fundamental problems. Yet, unlike the database world, every company "rolls their own" platform. This leads to two outcomes:
+
+* **Constant babysitting:** high-maintenance scripts that require manual intervention.
+* **Low reliability:** brittle infrastructure that breaks under edge cases.
+
+**BigConfig is changing this.** We are building infrastructure packages that earn your trust through mass adoption. A BigConfig package isn't just a script; it's a hardened standard, deployed so many times it reaches the "Postgres level" of reliability.
+
+## A real-world lesson: the "latest" trap
+
+Even with years of Terraform experience, I recently faced unplanned downtime due to a common mistake. My compute instance was set to pull the "latest" image. When Oracle released a new Ubuntu version, Terraform triggered a recreation of the VPS.
+
+**The fix?** I had to refactor the resource to ignore changes to the source image, using <ExternalLink href="https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle">Terraform's `lifecycle` meta-argument</ExternalLink>:
+
+```hcl
+lifecycle {
+  prevent_destroy = <{ compute-prevent-destroy }>
+}
+```
+
+That single block hands control of the maintenance window back to the operator, instead of letting an upstream image publish silently destroy the VM.
+
+This is exactly how databases work — even AWS RDS requires a defined maintenance window for upgrades. Infrastructure should be no different. BigConfig bakes these hard-learned lessons into every package, so you don't have to learn them the hard way.
+
+## The takeaway
+
+So, do you trust your DevOps code as much as you trust Postgres? If the honest answer is "no," the problem isn't your team — it's that every team is rewriting the same primitives from scratch. Shared, battle-tested packages are the only way infrastructure code earns the kind of trust we already give our databases.
+
+Stop writing infrastructure from scratch. Start from a package that's already been hardened in production.
+
+<LinkCard title="Browse the BigConfig Marketplace" href="/marketplace" />
