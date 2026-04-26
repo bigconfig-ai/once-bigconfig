@@ -50,23 +50,9 @@ const links = [
   },
 ];
 
-const planMd = `You need to create a project to deploy a web application.
-This project contains only the \`bb.edn\` file.
-The \`bb.edn\` contains the dependency https://github.com/amiorin/once
-You can download https://github.com/amiorin/once to see how it works.
-https://github.com/amiorin/once is built on top of https://github.com/amiorin/big-config
-You can download https://github.com/amiorin/big-config to see how it works.
-All the options should be defined in the \`bb.edn\`.
-Only the package task should be created.
-Only io.github.amiorin.once.package should be required in \`bb.edn\`
-The domain is bigconfig.online.
-The host is www.bigconfig.online.
-The container is ghcr.io/amiorin/big-config-website:latest
-The compute provider is OCI with 6 GB, 1 core, and 50 GB of disk.
-The dns provider is Cloudflare.
-The smtp provider is Resend.
-The backend provider is S3.
-You need to create the \`.envrc\` to store environment variable for the credentials, I will provide the values later.`;
+const planMd = `install ghcr.io/amiorin/big-config-website:latest
+using https://github.com/amiorin/once
+with the domain www.bigconfig.space`
 
 const bbEdn = `{:deps  {io.github.amiorin/once {:git/url "https://github.com/amiorin/once"
                                  :git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
