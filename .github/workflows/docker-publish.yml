@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: amiorin/big-config-website
+  IMAGE_NAME: amiorin/once-bigconfig
 
 jobs:
   build-and-push:
