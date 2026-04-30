@@ -561,7 +561,7 @@ const packages = [
         status.classList.remove("hidden");
         status.textContent = "Sending…";
         try {
-          const res = await fetch("https://forms.bigconfig.website/form/marketplace", {
+          const res = await fetch("https://forms.bigconfig.ai/form/marketplace", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
