@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is the documentation and blog website for **BigConfig**, a Clojure-based infrastructure package manager. It is a static site built with **Astro 5** + **Starlight** (documentation framework), hosted at `https://www.bigconfig.it`.
+This is the documentation and blog website for **BigConfig**, a Clojure-based infrastructure package manager. It is a static site built with **Astro 5** + **Starlight** (documentation framework), hosted at `https://www.bigconfig.ai`.
 
 The repository contains no application logic — it is a **content site**. Work here primarily means writing or editing MDX content files, adjusting Astro configuration, or adding/modifying Astro components.
 
@@ -208,7 +208,7 @@ From recent commit history:
 
 ## Key Configuration Details
 
-- **Site URL:** `https://www.bigconfig.it`
+- **Site URL:** `https://www.bigconfig.ai`
 - **Google Analytics:** `G-4VKP1WY4QJ` (configured in `astro.config.mjs`)
 - **Author slug:** `amiorin` (blog posts must use this)
 - **Author avatar:** `public/avatar.png`

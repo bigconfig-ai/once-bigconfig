@@ -10,7 +10,7 @@ const googleAnalyticsId = "G-4VKP1WY4QJ";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.bigconfig.it",
+  site: "https://www.bigconfig.ai",
   redirects: {
     "/packages/walter/": "/walter",
     "/packages/walter": "/walter",
