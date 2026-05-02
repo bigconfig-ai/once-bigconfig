@@ -3,7 +3,7 @@ name: Build and Publish Docker Image
 on:
   push:
     branches:
-      - big-config
+      - main
   workflow_dispatch:
 
 env:
