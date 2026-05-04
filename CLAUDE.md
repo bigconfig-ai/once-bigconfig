@@ -18,7 +18,7 @@ The repository contains no application logic — it is a **content site**. Work 
 | Diagrams | astro-d2 | ^0.8.0 |
 | CSS | Tailwind CSS v4 | ^4.1.13 |
 | Tailwind integration | @tailwindcss/vite | ^4.1.13 |
-| Package manager | pnpm | v9 |
+| Package manager | pnpm | v10 (pinned to 10.33.2 via `packageManager`) |
 | Language | TypeScript (strict) | via `astro/tsconfigs/strict` |
 | Image processing | sharp | ^0.34.2 |
 
