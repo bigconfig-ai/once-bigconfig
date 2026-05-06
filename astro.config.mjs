@@ -34,6 +34,10 @@ export default defineConfig({
         }),
       ],
       title: "BigConfig",
+      description: "BigConfig — a Clojure-based infrastructure package manager.",
+      components: {
+        Head: "./src/components/Head.astro",
+      },
       logo: {
         light: "/src/assets/logo-light.svg",
         dark: "/src/assets/logo-dark.svg",
@@ -95,5 +99,7 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: { allowedHosts: true },
+    preview: { allowedHosts: true },
   },
 });

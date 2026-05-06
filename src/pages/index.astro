@@ -4,6 +4,12 @@ import logo from "~/assets/logo-light.svg";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import YouTube from "~/components/YouTube.astro";
 
+const pageTitle = "BigConfig — The first agentic package manager";
+const pageDescription =
+  "BigConfig is the first package manager designed to work with agents out of the box.";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL("/og-default.png", Astro.site).href;
+
 const features = [
   {
     title: "Deploy in plain English",
@@ -110,12 +116,24 @@ $ bb package delete`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BigConfig — The first agentic package manager</title>
-    <meta
-      name="description"
-      content="BigConfig is the first package manager designed to work with agents out of the box."
-    />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BigConfig" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+    <meta property="og:image:alt" content="BigConfig" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <script
       is:inline
       async
@@ -289,7 +307,7 @@ $ bb package delete`;
         The first<br />
         <span
           class="bg-gradient-to-r from-[#62e1e9] via-[#3a8cec] to-[#0652e9] bg-clip-text text-transparent"
-          >agentic package manager.</span
+          >agentic package manager</span
         >
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">

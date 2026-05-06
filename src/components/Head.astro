@@ -1,0 +1,72 @@
+---
+import Default from "@astrojs/starlight/components/Head.astro";
+
+const { entry } = Astro.locals.starlightRoute;
+const data = entry.data as {
+  excerpt?: string;
+  date?: Date;
+  cover?: unknown;
+};
+const cover = data.cover;
+
+type Resolved = { src: string; width?: number; height?: number };
+
+function resolveCoverImage(c: unknown): Resolved | undefined {
+  if (!c || typeof c !== "object") return undefined;
+  const obj = c as Record<string, unknown>;
+  const candidate = obj.image ?? obj.light;
+  if (typeof candidate === "string") return { src: candidate };
+  if (candidate && typeof candidate === "object" && "src" in candidate) {
+    const co = candidate as { src: string; width?: number; height?: number };
+    return { src: co.src, width: co.width, height: co.height };
+  }
+  return undefined;
+}
+
+function toPublicPath(raw: string): string {
+  if (/^https?:\/\//.test(raw)) return raw;
+  return raw.replace(/^public\//, "/");
+}
+
+const resolved = resolveCoverImage(cover);
+const isDefault = !resolved;
+const imagePath = resolved ? toPublicPath(resolved.src) : "/og-default.png";
+const imageUrl = new URL(imagePath, Astro.site).href;
+const imageWidth = isDefault ? 1200 : resolved?.width;
+const imageHeight = isDefault ? 627 : resolved?.height;
+
+const isBlogPost =
+  typeof data.excerpt === "string" && data.date instanceof Date;
+const excerpt =
+  typeof data.excerpt === "string"
+    ? data.excerpt.trim().replace(/\s+/g, " ")
+    : undefined;
+const publishedTime =
+  data.date instanceof Date ? data.date.toISOString() : undefined;
+const articleAuthor = "Alberto Miorin";
+
+if (isBlogPost && excerpt) {
+  (entry.data as { description?: string }).description = excerpt;
+}
+---
+
+<Default />
+<meta property="og:image" content={imageUrl} />
+<meta name="twitter:image" content={imageUrl} />
+{imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+{
+  imageHeight && (
+    <meta property="og:image:height" content={String(imageHeight)} />
+  )
+}
+{
+  isBlogPost && excerpt && (
+    <meta name="twitter:description" content={excerpt} />
+  )
+}
+{
+  isBlogPost && publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )
+}
+{isBlogPost && <meta property="article:author" content={articleAuthor} />}
