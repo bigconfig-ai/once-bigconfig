@@ -16,11 +16,12 @@ tags:
   - ansible
 cover:
   alt: ansible
-  image: public/blog/universal.png
+  image: /blog/universal.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
+import Tabs from "~/components/Tabs.astro";
+import TabItem from "~/components/TabItem.astro";
+import LinkCard from "~/components/LinkCard.astro";
 
 The primary challenge with Terraform and Ansible has always been portability. It is notoriously difficult to take a solution written for one environment and apply it to another without significant manual adjustments. Kubernetes achieved its massive success by leveling this playing field. With tools like Helm, you have a package manager that allows you to install applications without worrying about whether you are on-prem or using a specific hyperscaler.
 

@@ -1,0 +1,573 @@
+---
+import "~/styles/global.css";
+import logo from "~/assets/logo-light.svg";
+
+const {
+  title = "BigConfig Blog",
+  description = "Articles about Agentic DevOps and BigConfig.",
+  canonical = Astro.url.pathname,
+  image,
+} = Astro.props;
+
+const canonicalUrl = new URL(canonical, "https://www.bigconfig.ai").toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="article" />
+    {image && <meta property="og:image" content={new URL(image, "https://www.bigconfig.ai").toString()} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VKP1WY4QJ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-4VKP1WY4QJ");
+    </script>
+    <style is:global>
+      body {
+        margin: 0;
+        font-family:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .blog-shell {
+        width: min(100% - 32px, 1080px);
+        margin: 0 auto;
+      }
+
+      .blog-prose a:hover {
+        color: #62e1e9;
+      }
+
+      .blog-footer-link {
+        color: #fff;
+      }
+
+      .blog-footer-link:hover {
+        color: rgb(212 212 212);
+      }
+
+      .blog-main {
+        min-height: calc(100vh - 153px);
+        padding: 54px 0 72px;
+      }
+
+      .blog-eyebrow {
+        color: #62e1e9;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .blog-title {
+        margin: 12px 0 16px;
+        max-width: 900px;
+        font-size: clamp(38px, 6vw, 72px);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .blog-description {
+        max-width: 760px;
+        color: rgb(229 229 229 / 0.72);
+        font-size: 18px;
+        line-height: 1.7;
+      }
+
+      .blog-list {
+        display: grid;
+        gap: 18px;
+        margin-top: 42px;
+      }
+
+      .blog-card {
+        background: rgb(23 23 23 / 0.4);
+        border: 1px solid rgb(38 38 38);
+        border-radius: 16px;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 24px;
+        padding: 24px;
+        transition:
+          background-color 150ms ease,
+          border-color 150ms ease;
+      }
+
+      .blog-card:hover {
+        background: rgb(23 23 23);
+        border-color: rgb(98 225 233 / 0.4);
+      }
+
+      .blog-card:focus-visible {
+        border-color: rgb(98 225 233 / 0.7);
+        outline: 2px solid rgb(98 225 233 / 0.35);
+        outline-offset: 3px;
+      }
+
+      .blog-card *,
+      .blog-card a {
+        cursor: pointer;
+      }
+
+      .blog-card h2 {
+        margin: 8px 0 10px;
+        font-size: clamp(24px, 4vw, 36px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .blog-card p,
+      .blog-meta {
+        color: rgb(229 229 229 / 0.68);
+        line-height: 1.65;
+      }
+
+      .blog-card > a {
+        align-self: start;
+        display: block;
+      }
+
+      .blog-cover {
+        display: block;
+        height: auto;
+        max-width: 100%;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid rgb(255 255 255 / 0.12);
+      }
+
+      .blog-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .blog-tags a,
+      .blog-tag {
+        background: rgb(23 23 23 / 0.45);
+        border: 1px solid rgb(38 38 38);
+        border-radius: 999px;
+        color: rgb(229 229 229 / 0.78);
+        font-size: 12px;
+        line-height: 1;
+        padding: 7px 10px;
+        transition:
+          border-color 150ms ease,
+          color 150ms ease;
+      }
+
+      .blog-tags a:hover {
+        border-color: rgb(98 225 233 / 0.45);
+        color: #62e1e9;
+      }
+
+      .blog-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 36px;
+        padding-top: 24px;
+        border-top: 1px solid rgb(255 255 255 / 0.1);
+      }
+
+      .blog-pagination a,
+      .blog-button {
+        border: 1px solid rgb(98 225 233 / 0.45);
+        border-radius: 8px;
+        color: #62e1e9;
+        display: inline-flex;
+        font-weight: 700;
+        padding: 10px 14px;
+      }
+
+      .blog-article {
+        width: min(100% - 32px, 880px);
+        margin: 0 auto;
+      }
+
+      .blog-article-header {
+        margin-bottom: 32px;
+      }
+
+      .blog-article h1 {
+        margin: 12px 0 16px;
+        font-size: clamp(40px, 7vw, 76px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .blog-prose {
+        color: rgb(245 245 245 / 0.88);
+        font-size: 17px;
+        line-height: 1.75;
+      }
+
+      .blog-prose h2,
+      .blog-prose h3,
+      .blog-prose h4 {
+        color: #fff;
+        letter-spacing: 0;
+        line-height: 1.16;
+        margin: 42px 0 14px;
+      }
+
+      .blog-prose h2 {
+        font-size: 32px;
+      }
+
+      .blog-prose h3 {
+        font-size: 24px;
+      }
+
+      .blog-prose p,
+      .blog-prose ul,
+      .blog-prose ol,
+      .blog-prose blockquote,
+      .blog-prose pre,
+      .blog-prose table {
+        margin: 18px 0;
+      }
+
+      .blog-prose a {
+        color: #62e1e9;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .blog-prose code {
+        background: rgb(255 255 255 / 0.09);
+        border-radius: 5px;
+        color: #e7fbfd;
+        font-size: 0.9em;
+        padding: 2px 5px;
+      }
+
+      .blog-prose pre {
+        background: rgb(23 23 23 / 0.4);
+        border: 1px solid rgb(38 38 38);
+        border-radius: 8px;
+        overflow-x: auto;
+        padding: 18px;
+      }
+
+      .blog-prose pre code {
+        background: transparent;
+        border-radius: 0;
+        display: block;
+        padding: 0;
+      }
+
+      .blog-prose blockquote {
+        border-left: 3px solid #62e1e9;
+        color: rgb(245 245 245 / 0.76);
+        padding-left: 18px;
+      }
+
+      .blog-prose img {
+        border-radius: 8px;
+        border: 1px solid rgb(255 255 255 / 0.12);
+        display: block;
+        height: auto;
+        max-width: 100%;
+      }
+
+      .blog-prose table {
+        border-collapse: collapse;
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+      }
+
+      .blog-prose th,
+      .blog-prose td {
+        border: 1px solid rgb(255 255 255 / 0.14);
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      .bc-tabs {
+        background: rgb(23 23 23 / 0.4);
+        border: 1px solid rgb(38 38 38);
+        border-radius: 8px;
+        margin: 22px 0;
+        overflow: hidden;
+      }
+
+      .bc-tabs-list {
+        display: flex;
+        gap: 0;
+        overflow-x: auto;
+        border-bottom: 1px solid rgb(38 38 38);
+      }
+
+      .bc-tabs-button {
+        background: transparent;
+        border: 0;
+        color: rgb(229 229 229 / 0.7);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        padding: 12px 16px;
+      }
+
+      .bc-tabs-button[aria-selected="true"] {
+        background: rgb(98 225 233 / 0.12);
+        color: #62e1e9;
+      }
+
+      .bc-tab-panel {
+        padding: 18px;
+      }
+
+      .bc-link-card {
+        background: rgb(23 23 23 / 0.4);
+        border: 1px solid rgb(38 38 38);
+        border-radius: 8px;
+        display: block;
+        margin: 24px 0;
+        padding: 18px;
+        text-decoration: none;
+        transition:
+          background-color 150ms ease,
+          border-color 150ms ease;
+      }
+
+      .bc-link-card:hover {
+        background: rgb(23 23 23);
+        border-color: rgb(98 225 233 / 0.4);
+      }
+
+      .bc-link-card strong,
+      .bc-link-card span {
+        display: block;
+      }
+
+      .bc-link-card span {
+        color: rgb(229 229 229 / 0.7);
+        margin-top: 6px;
+      }
+
+      .bc-steps {
+        counter-reset: bc-step;
+        margin: 22px 0;
+      }
+
+      .bc-steps ol {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .bc-steps li {
+        counter-increment: bc-step;
+        border-left: 1px solid rgb(98 225 233 / 0.35);
+        margin: 0;
+        padding: 0 0 20px 28px;
+        position: relative;
+      }
+
+      .bc-steps li::before {
+        align-items: center;
+        background: #62e1e9;
+        border-radius: 999px;
+        color: #061315;
+        content: counter(bc-step);
+        display: flex;
+        font-size: 12px;
+        font-weight: 800;
+        height: 22px;
+        justify-content: center;
+        left: -11px;
+        position: absolute;
+        top: 0;
+        width: 22px;
+      }
+
+      .bc-file-tree {
+        background: rgb(23 23 23 / 0.4);
+        border: 1px solid rgb(38 38 38);
+        border-radius: 8px;
+        color: #d9f8fb;
+        font-family:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+        font-size: 14px;
+        padding: 18px;
+      }
+
+      .bc-file-tree ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .bc-file-tree li {
+        margin: 5px 0;
+      }
+
+      @media (max-width: 760px) {
+        .blog-card {
+          grid-template-columns: 1fr;
+        }
+
+      }
+    </style>
+    <script is:inline>
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const card = target.closest(".blog-card[data-href]");
+        if (!card || target.closest("a")) return;
+        window.location.href = card.dataset.href;
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const card = target.closest(".blog-card[data-href]");
+        if (!card || target.closest("a")) return;
+        event.preventDefault();
+        window.location.href = card.dataset.href;
+      });
+    </script>
+  </head>
+  <body class="bg-neutral-950 text-neutral-100 antialiased">
+    <div
+      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(6,82,233,0.15),_transparent_60%)]"
+    >
+    </div>
+    <div
+      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+    >
+      <header
+        class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+      >
+        <a
+          href="/"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+          aria-label="BigConfig home"
+        >
+          <img src={logo.src} alt="" class="h-7 w-auto" />
+        </a>
+        <nav class="hidden gap-8 text-sm md:flex">
+          <a href="/blog/" class="text-white hover:text-[#62e1e9]">All posts</a>
+          <a href="/marketplace" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
+          <a href="/manual" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
+          <a href="/blog/rss.xml" class="text-white hover:text-[#62e1e9]">RSS</a>
+        </nav>
+        <a
+          href="https://github.com/bigconfig-ai/big-config"
+          class="hidden rounded-full bg-[#0652e9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e6cf3] md:inline-block"
+        >
+          GitHub
+        </a>
+        <button
+          id="mobile-menu-toggle"
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-800 text-white md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg
+            id="mobile-menu-icon-open"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg
+            id="mobile-menu-icon-close"
+            xmlns="http://www.w3.org/2000/svg"
+            class="hidden h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18L18 6" />
+          </svg>
+        </button>
+      </header>
+      <nav
+        id="mobile-menu"
+        class="hidden border-t border-neutral-800/80 px-6 py-4 md:hidden"
+      >
+        <div class="flex flex-col gap-4 text-sm">
+          <a href="/blog/" class="text-white hover:text-[#62e1e9]">All posts</a>
+          <a href="/marketplace" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
+          <a href="/manual" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
+          <a href="/blog/rss.xml" class="text-white hover:text-[#62e1e9]">RSS</a>
+          <a
+            href="https://github.com/bigconfig-ai/big-config"
+            class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
+          >
+            GitHub
+          </a>
+        </div>
+      </nav>
+    </div>
+    <main class="blog-main">
+      <slot />
+    </main>
+    <footer
+      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500"
+    >
+      © {new Date().getFullYear()} BigConfig · <a
+        href="/"
+        class="blog-footer-link text-white hover:text-neutral-300"
+        style="color: #fff;">bigconfig.ai</a
+      >
+    </footer>
+    <script is:inline>
+      const mobileToggle = document.getElementById("mobile-menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const iconOpen = document.getElementById("mobile-menu-icon-open");
+      const iconClose = document.getElementById("mobile-menu-icon-close");
+      if (mobileToggle && mobileMenu) {
+        const setOpen = (open) => {
+          mobileMenu.classList.toggle("hidden", !open);
+          mobileToggle.setAttribute("aria-expanded", open ? "true" : "false");
+          iconOpen?.classList.toggle("hidden", open);
+          iconClose?.classList.toggle("hidden", !open);
+        };
+        mobileToggle.addEventListener("click", () => {
+          const isOpen = mobileMenu.classList.contains("hidden");
+          setOpen(isOpen);
+        });
+        mobileMenu.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => setOpen(false));
+        });
+      }
+    </script>
+  </body>
+</html>

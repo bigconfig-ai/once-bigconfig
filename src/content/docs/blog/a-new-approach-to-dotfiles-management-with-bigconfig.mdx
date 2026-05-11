@@ -13,13 +13,14 @@ tags:
   - bigconfig
 cover:
   alt: dotfiles
-  image: public/blog/dotfiles.png
+  image: /blog/dotfiles.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
 
 Managing dotfiles—the configuration files that personalize your user environment—is a crucial part of a developer's workflow. The go-to tools for this have long been <ExternalLink href="https://www.chezmoi.io/">Chezmoi</ExternalLink> and <ExternalLink href="https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html">Stow</ExternalLink>. While Stow is celebrated for its simplicity, Chezmoi offers powerful templating and secret management. However, what if you need the best of both worlds? This is where <ExternalLink href="/">BigConfig</ExternalLink> comes in, offering a new way to manage your configurations by combining the simplicity of a declarative approach with the power of code.
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Tabs from "~/components/Tabs.astro";
+import TabItem from "~/components/TabItem.astro";
 
 <Tabs>
   <TabItem label="common">

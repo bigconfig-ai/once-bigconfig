@@ -18,7 +18,7 @@ tags:
   - code-first
 cover:
   alt: ansible
-  image: public/blog/ansible.png
+  image: /blog/ansible.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
 
@@ -71,7 +71,7 @@ While some tools come and go, others adapt and find their niche. For provisionin
 
 
 
-import { FileTree } from '@astrojs/starlight/components';
+import FileTree from "~/components/FileTree.astro";
 
 <FileTree>
 - roles/
@@ -90,7 +90,7 @@ import { FileTree } from '@astrojs/starlight/components';
 ## Go faster
 Imagine that you have to provision hundreds of users per machine. It will take too long but if every host becomes the combination of the user + the host then Ansible will provision these users in parallel because they look like different hosts.
 
-![A starry night sky.](public/blog/ansible-run.png)
+![A starry night sky.](/blog/ansible-run.png)
 
 ## Conclusion
 Even in an age dominated by containers and cloud-native solutions, Ansible remains a crucial tool, not for what it once was, but for what it has become. Its core strength—its **simplicity**—makes it the ideal choice for a new, pervasive use case: provisioning remote development environments.

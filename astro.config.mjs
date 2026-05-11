@@ -1,96 +1,39 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import starlight from "@astrojs/starlight";
-import starlightBlog from "starlight-blog";
+import mdx from "@astrojs/mdx";
 import astroD2 from "astro-d2";
 
 import tailwindcss from "@tailwindcss/vite";
 
-const googleAnalyticsId = "G-4VKP1WY4QJ";
+const docsRedirects = {
+  "/api/core": "/manual",
+  "/api/lock": "/manual",
+  "/api/package": "/manual",
+  "/api/pluggable": "/manual",
+  "/api/render": "/manual",
+  "/api/step": "/manual",
+  "/api/system": "/manual",
+  "/api/tools": "/manual",
+  "/api/workflow": "/manual",
+  "/libraries/control-plane": "/manual",
+  "/libraries/system": "/manual",
+  "/libraries/terraform": "/manual",
+  "/references/template": "/manual",
+  "/start-here/getting-started": "/manual",
+  "/templates/package": "/manual",
+};
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.bigconfig.ai",
   redirects: {
-    "/packages/walter/": "/walter",
     "/packages/walter": "/walter",
-    "/packages/once/": "/once",
     "/packages/once": "/once",
+    ...docsRedirects,
   },
   integrations: [
     astroD2(),
-    starlight({
-      plugins: [
-        starlightBlog({
-          postCount: 10,
-          authors: {
-            amiorin: {
-              name: "amiorin",
-              title: "Alberto Miorin",
-              picture: "/avatar.png", // Images in the `public` directory are supported.
-              url: "https://albertomiorin.com",
-            },
-          },
-        }),
-      ],
-      title: "BigConfig",
-      logo: {
-        light: "/src/assets/logo-light.svg",
-        dark: "/src/assets/logo-dark.svg",
-        replacesTitle: true,
-      },
-      customCss: [
-        // Path to your Tailwind base styles:
-        "./src/styles/global.css",
-      ],
-      head: [
-        // Google Analytics
-        {
-          tag: "script",
-          attrs: {
-            src: `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`,
-          },
-        },
-        {
-          tag: "script",
-          content: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${googleAnalyticsId}');
-          `,
-        },
-      ],
-      social: [
-        {
-          icon: "github",
-          label: "GitHub",
-          href: "https://github.com/bigconfig-ai/big-config",
-        },
-      ],
-      sidebar: [
-        {
-          label: "Start Here",
-          autogenerate: { directory: "start-here" },
-        },
-        {
-          label: "API",
-          badge: {
-            text: "📖",
-            variant: "success",
-          },
-          autogenerate: { directory: "api" },
-        },
-        {
-          label: "Templates",
-          autogenerate: { directory: "templates" },
-        },
-        {
-          label: "Libraries",
-          autogenerate: { directory: "libraries" },
-        },
-      ],
-    }),
+    mdx(),
   ],
 
   vite: {

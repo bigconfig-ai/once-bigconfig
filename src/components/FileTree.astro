@@ -1,0 +1,7 @@
+---
+const { class: className = "" } = Astro.props;
+---
+
+<div class={`bc-file-tree ${className}`}>
+  <slot />
+</div>

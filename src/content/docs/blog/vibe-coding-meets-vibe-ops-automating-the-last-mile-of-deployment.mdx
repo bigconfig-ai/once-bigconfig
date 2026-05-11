@@ -17,10 +17,10 @@ tags:
   - namecheap
 cover:
   alt: Once
-  image: public/blog/blog-once.png
+  image: /blog/blog-once.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro';
-import { Steps } from '@astrojs/starlight/components';
+import Steps from "~/components/Steps.astro";
 
 Vibe coding has made building web applications faster and more intuitive than ever, but the Ops side of the house hasn't quite kept up. While 37signals' <ExternalLink href="https://github.com/basecamp/once">ONCE</ExternalLink> simplified the deployment architecture for vibe coders, managing the underlying infrastructure—Compute, DNS, and SMTP—remains a fragmented, manual process.
 
@@ -47,8 +47,8 @@ BigConfig turns complex infrastructure provisioning into a few simple terminal c
    ```
 </Steps>
 
-![once](public/blog/once.jpg)
-![apps](public/blog/apps.jpg)
+![once](/blog/once.jpg)
+![apps](/blog/apps.jpg)
 
 ### 1. Compute
 While <ExternalLink href="https://www.oracle.com/">Oracle</ExternalLink> and <ExternalLink href="https://www.hetzner.com/">Hetzner</ExternalLink> are supported out of the box, BigConfig is built for extensibility. Adding a new compute provider is trivial, ensuring you aren't locked into a single ecosystem.

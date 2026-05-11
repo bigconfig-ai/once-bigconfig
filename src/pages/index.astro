@@ -1,7 +1,8 @@
 ---
 import "~/styles/global.css";
 import logo from "~/assets/logo-light.svg";
-import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Tabs from "~/components/Tabs.astro";
+import TabItem from "~/components/TabItem.astro";
 import YouTube from "~/components/YouTube.astro";
 
 const features = [
@@ -149,12 +150,12 @@ $ bb package delete`;
         margin: 0;
       }
       .code-tabs {
-        --sl-color-text-accent: #62e1e9;
+        --bc-color-text-accent: #62e1e9;
       }
-      .code-tabs starlight-tabs {
+      .code-tabs .bc-tabs {
         display: block;
       }
-      .code-tabs .tablist-wrapper {
+      .code-tabs .bc-tabs-list {
         background: rgba(10, 10, 10, 0.6);
         border-bottom: 1px solid rgb(38, 38, 38);
         margin: 0;

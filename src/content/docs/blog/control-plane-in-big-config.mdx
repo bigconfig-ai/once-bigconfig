@@ -19,10 +19,10 @@ tags:
   - iac
 cover:
   alt: rama-jdbc
-  image: public/blog/control-plane.png
+  image: /blog/control-plane.png
 ---
 import ExternalLink from '~/components/ExternalLink.astro'
-import { LinkCard } from '@astrojs/starlight/components';
+import LinkCard from "~/components/LinkCard.astro";
 
 A **control plane** acts as an **API** for provisioning and managing infrastructure. Well-known examples include **AWS** itself and **Kubernetes (K8s)**.
 
@@ -50,7 +50,7 @@ The secret to transforming any Terraform code into a control plane lies in how T
 
 You can test this powerful concept right now, even without an AWS account:
 
-import { Steps } from '@astrojs/starlight/components';
+import Steps from "~/components/Steps.astro";
 
 <Steps>
 1.  Install the Control Plane CLI:
