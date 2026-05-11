@@ -1,4 +1,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import { fromMarkdown } from "mdast-util-from-markdown";
+import { gfmFromMarkdown } from "mdast-util-gfm";
+import { gfm } from "micromark-extension-gfm";
 
 export const SITE_URL = "https://www.bigconfig.ai";
 export const POSTS_PER_PAGE = 10;
@@ -36,8 +39,65 @@ export function normalizeAuthors(value: BlogPost["data"]["authors"]) {
   return ["amiorin"];
 }
 
+type MarkdownNode = {
+  type?: string;
+  value?: string;
+  alt?: string;
+  children?: MarkdownNode[];
+};
+
+const blockMarkdownTypes = new Set([
+  "blockquote",
+  "break",
+  "code",
+  "definition",
+  "footnoteDefinition",
+  "heading",
+  "html",
+  "list",
+  "listItem",
+  "paragraph",
+  "root",
+  "table",
+  "tableCell",
+  "tableRow",
+  "thematicBreak",
+  "yaml",
+]);
+
+function collectMarkdownText(node: MarkdownNode, parts: string[]) {
+  if (node.type === "text" || node.type === "inlineCode" || node.type === "code") {
+    if (node.value) parts.push(node.value);
+    return;
+  }
+
+  if (node.type === "image") {
+    if (node.alt) parts.push(node.alt);
+    return;
+  }
+
+  if (node.type === "html" || node.type === "definition" || node.type === "yaml") {
+    return;
+  }
+
+  for (const child of node.children ?? []) {
+    collectMarkdownText(child, parts);
+    if (child.type && blockMarkdownTypes.has(child.type)) parts.push(" ");
+  }
+}
+
+function markdownToText(value: string) {
+  const tree = fromMarkdown(value, {
+    extensions: [gfm()],
+    mdastExtensions: [gfmFromMarkdown()],
+  }) as MarkdownNode;
+  const parts: string[] = [];
+  collectMarkdownText(tree, parts);
+  return parts.join("").replace(/\s+/g, " ").trim();
+}
+
 export function getPostExcerpt(post: BlogPost) {
-  return post.data.excerpt ?? "";
+  return markdownToText(post.data.excerpt ?? "");
 }
 
 export function getPostTags(post: BlogPost) {
