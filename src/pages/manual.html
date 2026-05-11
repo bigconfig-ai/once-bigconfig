@@ -79,12 +79,18 @@
     padding: 24px 18px;
   }
   .sidebar .brand {
+    display: block;
+    color: var(--text);
     font-weight: 700;
     font-size: 17px;
     letter-spacing: -0.01em;
     padding: 0 6px 10px;
     border-bottom: 1px solid var(--border-soft);
     margin-bottom: 10px;
+    text-decoration: none;
+  }
+  .sidebar .brand:hover {
+    text-decoration: none;
   }
   .sidebar .brand small {
     display: block;
@@ -249,10 +255,10 @@
 <div class="layout">
 
 <aside class="sidebar">
-  <div class="brand">
-    BigConfig
+  <a class="brand" href="/">
+    ← BigConfig
     <small>Workflow &amp; template engine for IaC</small>
-  </div>
+  </a>
   <nav id="toc">
     <div class="group-title">Start</div>
     <ul>
