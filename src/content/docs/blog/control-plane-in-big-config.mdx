@@ -55,7 +55,7 @@ import { Steps } from '@astrojs/starlight/components';
 <Steps>
 1.  Install the Control Plane CLI:
     ```sh
-    clojure -Ttools install big-config/control-plane '{:git/sha "aff7c186999c19ad2b4f07752abd13ec5b3b6651" :git/url "https://github.com/amiorin/big-config.git"}' :as ctlp
+    clojure -Ttools install big-config/control-plane '{:git/sha "aff7c186999c19ad2b4f07752abd13ec5b3b6651" :git/url "https://github.com/bigconfig-ai/big-config.git"}' :as ctlp
     ```
 1.  Create a convenient alias:
     ```sh
@@ -99,7 +99,7 @@ p apply-state
 
 This dynamic state management is powered by the **Prevalent System design pattern** and uses pure functions to handle state logic. You can explore the implementation details in the GitHub repository.
 
-<LinkCard title="Show me the code" href="https://github.com/amiorin/big-config/blob/control-plane/src/clj/control_plane.clj" />
+<LinkCard title="Show me the code" href="https://github.com/bigconfig-ai/big-config/blob/control-plane/src/clj/control_plane.clj" />
 
 ## Conclusion
 Terraform remains the go-to tool for modern DevOps and infrastructure management. While some platform teams have attempted to replace it with control planes, this demonstration showed the true strength of Terraform: its ability to abstract the low-level cloud provider APIs. This capability actually makes control plane implementation faster and more efficient rather than competing with it.

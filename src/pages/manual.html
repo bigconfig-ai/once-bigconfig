@@ -381,7 +381,7 @@
 <h2>Installation <a href="#install" class="anchor">#</a></h2>
 <p>BigConfig is typically used as a Clojure tool or via Babashka.</p>
 <pre><code class="language-bash"># Install BigConfig as a Clojure tool
-clojure -Ttools install-latest :lib io.github.amiorin/big-config :as big-config
+clojure -Ttools install-latest :lib io.github.bigconfig-ai/big-config :as big-config
 
 # Print help for all available templates
 clojure -A:deps -Tbig-config help/doc
@@ -1285,7 +1285,7 @@ bb    test-bb-task                                 # BigConfig system tests</cod
 </table>
 
 <h3>Babashka tasks (<code>bb.edn</code>)</h3>
-<pre><code class="language-clojure">{:deps {amiorin/big-config {:local/root "."}}
+<pre><code class="language-clojure">{:deps {bigconfig-ai/big-config {:local/root "."}}
  :tasks
  {build         {:doc  "setup the dev environment"
                  :task (shell {:dir ".big-config"} "bb build render devenv:build")}

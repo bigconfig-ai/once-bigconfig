@@ -65,7 +65,7 @@ export default defineConfig({
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/amiorin/big-config",
+          href: "https://github.com/bigconfig-ai/big-config",
         },
       ],
       sidebar: [

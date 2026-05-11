@@ -62,12 +62,12 @@ You need to create a project to deploy a web application.
 This project contains only three files: a `bb.edn` file, a `deps.edn` file, and a `.envrc` file
 The deps.edn will contain the dependency https://github.com/amiorin/once
 You can download https://github.com/amiorin/once to see how it works.
-https://github.com/amiorin/once is built on top of https://github.com/amiorin/big-config
-You can download https://github.com/amiorin/big-config to see how it works.
+https://github.com/amiorin/once is built on top of https://github.com/bigconfig-ai/big-config
+You can download https://github.com/bigconfig-ai/big-config to see how it works.
 The bb.edn contains a dependency :local/root to the current directory containing the file deps.edn that contains a dependency to https://github.com/amiorin/once
 The domain is bigconfig.online.
 The host is www.bigconfig.online.
-The container is ghcr.io/amiorin/big-config-website:latest
+The container is ghcr.io/bigconfig-ai/big-config-website:latest
 The compute provider is OCI with 6 GB, 1 core, and 50 GB of disk.
 The dns provider is Cloudflare.
 The smtp provider is Resend.
@@ -85,7 +85,7 @@ A three-file project that uses `amiorin/once` to provision OCI + Cloudflare DNS 
 `amiorin/once` is built on top of `big-config`. Before wiring anything, clone both repos locally and confirm the assumptions in the "Open questions" section below — several env-var names and behaviors here are placeholders until verified against the source.
 
 - https://github.com/amiorin/once
-- https://github.com/amiorin/big-config
+- https://github.com/bigconfig-ai/big-config
 - https://github.com/basecamp/once (installed on the VM; runs the container + handles TLS)
 
 ## Files
@@ -98,7 +98,7 @@ A three-file project that uses `amiorin/once` to provision OCI + Cloudflare DNS 
 
 - **Domain**: `bigconfig.online`
 - **Host**: `www.bigconfig.online` — **do not create an APEX record**; if once's `website` profile creates one by default, override it from the `bb.edn` options
-- **Container**: `ghcr.io/amiorin/big-config-website:latest` — must publish a `linux/arm64` variant, since the OCI free tier is Ampere A1
+- **Container**: `ghcr.io/bigconfig-ai/big-config-website:latest` — must publish a `linux/arm64` variant, since the OCI free tier is Ampere A1
 - **Compute**: OCI `VM.Standard.A1.Flex`, 1 OCPU, 6 GB RAM, 50 GB boot volume, Ubuntu LTS
 - **DNS**: Cloudflare
 - **SMTP (domain provisioning + outbound mail)**: Resend
@@ -158,7 +158,7 @@ Avoid writing Clojure source files. Everything is data: project options live in 
 2. **Profile.** Does once's `website` profile already target `bigconfig.online` / `www` / the ghcr image? If not, how is it overridden from the `bb.edn` options map?
 3. **Exact `BC_PAR_*` names** for OCI, SSH keys, container image, and basecamp/once inputs — derive from once's source rather than guessing.
 4. **basecamp/once scope.** Does it host arbitrary containers, or does it require a product manifest? What does it actually need at install time (email, license, domain)?
-5. **Image.** Is `ghcr.io/amiorin/big-config-website:latest` public, and does it publish `linux/arm64`?
+5. **Image.** Is `ghcr.io/bigconfig-ai/big-config-website:latest` public, and does it publish `linux/arm64`?
 6. **APEX.** Does the `website` profile create an apex record by default? If yes, wire the override through the `bb.edn` options map.
 7. **S3 bucket bootstrap.** Pre-create manually, or automate via a bootstrap task in `bb.edn`?
 ```
@@ -206,7 +206,7 @@ This is the heart of the deployment: a concise mix of requirements, data structu
             :s3-region        "eu-west-1"
 
             :once {:applications [{:host  "www.bigconfig.online"
-                                   :image "ghcr.io/amiorin/big-config-website"}]}}})
+                                   :image "ghcr.io/bigconfig-ai/big-config-website"}]}}})
 
   once           {:doc  "bb once create | bb once delete"
                   :task (package/once* *command-line-args* bigconfig-online)}

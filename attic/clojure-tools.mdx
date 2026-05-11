@@ -32,14 +32,14 @@ import { Steps } from '@astrojs/starlight/components';
    ```
 1. Use <ExternalLink href="https://github.com/babashka/neil">Neil</ExternalLink> to add BigConfig as dependency to your project.
    ``` shell
-   neil add dep io.github.amiorin/big-config
+   neil add dep io.github.bigconfig-ai/big-config
    ```
 1. Now you are ready to install your repo as a tool in development mode or from GitHub if you are on a different machine.
    ``` shell
    # Install the tool as mybc in development mode
    clojure -Ttools install io.github.USER/REPO '{:local/root "."}' :as mybc
    ```
-1. Now you can create as many templates you want. You can check the <ExternalLink href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/tools.clj">the default templates</ExternalLink>.
+1. Now you can create as many templates you want. You can check the <ExternalLink href="https://github.com/bigconfig-ai/big-config/blob/main/src/clj/big_config/tools.clj">the default templates</ExternalLink>.
 
    ``` shell
    # Use template foo

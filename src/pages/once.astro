@@ -37,7 +37,7 @@ const features = [
   },
 ];
 
-const planMd = `install ghcr.io/amiorin/big-config-website:latest
+const planMd = `install ghcr.io/bigconfig-ai/big-config-website:latest
 using https://github.com/amiorin/once
 with the domain www.bigconfig.space`
 
@@ -52,7 +52,7 @@ const bbEdn = `{:deps  {io.github.amiorin/once {:git/url "https://github.com/ami
                             {:domain  "bigconfig.online"
                              :package "online"
                              :once    {:applications [{:host  "www.bigconfig.online"
-                                                       :image "ghcr.io/amiorin/big-config-website:latest"}]}
+                                                       :image "ghcr.io/bigconfig-ai/big-config-website:latest"}]}
 
                              :provider-compute            "oci"
                              :oci-config-file-profile     "DEFAULT"

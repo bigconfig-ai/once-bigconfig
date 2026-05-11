@@ -29,7 +29,7 @@ A step function is a function that accepts three arguments: the step, the
 
   These side-effect functions are executed immediately before and after a workflow
   step and receive the current execution context.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L161-L186">Source</a></sub></p>
+<p><sub><a href="https://github.com/bigconfig-ai/big-config/blob/main/src/clj/big_config/core.clj#L161-L186">Source</a></sub></p>
 
 ## <a name="big-config.core/->workflow">`->workflow`</a>
 ``` clojure
@@ -88,7 +88,7 @@ Creates a workflow based on the following `wf-opts` map:
                                                :opts opts})))}))
   ```
   A workflow can be invoked with a `seq` of `opts` maps.
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L68-L147">Source</a></sub></p>
+<p><sub><a href="https://github.com/bigconfig-ai/big-config/blob/main/src/clj/big_config/core.clj#L68-L147">Source</a></sub></p>
 
 ## <a name="big-config.core/choice">`choice`</a>
 ``` clojure
@@ -97,7 +97,7 @@ Creates a workflow based on the following `wf-opts` map:
 Function.
 
 To be used in the `next-fn`. See [`->workflow`](#big-config.core/->workflow)
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L27-L35">Source</a></sub></p>
+<p><sub><a href="https://github.com/bigconfig-ai/big-config/blob/main/src/clj/big_config/core.clj#L27-L35">Source</a></sub></p>
 
 ## <a name="big-config.core/ok">`ok`</a>
 ``` clojure
@@ -119,5 +119,5 @@ Return opts with success. Each step must return `opts` with a
     ...
     (ok opts))
   ```
-<p><sub><a href="https://github.com/amiorin/big-config/blob/main/src/clj/big_config/core.clj#L6-L25">Source</a></sub></p>
+<p><sub><a href="https://github.com/bigconfig-ai/big-config/blob/main/src/clj/big_config/core.clj#L6-L25">Source</a></sub></p>
 

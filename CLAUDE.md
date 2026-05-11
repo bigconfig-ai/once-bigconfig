@@ -213,7 +213,7 @@ From recent commit history:
 - **Author slug:** `amiorin` (blog posts must use this)
 - **Author avatar:** `public/avatar.png`
 - **Logo:** Light/dark SVG variants in `src/assets/`
-- **GitHub link:** `https://github.com/amiorin/big-config` (shown in Starlight social bar)
+- **GitHub link:** `https://github.com/bigconfig-ai/big-config` (shown in Starlight social bar)
 
 ---
 
