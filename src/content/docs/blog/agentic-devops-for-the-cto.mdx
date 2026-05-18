@@ -1,0 +1,129 @@
+---
+title: "Agentic DevOps for the CTO"
+date: 2026-05-18
+excerpt: |-
+  Agentic DevOps is an operating model decision, not a tooling experiment. For a CTO the question is not whether agents are powerful, but whether the blast radius is bounded. Sandbox the agent, scope credentials to read-only, keep create and delete under human authority, and you get the leverage without betting production on a prompt.
+authors: amiorin
+tags:
+  - bigconfig
+  - agentic devops
+  - pi.dev
+  - leadership
+  - governance
+  - security
+cover:
+  alt: Agentic DevOps as an operating model decision for the CTO
+  image: /blog/agentic.png
+---
+import ExternalLink from '~/components/ExternalLink.astro';
+
+Most agentic DevOps decisions reach the CTO framed as a tooling question. It is not one.
+
+The real question is not "which agent is the most capable" or "which model writes the best Terraform." Those answers change every quarter. The question that actually lands on your desk is structural: **when an agent acts on infrastructure, what is the maximum amount of damage it can do, and who authorized it?**
+
+That is an operating model decision. It outlives any specific model, vendor, or framework.
+
+## The shortcut you will be asked to approve
+
+The pitch is seductive and you will hear it from your best engineers: give the agent the same access we have, and it will move as fast as we do.
+
+That is the shortcut, and it is the mistake. An agent with the operator's credentials, filesystem, network, and production authority is not an assistant. It is an unbounded operator with a prompt interface and no accountability trail.
+
+The defensible pattern is different:
+
+1. Run the agent inside a disposable sandbox.
+2. Scope the sandbox to read-only credentials.
+3. Let the agent inspect and validate.
+4. Require it to recommend the next step.
+5. Keep state-changing actions with a human operator.
+
+> The agent advises. The operator acts.
+
+For a CTO, that one sentence is the policy. Everything below is how to make it real and why it is the right trade.
+
+## What you are actually buying
+
+Agentic DevOps is sold as speed. Speed is real, but it is not the asset you should underwrite.
+
+The asset is **leverage on context**. An agent is very good at reading a large repository, following a package contract, comparing declared state with reality, and producing an explained recommendation faster than a human can. That is the expensive, time-consuming part of operations work, and it is the part agents are genuinely good at.
+
+Production authority is a separate concern. It is cheap to keep with a human and ruinously expensive to delegate by accident. So buy the context leverage, and do not pay for it with your blast radius.
+
+## The boundary is read-only credentials
+
+Architecture debates can run forever. This one does not need to.
+
+If the sandbox holds read-only credentials only, an entire class of incidents becomes impossible rather than merely unlikely. The agent can read, compare, and explain. It cannot create or delete, because the credentials to do so are not in the room.
+
+Notice what this is *not*. It is not a trust statement about agents, and it is not a bet on the model behaving well. It is a structural guarantee that holds even when the agent is wrong, confused, or adversarially prompted. As a CTO you want controls that survive bad days, not controls that assume good ones.
+
+## The four verbs, read as a governance interface
+
+A BigConfig package exposes four verbs. Read them not as engineering primitives but as a permissions model:
+
+| Verb | Credentials | Default actor | Risk |
+|---|---|---|---|
+| `describe` | Read-only | Agent in sandbox | Bounded |
+| `validate` | Read-only | Agent in sandbox | Bounded |
+| `create` | Full | Operator | State-changing |
+| `delete` | Full | Operator | Destructive |
+
+The value here is that the safe surface and the dangerous surface are *named and separated by default*. You are not relying on a wiki page, a code review convention, or a well-intentioned engineer remembering the rule. The boundary is in the interface. That is the kind of control that scales across teams and survives staff turnover.
+
+## The operating model on one page
+
+```text
+operator
+  -> launches disposable sandbox with @bigconfig/bb
+  -> starts the pi.dev agent inside the sandbox
+  -> provides read-only credentials only
+  -> asks the agent to run describe / validate
+  -> receives an explained recommendation
+  -> decides, then runs create / delete when warranted
+```
+
+The launcher is one command:
+
+```bash
+BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell
+```
+
+It runs Babashka through `npx`, so any environment with Node tooling can stand up the sandbox. There is nothing exotic to procure, certify, or add to a vendor review. <ExternalLink href="https://pi.dev/">pi.dev</ExternalLink> supplies the agent; BigConfig supplies the bounded interface; your operator supplies the authority. The boring-ness is the feature: an operating model your organization will actually follow under pressure beats a sophisticated one it abandons during an incident.
+
+## Keep the command surface narrow
+
+`describe` and `validate` often need to reach systems outside the sandbox. The instinct is to stand up a broad integration layer so the agent can "see everything." Resist funding that.
+
+A constrained SSH `ForceCommand` CLI is a better boundary than a broad protocol server for privileged operations. The remote side decides exactly what the narrow command is allowed to do; the sandbox cannot widen it. Fewer moving parts, a smaller audit surface, and a security boundary a human can fully understand at 3 a.m. during an incident. When the goal is exposing a handful of inspection commands, a full MCP server is usually more abstraction and more attack surface than the problem requires.
+
+## How to govern this
+
+This translates into a small number of mandates you can actually enforce:
+
+- Agents run only in disposable sandboxes, never on operator or CI hosts with standing credentials.
+- Sandboxes receive read-only credentials only; full credentials never enter an agent's environment.
+- `create` and `delete` are explicit, attributable human actions.
+- The boundary between the sandbox and external systems is narrow, logged, and auditable.
+- "The agent did it" is never an acceptable answer to "who changed production."
+
+None of these requires a new platform team or a multi-quarter program. They are constraints on how existing tools are wired together.
+
+## The anti-patterns to reject in review
+
+When a design or vendor proposal crosses your desk, these are the signals to send it back:
+
+- The agent runs on a host that holds production credentials.
+- Read-only and state-changing operations share the same access path.
+- The agent can run `create` or `delete` without an attributable human decision.
+- A broad integration server exposes privileged operations that a narrow CLI would have bounded.
+- The safety story depends on the model behaving correctly rather than on structural limits.
+
+These are not edge cases. They are design choices, and the safer choice costs no more to make.
+
+## The bottom line
+
+The future of DevOps that survives audit, incident review, and turnover is not a fully autonomous agent with root on everything. It is an agent in a disposable sandbox, operating through a named interface, using read-only credentials to inspect and validate, and returning a recommendation to a human who holds the authority to act.
+
+That is a defensible operating model, not a prompt experiment. It captures the leverage agents actually provide while keeping the blast radius bounded by structure rather than by hope.
+
+<ExternalLink href="https://bigconfig.ai/">bigconfig.ai</ExternalLink>
