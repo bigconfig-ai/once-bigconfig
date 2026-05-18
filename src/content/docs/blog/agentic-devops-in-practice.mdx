@@ -1,0 +1,209 @@
+---
+title: "Agentic DevOps in practice"
+date: 2026-05-18
+excerpt: |-
+  Agentic DevOps needs an operating model, not just a powerful agent. Launch the agent inside a disposable Docker sandbox with @bigconfig/bb, give it read-only credentials, let it run describe and validate, and keep create and delete under operator control.
+authors: amiorin
+tags:
+  - bigconfig
+  - agentic devops
+  - pi.dev
+  - babashka
+  - docker
+  - security
+  - forcecommand
+cover:
+  alt: Agentic DevOps with BigConfig and pi.dev inside a disposable sandbox
+  image: /blog/agentic-devops-in-practice@2x.png
+---
+import ExternalLink from '~/components/ExternalLink.astro';
+
+Agentic DevOps is not about giving an agent the same power as the operator.
+
+That is the tempting shortcut, but it is also the mistake. If the agent gets the same credentials, filesystem access, network access, and production authority as the human operator, then the agent is no longer an assistant. It is an unbounded operator with a prompt interface.
+
+The practical pattern is different:
+
+1. Run the agent inside a disposable Docker sandbox.
+2. Give the sandbox read-only credentials only.
+3. Let the agent use `describe` and `validate`.
+4. Ask the agent to recommend the next step.
+5. Let the operator decide and run `create` or `delete`.
+
+In other words:
+
+> The agent advises. The operator acts.
+
+## Start with the sandbox
+
+The entry point is one command:
+
+```bash
+BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell
+```
+
+`@bigconfig/bb` is the launcher. It launches Babashka `bb` through `npx`, so Node.js/npm tooling is enough to invoke the workflow. You do not need to install Babashka locally.
+
+The flow looks like this:
+
+```text
+npx @bigconfig/bb
+  -> launches Babashka bb
+  -> reads bb.edn from bigconfig-ai/npm-bb
+  -> runs the shell task
+  -> uses Dockerfile/Docker
+  -> creates a disposable container sandbox
+```
+
+The `bigconfig-ai/npm-bb` repository is not a BigConfig package. It is a repository that contains a `bb.edn`, a `shell` task, and a `Dockerfile`. The `shell` task creates the disposable Docker environment where the agent runs.
+
+This distinction matters. The launcher and sandbox are the operating environment. A BigConfig package is what you operate from inside that environment.
+
+## pi.dev and BigConfig
+
+<ExternalLink href="https://pi.dev/">pi.dev</ExternalLink> and BigConfig together define a practical platform for Agentic DevOps.
+
+The agent runs in the sandbox. BigConfig packages expose the operational interface. The operator keeps authority over state-changing actions.
+
+That division is what makes the workflow useful. The agent can inspect, validate, summarize, and recommend without automatically inheriting the power to modify or destroy production resources.
+
+## The four verbs of a BigConfig package
+
+A BigConfig package has four verbs:
+
+- `create`
+- `delete`
+- `validate`
+- `describe`
+
+They are intentionally simple. The important part is not only what each verb does, but who should run it and with which credentials.
+
+| Verb | Credentials | Default actor | Purpose |
+|---|---|---|---|
+| `describe` | Read-only | Agent in sandbox | Inspect current state |
+| `validate` | Read-only | Agent in sandbox | Check whether reality matches expectations |
+| `create` | Full credentials | Operator | Provision or change resources |
+| `delete` | Full credentials | Operator | Destroy resources |
+
+`describe` and `validate` are the safe agent-facing interface. They let the agent understand the world and compare it with the expected configuration.
+
+`create` and `delete` are different. They require full credentials. An agent can technically run them if the operator gives it that authority, but that should be a conscious risk decision. The default pattern is simpler: the operator runs them.
+
+## The golden path
+
+The normal workflow should look like this:
+
+```text
+operator
+  -> launches sandbox with @bigconfig/bb
+  -> starts pi.dev agent inside sandbox
+  -> provides read-only credentials only
+  -> asks agent to run describe/validate
+  -> receives recommended next step
+  -> operator decides and runs create/delete when needed
+```
+
+The operator does not ask the agent to blindly change infrastructure. The operator asks the agent to investigate.
+
+A good prompt is not:
+
+```text
+Fix production.
+```
+
+A better prompt is:
+
+```text
+Use describe and validate to inspect the current state.
+Explain what you found and suggest the next step.
+Do not run create or delete.
+```
+
+This is the core of Agentic DevOps in practice. The agent does the high-context reading, comparison, and explanation. The operator keeps the final authority to change state.
+
+## Read-only credentials are the boundary
+
+The sandbox should receive read-only credentials only.
+
+That one rule removes a large class of failures. If the agent only has read-only credentials, `describe` and `validate` can interact with the environment, but `create` and `delete` cannot succeed from inside the sandbox.
+
+The operator's full credentials stay outside the sandbox. When the agent recommends a change, the operator can review the recommendation, decide whether it is correct, and run the state-changing command from an environment that has the required authority.
+
+This is not about mistrusting agents. It is about using them in the right role. An agent is very good at reading a repository, following a package contract, checking state, and producing a recommendation. Production authority is a separate concern.
+
+## ForceCommand as the policy enforcement point
+
+`describe` and `validate` often need to interact with the external world. They may need to query APIs, inspect remote systems, or retrieve current state from infrastructure that lives outside the sandbox.
+
+That interaction should not be an open-ended backchannel. It should be narrow, explicit, and auditable.
+
+SSH `ForceCommand` CLIs are a good fit for this boundary. They act as policy enforcement points: the sandboxed agent can call a narrow, pre-approved command, and the remote side decides exactly what that command is allowed to do.
+
+The shape is simple:
+
+```text
+agent in sandbox
+  -> calls narrow CLI over SSH
+  -> SSH ForceCommand enforces the allowed operation
+  -> external system is inspected in a controlled way
+  -> result returns to describe/validate
+```
+
+This lets `describe` and `validate` interact with reality without giving the agent broad credentials or broad API access.
+
+## Why not MCP for this?
+
+MCP is useful in many contexts, but for this pattern it can be overkill.
+
+When the goal is to expose a small number of infrastructure inspection commands, a full protocol server is often more abstraction than you need. A constrained SSH `ForceCommand` CLI is simpler, easier to audit, and easier to reason about.
+
+The anti-pattern is building a broad MCP interface for privileged infrastructure operations when a narrow ForceCommand CLI would be enough.
+
+The pattern is:
+
+- expose only what `describe` and `validate` need
+- keep the command surface small
+- keep credentials outside the sandbox
+- log and audit the boundary
+- make state-changing operations explicit operator actions
+
+Simplicity matters because security boundaries have to be understood by humans under pressure.
+
+## Patterns to follow
+
+The safe pattern is made of small decisions that reinforce each other:
+
+- Run agents inside disposable Docker containers.
+- Launch the sandbox with `@bigconfig/bb`.
+- Use BigConfig packages with a clear four-verb interface.
+- Give the sandbox read-only credentials only.
+- Use `describe` and `validate` for agent investigation.
+- Ask the agent to recommend the next step.
+- Keep `create` and `delete` with the operator.
+- Use SSH `ForceCommand` CLIs as policy enforcement points.
+
+None of these ideas is complicated. That is the point. The operating model should be boring enough to repeat.
+
+## Anti-patterns to avoid
+
+The dangerous version of Agentic DevOps looks like this:
+
+- The agent runs directly on the operator's host.
+- The agent has access to the operator's full credentials.
+- The package does not separate read-only and state-changing verbs.
+- The agent is asked to perform `create` or `delete` without explicit operator awareness.
+- A broad MCP server exposes infrastructure operations that could have been modeled as a small ForceCommand CLI.
+
+These are not theoretical problems. They are design choices. The safer design is available: sandbox the agent, narrow the credentials, narrow the commands, and keep the operator in control.
+
+## Agentic DevOps in practice
+
+The practical future of DevOps is not a fully autonomous agent with root access to everything.
+
+It is an agent in a disposable sandbox, operating through a clear package interface, using read-only credentials to inspect and validate, then returning a recommendation to the operator.
+
+That is the contract BigConfig is designed around. That is the role pi.dev can play in the workflow. Together, they make Agentic DevOps operational without turning production into a prompt experiment.
+
+Start with BigConfig and run your first Agentic DevOps workflow inside a disposable sandbox:
+
+<ExternalLink href="https://bigconfig.ai/">bigconfig.ai</ExternalLink>
