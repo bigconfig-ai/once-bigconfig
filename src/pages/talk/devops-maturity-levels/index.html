@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DevOps Levels of Maturity — BigConfig</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/theme/white.css" id="theme" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css" />
   <style>
     .reveal { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
     .reveal h1 { font-size: 2.8em; font-weight: 700; letter-spacing: -0.02em; }
@@ -358,7 +359,9 @@ aws ecs create-cluster --cluster-name "$CLUSTER" --region "$REGION"</code></pre>
 
   <div class="footer-logo">BigConfig</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/notes.js"></script>
   <script>
     Reveal.initialize({
       controls: true,
@@ -366,6 +369,7 @@ aws ecs create-cluster --cluster-name "$CLUSTER" --region "$REGION"</code></pre>
       center: true,
       hash: true,
       slideNumber: true,
+      plugins: [RevealHighlight, RevealNotes],
     });
   </script>
 </body>
