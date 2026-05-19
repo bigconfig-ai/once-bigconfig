@@ -2,6 +2,13 @@
 import "~/styles/global.css";
 import logo from "~/assets/logo-light.svg";
 
+const tagClass = (tag: string) =>
+  tag === "Meetup Talk"
+    ? "bg-blue-100 text-blue-800"
+    : tag === "Design Note"
+      ? "bg-amber-100 text-amber-800"
+      : "bg-green-100 text-green-800";
+
 const talks = [
   {
     title: "BigConfig: The First Agentic Package Manager",
@@ -160,6 +167,10 @@ const talks = [
                   rel="noopener noreferrer"
                   class="block rounded-lg px-3 py-2 text-white hover:bg-neutral-900 hover:text-[#62e1e9]"
                 >Launcher ↗</a>
+                <a
+                  href="/talk"
+                  class="block rounded-lg px-3 py-2 text-white hover:bg-neutral-900 hover:text-[#62e1e9]"
+                >Talks ↗</a>
               </div>
             </div>
           </div>
@@ -167,10 +178,6 @@ const talks = [
             href="/blog"
             class="text-white hover:text-[#62e1e9]"
           >Blog ↗</a>
-          <a
-            href="/talk"
-            class="text-[#62e1e9]"
-          >Talks</a>
         </nav>
         <a
           href="https://github.com/bigconfig-ai/big-config"
@@ -316,14 +323,7 @@ const talks = [
               <div class="flex gap-2 flex-wrap mb-3">
                 {talk.tags.map((tag) => (
                   <span
-                    class="inline-block rounded-full px-3 py-0.5 text-xs font-semibold"
-                    set:html={
-                      tag === "Meetup Talk"
-                        ? 'style="background:#dbeafe;color:#1e40af"'
-                        : tag === "Design Note"
-                          ? 'style="background:#fef3c7;color:#92400e"'
-                          : 'style="background:#dcfce7;color:#166534"'
-                    }
+                    class={`inline-block rounded-full px-3 py-0.5 text-xs font-semibold ${tagClass(tag)}`}
                   >{tag}</span>
                 ))}
               </div>
