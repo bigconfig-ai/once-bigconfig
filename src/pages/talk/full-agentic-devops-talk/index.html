@@ -560,7 +560,7 @@ k8s/
           <section>
             <h3>Start with the Sandbox</h3>
             <p class="small">The entry point is one command:</p>
-            <pre><code class="language-bash">BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell</code></pre>
+            <pre><code class="language-bash">npx bc-pkg bigconfig-ai/bc-pkg shell</code></pre>
             <p class="small">Launches Babashka through <code>npx</code> → reads <code>bb.edn</code> → runs Docker → creates a disposable container sandbox.</p>
             <div class="highlight-box" style="margin-top: 0.5em; font-size: 0.65em;">
               <p style="margin: 0;">The launcher and sandbox are the <strong>operating environment</strong>.<br>A BigConfig package is what you operate <em>from inside</em> that environment.</p>
@@ -641,7 +641,7 @@ Steps:
             <h3>The Golden Path</h3>
             <div class="highlight-box" style="font-family: monospace; font-size: 0.6em; line-height: 1.8;">
               operator<br>
-              &nbsp;&nbsp;→ launches sandbox with @bigconfig/bb<br>
+              &nbsp;&nbsp;→ launches sandbox with bc-pkg<br>
               &nbsp;&nbsp;→ starts pi.dev agent inside sandbox<br>
               &nbsp;&nbsp;→ provides read-only credentials only<br>
               &nbsp;&nbsp;→ asks agent to run describe/validate<br>
@@ -717,7 +717,7 @@ Steps:
             <div class="highlight-box" style="display: inline-block; text-align: left;">
               <ul style="font-size: 0.68em; margin: 0;">
                 <li>✅ Run agents inside <strong>disposable Docker containers</strong></li>
-                <li>✅ Launch the sandbox with <strong>@bigconfig/bb</strong></li>
+                <li>✅ Launch the sandbox with <strong>bc-pkg</strong></li>
                 <li>✅ Use BigConfig packages with a <strong>clear four-verb interface</strong></li>
                 <li>✅ Give the sandbox <strong>read-only credentials</strong> only</li>
                 <li>✅ Use <strong>describe and validate</strong> for agent investigation</li>

@@ -40,8 +40,8 @@
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="29">
       <text x="190" y="354" fill="#62e1e9">▸</text>
-      <text x="226" y="354" fill="#e8e8f4">run <tspan fill="#62e1e9">BB_EDN_REPO=bigconfig-ai/once</tspan></text>
-      <text x="226" y="402" fill="#e8e8f4"><tspan fill="#7fb3ff">npx @bigconfig/bb validate</tspan> and</text>
+      <text x="226" y="354" fill="#e8e8f4">run <tspan fill="#62e1e9">npx bc-pkg bigconfig-ai/once</tspan></text>
+      <text x="226" y="402" fill="#e8e8f4"><tspan fill="#7fb3ff">validate</tspan> and</text>
       <text x="226" y="450" fill="#e8e8f4">iterate on failures</text>
     </g>
   </g>

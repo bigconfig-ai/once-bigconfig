@@ -40,7 +40,7 @@ Containers do not magically make production safe. But a disposable execution env
 Run it in a disposable container:
 
 ```bash
-BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell
+npx bc-pkg bigconfig-ai/bc-pkg shell
 ```
 
 Docs:

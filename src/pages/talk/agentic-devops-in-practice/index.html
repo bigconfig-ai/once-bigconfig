@@ -55,13 +55,13 @@
       <section>
         <h2>The Operating Model</h2>
         <ol class="steps">
-          <li>Launch a <strong>disposable Docker sandbox</strong> with <code>@bigconfig/bb</code></li>
+          <li>Launch a <strong>disposable Docker sandbox</strong> with <code>bc-pkg</code></li>
           <li>Give the sandbox <strong>read-only credentials only</strong></li>
           <li>Agent runs <code>describe</code> + <code>validate</code> to inspect</li>
           <li>Agent recommends the next step</li>
           <li>Operator decides and runs <code>create</code> / <code>delete</code></li>
         </ol>
-        <p style="margin-top: 1em; font-size: 0.85em;"><code>npx @bigconfig/bb shell</code> → container sandbox → pi.dev agent</p>
+        <p style="margin-top: 1em; font-size: 0.85em;"><code>npx bc-pkg bigconfig-ai/bc-pkg shell</code> → container sandbox → pi.dev agent</p>
       </section>
 
       <!-- SLIDE 4: The four verbs -->

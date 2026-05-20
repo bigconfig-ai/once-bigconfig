@@ -13,7 +13,7 @@ So I built BigConfig: an infrastructure package manager where configuration is r
 
 Here's the part I'm proud of. There's no install script to study, no getting-started guide to skim, no flags to memorize. You hand one line to your AI coding agent:
 
-run BB_EDN_REPO=bigconfig-ai/once npx @bigconfig/bb validate and iterate on failures
+run npx bc-pkg bigconfig-ai/once validate and iterate on failures
 
 That's it. The agent pulls the package set, runs validation, reads the failures, fixes them, and re-runs until your configuration is green. You review a working result instead of assembling one by hand. The feedback loop that used to be a human in a terminal is now a tight machine loop — and validation is the contract that keeps it honest.
 

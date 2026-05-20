@@ -2,7 +2,7 @@
 title: "Agentic DevOps in practice"
 date: 2026-05-18
 excerpt: |-
-  Agentic DevOps needs an operating model, not just a powerful agent. Launch the agent inside a disposable Docker sandbox with @bigconfig/bb, give it read-only credentials, let it run describe and validate, and keep create and delete under operator control.
+  Agentic DevOps needs an operating model, not just a powerful agent. Launch the agent inside a disposable Docker sandbox with bc-pkg, give it read-only credentials, let it run describe and validate, and keep create and delete under operator control.
 authors: amiorin
 tags:
   - bigconfig
@@ -39,23 +39,23 @@ In other words:
 The entry point is one command:
 
 ```bash
-BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell
+npx bc-pkg bigconfig-ai/bc-pkg shell
 ```
 
-`@bigconfig/bb` is the launcher. It launches Babashka `bb` through `npx`, so Node.js/npm tooling is enough to invoke the workflow. You do not need to install Babashka locally.
+`bc-pkg` is the launcher. It launches Babashka `bb` through `npx`, so Node.js/npm tooling is enough to invoke the workflow. You do not need to install Babashka locally.
 
 The flow looks like this:
 
 ```text
-npx @bigconfig/bb
+npx bc-pkg bigconfig-ai/bc-pkg shell
   -> launches Babashka bb
-  -> reads bb.edn from bigconfig-ai/npm-bb
+  -> reads bb.edn from bigconfig-ai/bc-pkg
   -> runs the shell task
   -> uses Dockerfile/Docker
   -> creates a disposable container sandbox
 ```
 
-The `bigconfig-ai/npm-bb` repository is not a BigConfig package. It is a repository that contains a `bb.edn`, a `shell` task, and a `Dockerfile`. The `shell` task creates the disposable Docker environment where the agent runs.
+The `bigconfig-ai/bc-pkg` repository is not a BigConfig package. It is a repository that contains a `bb.edn`, a `shell` task, and a `Dockerfile`. The `shell` task creates the disposable Docker environment where the agent runs.
 
 This distinction matters. The launcher and sandbox are the operating environment. A BigConfig package is what you operate from inside that environment.
 
@@ -95,7 +95,7 @@ The normal workflow should look like this:
 
 ```text
 operator
-  -> launches sandbox with @bigconfig/bb
+  -> launches sandbox with bc-pkg
   -> starts pi.dev agent inside sandbox
   -> provides read-only credentials only
   -> asks agent to run describe/validate
@@ -174,7 +174,7 @@ Simplicity matters because security boundaries have to be understood by humans u
 The safe pattern is made of small decisions that reinforce each other:
 
 - Run agents inside disposable Docker containers.
-- Launch the sandbox with `@bigconfig/bb`.
+- Launch the sandbox with `bc-pkg`.
 - Use BigConfig packages with a clear four-verb interface.
 - Give the sandbox read-only credentials only.
 - Use `describe` and `validate` for agent investigation.

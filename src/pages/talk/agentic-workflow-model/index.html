@@ -231,7 +231,7 @@ aws ecs create-cluster --cluster-name "$CLUSTER" --region "$REGION"</code></pre>
       <section>
         <h2>Start with the Sandbox</h2>
         <p style="font-size: 0.85em;">The entry point is one command:</p>
-        <pre style="font-size: 0.5em;"><code>BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell</code></pre>
+        <pre style="font-size: 0.5em;"><code>npx bc-pkg bigconfig-ai/bc-pkg shell</code></pre>
         <p style="font-size: 0.75em;">Launches Babashka through <code>npx</code> → reads <code>bb.edn</code> → runs Docker → creates a disposable container sandbox.</p>
         <div class="highlight-box" style="margin-top: 0.5em; font-size: 0.65em;">
           <p style="margin: 0;">The launcher and sandbox are the <strong>operating environment</strong>.<br>A BigConfig package is what you operate <em>from inside</em> that environment.</p>
@@ -261,7 +261,7 @@ aws ecs create-cluster --cluster-name "$CLUSTER" --region "$REGION"</code></pre>
         <div style="background: #f8fafc; border-radius: 8px; padding: 0.6em 1em;">
           <div style="font-size: 0.7em; text-align: left; font-family: monospace; line-height: 1.8;">
             operator<br>
-            &nbsp;&nbsp;→ launches sandbox with @bigconfig/bb<br>
+            &nbsp;&nbsp;→ launches sandbox with bc-pkg<br>
             &nbsp;&nbsp;→ starts pi.dev agent inside sandbox<br>
             &nbsp;&nbsp;→ provides read-only credentials only<br>
             &nbsp;&nbsp;→ asks agent to run describe/validate<br>
@@ -341,7 +341,7 @@ aws ecs create-cluster --cluster-name "$CLUSTER" --region "$REGION"</code></pre>
         <div style="background: #f0fdf4; border-radius: 8px; padding: 0.5em 1em; text-align: left; display: inline-block;">
           <ul style="font-size: 0.7em; margin: 0;">
             <li>Run agents inside <strong>disposable Docker containers</strong></li>
-            <li>Launch the sandbox with <strong>@bigconfig/bb</strong></li>
+            <li>Launch the sandbox with <strong>bc-pkg</strong></li>
             <li>Use BigConfig packages with a <strong>clear four-verb interface</strong></li>
             <li>Give the sandbox <strong>read-only credentials</strong> only</li>
             <li>Use <strong>describe and validate</strong> for agent investigation</li>

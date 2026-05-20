@@ -74,7 +74,7 @@ The value here is that the safe surface and the dangerous surface are *named and
 
 ```text
 operator
-  -> launches disposable sandbox with @bigconfig/bb
+  -> launches disposable sandbox with bc-pkg
   -> starts the pi.dev agent inside the sandbox
   -> provides read-only credentials only
   -> asks the agent to run describe / validate
@@ -85,7 +85,7 @@ operator
 The launcher is one command:
 
 ```bash
-BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell
+npx bc-pkg bigconfig-ai/bc-pkg shell
 ```
 
 It runs Babashka through `npx`, so any environment with Node tooling can stand up the sandbox. There is nothing exotic to procure, certify, or add to a vendor review. <ExternalLink href="https://pi.dev/">pi.dev</ExternalLink> supplies the agent; BigConfig supplies the bounded interface; your operator supplies the authority. The boring-ness is the feature: an operating model your organization will actually follow under pressure beats a sophisticated one it abandons during an incident.
