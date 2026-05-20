@@ -45,6 +45,6 @@ BB_EDN_REPO=bigconfig-ai/npm-bb npx @bigconfig/bb shell
 
 Docs:
 https://bigconfig.ai/
-https://bigconfig-ai.github.io/npm-bb/
+https://bigconfig-ai.github.io/bc-pkg/
 
 #DevOps #SRE #AI #Infrastructure #PlatformEngineering #BigConfig
