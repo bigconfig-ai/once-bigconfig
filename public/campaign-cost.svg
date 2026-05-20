@@ -41,8 +41,8 @@
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="24">
       <text x="196" y="448" fill="#62e1e9">▸</text>
-      <text x="228" y="448" fill="#e8e8f4">run <tspan fill="#62e1e9">npx bc-pkg bigconfig-ai/once</tspan></text>
-      <text x="228" y="488" fill="#e8e8f4"><tspan fill="#7fb3ff">validate</tspan> and iterate on failures</text>
+      <text x="228" y="448" fill="#e8e8f4">run <tspan fill="#62e1e9">npx bc-pkg bigconfig-ai/once</tspan> <tspan fill="#7fb3ff">validate</tspan></text>
+      <text x="228" y="488" fill="#e8e8f4">and iterate on failures</text>
     </g>
   </g>
 

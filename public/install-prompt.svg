@@ -39,10 +39,9 @@
     <text x="600" y="278" text-anchor="middle" font-size="16" fill="#8a8aa8" letter-spacing="1">agent prompt</text>
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="29">
-      <text x="190" y="354" fill="#62e1e9">▸</text>
-      <text x="226" y="354" fill="#e8e8f4">run <tspan fill="#62e1e9">npx bc-pkg bigconfig-ai/once</tspan></text>
-      <text x="226" y="402" fill="#e8e8f4"><tspan fill="#7fb3ff">validate</tspan> and</text>
-      <text x="226" y="450" fill="#e8e8f4">iterate on failures</text>
+      <text x="190" y="378" fill="#62e1e9">▸</text>
+      <text x="226" y="378" fill="#e8e8f4">run <tspan fill="#62e1e9">npx bc-pkg bigconfig-ai/once</tspan> <tspan fill="#7fb3ff">validate</tspan></text>
+      <text x="226" y="426" fill="#e8e8f4">and iterate on failures</text>
     </g>
   </g>
 
