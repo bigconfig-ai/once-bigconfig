@@ -1,0 +1,1325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BigConfig — Polyglot Package Specification (gpt-5.5 xhigh)</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VKP1WY4QJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-4VKP1WY4QJ");
+    </script>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --bg-soft: #f7f8fa;
+        --bg-code: #f5f6f8;
+        --text: #1f2328;
+        --text-muted: #57606a;
+        --border: #d0d7de;
+        --border-soft: #eaeef2;
+        --accent: #2f6feb;
+        --accent-soft: #ddebff;
+        --success: #1a7f37;
+        --success-soft: #dafbe1;
+        --warn: #9a6700;
+        --warn-soft: #fff8c5;
+        --danger: #cf222e;
+        --danger-soft: #ffebe9;
+        --kbd-bg: #f6f8fa;
+        --maxw-content: 860px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 16px;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.55 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Helvetica,
+          Arial,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code,
+      pre,
+      kbd,
+      samp {
+        font-family:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+        font-size: 13px;
+      }
+      code {
+        background: var(--bg-code);
+        padding: 1px 5px;
+        border-radius: 4px;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      pre {
+        margin: 14px 0;
+      }
+      pre code {
+        display: block;
+        padding: 14px 16px;
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        background: var(--bg-soft);
+        overflow-x: auto;
+        overflow-wrap: normal;
+        white-space: pre;
+        word-break: normal;
+        line-height: 1.5;
+      }
+      kbd {
+        background: var(--kbd-bg);
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--border-soft);
+        margin: 32px 0;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 290px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+      aside.sidebar {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid var(--border-soft);
+        background: var(--bg-soft);
+        padding: 24px 18px;
+      }
+      .sidebar .brand {
+        display: block;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: -0.01em;
+        padding: 0 6px 10px;
+        border-bottom: 1px solid var(--border-soft);
+        margin-bottom: 10px;
+        text-decoration: none;
+      }
+      .sidebar .brand:hover {
+        text-decoration: none;
+      }
+      .sidebar .brand small {
+        display: block;
+        font-weight: 400;
+        color: var(--text-muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .sidebar nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 6px 0 14px;
+      }
+      .sidebar nav .group-title {
+        color: var(--text-muted);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 12px 6px 4px;
+      }
+      .sidebar nav a {
+        display: block;
+        color: var(--text);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 13.5px;
+      }
+      .sidebar nav a:hover {
+        background: var(--accent-soft);
+        text-decoration: none;
+      }
+      .sidebar nav a.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      main {
+        padding: 40px 56px 80px;
+        max-width: calc(var(--maxw-content) + 112px);
+        min-width: 0;
+        width: 100%;
+      }
+      main h1 {
+        font-size: 34px;
+        margin: 0 0 4px;
+        letter-spacing: -0.02em;
+      }
+      main .tagline {
+        color: var(--text-muted);
+        font-size: 16px;
+        margin-bottom: 24px;
+        max-width: var(--maxw-content);
+      }
+      main h2 {
+        font-size: 22px;
+        margin: 44px 0 12px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border-soft);
+        letter-spacing: -0.01em;
+      }
+      main h3 {
+        font-size: 17px;
+        margin: 28px 0 8px;
+      }
+      main h4 {
+        font-size: 14px;
+        margin: 20px 0 6px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      main p,
+      main ul,
+      main ol,
+      main dl {
+        max-width: var(--maxw-content);
+      }
+      main li + li {
+        margin-top: 4px;
+      }
+      main dt {
+        font-weight: 700;
+        margin-top: 10px;
+      }
+      main dd {
+        margin: 2px 0 8px 0;
+        color: var(--text-muted);
+      }
+
+      table {
+        border-collapse: collapse;
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 12px 0 18px;
+        font-size: 13.5px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border-soft);
+        vertical-align: top;
+      }
+      th {
+        background: var(--bg-soft);
+        font-weight: 600;
+      }
+      td code {
+        white-space: nowrap;
+      }
+
+      .callout {
+        background: var(--bg-soft);
+        border: 1px solid var(--border-soft);
+        border-left: 3px solid var(--accent);
+        border-radius: 6px;
+        padding: 12px 14px;
+        margin: 14px 0;
+        font-size: 14px;
+        max-width: var(--maxw-content);
+      }
+      .callout strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .callout.success {
+        border-left-color: var(--success);
+        background: var(--success-soft);
+      }
+      .callout.warn {
+        border-left-color: var(--warn);
+        background: var(--warn-soft);
+      }
+      .callout.danger {
+        border-left-color: var(--danger);
+        background: var(--danger-soft);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 14px 0;
+        max-width: var(--maxw-content);
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin: 14px 0;
+        max-width: var(--maxw-content);
+      }
+      .card {
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        padding: 14px;
+        background: var(--bg);
+      }
+      .card h4 {
+        margin: 0 0 6px;
+        color: var(--text);
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 14px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 13.5px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 1px 7px;
+        border-radius: 10px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        vertical-align: middle;
+      }
+      .badge.required {
+        background: var(--danger-soft);
+        color: var(--danger);
+      }
+      .badge.optional {
+        background: #eef0f3;
+        color: var(--text-muted);
+      }
+      .badge.normative {
+        background: var(--success-soft);
+        color: var(--success);
+      }
+      .badge.may {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+
+      .anchor {
+        color: var(--border);
+        margin-left: 6px;
+        font-weight: 400;
+        text-decoration: none;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      h2:hover .anchor,
+      h3:hover .anchor {
+        opacity: 1;
+      }
+
+      .rule-list {
+        counter-reset: rule;
+        list-style: none;
+        padding-left: 0;
+      }
+      .rule-list li {
+        counter-increment: rule;
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        padding: 10px 12px 10px 42px;
+        margin: 10px 0;
+        position: relative;
+        background: var(--bg);
+      }
+      .rule-list li::before {
+        content: counter(rule);
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        aside.sidebar {
+          position: static;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--border-soft);
+        }
+        main {
+          padding: 24px 20px 60px;
+        }
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 520px) {
+        main {
+          padding: 22px 16px 56px;
+        }
+        aside.sidebar {
+          padding: 20px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <a class="brand" href="/">
+          ← BigConfig
+          <small>Polyglot Package Specification (gpt-5.5 xhigh)</small>
+        </a>
+        <nav id="toc">
+          <div class="group-title">Start</div>
+          <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#goals">Goals</a></li>
+            <li><a href="#non-goals">Non-goals</a></li>
+            <li><a href="#terminology">Terminology</a></li>
+          </ul>
+          <div class="group-title">Package model</div>
+          <ul>
+            <li><a href="#repo-layout">Repository layout</a></li>
+            <li><a href="#metadata">bigconfig.yaml</a></li>
+            <li><a href="#shared-resources">Shared resources</a></li>
+            <li><a href="#ecosystems">Ecosystems</a></li>
+          </ul>
+          <div class="group-title">Runtime contract</div>
+          <ul>
+            <li><a href="#verbs">Package verbs</a></li>
+            <li><a href="#cli">CLI contract</a></li>
+            <li><a href="#workflows">Workflows</a></li>
+            <li><a href="#template-language">Template language</a></li>
+          </ul>
+          <div class="group-title">Conformance</div>
+          <ul>
+            <li><a href="#render-contract">Render contract</a></li>
+            <li><a href="#reference">Reference implementation</a></li>
+            <li><a href="#release">Release gate</a></li>
+            <li><a href="#ci">CI example</a></li>
+          </ul>
+          <div class="group-title">MVP</div>
+          <ul>
+            <li><a href="#once-mvp">once MVP</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="#risks">Risks</a></li>
+            <li><a href="#glossary">Glossary</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <h1>BigConfig Polyglot Package Specification</h1>
+        <p class="tagline">
+          A language-neutral package model for BigConfig: packages can be
+          implemented in Clojure, TypeScript, Python, and other ecosystems,
+          while sharing templates and guaranteeing that
+          <code>render</code> produces the same <code>.dist</code> artifacts
+          byte-for-byte for a given package version.
+        </p>
+
+        <section id="overview">
+          <h2>Overview <a href="#overview" class="anchor">#</a></h2>
+          <p>
+            BigConfig started as a Clojure/Babashka infrastructure package
+            system. This specification generalizes the package model so package
+            authors can ship the same BigConfig package in multiple language
+            ecosystems without forcing every author or user to adopt Clojure.
+          </p>
+          <p>
+            The model is intentionally <strong>siloed</strong>: Clojure
+            implementations compose with Clojure implementations, TypeScript
+            implementations compose with TypeScript implementations, and Python
+            implementations compose with Python implementations. Cross-language
+            runtime composition is not required.
+          </p>
+          <div class="callout success">
+            <strong>Core promise</strong>
+            Same package version, same shared resources, different language
+            implementations, identical
+            <code>.dist</code> after package <code>render</code>.
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h4>Language-native implementations</h4>
+              <p>
+                Each ecosystem exposes an idiomatic package and CLI entry point.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Shared templates</h4>
+              <p>
+                Every implementation embeds the same shared
+                template/configuration files.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Version synchronization</h4>
+              <p>
+                A package version means the same rendered artifacts across
+                supported ecosystems.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Render conformance</h4>
+              <p>
+                Release CI compares generated <code>.dist</code> directories
+                byte-for-byte.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="goals">
+          <h2>Goals <a href="#goals" class="anchor">#</a></h2>
+          <ol class="rule-list">
+            <li>
+              <strong
+                >Enable cross-language BigConfig package authorship.</strong
+              >
+              Package authors should be able to implement packages in Clojure,
+              TypeScript, Python, or another supported language.
+            </li>
+            <li>
+              <strong>Preserve one package mental model.</strong>
+              Users should recognize the same verbs and command shape in every
+              ecosystem.
+            </li>
+            <li>
+              <strong>Guarantee rendered artifact compatibility.</strong>
+              For a package version, every supported implementation must produce
+              the same <code>.dist</code> output after package
+              <code>render</code>.
+            </li>
+            <li>
+              <strong>Let language implementations remain idiomatic.</strong>
+              Workflows are implemented in each language, not generated from a
+              universal workflow DSL.
+            </li>
+            <li>
+              <strong>Make releases auditable.</strong>
+              The release gate proves equivalence through deterministic
+              rendering and byte-for-byte directory comparison.
+            </li>
+          </ol>
+        </section>
+
+        <section id="non-goals">
+          <h2>Non-goals <a href="#non-goals" class="anchor">#</a></h2>
+          <ul>
+            <li>
+              <strong>No cross-language package composition.</strong> A
+              TypeScript package does not compose with a Clojure package at
+              runtime.
+            </li>
+            <li>
+              <strong>No universal workflow DSL.</strong> Each language
+              implementation defines its own workflow in code.
+            </li>
+            <li>
+              <strong>No cross-language conformance for every verb.</strong>
+              Only package <code>render</code> has a byte-for-byte compatibility
+              requirement.
+            </li>
+            <li>
+              <strong>No mandatory Clojure implementation.</strong> Every
+              package version declares exactly one reference ecosystem, and it
+              can be any supported ecosystem.
+            </li>
+            <li>
+              <strong>No global default reference ecosystem.</strong> Clojure is
+              not the preferred default by specification.
+            </li>
+          </ul>
+        </section>
+
+        <section id="terminology">
+          <h2>Terminology <a href="#terminology" class="anchor">#</a></h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Package</strong></td>
+                <td>A logical BigConfig package, such as <code>once</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>Implementation</strong></td>
+                <td>
+                  The package implemented in a specific language ecosystem, such
+                  as Clojure or TypeScript.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Ecosystem</strong></td>
+                <td>
+                  A package/runtime ecosystem such as <code>clojure</code>,
+                  <code>typescript</code>, or <code>python</code>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Shared resources</strong></td>
+                <td>
+                  Common templates and configuration files embedded into every
+                  language package distribution.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Tool workflow</strong></td>
+                <td>
+                  A workflow for a concrete tool or step, such as
+                  <code>tofu-compute</code> or <code>ansible</code>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Package workflow</strong></td>
+                <td>An orchestration workflow that composes tool workflows.</td>
+              </tr>
+              <tr>
+                <td><strong>Reference implementation</strong></td>
+                <td>
+                  The implementation used by release CI to generate the
+                  canonical <code>.dist</code> for that package version.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="repo-layout">
+          <h2>Repository layout <a href="#repo-layout" class="anchor">#</a></h2>
+          <p>
+            A polyglot BigConfig package is a monorepo. The
+            <code>shared/</code> directory is the source of truth for metadata
+            and common resources. Each language folder contains a separate
+            implementation.
+          </p>
+          <pre><code>once/
+├── shared/
+│   ├── bigconfig.yaml
+│   └── io/
+│       └── github/
+│           └── bigconfig-ai/
+│               └── once/
+│                   ├── tofu-compute/
+│                   ├── tofu-dns/
+│                   ├── tofu-smtp/
+│                   └── ansible/
+├── clojure/
+│   ├── bb.edn
+│   ├── deps.edn
+│   └── src/...
+├── typescript/
+│   ├── package.json
+│   ├── src/...
+│   └── tsconfig.json
+└── python/
+    ├── pyproject.toml
+    └── src/...</code></pre>
+          <div class="callout">
+            <strong>Publishing rule</strong>
+            Package publishing must copy or embed the contents of
+            <code>shared/</code> into each language-specific package
+            distribution.
+          </div>
+        </section>
+
+        <section id="metadata">
+          <h2>
+            <code>shared/bigconfig.yaml</code>
+            <a href="#metadata" class="anchor">#</a>
+          </h2>
+          <p>
+            <code>shared/bigconfig.yaml</code> contains package metadata only.
+            It does not define the package workflow. Workflows are implemented
+            independently in each language.
+          </p>
+          <pre><code>schema: 1
+owner: bigconfig-ai
+repo: once
+name: once
+version: 0.1.0
+
+reference:
+  ecosystem: clojure
+
+ecosystems:
+  clojure:
+    package: io.github.bigconfig-ai/once
+    command: once
+  typescript:
+    package: bigconfig-once
+    command: bigconfig-once</code></pre>
+          <h3>Required fields</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Required</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>schema</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>Metadata schema version.</td>
+              </tr>
+              <tr>
+                <td><code>owner</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>Repository owner used in shared resource paths.</td>
+              </tr>
+              <tr>
+                <td><code>repo</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  Repository/package repo name used in shared resource paths.
+                </td>
+              </tr>
+              <tr>
+                <td><code>name</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>Logical BigConfig package name.</td>
+              </tr>
+              <tr>
+                <td><code>version</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>Synchronized package version.</td>
+              </tr>
+              <tr>
+                <td><code>reference.ecosystem</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  The ecosystem that generates the canonical
+                  <code>.dist</code> for this version.
+                </td>
+              </tr>
+              <tr>
+                <td><code>ecosystems</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>Only the ecosystems supported for this package version.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="shared-resources">
+          <h2>
+            Shared resources <a href="#shared-resources" class="anchor">#</a>
+          </h2>
+          <p>
+            Shared templates and configuration files are located by convention.
+            A template path is always:
+          </p>
+          <pre><code>io/github/&lt;owner&gt;/&lt;repo&gt;/&lt;tool-workflow-name&gt;/...</code></pre>
+          <p>
+            The <code>&lt;tool-workflow-name&gt;</code> segment identifies the
+            tool workflow that consumes the resource.
+          </p>
+          <pre><code>shared/io/github/bigconfig-ai/once/tofu-compute/...
+shared/io/github/bigconfig-ai/once/tofu-dns/...
+shared/io/github/bigconfig-ai/once/tofu-smtp/...
+shared/io/github/bigconfig-ai/once/ansible/...</code></pre>
+          <div class="callout warn">
+            <strong>Convention over metadata</strong>
+            <code>bigconfig.yaml</code> does not need to list every template
+            path. Implementations resolve resources from <code>owner</code>,
+            <code>repo</code>, and the tool workflow name.
+          </div>
+        </section>
+
+        <section id="ecosystems">
+          <h2>Ecosystems <a href="#ecosystems" class="anchor">#</a></h2>
+          <p>
+            The specification distinguishes between the logical package name,
+            ecosystem package name, and CLI command name.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Example</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Logical package name</td>
+                <td><code>once</code></td>
+                <td>The BigConfig package identity.</td>
+              </tr>
+              <tr>
+                <td>Ecosystem package name</td>
+                <td><code>bigconfig-once</code></td>
+                <td>The package name in npm, PyPI, Maven/Git deps, etc.</td>
+              </tr>
+              <tr>
+                <td>CLI command name</td>
+                <td><code>bigconfig-once</code></td>
+                <td>The command users execute through the ecosystem runner.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <code>ecosystems</code> lists only ecosystems supported for the
+            current package version. If an implementation lags behind, it can be
+            removed from the supported set for that version.
+          </p>
+        </section>
+
+        <section id="verbs">
+          <h2>Package verbs <a href="#verbs" class="anchor">#</a></h2>
+          <p>Every supported implementation exposes the same package verbs:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Verb</th>
+                <th>Required</th>
+                <th>Cross-language output contract</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>render</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  <span class="badge normative">byte-for-byte .dist</span>
+                </td>
+                <td>
+                  Orchestrates tool workflow render steps and writes
+                  configuration files.
+                </td>
+              </tr>
+              <tr>
+                <td><code>validate</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  <span class="badge optional">package/language-specific</span>
+                </td>
+                <td>
+                  Checks package inputs, generated files, credentials, or
+                  external state.
+                </td>
+              </tr>
+              <tr>
+                <td><code>describe</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  <span class="badge optional">package/language-specific</span>
+                </td>
+                <td>Reports current state or relevant package information.</td>
+              </tr>
+              <tr>
+                <td><code>create</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  <span class="badge optional">package/language-specific</span>
+                </td>
+                <td>Provisions or mutates resources.</td>
+              </tr>
+              <tr>
+                <td><code>delete</code></td>
+                <td><span class="badge required">required</span></td>
+                <td>
+                  <span class="badge optional">package/language-specific</span>
+                </td>
+                <td>Destroys or removes resources.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout">
+            <strong>Important</strong>
+            <code>validate</code>, <code>describe</code>, <code>create</code>,
+            and <code>delete</code> share names and conceptual meaning, but
+            their output is intentionally package/language-specific in this
+            version of the specification.
+          </div>
+        </section>
+
+        <section id="cli">
+          <h2>CLI contract <a href="#cli" class="anchor">#</a></h2>
+          <p>
+            Each ecosystem uses its native runner, but the user-facing command
+            shape is consistent:
+          </p>
+          <pre><code>bb &lt;package-command&gt; &lt;verb&gt;
+npx &lt;package-command&gt; &lt;verb&gt;
+uvx &lt;package-command&gt; &lt;verb&gt;</code></pre>
+          <h3>Examples</h3>
+          <pre><code>bb once render
+bb once create
+
+npx bigconfig-once render
+npx bigconfig-once create
+
+uvx bigconfig-once render
+uvx bigconfig-once create</code></pre>
+          <p>
+            The actual command names are declared in
+            <code>shared/bigconfig.yaml</code> under each ecosystem.
+          </p>
+        </section>
+
+        <section id="workflows">
+          <h2>Workflows <a href="#workflows" class="anchor">#</a></h2>
+          <p>
+            A package workflow is a composition of tool workflows. The package
+            <code>render</code> verb is an orchestration render: it invokes the
+            actual render behavior of tool workflows.
+          </p>
+          <pre><code>package render
+  -&gt; tofu-compute render
+  -&gt; tofu-dns render
+  -&gt; tofu-smtp render
+  -&gt; ansible render</code></pre>
+          <p>
+            Workflows are implemented in code inside each language
+            implementation. They are not declared in
+            <code>bigconfig.yaml</code>.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h4>Tool workflow</h4>
+              <p>
+                Does the real work for a concrete step, including rendering
+                templates into <code>.dist</code>.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Package workflow</h4>
+              <p>
+                Orchestrates tool workflows into package-level verbs such as
+                <code>render</code> and <code>create</code>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="template-language">
+          <h2>
+            Template language <a href="#template-language" class="anchor">#</a>
+          </h2>
+          <p>
+            Shared templates use a standardized template language. Clojure
+            Selmer is the reference implementation for template semantics.
+          </p>
+          <div class="callout warn">
+            <strong>Portability requirement</strong>
+            Non-Clojure renderers must be compatible with the Selmer features
+            used by the shared templates. In practice, compatibility is proven
+            by the <code>render</code> conformance test.
+          </div>
+          <p>
+            The practical implication is that whitespace, conditionals, filters,
+            path rendering, and formatting must be deterministic across
+            languages for the subset of Selmer used by the package.
+          </p>
+        </section>
+
+        <section id="render-contract">
+          <h2>
+            Render contract <a href="#render-contract" class="anchor">#</a>
+          </h2>
+          <p>
+            Package <code>render</code> is the only verb with a cross-language
+            byte-for-byte compatibility contract.
+          </p>
+          <ol class="rule-list">
+            <li>
+              For the same package version and same inputs, every supported
+              implementation must render the same <code>.dist</code> directory.
+            </li>
+            <li>
+              Equality means byte-for-byte equality of the generated files.
+            </li>
+            <li>
+              File contents, paths, newlines, whitespace, serialized map
+              ordering, and generated names must match.
+            </li>
+            <li>
+              Only ecosystems listed in <code>shared/bigconfig.yaml</code> are
+              part of the conformance set for that version.
+            </li>
+          </ol>
+        </section>
+
+        <section id="reference">
+          <h2>
+            Reference implementation <a href="#reference" class="anchor">#</a>
+          </h2>
+          <p>
+            Every package version declares exactly one reference implementation
+            in <code>shared/bigconfig.yaml</code>. The reference implementation
+            generates the canonical <code>.dist</code> for that package version.
+          </p>
+          <pre><code>reference:
+  ecosystem: clojure</code></pre>
+          <p>
+            The reference ecosystem can change between versions, and Clojure is
+            not mandatory.
+          </p>
+          <pre><code># Version 0.1.0
+reference:
+  ecosystem: clojure
+
+# Version 0.2.0
+reference:
+  ecosystem: typescript</code></pre>
+          <div class="callout">
+            <strong>Rule</strong>
+            If an implementation is listed under <code>ecosystems</code>, it
+            must match the reference implementation's rendered
+            <code>.dist</code> output for that version.
+          </div>
+        </section>
+
+        <section id="release">
+          <h2>Release gate <a href="#release" class="anchor">#</a></h2>
+          <p>The release rule is:</p>
+          <div class="callout success">
+            <strong>Release rule</strong>
+            Generate <code>.dist</code> from the declared reference
+            implementation. Every other supported implementation must match it
+            byte-for-byte. If an implementation fails, fix it or remove that
+            ecosystem from the supported set for that version.
+          </div>
+          <p>
+            Package versions are synchronized across supported ecosystems. If
+            <code>once</code> version <code>0.1.0</code> is published for
+            Clojure and TypeScript, both implementations must render the same
+            configuration files for <code>0.1.0</code>.
+          </p>
+        </section>
+
+        <section id="ci">
+          <h2>CI example <a href="#ci" class="anchor">#</a></h2>
+          <p>
+            A release CI pipeline should read
+            <code>shared/bigconfig.yaml</code>, determine the reference
+            ecosystem, run package <code>render</code>, then compare every other
+            supported implementation against the reference.
+          </p>
+          <pre><code>#!/usr/bin/env bash
+set -euo pipefail
+
+rm -rf /tmp/bigconfig-render
+mkdir -p /tmp/bigconfig-render/reference
+mkdir -p /tmp/bigconfig-render/typescript
+
+# Example where Clojure is the declared reference.
+(
+  cd clojure
+  bb once render
+  cp -a .dist/. /tmp/bigconfig-render/reference/
+)
+
+(
+  cd typescript
+  npx bigconfig-once render
+  cp -a .dist/. /tmp/bigconfig-render/typescript/
+)
+
+diff -ruN \
+  /tmp/bigconfig-render/reference \
+  /tmp/bigconfig-render/typescript</code></pre>
+          <p>
+            A real implementation should generate this matrix from
+            <code>shared/bigconfig.yaml</code>
+            instead of hardcoding ecosystem names.
+          </p>
+        </section>
+
+        <section id="once-mvp">
+          <h2>
+            <code>once</code> MVP <a href="#once-mvp" class="anchor">#</a>
+          </h2>
+          <p>
+            The first package to prove the model is <code>once</code>. The MVP
+            supports Clojure and TypeScript.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Package</td>
+                <td><code>once</code></td>
+              </tr>
+              <tr>
+                <td>Initial ecosystems</td>
+                <td><code>clojure</code>, <code>typescript</code></td>
+              </tr>
+              <tr>
+                <td>Initial commands</td>
+                <td>
+                  <code>bb once &lt;verb&gt;</code>,
+                  <code>npx bigconfig-once &lt;verb&gt;</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Required compatibility</td>
+                <td>
+                  <code>render</code> produces byte-for-byte identical
+                  <code>.dist</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Primary user</td>
+                <td>
+                  Package authors creating cross-language BigConfig packages
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>MVP success criteria</h3>
+          <ol>
+            <li>
+              <code>shared/bigconfig.yaml</code> exists and declares Clojure +
+              TypeScript ecosystems.
+            </li>
+            <li>
+              Shared resources use
+              <code>io/github/bigconfig-ai/once/&lt;tool-workflow&gt;/...</code
+              >.
+            </li>
+            <li>
+              Clojure package <code>bb once render</code> generates
+              <code>.dist</code>.
+            </li>
+            <li>
+              TypeScript package
+              <code>npx bigconfig-once render</code> generates
+              <code>.dist</code>.
+            </li>
+            <li>
+              CI compares both directories and blocks release on differences.
+            </li>
+          </ol>
+        </section>
+
+        <section id="roadmap">
+          <h2>Roadmap <a href="#roadmap" class="anchor">#</a></h2>
+          <div class="grid-3">
+            <div class="card">
+              <h4>Phase 1</h4>
+              <p>
+                Define the metadata schema and implement <code>once</code> in
+                Clojure + TypeScript.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Phase 2</h4>
+              <p>
+                Add reusable conformance tooling that reads
+                <code>shared/bigconfig.yaml</code>.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Phase 3</h4>
+              <p>
+                Add Python support and marketplace compatibility badges per
+                package version.
+              </p>
+            </div>
+          </div>
+          <h3>Future compatibility badges</h3>
+          <pre><code>once 0.1.0
+  ✓ Clojure
+  ✓ TypeScript
+
+once 0.2.0
+  ✓ TypeScript
+  ✓ Python</code></pre>
+        </section>
+
+        <section id="risks">
+          <h2>Risks and mitigations <a href="#risks" class="anchor">#</a></h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Risk</th>
+                <th>Why it matters</th>
+                <th>Mitigation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Template drift</td>
+                <td>
+                  Different renderers may interpret templates differently.
+                </td>
+                <td>
+                  Use Selmer-compatible semantics and prove compatibility with
+                  <code>.dist</code> diffs.
+                </td>
+              </tr>
+              <tr>
+                <td>Whitespace differences</td>
+                <td>
+                  Byte-for-byte equality is sensitive to newline and whitespace
+                  behavior.
+                </td>
+                <td>
+                  Normalize renderer behavior and include newline conventions in
+                  implementation tests.
+                </td>
+              </tr>
+              <tr>
+                <td>Workflow drift</td>
+                <td>
+                  Workflows are implemented independently in each language.
+                </td>
+                <td>
+                  Release gate catches drift for <code>render</code>; document
+                  tool workflow names carefully.
+                </td>
+              </tr>
+              <tr>
+                <td>Publishing complexity</td>
+                <td>Versions must stay synchronized across ecosystems.</td>
+                <td>
+                  Automate release from the monorepo and embed
+                  <code>shared/</code> during packaging.
+                </td>
+              </tr>
+              <tr>
+                <td>Spec fragmentation</td>
+                <td>Packages may diverge if conventions are optional.</td>
+                <td>
+                  Keep <code>bigconfig.yaml</code> small, normative, and
+                  enforced by CI.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="glossary">
+          <h2>Glossary <a href="#glossary" class="anchor">#</a></h2>
+          <dl>
+            <dt>BigConfig package specification</dt>
+            <dd>
+              The language-neutral rules for metadata, shared resources, package
+              verbs, and render conformance.
+            </dd>
+            <dt>Language silo</dt>
+            <dd>
+              An isolated ecosystem implementation. Packages do not compose
+              across silos.
+            </dd>
+            <dt><code>.dist</code></dt>
+            <dd>
+              The generated configuration directory produced by package
+              <code>render</code>.
+            </dd>
+            <dt>Byte-for-byte equality</dt>
+            <dd>
+              Exact equality of generated file paths and file contents, not just
+              semantic equivalence.
+            </dd>
+            <dt>Supported ecosystem</dt>
+            <dd>
+              An ecosystem listed in <code>shared/bigconfig.yaml</code> for the
+              current package version.
+            </dd>
+            <dt>Reference ecosystem</dt>
+            <dd>
+              The one ecosystem declared as canonical for generating reference
+              <code>.dist</code> output for the version.
+            </dd>
+          </dl>
+        </section>
+
+        <hr />
+        <p style="color: var(--text-muted); font-size: 13px">
+          BigConfig Polyglot Package Specification. Generated as a
+          self-contained HTML page for the BigConfig website.
+        </p>
+      </main>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const id = entry.target.id;
+            const link = document.querySelector(`#toc a[href="#${id}"]`);
+            if (!link) return;
+            if (entry.isIntersecting) {
+              document
+                .querySelectorAll("#toc a.active")
+                .forEach((a) => a.classList.remove("active"));
+              link.classList.add("active");
+            }
+          });
+        },
+        { rootMargin: "-20% 0px -70% 0px" },
+      );
+
+      document
+        .querySelectorAll("main section[id]")
+        .forEach((s) => observer.observe(s));
+    </script>
+  </body>
+</html>
