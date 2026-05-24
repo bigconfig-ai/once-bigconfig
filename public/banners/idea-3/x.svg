@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="45%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#0652e9"/>
+      </linearGradient>
+      <linearGradient id="textFade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#0652e9"/>
+        <stop offset="70%" stop-color="#0652e9"/>
+        <stop offset="100%" stop-color="#ffffff"/>
+      </linearGradient>
+      <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#62e1e9" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#0652e9" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+    <circle cx="1020" cy="101.25" r="168.00000000000003" fill="#62e1e9" opacity="0.06"/>
+    <circle cx="840" cy="573.75" r="132" fill="#ffffff" opacity="0.05"/>
+    <circle cx="420" cy="-67.5" r="120" fill="#0652e9" opacity="0.05"/>
+    <circle cx="240" cy="337.5" r="72" fill="#62e1e9" opacity="0.04"/>
+    <line x1="0" y1="0" x2="160" y2="675" stroke="#0652e9" stroke-width="1" opacity="0.04"/>
+    <line x1="80" y1="0" x2="240" y2="675" stroke="#62e1e9" stroke-width="1" opacity="0.06"/>
+    <line x1="160" y1="0" x2="320" y2="675" stroke="#0652e9" stroke-width="1" opacity="0.08"/>
+    <line x1="240" y1="0" x2="400" y2="675" stroke="#62e1e9" stroke-width="1" opacity="0.04"/>
+    <line x1="320" y1="0" x2="480" y2="675" stroke="#0652e9" stroke-width="1" opacity="0.06"/>
+    <line x1="400" y1="0" x2="560" y2="675" stroke="#62e1e9" stroke-width="1" opacity="0.08"/>
+    <line x1="480" y1="0" x2="640" y2="675" stroke="#0652e9" stroke-width="1" opacity="0.04"/>
+    <line x1="560" y1="0" x2="720" y2="675" stroke="#62e1e9" stroke-width="1" opacity="0.06"/>
+    <line x1="640" y1="0" x2="800" y2="675" stroke="#0652e9" stroke-width="1" opacity="0.08"/>
+    <line x1="720" y1="0" x2="880" y2="675" stroke="#62e1e9" stroke-width="1" opacity="0.04"/>
+    <path d="M 0,594 Q 300,472.49999999999994 600,553.5 T 1200,486" fill="none" stroke="#0652e9" stroke-width="1" opacity="0.06"/>
+    <path d="M 0,627.75 Q 300,506.25 600,587.25 T 1200,526.5" fill="none" stroke="#62e1e9" stroke-width="1" opacity="0.08"/>
+
+  <rect x="480" y="0" width="720" height="4" fill="url(#glow)" opacity="0.4"/>
+  
+    <g transform="translate(40, 30) scale(0.45)">
+      <g transform="matrix(2.6788,0,0,2.6788,-299.1,-331.55)">
+        <g transform="translate(-5.8594,18.48)">
+          <path fill="#0652e9" d="m 165.23047,182.66406 v 8.30078 L 127.63672,173.5 v -6.73438 l 37.59375,-17.46875 v 8.30469 l -28.42969,12.45313 v 0.15625 z m 22.32812,-42.58984 H 124.6875 c -2.96875,0 -5.375,2.40625 -5.375,5.375 v 49.36719 c 0,2.96875 2.40625,5.375 5.375,5.375 h 45.41797 l 17.45312,-60.11719" fill-opacity="1" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(-5.8594,18.48)">
+          <path fill="#62e1e9" d="m 247.37891,142.21094 -37.59375,17.23047 v -8.30469 l 29.05468,-12.45313 v -0.15625 l -29.05468,-12.45312 v -8.30078 l 37.59375,17.23047 z m -42.36719,-33.66406 -17.45313,60.11718 h 62.76953 c 2.96485,0 5.3711,-2.40625 5.3711,-5.375 v -49.36718 c 0,-2.96875 -2.40625,-5.375 -5.3711,-5.375 h -45.3164" fill-opacity="1" fill-rule="nonzero"/>
+        </g>
+      </g>
+      <text x="195" y="90" font-family="Now" font-weight="bold" font-size="72px" fill="#0652e9" letter-spacing="1">BIGCONFIG</text>
+    </g>
+  <text font-family="Now" font-weight="bold" font-size="50" fill="#0652e9" text-anchor="middle" letter-spacing="0.5">
+    <tspan x="600" y="283.5">Config files are the test.</tspan>
+    <tspan x="600" y="364.5" font-size="28" font-weight="500" fill="#0652e9" opacity="0.85">Every implementation verified against rendered output.</tspan>
+  </text>
+  <text font-family="Now" font-weight="600" font-size="18" fill="#0652e9" opacity="0.45" text-anchor="end">
+    <tspan x="1160" y="640">bigconfig.ai</tspan>
+  </text>
+</svg>

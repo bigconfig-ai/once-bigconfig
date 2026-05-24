@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="1100" viewBox="0 0 1200 1100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b0e2a"/>
+      <stop offset="50%" stop-color="#0d1235"/>
+      <stop offset="100%" stop-color="#0b0e2a"/>
+    </linearGradient>
+    <radialGradient id="glowTop" cx="50%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#0652e9" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0652e9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowCyan" cx="80%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#62e1e9" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#62e1e9" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0652e9"/>
+      <stop offset="50%" stop-color="#62e1e9"/>
+      <stop offset="100%" stop-color="#0652e9"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#131743"/>
+      <stop offset="100%" stop-color="#0f1340"/>
+    </linearGradient>
+    <linearGradient id="langGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#62e1e9"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#62e1e9"/>
+    </linearGradient>
+    <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1100" fill="url(#bgGrad)"/>
+  <rect width="1200" height="1100" fill="url(#glowTop)"/>
+  <rect width="1200" height="1100" fill="url(#glowCyan)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.03" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="0" x2="0" y2="1100"/><line x1="60" y1="0" x2="60" y2="1100"/><line x1="120" y1="0" x2="120" y2="1100"/><line x1="180" y1="0" x2="180" y2="1100"/><line x1="240" y1="0" x2="240" y2="1100"/><line x1="300" y1="0" x2="300" y2="1100"/><line x1="360" y1="0" x2="360" y2="1100"/><line x1="420" y1="0" x2="420" y2="1100"/><line x1="480" y1="0" x2="480" y2="1100"/><line x1="540" y1="0" x2="540" y2="1100"/><line x1="600" y1="0" x2="600" y2="1100"/><line x1="660" y1="0" x2="660" y2="1100"/><line x1="720" y1="0" x2="720" y2="1100"/><line x1="780" y1="0" x2="780" y2="1100"/><line x1="840" y1="0" x2="840" y2="1100"/><line x1="900" y1="0" x2="900" y2="1100"/><line x1="960" y1="0" x2="960" y2="1100"/><line x1="1020" y1="0" x2="1020" y2="1100"/><line x1="1080" y1="0" x2="1080" y2="1100"/><line x1="1140" y1="0" x2="1140" y2="1100"/><line x1="0" y1="0" x2="1200" y2="0"/><line x1="0" y1="60" x2="1200" y2="60"/><line x1="0" y1="120" x2="1200" y2="120"/><line x1="0" y1="180" x2="1200" y2="180"/><line x1="0" y1="240" x2="1200" y2="240"/><line x1="0" y1="300" x2="1200" y2="300"/><line x1="0" y1="360" x2="1200" y2="360"/><line x1="0" y1="420" x2="1200" y2="420"/><line x1="0" y1="480" x2="1200" y2="480"/><line x1="0" y1="540" x2="1200" y2="540"/><line x1="0" y1="600" x2="1200" y2="600"/><line x1="0" y1="660" x2="1200" y2="660"/><line x1="0" y1="720" x2="1200" y2="720"/><line x1="0" y1="780" x2="1200" y2="780"/><line x1="0" y1="840" x2="1200" y2="840"/><line x1="0" y1="900" x2="1200" y2="900"/><line x1="0" y1="960" x2="1200" y2="960"/><line x1="0" y1="1020" x2="1200" y2="1020"/><line x1="0" y1="1080" x2="1200" y2="1080"/>
+  </g>
+
+  <!-- Large decorative circles -->
+  <circle cx="1000" cy="300" r="350" fill="#0652e9" opacity="0.04"/>
+  <circle cx="200" cy="900" r="280" fill="#62e1e9" opacity="0.03"/>
+  <circle cx="600" cy="600" r="200" fill="#0652e9" opacity="0.03"/>
+
+  <!-- ===== HEADER ===== -->
+  <!-- Logo -->
+  <g transform="translate(60, 70) scale(0.3)">
+    <g transform="matrix(2.6788023,0,0,2.6788023,-299.09503,-331.54731)">
+      <g transform="translate(-5.8593749,18.479567)">
+        <path fill="#0652e9" d="m 165.23047,182.66406 v 8.30078 L 127.63672,173.5 v -6.73438 l 37.59375,-17.46875 v 8.30469 l -28.42969,12.45313 v 0.15625 z m 22.32812,-42.58984 H 124.6875 c -2.96875,0 -5.375,2.40625 -5.375,5.375 v 49.36719 c 0,2.96875 2.40625,5.375 5.375,5.375 h 45.41797 l 17.45312,-60.11719" fill-opacity="1" fill-rule="nonzero"/>
+      </g>
+      <g transform="translate(-5.8593749,18.479567)">
+        <path fill="#62e1e9" d="m 247.37891,142.21094 -37.59375,17.23047 v -8.30469 l 29.05468,-12.45313 v -0.15625 l -29.05468,-12.45312 v -8.30078 l 37.59375,17.23047 z m -42.36719,-33.66406 -17.45313,60.11718 h 62.76953 c 2.96485,0 5.3711,-2.40625 5.3711,-5.375 v -49.36718 c 0,-2.96875 -2.40625,-5.375 -5.3711,-5.375 h -45.3164" fill-opacity="1" fill-rule="nonzero"/>
+      </g>
+    </g>
+    <g transform="translate(62.079175,0)">
+      <path fill="#ffffff" fill-opacity="1" d="m 451.58096,130.53 c 8.1,-4.32 13.32,-11.88 13.32,-23.22 0,-19.08 -14.4,-30.06 -32.58,-30.06 h -45.72 v 108 h 49.86 c 18,0 32.04,-10.44 32.04,-29.52 0,-13.14 -6.84,-21.24 -16.92,-25.2 z m -10.44,-20.7 c 0,6.3 -5.22,11.7 -11.7,11.7 h -19.08 V 98.31 h 19.08 c 6.48,0 11.7,5.04 11.7,11.52 z m -8.1,54.36 h -22.68 v -23.22 h 22.68 c 6.66,0 11.7,5.4 11.7,11.7 0,6.48 -5.04,11.52 -11.7,11.52 z m 52.19987,21.06 h 23.76 v -108 h -23.76 z m 97.19993,-59.22 v 18.54 h 29.7 c -5.04,11.34 -16.2,18.9 -29.52,18.9 -18.18,0 -32.22,-14.04 -32.22,-32.22 0,-18.18 14.04,-32.22 32.22,-32.22 12.78,0 23.22,6.84 28.62,17.1 l 20.52,-10.62 c -9.36,-17.64 -27.9,-29.7 -49.14,-29.7 -30.78,0 -55.44,24.84 -55.44,55.44 0,30.6 24.66,55.44 55.44,55.44 30.6,0 55.44,-24.84 55.44,-55.44 v -5.22 z m 124.55997,60.66 c 21.42,0 39.96,-12.06 49.14,-29.7 l -20.52,-10.62 c -5.22,10.26 -15.84,17.1 -28.62,17.1 -18.18,0 -32.04,-14.04 -32.04,-32.22 0,-18.18 13.86,-32.22 32.04,-32.22 12.78,0 23.4,6.84 28.62,17.1 l 20.52,-10.62 c -9.18,-17.64 -27.72,-29.7 -49.14,-29.7 -30.6,0 -55.44,24.84 -55.44,55.44 0,30.6 24.84,55.44 55.44,55.44 z m 115.92004,0 c 30.78,0 55.44,-24.84 55.44,-55.44 0,-30.6 -24.66,-55.44 -55.44,-55.44 -30.6,0 -55.44,24.84 -55.44,55.44 0,30.6 24.84,55.44 55.44,55.44 z m 0,-23.22 c -18.18,0 -32.04,-14.04 -32.04,-32.22 0,-18.18 13.86,-32.22 32.04,-32.22 18.36,0 32.22,14.04 32.22,32.22 0,18.18 -13.86,32.22 -32.22,32.22 z M 973.40084,77.25 v 71.46 l -53.1,-71.46 h -24.48 v 108 h 23.76 v -71.64 l 52.92,71.64 h 24.48 v -108 z M 1084.2808,98.13 V 77.25 h -64.98 v 108 h 23.76 v -43.56 h 35.28 v -20.88 h -35.28 V 98.13 Z m 13.3201,87.12 h 23.76 v -108 h -23.76 z m 97.1999,-59.22 v 18.54 h 29.7 c -5.04,11.34 -16.2,18.9 -29.52,18.9 -18.18,0 -32.22,-14.04 -32.22,-32.22 0,-18.18 14.04,-32.22 32.22,-32.22 12.78,0 23.22,6.84 28.62,17.1 l 20.52,-10.62 c -9.36,-17.64 -27.9,-29.7 -49.14,-29.7 -30.78,0 -55.44,24.84 -55.44,55.44 0,30.6 24.66,55.44 55.44,55.44 30.6,0 55.44,-24.84 55.44,-55.44 v -5.22 z"/>
+    </g>
+  </g>
+
+  <!-- Now supporting -->
+  <text font-family="Now" font-weight="600" font-size="22" fill="#62e1e9" opacity="0.8" letter-spacing="4">
+    <tspan x="60" y="190">THE FIRST AGENTIC PACKAGE MANAGER</tspan>
+  </text>
+
+  <!-- Language headline -->
+  <text font-family="Now" font-weight="bold" font-size="56" fill="#ffffff" letter-spacing="1">
+    <tspan x="60" y="270">Now Supporting</tspan>
+  </text>
+
+  <!-- Language badges -->
+  <g transform="translate(60, 320)">
+    <!-- Clojure badge -->
+    <rect x="0" y="0" width="220" height="50" rx="25" ry="25" fill="#0652e9" opacity="0.2"/>
+    <text x="110" y="32" font-family="Now" font-weight="bold" font-size="22" fill="#62e1e9" text-anchor="middle">Clojure</text>
+
+    <!-- TypeScript badge -->
+    <rect x="240" y="0" width="240" height="50" rx="25" ry="25" fill="#0652e9" opacity="0.2"/>
+    <text x="360" y="32" font-family="Now" font-weight="bold" font-size="22" fill="#62e1e9" text-anchor="middle">TypeScript</text>
+
+    <!-- Python badge -->
+    <rect x="500" y="0" width="220" height="50" rx="25" ry="25" fill="#0652e9" opacity="0.2"/>
+    <text x="610" y="32" font-family="Now" font-weight="bold" font-size="22" fill="#62e1e9" text-anchor="middle">Python</text>
+  </g>
+
+  <!-- Accent divider -->
+  <rect x="60" y="420" width="200" height="3" rx="1.5" fill="url(#accentBar)"/>
+
+  <!-- ===== CARDS ===== -->
+  <!-- Row 1: cards 1, 2, 3 -->
+  
+  <!-- Card 01 -->
+  <g transform="translate(60, 500)">
+    <!-- Card background -->
+    <rect x="0" y="0" width="340" height="220" rx="16" ry="16" fill="url(#cardGrad)" stroke="#1e2360" stroke-width="1" opacity="0.95"/>
+
+    <!-- Top accent line -->
+    <rect x="0" y="0" width="340" height="3" rx="1.5" fill="url(#accentBar)"/>
+
+    <!-- Number -->
+    <text x="20" y="45" font-family="Now" font-weight="bold" font-size="48" fill="#0652e9" opacity="0.15">01</text>
+
+    <!-- Icon circle -->
+    <circle cx="45" cy="80" r="24" fill="#0652e9" opacity="0.15"/>
+    <g transform="translate(45, 80)" stroke="#62e1e9" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="-9" y="-7" width="18" height="14" rx="3"/>
+      <circle cx="-3.5" cy="-1" r="1.5" fill="#62e1e9" stroke="none"/>
+      <circle cx="3.5" cy="-1" r="1.5" fill="#62e1e9" stroke="none"/>
+      <line x1="-4" y1="4" x2="4" y2="4"/>
+      <line x1="0" y1="-11" x2="0" y2="-7"/>
+      <circle cx="0" cy="-12" r="1.5" fill="#62e1e9" stroke="none"/>
+    </g>
+
+    <!-- Title -->
+    <text x="85" y="75" font-family="Now" font-weight="bold" font-size="17" fill="#ffffff">Agents Change the Game</text>
+
+    <!-- Description -->
+    <text x="85" y="105" font-family="Now" font-weight="400" font-size="14" fill="#ffffff" opacity="0.6">
+      <tspan x="85" dy="0">Supporting multiple languages is</tspan>
+      <tspan x="85" dy="20">no longer a problem. Agents</tspan>
+      <tspan x="85" dy="20">translate seamlessly across stacks.</tspan>
+    </text>
+
+    <!-- Bottom-right decorative dot -->
+    <circle cx="320" cy="200" r="4" fill="#62e1e9" opacity="0.15"/>
+    <circle cx="310" cy="205" r="2" fill="#0652e9" opacity="0.1"/>
+  </g>
+  <!-- Card 02 -->
+  <g transform="translate(430, 500)">
+    <!-- Card background -->
+    <rect x="0" y="0" width="340" height="220" rx="16" ry="16" fill="url(#cardGrad)" stroke="#1e2360" stroke-width="1" opacity="0.95"/>
+
+    <!-- Top accent line -->
+    <rect x="0" y="0" width="340" height="3" rx="1.5" fill="url(#accentBar)"/>
+
+    <!-- Number -->
+    <text x="20" y="45" font-family="Now" font-weight="bold" font-size="48" fill="#0652e9" opacity="0.15">02</text>
+
+    <!-- Icon circle -->
+    <circle cx="45" cy="80" r="24" fill="#0652e9" opacity="0.15"/>
+    <g transform="translate(45, 80)" stroke="#62e1e9" stroke-width="2" fill="none" stroke-linecap="round">
+      <circle cx="0" cy="0" r="11"/>
+      <ellipse cx="0" cy="0" rx="5" ry="11"/>
+      <line x1="-11" y1="0" x2="11" y2="0"/>
+    </g>
+
+    <!-- Title -->
+    <text x="85" y="75" font-family="Now" font-weight="bold" font-size="17" fill="#ffffff">Write in Your Language</text>
+
+    <!-- Description -->
+    <text x="85" y="105" font-family="Now" font-weight="400" font-size="14" fill="#ffffff" opacity="0.6">
+      <tspan x="85" dy="0">Author packages in Clojure,</tspan>
+      <tspan x="85" dy="20">TypeScript, or Python. Your team,</tspan>
+      <tspan x="85" dy="20">your tools, your choice.</tspan>
+    </text>
+
+    <!-- Bottom-right decorative dot -->
+    <circle cx="320" cy="200" r="4" fill="#62e1e9" opacity="0.15"/>
+    <circle cx="310" cy="205" r="2" fill="#0652e9" opacity="0.1"/>
+  </g>
+  <!-- Card 03 -->
+  <g transform="translate(800, 500)">
+    <!-- Card background -->
+    <rect x="0" y="0" width="340" height="220" rx="16" ry="16" fill="url(#cardGrad)" stroke="#1e2360" stroke-width="1" opacity="0.95"/>
+
+    <!-- Top accent line -->
+    <rect x="0" y="0" width="340" height="3" rx="1.5" fill="url(#accentBar)"/>
+
+    <!-- Number -->
+    <text x="20" y="45" font-family="Now" font-weight="bold" font-size="48" fill="#0652e9" opacity="0.15">03</text>
+
+    <!-- Icon circle -->
+    <circle cx="45" cy="80" r="24" fill="#0652e9" opacity="0.15"/>
+    <g transform="translate(45, 80)" stroke="#62e1e9" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="-8,0 -2,6 9,-6"/>
+    </g>
+
+    <!-- Title -->
+    <text x="85" y="75" font-family="Now" font-weight="bold" font-size="17" fill="#ffffff">Config Files Are the Test</text>
+
+    <!-- Description -->
+    <text x="85" y="105" font-family="Now" font-weight="400" font-size="14" fill="#ffffff" opacity="0.6">
+      <tspan x="85" dy="0">The rendered output verifies</tspan>
+      <tspan x="85" dy="20">every implementation is correct</tspan>
+      <tspan x="85" dy="20">no extra test suite required.</tspan>
+    </text>
+
+    <!-- Bottom-right decorative dot -->
+    <circle cx="320" cy="200" r="4" fill="#62e1e9" opacity="0.15"/>
+    <circle cx="310" cy="205" r="2" fill="#0652e9" opacity="0.1"/>
+  </g>
+  <!-- Row 2: cards 4, 5 (centered) -->
+  
+  <!-- Card 04 -->
+  <g transform="translate(245, 760)">
+    <!-- Card background -->
+    <rect x="0" y="0" width="340" height="220" rx="16" ry="16" fill="url(#cardGrad)" stroke="#1e2360" stroke-width="1" opacity="0.95"/>
+
+    <!-- Top accent line -->
+    <rect x="0" y="0" width="340" height="3" rx="1.5" fill="url(#accentBar)"/>
+
+    <!-- Number -->
+    <text x="20" y="45" font-family="Now" font-weight="bold" font-size="48" fill="#0652e9" opacity="0.15">04</text>
+
+    <!-- Icon circle -->
+    <circle cx="45" cy="80" r="24" fill="#0652e9" opacity="0.15"/>
+    <g transform="translate(45, 80)" stroke="#62e1e9" stroke-width="1.8" fill="none" stroke-linecap="round">
+      <line x1="-7" y1="-7" x2="7" y2="0"/>
+      <line x1="-7" y1="7" x2="7" y2="0"/>
+      <circle cx="-9" cy="-7" r="3.5" fill="#62e1e9" stroke="none"/>
+      <circle cx="-9" cy="7" r="3.5" fill="#62e1e9" stroke="none"/>
+      <circle cx="9" cy="0" r="3.5" fill="#62e1e9" stroke="none"/>
+    </g>
+
+    <!-- Title -->
+    <text x="85" y="75" font-family="Now" font-weight="bold" font-size="17" fill="#ffffff">Shared Configurations</text>
+
+    <!-- Description -->
+    <text x="85" y="105" font-family="Now" font-weight="400" font-size="14" fill="#ffffff" opacity="0.6">
+      <tspan x="85" dy="0">One configuration definition</tspan>
+      <tspan x="85" dy="20">powers all language</tspan>
+      <tspan x="85" dy="20">implementations consistently.</tspan>
+    </text>
+
+    <!-- Bottom-right decorative dot -->
+    <circle cx="320" cy="200" r="4" fill="#62e1e9" opacity="0.15"/>
+    <circle cx="310" cy="205" r="2" fill="#0652e9" opacity="0.1"/>
+  </g>
+  <!-- Card 05 -->
+  <g transform="translate(615, 760)">
+    <!-- Card background -->
+    <rect x="0" y="0" width="340" height="220" rx="16" ry="16" fill="url(#cardGrad)" stroke="#1e2360" stroke-width="1" opacity="0.95"/>
+
+    <!-- Top accent line -->
+    <rect x="0" y="0" width="340" height="3" rx="1.5" fill="url(#accentBar)"/>
+
+    <!-- Number -->
+    <text x="20" y="45" font-family="Now" font-weight="bold" font-size="48" fill="#0652e9" opacity="0.15">05</text>
+
+    <!-- Icon circle -->
+    <circle cx="45" cy="80" r="24" fill="#0652e9" opacity="0.15"/>
+    <path transform="translate(45, 80)" d="M 2,-12 L -7,2 L -1,2 L -3,12 L 7,-2 L 1,-2 Z" fill="#62e1e9" stroke="none"/>
+
+    <!-- Title -->
+    <text x="85" y="75" font-family="Now" font-weight="bold" font-size="17" fill="#ffffff">Simpler Than CDK &amp; Pulumi</text>
+
+    <!-- Description -->
+    <text x="85" y="105" font-family="Now" font-weight="400" font-size="14" fill="#ffffff" opacity="0.6">
+      <tspan x="85" dy="0">Define infrastructure packages</tspan>
+      <tspan x="85" dy="20">in any language without the</tspan>
+      <tspan x="85" dy="20">complexity of CDK or Pulumi.</tspan>
+    </text>
+
+    <!-- Bottom-right decorative dot -->
+    <circle cx="320" cy="200" r="4" fill="#62e1e9" opacity="0.15"/>
+    <circle cx="310" cy="205" r="2" fill="#0652e9" opacity="0.1"/>
+  </g>
+
+  <!-- ===== FOOTER ===== -->
+  <rect x="0" y="1020" width="1200" height="80" fill="#0b0e2a" opacity="0.8"/>
+  <line x1="0" y1="1020" x2="1200" y2="1020" stroke="#0652e9" stroke-width="1" opacity="0.3"/>
+
+  <text font-family="Now" font-weight="600" font-size="18" fill="#ffffff" opacity="0.4" text-anchor="middle">
+    <tspan x="600" y="1055">bigconfig.ai</tspan>
+  </text>
+  <text font-family="Now" font-weight="500" font-size="14" fill="#ffffff" opacity="0.25" text-anchor="middle">
+    <tspan x="600" y="1080">Define once. Run everywhere.</tspan>
+  </text>
+
+</svg>
