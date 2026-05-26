@@ -749,7 +749,7 @@ npm install github:bigconfig-ai/selmer#&lt;commit-sha&gt;
 <span class="com"># or as a local path during development</span>
 npm install file:../../selmer/typescript</code></pre>
     <pre class="lang-block" data-lang="py"><code><span class="com"># With uv (recommended)</span>
-uv add "selmer @ git+https://github.com/bigconfig-ai/selmer-python.git@&lt;commit-sha&gt;"
+uv add "selmer @ git+https://github.com/bigconfig-ai/selmer.git@&lt;commit-sha&gt;"
 <span class="com"># or pin in pyproject.toml under [project] dependencies</span></code></pre>
     <pre class="lang-block" data-lang="clj"><code><span class="com">;; deps.edn</span>
 {:deps {selmer/selmer {:mvn/version <span class="str">"1.13.1"</span>}}}
@@ -768,7 +768,7 @@ uv add "selmer @ git+https://github.com/bigconfig-ai/selmer-python.git@&lt;commi
     <pre class="lang-block" data-lang="py"><code><span class="com"># pyproject.toml</span>
 [project]
 dependencies = [
-  <span class="str">"big-config @ git+https://github.com/bigconfig-ai/big-config-python.git@&lt;commit-sha&gt;"</span>,
+  <span class="str">"big-config @ git+https://github.com/bigconfig-ai/big-config.git@&lt;commit-sha&gt;"</span>,
 ]
 <span class="com"># then</span>
 uv sync</code></pre>
@@ -785,7 +785,7 @@ uv sync</code></pre>
 npm install
 npm run build
 npx tsx src/cli.ts package validate</code></pre>
-    <pre class="lang-block" data-lang="py"><code>uv add "once @ git+https://github.com/bigconfig-ai/once-python.git@&lt;commit-sha&gt;"
+    <pre class="lang-block" data-lang="py"><code>uv add "once @ git+https://github.com/bigconfig-ai/once.git@&lt;commit-sha&gt;"
 <span class="com"># or, in once/python working tree:</span>
 uv sync
 uv run once package validate</code></pre>
