@@ -1,14 +1,12 @@
 ---
 import "~/styles/global.css";
 import logo from "~/assets/logo-light.svg";
-import Tabs from "~/components/Tabs.astro";
-import TabItem from "~/components/TabItem.astro";
 import YouTube from "~/components/YouTube.astro";
 
 const features = [
   {
     title: "Deploy in plain English",
-    body: "Deploying non-trivial software is possible in English without writing a single line of code — try it yourself with the plan.md below.",
+    body: "Deploying non-trivial software is possible in English without writing a single line of code — hand your agent the generated prompt below.",
     icon: "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z",
   },
   {
@@ -51,55 +49,6 @@ const links = [
   },
 ];
 
-const planMd = `- deploy basecamp/fizzy
-- the docker image is ghcr.io/basecamp/fizzy
-- the host is WWW.REPLACE_ME.COM
-- DO NOT USE no-infra
-- use a .env file
-- create only public tasks in bb.edn
-- create distinct ssh keys
-- tell me how to create and how to delete
-- run npx bc-pkg bigconfig-ai/once validate and iterate on failures`
-
-const bbEdn = `{:deps  {io.github.amiorin/once {:git/url "https://github.com/amiorin/once"
-                                 :git/sha "8ffbbc2ea0974365575c7ee44b7d890e69447144"}}
- :tasks {:requires ([io.github.amiorin.once.package :as pkg])
-         package   {:doc  "bb package create | bb package delete"
-                    :task (pkg/once*
-                           *command-line-args*
-                           {:big-config.render/profile "online"
-                            :big-config.workflow/params
-                            {:domain  "bigconfig.online"
-                             :package "online"
-                             :once    {:applications [{:host  "www.bigconfig.online"
-                                                       :image "ghcr.io/bigconfig-ai/big-config-website:latest"}]}
-
-                             :provider-compute            "oci"
-                             :oci-config-file-profile     "DEFAULT"
-                             :oci-display-name            "bigconfig-online"
-                             :oci-shape                   "VM.Standard.A1.Flex"
-                             :oci-ocpus                   1
-                             :oci-memory-in-gbs           6
-                             :oci-boot-volume-size-in-gbs 50
-                             :oci-boot-volume-vpus-per-gb 30
-                             :oci-ssh-authorized-keys     "~/.ssh/id_ed25519.pub"
-
-                             :provider-smtp   "resend"
-                             :resend-server   "smtp.resend.com"
-                             :resend-port     587
-                             :resend-username "resend"
-
-                             :provider-dns "cloudflare"
-
-                             :provider-backend "s3"}})}}}`;
-
-const runSh = `$ bb package create
-
-$ bb package delete
-
-$ bb validate
-
-$ bb describe`;
 ---
 
 <!doctype html>
@@ -145,42 +94,6 @@ $ bb describe`;
       pre {
         margin: 0;
       }
-      .code-tabs {
-        --bc-color-text-accent: #62e1e9;
-      }
-      .code-tabs .bc-tabs {
-        display: block;
-      }
-      .code-tabs .bc-tabs-list {
-        background: rgba(10, 10, 10, 0.6);
-        border-bottom: 1px solid rgb(38, 38, 38);
-        margin: 0;
-      }
-      .code-tabs [role="tablist"] {
-        border-bottom: 0;
-        padding: 0;
-        margin: 0;
-      }
-      .code-tabs [role="tab"] {
-        color: rgb(163, 163, 163);
-        padding: 0.75rem 1.5rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        border-bottom-width: 2px;
-      }
-      .code-tabs [role="tab"][aria-selected="true"] {
-        color: #fff;
-        background: rgba(23, 23, 23, 0.6);
-        border-color: #62e1e9;
-      }
-      .code-tabs [role="tab"]:hover:not([aria-selected="true"]) {
-        color: #fff;
-        background: rgba(23, 23, 23, 0.6);
-      }
-      .code-tabs [role="tabpanel"] {
-        padding: 1.5rem;
-        margin-top: 0;
-      }
       .command-option {
         border: 1px solid rgb(38, 38, 38);
         border-radius: 9999px;
@@ -207,11 +120,6 @@ $ bb describe`;
         border-color: rgba(98, 225, 233, 0.65);
         color: #62e1e9;
       }
-      @media (min-width: 768px) {
-        .code-tabs [role="tabpanel"] {
-          padding: 2rem;
-        }
-      }
     </style>
   </head>
   <body class="bg-neutral-950 text-neutral-100 antialiased">
@@ -234,7 +142,6 @@ $ bb describe`;
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
           <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
-          <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
           <a href="#demo" class="text-white hover:text-[#62e1e9]">Demo</a>
           <a href="https://marketplace.bigconfig.ai" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
           <div class="group relative">
@@ -313,7 +220,6 @@ $ bb describe`;
       >
         <div class="flex flex-col gap-4 text-sm">
           <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
-          <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
           <a href="#demo" class="text-white hover:text-[#62e1e9]">Demo</a>
           <a href="https://marketplace.bigconfig.ai" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
           <div class="flex flex-col gap-3">
@@ -358,7 +264,7 @@ $ bb describe`;
         class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
-        Agentic DevOps · Clojure-native
+        Agentic DevOps · TypeScript / Python / Clojure
       </div>
       <h1
         class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
@@ -512,11 +418,33 @@ $ bb describe`;
                 >Clojure</button>
               </div>
             </div>
+
+            <div>
+              <div id="environment-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                Environment
+              </div>
+              <div class="flex flex-wrap gap-2" aria-labelledby="environment-choice-label">
+                <button
+                  type="button"
+                  class="command-option"
+                  data-environment="shell"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >Shell</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-environment="prompt"
+                  aria-pressed="true"
+                  aria-controls="launcher-command"
+                >Prompt</button>
+              </div>
+            </div>
           </div>
 
           <div class="mt-8 overflow-hidden rounded-xl border border-neutral-800 bg-black/40">
             <div class="flex items-center justify-between gap-4 border-b border-neutral-800 px-4 py-3">
-              <span class="text-xs font-semibold tracking-widest text-neutral-500 uppercase">package validate</span>
+              <span id="launcher-command-label" class="text-xs font-semibold tracking-widest text-neutral-500 uppercase">agent prompt</span>
               <button
                 id="launcher-copy"
                 type="button"
@@ -524,45 +452,10 @@ $ bb describe`;
               >Copy</button>
               <span id="launcher-copy-status" class="sr-only" aria-live="polite"></span>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="font-mono text-neutral-200">$ npx bc-pkg bigconfig-ai/once@typescript package validate</code></pre>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="font-mono text-neutral-200">- run npx bc-pkg bigconfig-ai/once@typescript package validate
+- iterate on failure</code></pre>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="deploy" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="mb-12 text-center">
-        <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
-        >
-          Deploy with your agent
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-          Describe it.<br />Your agent writes the config.
-        </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
-          Describe the deployment in plain English. Your agent refines the plan,
-          writes a single <code
-            class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
-            >bb.edn</code
-          >, and runs it.
-        </p>
-      </div>
-
-      <div
-        class="code-tabs overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
-      >
-        <Tabs>
-          <TabItem label="plan.md">
-            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{planMd}</code></pre>
-          </TabItem>
-          <TabItem label="bb.edn">
-            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{bbEdn}</code></pre>
-          </TabItem>
-          <TabItem label="Run">
-            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{runSh}</code></pre>
-          </TabItem>
-        </Tabs>
       </div>
     </section>
 
@@ -670,16 +563,26 @@ $ bb describe`;
 
       const launcherExample = document.getElementById("launcher-example");
       if (launcherExample) {
-        const state = { launcher: "npx", language: "typescript" };
+        const state = { launcher: "npx", language: "typescript", environment: "prompt" };
         const commandEl = document.getElementById("launcher-command");
+        const commandLabel = document.getElementById("launcher-command-label");
         const copyButton = document.getElementById("launcher-copy");
         const copyStatus = document.getElementById("launcher-copy-status");
         const launcherButtons = launcherExample.querySelectorAll("[data-launcher]");
         const languageButtons = launcherExample.querySelectorAll("[data-language]");
+        const environmentButtons = launcherExample.querySelectorAll("[data-environment]");
         let copyTimer;
 
         const getCommand = () =>
           `${state.launcher} bc-pkg bigconfig-ai/once@${state.language} package validate`;
+
+        const getDisplayText = () =>
+          state.environment === "prompt"
+            ? `- run ${getCommand()}\n- iterate on failure`
+            : `$ ${getCommand()}`;
+
+        const getCommandLabel = () =>
+          state.environment === "prompt" ? "agent prompt" : "shell command";
 
         const updateButtons = (buttons, key, value) => {
           buttons.forEach((button) => {
@@ -697,7 +600,8 @@ $ bb describe`;
         };
 
         const updateCommand = () => {
-          if (commandEl) commandEl.textContent = `$ ${getCommand()}`;
+          if (commandEl) commandEl.textContent = getDisplayText();
+          if (commandLabel) commandLabel.textContent = getCommandLabel();
           resetCopyFeedback();
         };
 
@@ -735,9 +639,17 @@ $ bb describe`;
           });
         });
 
+        environmentButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            state.environment = button.dataset.environment;
+            updateButtons(environmentButtons, "environment", state.environment);
+            updateCommand();
+          });
+        });
+
         copyButton?.addEventListener("click", async () => {
           try {
-            await copyText(getCommand());
+            await copyText(getDisplayText());
             copyButton.textContent = "Copied";
             if (copyStatus) copyStatus.textContent = "Command copied";
           } catch (error) {
