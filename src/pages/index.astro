@@ -181,6 +181,32 @@ $ bb describe`;
         padding: 1.5rem;
         margin-top: 0;
       }
+      .command-option {
+        border: 1px solid rgb(38, 38, 38);
+        border-radius: 9999px;
+        color: rgb(212, 212, 212);
+        padding: 0.625rem 1rem;
+        transition:
+          background 150ms ease,
+          border-color 150ms ease,
+          color 150ms ease,
+          box-shadow 150ms ease;
+      }
+      .command-option:hover {
+        border-color: rgba(98, 225, 233, 0.5);
+        color: #fff;
+      }
+      .command-option:focus-visible {
+        border-color: rgba(98, 225, 233, 0.75);
+        box-shadow: 0 0 0 3px rgba(98, 225, 233, 0.18);
+        color: #fff;
+        outline: none;
+      }
+      .command-option[aria-pressed="true"] {
+        background: rgba(98, 225, 233, 0.12);
+        border-color: rgba(98, 225, 233, 0.65);
+        color: #62e1e9;
+      }
       @media (min-width: 768px) {
         .code-tabs [role="tabpanel"] {
           padding: 2rem;
@@ -406,6 +432,104 @@ $ bb describe`;
       </div>
     </section>
 
+    <section id="launcher-example" class="mx-auto max-w-6xl px-6 py-24">
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
+        <div>
+          <div
+            class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          >
+            Three languages, either launcher
+          </div>
+          <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+            Develop packages in TypeScript, Python, or Clojure.
+          </h2>
+          <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-400">
+            BigConfig packages can target the runtime your team already uses.
+            Choose the npm launcher with <code
+              class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
+              >npx</code
+            > or the Python launcher with <code
+              class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
+              >uvx</code
+            >, then point it at the TypeScript, Python, or Clojure implementation.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-2 text-sm text-neutral-300">
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">TypeScript</span>
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">Python</span>
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">Clojure</span>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 shadow-2xl shadow-black/20 md:p-8">
+          <div class="space-y-6">
+            <div>
+              <div id="launcher-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                Launcher
+              </div>
+              <div class="flex flex-wrap gap-2" aria-labelledby="launcher-choice-label">
+                <button
+                  type="button"
+                  class="command-option"
+                  data-launcher="uvx"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >uvx</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-launcher="npx"
+                  aria-pressed="true"
+                  aria-controls="launcher-command"
+                >npx</button>
+              </div>
+            </div>
+
+            <div>
+              <div id="language-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                Target language
+              </div>
+              <div class="flex flex-wrap gap-2" aria-labelledby="language-choice-label">
+                <button
+                  type="button"
+                  class="command-option"
+                  data-language="typescript"
+                  aria-pressed="true"
+                  aria-controls="launcher-command"
+                >TypeScript</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-language="python"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >Python</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-language="clojure"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >Clojure</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 overflow-hidden rounded-xl border border-neutral-800 bg-black/40">
+            <div class="flex items-center justify-between gap-4 border-b border-neutral-800 px-4 py-3">
+              <span class="text-xs font-semibold tracking-widest text-neutral-500 uppercase">package validate</span>
+              <button
+                id="launcher-copy"
+                type="button"
+                class="rounded-full border border-neutral-700 px-3 py-1.5 text-xs font-semibold text-neutral-200 transition hover:border-[#62e1e9]/60 hover:text-[#62e1e9] focus-visible:border-[#62e1e9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#62e1e9]/30"
+              >Copy</button>
+              <span id="launcher-copy-status" class="sr-only" aria-live="polite"></span>
+            </div>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="font-mono text-neutral-200">$ npx bc-pkg bigconfig-ai/once@typescript package validate</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="deploy" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-12 text-center">
         <div
@@ -541,6 +665,88 @@ $ bb describe`;
         });
         mobileMenu.querySelectorAll("a").forEach((a) => {
           a.addEventListener("click", () => setOpen(false));
+        });
+      }
+
+      const launcherExample = document.getElementById("launcher-example");
+      if (launcherExample) {
+        const state = { launcher: "npx", language: "typescript" };
+        const commandEl = document.getElementById("launcher-command");
+        const copyButton = document.getElementById("launcher-copy");
+        const copyStatus = document.getElementById("launcher-copy-status");
+        const launcherButtons = launcherExample.querySelectorAll("[data-launcher]");
+        const languageButtons = launcherExample.querySelectorAll("[data-language]");
+        let copyTimer;
+
+        const getCommand = () =>
+          `${state.launcher} bc-pkg bigconfig-ai/once@${state.language} package validate`;
+
+        const updateButtons = (buttons, key, value) => {
+          buttons.forEach((button) => {
+            button.setAttribute(
+              "aria-pressed",
+              button.dataset[key] === value ? "true" : "false",
+            );
+          });
+        };
+
+        const resetCopyFeedback = () => {
+          if (copyButton) copyButton.textContent = "Copy";
+          if (copyStatus) copyStatus.textContent = "";
+          window.clearTimeout(copyTimer);
+        };
+
+        const updateCommand = () => {
+          if (commandEl) commandEl.textContent = `$ ${getCommand()}`;
+          resetCopyFeedback();
+        };
+
+        const copyText = async (text) => {
+          if (navigator.clipboard?.writeText && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return;
+          }
+
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "fixed";
+          textarea.style.top = "-9999px";
+          document.body.appendChild(textarea);
+          textarea.select();
+          const copied = document.execCommand("copy");
+          document.body.removeChild(textarea);
+          if (!copied) throw new Error("Copy command failed");
+        };
+
+        launcherButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            state.launcher = button.dataset.launcher;
+            updateButtons(launcherButtons, "launcher", state.launcher);
+            updateCommand();
+          });
+        });
+
+        languageButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            state.language = button.dataset.language;
+            updateButtons(languageButtons, "language", state.language);
+            updateCommand();
+          });
+        });
+
+        copyButton?.addEventListener("click", async () => {
+          try {
+            await copyText(getCommand());
+            copyButton.textContent = "Copied";
+            if (copyStatus) copyStatus.textContent = "Command copied";
+          } catch (error) {
+            copyButton.textContent = "Copy failed";
+            if (copyStatus) copyStatus.textContent = "Command copy failed";
+          }
+
+          window.clearTimeout(copyTimer);
+          copyTimer = window.setTimeout(resetCopyFeedback, 1800);
         });
       }
 
