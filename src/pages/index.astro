@@ -338,16 +338,16 @@ const links = [
       </div>
     </section>
 
-    <section id="launcher-example" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
-        <div>
+    <section id="launcher-example" class="mx-auto max-w-7xl px-4 py-24 sm:px-6">
+      <div class="grid min-w-0 gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(42rem,1.25fr)] xl:items-center">
+        <div class="min-w-0">
           <div
             class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
           >
             Three languages, either launcher
           </div>
           <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-            Develop packages in TypeScript, Python, or Clojure.
+            Let your agents develop packages in TypeScript, Python, or Clojure.
           </h2>
           <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-400">
             BigConfig packages can target the runtime your team already uses.
@@ -366,7 +366,7 @@ const links = [
           </div>
         </div>
 
-        <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 shadow-2xl shadow-black/20 md:p-8">
+        <div class="min-w-0 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 shadow-2xl shadow-black/20 sm:p-6 md:p-8">
           <div class="space-y-6">
             <div>
               <div id="launcher-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
@@ -442,7 +442,7 @@ const links = [
             </div>
           </div>
 
-          <div class="mt-8 overflow-hidden rounded-xl border border-neutral-800 bg-black/40">
+          <div class="mt-8 min-w-0 overflow-hidden rounded-xl border border-neutral-800 bg-black/40">
             <div class="flex items-center justify-between gap-4 border-b border-neutral-800 px-4 py-3">
               <span id="launcher-command-label" class="text-xs font-semibold tracking-widest text-neutral-500 uppercase">agent prompt</span>
               <button
@@ -452,7 +452,7 @@ const links = [
               >Copy</button>
               <span id="launcher-copy-status" class="sr-only" aria-live="polite"></span>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="font-mono text-neutral-200">- run npx bc-pkg bigconfig-ai/once@typescript package validate
+            <pre class="w-full overflow-x-auto whitespace-pre p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="block min-w-max font-mono text-neutral-200">- run npx bc-pkg bigconfig-ai/once@typescript package validate
 - iterate on failure</code></pre>
           </div>
         </div>
