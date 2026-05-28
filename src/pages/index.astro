@@ -124,6 +124,61 @@ const links = [
         border-color: rgba(98, 225, 233, 0.65);
         color: #62e1e9;
       }
+      [data-credential="neutral"] {
+        --credential-text: #d4d4d4;
+        --credential-border: rgba(163, 163, 163, 0.45);
+        --credential-hover-border: rgba(212, 212, 212, 0.7);
+        --credential-bg: rgba(163, 163, 163, 0.08);
+        --credential-hover-bg: rgba(163, 163, 163, 0.14);
+        --credential-selected-bg: rgba(163, 163, 163, 0.18);
+        --credential-selected-border: rgba(212, 212, 212, 0.75);
+        --credential-ring: rgba(163, 163, 163, 0.22);
+      }
+      [data-credential="safe"] {
+        --credential-text: #34d399;
+        --credential-border: rgba(52, 211, 153, 0.45);
+        --credential-hover-border: rgba(52, 211, 153, 0.75);
+        --credential-bg: rgba(52, 211, 153, 0.08);
+        --credential-hover-bg: rgba(52, 211, 153, 0.14);
+        --credential-selected-bg: rgba(52, 211, 153, 0.18);
+        --credential-selected-border: rgba(52, 211, 153, 0.8);
+        --credential-ring: rgba(52, 211, 153, 0.22);
+      }
+      [data-credential="danger"] {
+        --credential-text: #fb7185;
+        --credential-border: rgba(251, 113, 133, 0.45);
+        --credential-hover-border: rgba(251, 113, 133, 0.75);
+        --credential-bg: rgba(251, 113, 133, 0.08);
+        --credential-hover-bg: rgba(251, 113, 133, 0.14);
+        --credential-selected-bg: rgba(251, 113, 133, 0.18);
+        --credential-selected-border: rgba(251, 113, 133, 0.8);
+        --credential-ring: rgba(251, 113, 133, 0.22);
+      }
+      button.command-option[data-credential] {
+        background: var(--credential-bg);
+        border-color: var(--credential-border);
+        color: var(--credential-text);
+      }
+      button.command-option[data-credential]:hover {
+        background: var(--credential-hover-bg);
+        border-color: var(--credential-hover-border);
+        color: var(--credential-text);
+      }
+      button.command-option[data-credential]:focus-visible {
+        border-color: var(--credential-hover-border);
+        box-shadow: 0 0 0 3px var(--credential-ring);
+        color: var(--credential-text);
+      }
+      button.command-option[data-credential][aria-pressed="true"] {
+        background: var(--credential-selected-bg);
+        border-color: var(--credential-selected-border);
+        color: var(--credential-text);
+      }
+      #launcher-credential-output[data-credential] {
+        background: var(--credential-selected-bg);
+        border-color: var(--credential-selected-border);
+        color: var(--credential-text);
+      }
     </style>
   </head>
   <body class="bg-neutral-950 text-neutral-100 antialiased">
@@ -404,73 +459,48 @@ const links = [
                 <button
                   type="button"
                   class="command-option"
-                  data-verb="build"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                  aria-label="build, no credentials"
-                >
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                  <span>build</span>
-                </button>
-                <button
-                  type="button"
-                  class="command-option"
                   data-verb="validate"
+                  data-credential="safe"
                   aria-pressed="true"
                   aria-controls="launcher-command"
                   aria-label="validate, read-only credentials"
-                >
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                  <span>validate</span>
-                </button>
+                >validate</button>
                 <button
                   type="button"
                   class="command-option"
-                  data-verb="describe"
+                  data-verb="build"
+                  data-credential="neutral"
                   aria-pressed="false"
                   aria-controls="launcher-command"
-                  aria-label="describe, read-only credentials"
-                >
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                  <span>describe</span>
-                </button>
+                  aria-label="build, no credentials"
+                >build</button>
                 <button
                   type="button"
                   class="command-option"
                   data-verb="create"
+                  data-credential="danger"
                   aria-pressed="false"
                   aria-controls="launcher-command"
                   aria-label="create, read-write credentials"
-                >
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a4.5 4.5 0 0 0-4.5 4.5c0 .65.138 1.267.386 1.824L3 20.25V21h4.5v-2.25h2.25V16.5H12l1.426-1.426a4.5 4.5 0 1 0 2.324-9.824Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25h.008v.008h-.008V8.25Z" />
-                  </svg>
-                  <span>create</span>
-                </button>
+                >create</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-verb="describe"
+                  data-credential="safe"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                  aria-label="describe, read-only credentials"
+                >describe</button>
                 <button
                   type="button"
                   class="command-option"
                   data-verb="delete"
+                  data-credential="danger"
                   aria-pressed="false"
                   aria-controls="launcher-command"
                   aria-label="delete, read-write credentials"
-                >
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a4.5 4.5 0 0 0-4.5 4.5c0 .65.138 1.267.386 1.824L3 20.25V21h4.5v-2.25h2.25V16.5H12l1.426-1.426a4.5 4.5 0 1 0 2.324-9.824Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25h.008v.008h-.008V8.25Z" />
-                  </svg>
-                  <span>delete</span>
-                </button>
+                >delete</button>
               </div>
             </div>
 
@@ -503,13 +533,10 @@ const links = [
                 <span id="launcher-command-label" class="text-xs font-semibold tracking-widest text-neutral-500 uppercase">agent prompt</span>
                 <span
                   id="launcher-credential-output"
-                  class="inline-flex items-center gap-1.5 rounded-full border border-neutral-800 bg-neutral-900/70 px-2.5 py-1 text-xs font-semibold text-neutral-300"
+                  class="inline-flex items-center rounded-full border border-neutral-800 bg-neutral-900/70 px-2.5 py-1 text-xs font-semibold text-neutral-300"
+                  data-credential="safe"
                   aria-live="polite"
                 >
-                  <svg id="launcher-credential-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
                   <span id="launcher-credential-label">Read-only credentials</span>
                 </span>
               </div>
@@ -680,30 +707,16 @@ const links = [
           verb: "validate",
           environment: "prompt",
         };
-        const credentialIcons = {
-          none: `
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          `,
-          read: `
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12Z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-          `,
-          write: `
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a4.5 4.5 0 0 0-4.5 4.5c0 .65.138 1.267.386 1.824L3 20.25V21h4.5v-2.25h2.25V16.5H12l1.426-1.426a4.5 4.5 0 1 0 2.324-9.824Z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25h.008v.008h-.008V8.25Z" />
-          `,
-        };
         const credentialRequirements = {
-          build: { label: "No credentials", icon: "none" },
-          validate: { label: "Read-only credentials", icon: "read" },
-          describe: { label: "Read-only credentials", icon: "read" },
-          create: { label: "Read-write credentials", icon: "write" },
-          delete: { label: "Read-write credentials", icon: "write" },
+          build: { label: "No credentials", kind: "neutral" },
+          validate: { label: "Read-only credentials", kind: "safe" },
+          describe: { label: "Read-only credentials", kind: "safe" },
+          create: { label: "Read-write credentials", kind: "danger" },
+          delete: { label: "Read-write credentials", kind: "danger" },
         };
         const commandEl = document.getElementById("launcher-command");
         const commandLabel = document.getElementById("launcher-command-label");
-        const credentialIcon = document.getElementById("launcher-credential-icon");
+        const credentialOutput = document.getElementById("launcher-credential-output");
         const credentialLabel = document.getElementById("launcher-credential-label");
         const copyButton = document.getElementById("launcher-copy");
         const copyStatus = document.getElementById("launcher-copy-status");
@@ -746,8 +759,8 @@ const links = [
         const updateCredentialOutput = () => {
           const requirement =
             credentialRequirements[state.verb] ?? credentialRequirements.build;
-          if (credentialIcon) {
-            credentialIcon.innerHTML = credentialIcons[requirement.icon] ?? "";
+          if (credentialOutput) {
+            credentialOutput.setAttribute("data-credential", requirement.kind);
           }
           if (credentialLabel) credentialLabel.textContent = requirement.label;
         };
