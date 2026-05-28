@@ -298,25 +298,22 @@ const links = [
           <div
             class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
           >
-            Three languages, either launcher
+            Packages, verbs, shells, prompts
           </div>
           <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-            Let your agents develop packages in TypeScript, Python, or Clojure.
+            Generate a package command your agent can run.
           </h2>
           <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-400">
-            BigConfig packages can target the runtime your team already uses.
-            Choose the npm launcher with <code
-              class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
-              >npx</code
-            > or the Python launcher with <code
-              class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
-              >uvx</code
-            >, then point it at the TypeScript, Python, or Clojure implementation.
+            Choose the launcher, package, target language, verb, and output
+            environment. BigConfig turns those choices into either a shell
+            command or an agent-ready prompt you can paste into your coding
+            assistant.
           </p>
           <div class="mt-6 flex flex-wrap gap-2 text-sm text-neutral-300">
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">TypeScript</span>
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">Python</span>
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">Clojure</span>
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">uvx / npx</span>
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">once / walter</span>
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">validate / build</span>
+            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">Shell / Prompt</span>
           </div>
         </div>
 
@@ -341,6 +338,28 @@ const links = [
                   aria-pressed="true"
                   aria-controls="launcher-command"
                 >npx</button>
+              </div>
+            </div>
+
+            <div>
+              <div id="package-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                Package
+              </div>
+              <div class="flex flex-wrap gap-2" aria-labelledby="package-choice-label">
+                <button
+                  type="button"
+                  class="command-option"
+                  data-package="bigconfig-ai/once"
+                  aria-pressed="true"
+                  aria-controls="launcher-command"
+                >bigconfig-ai / once</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-package="bigconfig-ai/walter"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >bigconfig-ai / walter</button>
               </div>
             </div>
 
@@ -370,6 +389,49 @@ const links = [
                   aria-pressed="false"
                   aria-controls="launcher-command"
                 >Clojure</button>
+              </div>
+            </div>
+
+            <div>
+              <div id="verb-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                Verb
+              </div>
+              <div class="flex flex-wrap gap-2" aria-labelledby="verb-choice-label">
+                <button
+                  type="button"
+                  class="command-option"
+                  data-verb="validate"
+                  aria-pressed="true"
+                  aria-controls="launcher-command"
+                >validate</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-verb="build"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >build</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-verb="create"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >create</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-verb="describe"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >describe</button>
+                <button
+                  type="button"
+                  class="command-option"
+                  data-verb="delete"
+                  aria-pressed="false"
+                  aria-controls="launcher-command"
+                >delete</button>
               </div>
             </div>
 
@@ -559,23 +621,34 @@ const links = [
 
       const launcherExample = document.getElementById("launcher-example");
       if (launcherExample) {
-        const state = { launcher: "npx", language: "typescript", environment: "prompt" };
+        const state = {
+          launcher: "npx",
+          packageName: "bigconfig-ai/once",
+          language: "typescript",
+          verb: "validate",
+          environment: "prompt",
+        };
         const commandEl = document.getElementById("launcher-command");
         const commandLabel = document.getElementById("launcher-command-label");
         const copyButton = document.getElementById("launcher-copy");
         const copyStatus = document.getElementById("launcher-copy-status");
         const launcherButtons = launcherExample.querySelectorAll("[data-launcher]");
+        const packageButtons = launcherExample.querySelectorAll("[data-package]");
         const languageButtons = launcherExample.querySelectorAll("[data-language]");
+        const verbButtons = launcherExample.querySelectorAll("[data-verb]");
         const environmentButtons = launcherExample.querySelectorAll("[data-environment]");
         let copyTimer;
 
         const getCommand = () =>
-          `${state.launcher} bc-pkg bigconfig-ai/once@${state.language} package validate`;
+          `${state.launcher} bc-pkg ${state.packageName}@${state.language} package ${state.verb}`;
 
         const getDisplayText = () =>
           state.environment === "prompt"
             ? `- run ${getCommand()}\n- iterate on failure`
             : `$ ${getCommand()}`;
+
+        const getCopyText = () =>
+          state.environment === "prompt" ? getDisplayText() : getCommand();
 
         const getCommandLabel = () =>
           state.environment === "prompt" ? "agent prompt" : "shell command";
@@ -627,10 +700,26 @@ const links = [
           });
         });
 
+        packageButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            state.packageName = button.dataset.package;
+            updateButtons(packageButtons, "package", state.packageName);
+            updateCommand();
+          });
+        });
+
         languageButtons.forEach((button) => {
           button.addEventListener("click", () => {
             state.language = button.dataset.language;
             updateButtons(languageButtons, "language", state.language);
+            updateCommand();
+          });
+        });
+
+        verbButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            state.verb = button.dataset.verb;
+            updateButtons(verbButtons, "verb", state.verb);
             updateCommand();
           });
         });
@@ -645,7 +734,7 @@ const links = [
 
         copyButton?.addEventListener("click", async () => {
           try {
-            await copyText(getDisplayText());
+            await copyText(getCopyText());
             copyButton.textContent = "Copied";
             if (copyStatus) copyStatus.textContent = "Command copied";
           } catch (error) {
