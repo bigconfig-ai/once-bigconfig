@@ -1,0 +1,19 @@
+{
+  "name": "BigConfig Launcher Example",
+  "short_name": "BigConfig Launcher",
+  "description": "Interactive BigConfig launcher slide for generating shell commands and agent-ready prompts.",
+  "start_url": "/talk/bigconfig-launcher-example/",
+  "scope": "/talk/bigconfig-launcher-example/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#f8fafc",
+  "theme_color": "#f8fafc",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
