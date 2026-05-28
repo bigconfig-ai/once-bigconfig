@@ -77,32 +77,32 @@ const features = [
       }
     </style>
   </head>
-  <body class="bg-neutral-950 text-neutral-100 antialiased">
+  <body class="bc-page-light antialiased">
     <div
-      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(250,204,21,0.15),_transparent_60%)]"
+      class="bc-page-glow bc-page-glow-yellow"
     >
     </div>
 
     <div
-      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+      class="sticky top-0 z-50 border-b bc-site-header backdrop-blur-md"
     >
       <header
         class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         <a
           href="/"
-          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-950"
         >
           <img src={logo.src} alt="" class="h-7 w-auto" />
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
-          <a href="#features" class="text-white hover:text-yellow-400">Features</a>
-          <a href="#how" class="text-white hover:text-yellow-400">How it works</a>
-          <a href="#contact" class="text-white hover:text-yellow-400">Get access</a>
+          <a href="#features" class="bc-nav-link bc-nav-link-yellow">Features</a>
+          <a href="#how" class="bc-nav-link bc-nav-link-yellow">How it works</a>
+          <a href="#contact" class="bc-nav-link bc-nav-link-yellow">Get access</a>
         </nav>
         <a
           href="#contact"
-          class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-neutral-950 transition hover:bg-yellow-300"
+          class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-yellow-300"
         >
           Contact sales
         </a>
@@ -111,13 +111,13 @@ const features = [
 
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-28 text-center">
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-yellow-400"></span>
         BigConfig package · ClickHouse
       </div>
       <h1
-        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
+        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl"
       >
         Your data warehouse,<br />
         <span
@@ -125,7 +125,7 @@ const features = [
           >on your infrastructure.</span
         >
       </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 md:text-xl">
         Stop overpaying Snowflake, Redshift, and BigQuery. Deploy open-source
         ClickHouse anywhere — described in plain English, operated by your agent.
       </p>
@@ -134,25 +134,25 @@ const features = [
       >
         <a
           href="#contact"
-          class="rounded-full bg-yellow-400 px-8 py-4 text-center text-base font-semibold text-neutral-950 transition hover:bg-yellow-300"
+          class="rounded-full bg-yellow-400 px-8 py-4 text-center text-base font-semibold text-slate-950 transition hover:bg-yellow-300"
         >
           Contact for pricing
         </a>
         <a
           href="#features"
-          class="rounded-full border border-neutral-700 px-8 py-4 text-center text-base font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+          class="rounded-full border border-slate-300 px-8 py-4 text-center text-base font-semibold text-slate-700 transition hover:border-yellow-500/60 hover:text-yellow-700"
         >
           See what's inside
         </a>
       </div>
-      <p class="mt-6 text-sm text-neutral-500">
+      <p class="mt-6 text-sm text-slate-500">
         For teams whose DWH bill has outgrown the value it returns.
       </p>
     </section>
 
     <section class="mx-auto max-w-6xl px-6 py-12">
       <div
-        class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 md:grid-cols-4"
+        class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 md:grid-cols-4"
       >
         {
           [
@@ -161,11 +161,11 @@ const features = [
             ["Zero", "click-ops — your agent runs it"],
             ["100%", "open-source engine, your data"],
           ].map(([stat, label]) => (
-            <div class="bg-neutral-950 p-6 text-center">
-              <div class="text-3xl font-semibold text-white md:text-4xl">
+            <div class="bg-white p-6 text-center">
+              <div class="text-3xl font-semibold text-slate-950 md:text-4xl">
                 {stat}
               </div>
-              <div class="mt-2 text-xs text-neutral-400 uppercase tracking-wider">
+              <div class="mt-2 text-xs text-slate-600 uppercase tracking-wider">
                 {label}
               </div>
             </div>
@@ -177,14 +177,14 @@ const features = [
     <section id="features" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-16 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           What you get
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           A ClickHouse platform,<br />not a pile of YAML.
         </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-2xl text-slate-600">
           The BigConfig ClickHouse package is everything you'd build yourself in
           six months of platform engineering — ready to deploy today.
         </p>
@@ -193,8 +193,8 @@ const features = [
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
           features.map((f) => (
-            <div class="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-yellow-400/40 hover:bg-neutral-900">
-              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-yellow-400/10 text-yellow-400 ring-1 ring-yellow-400/20">
+            <div class="group rounded-2xl bc-site-card bc-site-card-yellow p-8 transition hover:border-yellow-400/40 hover:bg-white">
+              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-yellow-400/10 text-amber-600 ring-1 ring-yellow-400/20">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -210,8 +210,8 @@ const features = [
                   />
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white">{f.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
                 {f.body}
               </p>
             </div>
@@ -221,36 +221,36 @@ const features = [
     </section>
 
     <section id="how" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="rounded-3xl border border-neutral-800 bg-neutral-900/40 p-10 md:p-16">
+      <div class="rounded-3xl bc-site-card bc-site-card-yellow p-10 md:p-16">
         <div
-          class="mb-4 text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           How it works
         </div>
-        <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
+        <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
           Three steps to leave your managed warehouse behind.
         </h2>
         <ol class="mt-12 grid list-none gap-10 pl-0 md:grid-cols-3">
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">01 — Describe</div>
-            <h3 class="text-lg font-semibold text-white">Tell your agent what you want</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">01 — Describe</div>
+            <h3 class="text-lg font-semibold text-slate-950">Tell your agent what you want</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Size, replication, retention, network boundaries. Your agent turns
               the conversation into a BigConfig ClickHouse package tailored to your needs.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">02 — Deploy</div>
-            <h3 class="text-lg font-semibold text-white">Ship it to your infrastructure</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">02 — Deploy</div>
+            <h3 class="text-lg font-semibold text-slate-950">Ship it to your infrastructure</h3>
+            <p class="mt-2 text-sm text-slate-600">
               The package provisions ClickHouse wherever you run — cloud,
               kubernetes, or bare metal. No lock-in, no black boxes.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">03 — Delegate</div>
-            <h3 class="text-lg font-semibold text-white">Hand ops over to the agent</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">03 — Delegate</div>
+            <h3 class="text-lg font-semibold text-slate-950">Hand ops over to the agent</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Backups, upgrades, scaling, incident response — every runbook is a
               BigConfig workflow your agent can execute on your behalf.
             </p>
@@ -262,14 +262,14 @@ const features = [
     <section id="contact" class="mx-auto max-w-3xl px-6 py-24">
       <div class="text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           Get access
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Contact for pricing
         </h2>
-        <p class="mx-auto mt-4 max-w-xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-xl text-slate-600">
           Tell us about your current warehouse and your team. We'll get back to
           you with pricing and a migration plan.
         </p>
@@ -277,47 +277,47 @@ const features = [
 
       <form
         id="clickhouse-form"
-        class="mt-12 grid gap-5 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 md:p-10"
+        class="mt-12 grid gap-5 rounded-2xl bc-site-card bc-site-card-yellow p-8 md:p-10"
       >
         <div class="grid gap-5 md:grid-cols-2">
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Name</span>
+            <span class="mb-2 block font-medium text-slate-700">Name</span>
             <input
               name="name"
               type="text"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
               placeholder="Jane Doe"
             />
           </label>
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Work email</span>
+            <span class="mb-2 block font-medium text-slate-700">Work email</span>
             <input
               name="email"
               type="email"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
               placeholder="jane@company.com"
             />
           </label>
         </div>
         <label class="block text-sm">
-          <span class="mb-2 block font-medium text-neutral-200">Company</span>
+          <span class="mb-2 block font-medium text-slate-700">Company</span>
           <input
             name="company"
             type="text"
             required
-            class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+            class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
             placeholder="Acme Inc."
           />
         </label>
         <div class="grid gap-5 md:grid-cols-2">
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Current DWH</span>
+            <span class="mb-2 block font-medium text-slate-700">Current DWH</span>
             <select
               name="currentDwh"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none focus:border-yellow-400"
             >
               <option value="">Select one…</option>
               <option value="snowflake">Snowflake</option>
@@ -327,11 +327,11 @@ const features = [
             </select>
           </label>
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Team size</span>
+            <span class="mb-2 block font-medium text-slate-700">Team size</span>
             <select
               name="teamSize"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none focus:border-yellow-400"
             >
               <option value="">Select one…</option>
               <option value="1-10">1–10</option>
@@ -343,30 +343,30 @@ const features = [
           </label>
         </div>
         <label class="block text-sm">
-          <span class="mb-2 block font-medium text-neutral-200">Message</span>
+          <span class="mb-2 block font-medium text-slate-700">Message</span>
           <textarea
             name="message"
             rows="4"
             required
-            class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+            class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
             placeholder="What are your requirements? What's driving the migration?"></textarea>
         </label>
         <button
           type="submit"
-          class="mt-2 rounded-full bg-yellow-400 px-6 py-4 text-base font-semibold text-neutral-950 transition hover:bg-yellow-300 disabled:opacity-60"
+          class="mt-2 rounded-full bg-yellow-400 px-6 py-4 text-base font-semibold text-slate-950 transition hover:bg-yellow-300 disabled:opacity-60"
         >
           Request pricing
         </button>
         <p
           id="clickhouse-form-status"
-          class="hidden text-center text-sm text-neutral-400"
+          class="hidden text-center text-sm text-slate-600"
         >
         </p>
       </form>
     </section>
 
-    <footer class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500">
-      © {new Date().getFullYear()} BigConfig · <a href="/" class="text-white hover:text-neutral-300">bigconfig.ai</a>
+    <footer class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-slate-500">
+      © {new Date().getFullYear()} BigConfig · <a href="/" class="bc-footer-link">bigconfig.ai</a>
     </footer>
 
     <script is:inline>

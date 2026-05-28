@@ -1,6 +1,6 @@
 ---
 import "~/styles/global.css";
-import logo from "~/assets/logo-light.svg";
+import logo from "~/assets/logo-dark.svg";
 import Tabs from "~/components/Tabs.astro";
 import TabItem from "~/components/TabItem.astro";
 import YouTube from "~/components/YouTube.astro";
@@ -123,14 +123,14 @@ $ bb once delete`;
         margin: 0;
       }
       .code-tabs {
-        --bc-color-text-accent: #62e1e9;
+        --bc-color-text-accent: #0891b2;
       }
       .code-tabs .bc-tabs {
         display: block;
       }
       .code-tabs .bc-tabs-list {
-        background: rgba(10, 10, 10, 0.6);
-        border-bottom: 1px solid rgb(38, 38, 38);
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
         margin: 0;
       }
       .code-tabs [role="tablist"] {
@@ -139,20 +139,20 @@ $ bb once delete`;
         margin: 0;
       }
       .code-tabs [role="tab"] {
-        color: rgb(163, 163, 163);
+        color: #64748b;
         padding: 0.75rem 1.5rem;
         font-size: 0.875rem;
         font-weight: 500;
         border-bottom-width: 2px;
       }
       .code-tabs [role="tab"][aria-selected="true"] {
-        color: #fff;
-        background: rgba(23, 23, 23, 0.6);
-        border-color: #62e1e9;
+        color: #0f172a;
+        background: #ffffff;
+        border-color: #0891b2;
       }
       .code-tabs [role="tab"]:hover:not([aria-selected="true"]) {
-        color: #fff;
-        background: rgba(23, 23, 23, 0.6);
+        color: #0f172a;
+        background: #ecfeff;
       }
       .code-tabs [role="tabpanel"] {
         padding: 1.5rem;
@@ -165,29 +165,29 @@ $ bb once delete`;
       }
     </style>
   </head>
-  <body class="bg-neutral-950 text-neutral-100 antialiased">
+  <body class="bc-page-light antialiased">
     <div
-      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(6,82,233,0.15),_transparent_60%)]"
+      class="bc-page-glow"
     >
     </div>
 
     <div
-      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+      class="sticky top-0 z-50 border-b bc-site-header backdrop-blur-md"
     >
       <header
         class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         <a
           href="/"
-          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-950"
         >
           <img src={logo.src} alt="" class="h-7 w-auto" />
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
-          <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
-          <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
-          <a href="#demo" class="text-white hover:text-[#62e1e9]">Demo</a>
-          <a href="#how" class="text-white hover:text-[#62e1e9]">How it works</a>
+          <a href="#features" class="bc-nav-link">Features</a>
+          <a href="#deploy" class="bc-nav-link">Deploy</a>
+          <a href="#demo" class="bc-nav-link">Demo</a>
+          <a href="#how" class="bc-nav-link">How it works</a>
         </nav>
         <a
           href="https://github.com/amiorin/once"
@@ -198,7 +198,7 @@ $ bb once delete`;
         <button
           id="mobile-menu-toggle"
           type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-800 text-white md:hidden"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-800 transition hover:border-[#0652e9] hover:text-[#0652e9] md:hidden"
           aria-label="Toggle menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -229,14 +229,14 @@ $ bb once delete`;
       </header>
       <nav
         id="mobile-menu"
-        class="hidden border-t border-neutral-800/80 px-6 py-4 md:hidden"
+        class="hidden border-t border-slate-200 px-6 py-4 md:hidden"
       >
         <div class="flex flex-col gap-4 text-sm">
-          <a href="#features" class="text-white hover:text-[#62e1e9]">Features</a>
-          <a href="#deploy" class="text-white hover:text-[#62e1e9]">Deploy</a>
-          <a href="#demo" class="text-white hover:text-[#62e1e9]">Demo</a>
-          <a href="#how" class="text-white hover:text-[#62e1e9]">How it works</a>
-          <a href="/start-here/getting-started" class="text-white hover:text-[#62e1e9]">Docs ↗</a>
+          <a href="#features" class="bc-nav-link">Features</a>
+          <a href="#deploy" class="bc-nav-link">Deploy</a>
+          <a href="#demo" class="bc-nav-link">Demo</a>
+          <a href="#how" class="bc-nav-link">How it works</a>
+          <a href="/start-here/getting-started" class="bc-nav-link">Docs ↗</a>
           <a
             href="https://github.com/amiorin/once"
             class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
@@ -249,13 +249,13 @@ $ bb once delete`;
 
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-28 text-center">
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
         BigConfig package · Once
       </div>
       <h1
-        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
+        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl"
       >
         Self-host ONCE apps,<br />
         <span
@@ -263,7 +263,7 @@ $ bb once delete`;
           >in a single command.</span
         >
       </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 md:text-xl">
         Deploy any Basecamp ONCE app or your own vibe-coded app to your own infrastructure. BigConfig
         provisions the server, wires up DNS and SMTP, configures the host,
         and hands operations to your agent.
@@ -279,19 +279,19 @@ $ bb once delete`;
         </a>
         <a
           href="https://github.com/amiorin/once"
-          class="rounded-full border border-neutral-700 px-8 py-4 text-center text-base font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+          class="rounded-full border border-slate-300 px-8 py-4 text-center text-base font-semibold text-slate-700 transition hover:border-[#0652e9]/50 hover:text-[#0652e9]"
         >
           View on GitHub
         </a>
       </div>
-      <p class="mt-6 text-sm text-neutral-500">
+      <p class="mt-6 text-sm text-slate-500">
         For teams who want total control — without operational headaches.
       </p>
     </section>
 
     <section class="mx-auto max-w-6xl px-6 py-12">
       <div
-        class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 md:grid-cols-4"
+        class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 md:grid-cols-4"
       >
         {
           [
@@ -300,11 +300,11 @@ $ bb once delete`;
             ["Auto", "DNS, SMTP, server config"],
             ["Yours", "app, data, and infrastructure"],
           ].map(([stat, label]) => (
-            <div class="bg-neutral-950 p-6 text-center">
-              <div class="text-3xl font-semibold text-white md:text-4xl">
+            <div class="bg-white p-6 text-center">
+              <div class="text-3xl font-semibold text-slate-950 md:text-4xl">
                 {stat}
               </div>
-              <div class="mt-2 text-xs text-neutral-400 uppercase tracking-wider">
+              <div class="mt-2 text-xs text-slate-600 uppercase tracking-wider">
                 {label}
               </div>
             </div>
@@ -316,14 +316,14 @@ $ bb once delete`;
     <section id="features" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-16 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           What you get
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           A deploy pipeline,<br />not a README.
         </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-2xl text-slate-600">
           The BigConfig once package is everything between "I vibecoded the
           application" and "it's live on my domain" — codified, agent-operable,
           and yours to keep.
@@ -333,8 +333,8 @@ $ bb once delete`;
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
           features.map((f) => (
-            <div class="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-[#62e1e9]/40 hover:bg-neutral-900">
-              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#62e1e9] ring-1 ring-[#62e1e9]/20">
+            <div class="group rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white">
+              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -350,8 +350,8 @@ $ bb once delete`;
                   />
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white">{f.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
                 {f.body}
               </p>
             </div>
@@ -363,34 +363,34 @@ $ bb once delete`;
     <section id="deploy" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-12 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           Deploy with your agent
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Describe it.<br />Your agent writes the config.
         </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-2xl text-slate-600">
           Describe the deployment in plain English. Your agent refines the plan,
           writes a single <code
-            class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-sm text-[#62e1e9]"
+            class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-[#0891b2]"
             >bb.edn</code
           >, and runs it.
         </p>
       </div>
 
       <div
-        class="code-tabs overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
+        class="code-tabs overflow-hidden rounded-2xl bc-site-card"
       >
         <Tabs>
           <TabItem label="plan.md">
-            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{planMd}</code></pre>
+            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-slate-600">{planMd}</code></pre>
           </TabItem>
           <TabItem label="bb.edn">
-            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{bbEdn}</code></pre>
+            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-slate-600">{bbEdn}</code></pre>
           </TabItem>
           <TabItem label="Run">
-            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-neutral-300">{runSh}</code></pre>
+            <pre class="overflow-x-auto text-sm leading-relaxed"><code class="font-mono text-slate-600">{runSh}</code></pre>
           </TabItem>
         </Tabs>
       </div>
@@ -399,54 +399,54 @@ $ bb once delete`;
     <section id="demo" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-12 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           Demo
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           See it in action.
         </h2>
       </div>
 
       <div
-        class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
+        class="overflow-hidden rounded-2xl bc-site-card"
       >
         <YouTube id="wTwMJpn6zhc" si="qkjlqMknaG461nYd" />
       </div>
     </section>
 
     <section id="how" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="rounded-3xl border border-neutral-800 bg-neutral-900/40 p-10 md:p-16">
+      <div class="rounded-3xl bc-site-card p-10 md:p-16">
         <div
-          class="mb-4 text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           How it works
         </div>
-        <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
+        <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
           Three steps from ONCE app to production.
         </h2>
         <ol class="mt-12 grid list-none gap-10 pl-0 md:grid-cols-3">
           <li>
-            <div class="mb-3 text-sm font-semibold text-[#62e1e9]">01 — Describe</div>
-            <h3 class="text-lg font-semibold text-white">Tell your agent what you want</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-[#0891b2]">01 — Describe</div>
+            <h3 class="text-lg font-semibold text-slate-950">Tell your agent what you want</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Which ONCE app, what size server, which domain. The agent turns
-              the conversation into a single <code class="rounded bg-neutral-800 px-1 py-0.5 font-mono text-xs text-[#62e1e9]">bb.edn</code>.
+              the conversation into a single <code class="rounded bg-slate-100 px-1 py-0.5 font-mono text-xs text-[#0891b2]">bb.edn</code>.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-[#62e1e9]">02 — Deploy</div>
-            <h3 class="text-lg font-semibold text-white">Ship it to your infrastructure</h3>
-            <p class="mt-2 text-sm text-neutral-400">
-              <code class="rounded bg-neutral-800 px-1 py-0.5 font-mono text-xs text-[#62e1e9]">bb once create</code>
+            <div class="mb-3 text-sm font-semibold text-[#0891b2]">02 — Deploy</div>
+            <h3 class="text-lg font-semibold text-slate-950">Ship it to your infrastructure</h3>
+            <p class="mt-2 text-sm text-slate-600">
+              <code class="rounded bg-slate-100 px-1 py-0.5 font-mono text-xs text-[#0891b2]">bb once create</code>
               provisions the server, configures DNS and SMTP, installs Docker,
               pulls the container, hands you a URL.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-[#62e1e9]">03 — Operate</div>
-            <h3 class="text-lg font-semibold text-white">Hand ops over to the agent</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-[#0891b2]">03 — Operate</div>
+            <h3 class="text-lg font-semibold text-slate-950">Hand ops over to the agent</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Backups, upgrades, teardown — every runbook is a BigConfig
               workflow your agent can execute on your behalf.
             </p>
@@ -456,11 +456,11 @@ $ bb once delete`;
     </section>
 
     <footer
-      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500"
+      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-slate-500"
     >
       © {new Date().getFullYear()} BigConfig · <a
         href="/"
-        class="text-white hover:text-neutral-300">bigconfig.ai</a
+        class="bc-footer-link">bigconfig.ai</a
       >
     </footer>
 

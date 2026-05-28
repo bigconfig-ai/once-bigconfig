@@ -1,6 +1,6 @@
 ---
 import "~/styles/global.css";
-import logo from "~/assets/logo-light.svg";
+import logo from "~/assets/logo-dark.svg";
 
 const tagClass = (tag: string) =>
   tag === "Meetup Talk"
@@ -112,34 +112,34 @@ const talks = [
       }
     </style>
   </head>
-  <body class="bg-neutral-950 text-neutral-100 antialiased">
+  <body class="bc-page-light antialiased">
     <div
-      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(6,82,233,0.15),_transparent_60%)]"
+      class="bc-page-glow"
     >
     </div>
 
     <!-- ============ HEADER / NAV ============ -->
     <div
-      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+      class="sticky top-0 z-50 border-b bc-site-header backdrop-blur-md"
     >
       <header
         class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         <a
           href="/"
-          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-950"
         >
           <img src={logo.src} alt="" class="h-7 w-auto" />
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
           <a
             href="https://marketplace.bigconfig.ai"
-            class="text-white hover:text-[#62e1e9]"
+            class="bc-nav-link"
           >Marketplace ↗</a>
           <div class="group relative">
             <button
               type="button"
-              class="flex items-center gap-1 text-white transition hover:text-[#62e1e9]"
+              class="flex items-center gap-1 bc-nav-link"
               aria-haspopup="true"
             >
               Docs
@@ -162,22 +162,22 @@ const talks = [
               class="invisible pointer-events-none absolute left-1/2 top-full z-50 w-44 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100"
             >
               <div
-                class="rounded-xl border border-neutral-800 bg-neutral-950/95 p-2 shadow-xl shadow-black/30 backdrop-blur"
+                class="rounded-xl border border-slate-200 bg-white/95 p-2 shadow-xl shadow-slate-200/70 backdrop-blur"
               >
                 <a
                   href="/manual/"
-                  class="block rounded-lg px-3 py-2 text-white hover:bg-neutral-900 hover:text-[#62e1e9]"
+                  class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]"
                 >Manual ↗</a>
                 <a
                   href="/talk"
-                  class="block rounded-lg px-3 py-2 text-white hover:bg-neutral-900 hover:text-[#62e1e9]"
+                  class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]"
                 >Talks</a>
               </div>
             </div>
           </div>
           <a
             href="/blog"
-            class="text-white hover:text-[#62e1e9]"
+            class="bc-nav-link"
           >Blog</a>
         </nav>
         <a
@@ -189,7 +189,7 @@ const talks = [
         <button
           id="mobile-menu-toggle"
           type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-800 text-white md:hidden"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-800 transition hover:border-[#0652e9] hover:text-[#0652e9] md:hidden"
           aria-label="Toggle menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -228,18 +228,18 @@ const talks = [
       </header>
       <nav
         id="mobile-menu"
-        class="hidden border-t border-neutral-800/80 px-6 py-4 md:hidden"
+        class="hidden border-t border-slate-200 px-6 py-4 md:hidden"
       >
         <div class="flex flex-col gap-4 text-sm">
           <a
             href="https://marketplace.bigconfig.ai"
-            class="text-white hover:text-[#62e1e9]"
+            class="bc-nav-link"
           >Marketplace ↗</a>
           <div class="flex flex-col gap-3">
             <button
               id="mobile-docs-toggle"
               type="button"
-              class="flex w-full items-center justify-between text-left text-white transition hover:text-[#62e1e9]"
+              class="flex w-full items-center justify-between text-left bc-nav-link"
               aria-expanded="false"
               aria-controls="mobile-docs-menu"
             >
@@ -262,16 +262,16 @@ const talks = [
             </button>
             <div
               id="mobile-docs-menu"
-              class="hidden flex-col gap-3 border-l border-neutral-800 pl-4"
+              class="hidden flex-col gap-3 border-l border-slate-200 pl-4"
             >
               <a
                 href="/manual/"
-                class="text-white hover:text-[#62e1e9]"
+                class="bc-nav-link"
               >Manual ↗</a>
-              <a href="/talk" class="text-white hover:text-[#62e1e9]">Talks</a>
+              <a href="/talk" class="bc-nav-link">Talks</a>
             </div>
           </div>
-          <a href="/blog" class="text-white hover:text-[#62e1e9]">Blog</a>
+          <a href="/blog" class="bc-nav-link">Blog</a>
           <a
             href="https://github.com/bigconfig-ai/big-config"
             class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
@@ -285,20 +285,20 @@ const talks = [
     <!-- ============ HERO ============ -->
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-16 text-center md:pt-24 md:pb-20">
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
         Talks &amp; presentations
       </div>
       <h1
-        class="mx-auto max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl"
+        class="mx-auto max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 md:text-6xl"
       >
         Slide decks, meetup talks,<br />
         <span
           class="bg-gradient-to-r from-[#62e1e9] via-[#3a8cec] to-[#0652e9] bg-clip-text text-transparent"
         >and design notes</span>
       </h1>
-      <p class="mx-auto mt-4 max-w-xl text-neutral-400">
+      <p class="mx-auto mt-4 max-w-xl text-slate-600">
         Presentations about Agentic DevOps, the DevOps maturity model, and the
         BigConfig operating model.
       </p>
@@ -311,7 +311,7 @@ const talks = [
           talks.map((talk) => (
             <a
               href={talk.href}
-              class="group flex flex-col rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-[#62e1e9]/40 hover:bg-neutral-900"
+              class="group flex flex-col rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white"
             >
               <div class="flex gap-2 flex-wrap mb-3">
                 {talk.tags.map((tag) => (
@@ -321,15 +321,15 @@ const talks = [
                 ))}
               </div>
               <h3
-                class="text-lg font-semibold text-white group-hover:text-[#62e1e9]"
+                class="text-lg font-semibold text-slate-950 group-hover:text-[#0891b2]"
               >
                 {talk.title}
               </h3>
-              <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-400">
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
                 {talk.description}
               </p>
               <div
-                class="mt-5 flex items-center justify-between border-t border-neutral-800 pt-4 text-xs text-neutral-500"
+                class="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-xs text-slate-500"
               >
                 <span>{talk.meta}</span>
                 <span class="flex items-center gap-1">📽 {talk.slides}</span>
@@ -342,11 +342,11 @@ const talks = [
 
     <!-- ============ FOOTER ============ -->
     <footer
-      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500"
+      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-slate-500"
     >
       © {new Date().getFullYear()} BigConfig · <a
         href="/"
-        class="text-white hover:text-neutral-300"
+        class="bc-footer-link"
       >bigconfig.ai</a>
     </footer>
 

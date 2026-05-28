@@ -8,7 +8,7 @@ const { href, ...props } = Astro.props;
 const relAttribute = props.rel || "noopener noreferrer";
 ---
 
-<a href={href} target="_blank" rel={relAttribute} {...props} class="no-underline inline-flex items-center gap-1.5 hover:dark:text-white hover:text-back transition-colors">
+<a href={href} target="_blank" rel={relAttribute} {...props} class="no-underline inline-flex items-center gap-1.5 text-[#0652e9] transition-colors hover:text-[#0891b2]">
   <slot />
   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>

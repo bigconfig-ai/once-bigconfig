@@ -127,33 +127,33 @@ const packages = [
       }
     </style>
   </head>
-  <body class="bg-neutral-950 text-neutral-100 antialiased">
+  <body class="bc-page-light antialiased">
     <div
-      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(250,204,21,0.15),_transparent_60%)]"
+      class="bc-page-glow bc-page-glow-yellow"
     >
     </div>
 
     <div
-      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+      class="sticky top-0 z-50 border-b bc-site-header backdrop-blur-md"
     >
       <header
         class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         <a
           href="/"
-          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-950"
         >
           <img src={logo.src} alt="" class="h-7 w-auto" />
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
-          <a href="#packages" class="text-white hover:text-yellow-400">Packages</a>
-          <a href="#authors" class="text-white hover:text-yellow-400">For authors</a>
-          <a href="#how" class="text-white hover:text-yellow-400">How it works</a>
-          <a href="#contact" class="text-white hover:text-yellow-400">Get access</a>
+          <a href="#packages" class="bc-nav-link bc-nav-link-yellow">Packages</a>
+          <a href="#authors" class="bc-nav-link bc-nav-link-yellow">For authors</a>
+          <a href="#how" class="bc-nav-link bc-nav-link-yellow">How it works</a>
+          <a href="#contact" class="bc-nav-link bc-nav-link-yellow">Get access</a>
         </nav>
         <a
           href="#contact"
-          class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-neutral-950 transition hover:bg-yellow-300"
+          class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-yellow-300"
         >
           Request access
         </a>
@@ -162,13 +162,13 @@ const packages = [
 
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-28 text-center">
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-yellow-400"></span>
         Marketplace · BigConfig packages
       </div>
       <h1
-        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
+        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl"
       >
         The App Store<br />
         <span
@@ -176,7 +176,7 @@ const packages = [
           >for Agentic DevOps.</span
         >
       </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 md:text-xl">
         Buy infrastructure packages your agent can operate. Or publish your own
         and turn a decade of production experience into recurring revenue.
       </p>
@@ -185,25 +185,25 @@ const packages = [
       >
         <a
           href="#packages"
-          class="rounded-full bg-yellow-400 px-8 py-4 text-center text-base font-semibold text-neutral-950 transition hover:bg-yellow-300"
+          class="rounded-full bg-yellow-400 px-8 py-4 text-center text-base font-semibold text-slate-950 transition hover:bg-yellow-300"
         >
           Browse packages
         </a>
         <a
           href="#authors"
-          class="rounded-full border border-neutral-700 px-8 py-4 text-center text-base font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+          class="rounded-full border border-slate-300 px-8 py-4 text-center text-base font-semibold text-slate-700 transition hover:border-yellow-500/60 hover:text-yellow-700"
         >
           Publish a package
         </a>
       </div>
-      <p class="mt-6 text-sm text-neutral-500">
+      <p class="mt-6 text-sm text-slate-500">
         For operators who know how platforms actually fail at 3am.
       </p>
     </section>
 
     <section class="mx-auto max-w-6xl px-6 py-12">
       <div
-        class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 md:grid-cols-4"
+        class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 md:grid-cols-4"
       >
         {
           [
@@ -212,11 +212,11 @@ const packages = [
             ["Source", "code included"],
             ["Revenue", "split with authors"],
           ].map(([stat, label]) => (
-            <div class="bg-neutral-950 p-6 text-center">
-              <div class="text-3xl font-semibold text-white md:text-4xl">
+            <div class="bg-white p-6 text-center">
+              <div class="text-3xl font-semibold text-slate-950 md:text-4xl">
                 {stat}
               </div>
-              <div class="mt-2 text-xs text-neutral-400 uppercase tracking-wider">
+              <div class="mt-2 text-xs text-slate-600 uppercase tracking-wider">
                 {label}
               </div>
             </div>
@@ -228,14 +228,14 @@ const packages = [
     <section id="features" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-16 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           What's in a package
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Production infrastructure,<br />in plain English.
         </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-2xl text-slate-600">
           Every BigConfig package in the marketplace ships with the same
           guarantees — so buyers know what they're getting and authors know
           what to build.
@@ -245,8 +245,8 @@ const packages = [
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
           features.map((f) => (
-            <div class="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-yellow-400/40 hover:bg-neutral-900">
-              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-yellow-400/10 text-yellow-400 ring-1 ring-yellow-400/20">
+            <div class="group rounded-2xl bc-site-card bc-site-card-yellow p-8 transition hover:border-yellow-400/40 hover:bg-white">
+              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-yellow-400/10 text-amber-600 ring-1 ring-yellow-400/20">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -262,8 +262,8 @@ const packages = [
                   />
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white">{f.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
                 {f.body}
               </p>
             </div>
@@ -275,14 +275,14 @@ const packages = [
     <section id="packages" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-16 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           Featured packages
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Browse the shelf.
         </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-2xl text-slate-600">
           Launching with a curated set of core infrastructure packages.
           More land every week — and yours could be next.
         </p>
@@ -300,29 +300,29 @@ const packages = [
                   ? p.palette === "cyan"
                     ? "border-[#62e1e9]/30 bg-[#62e1e9]/5 hover:border-[#62e1e9]/60 hover:bg-[#62e1e9]/10"
                     : "border-yellow-400/30 bg-yellow-400/5 hover:border-yellow-400/60 hover:bg-yellow-400/10"
-                  : "border-neutral-800 bg-neutral-900/40 hover:border-yellow-400/40 hover:bg-neutral-900"
+                  : "border-slate-200 bg-white/85 hover:border-yellow-400/40 hover:bg-white"
               }`}
             >
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <h3 class="text-xl font-semibold text-white">{p.name}</h3>
+                  <h3 class="text-xl font-semibold text-slate-950">{p.name}</h3>
                   {p.author === "Coming soon" ? (
                     <div class="mt-2">
-                      <span class="inline-block rounded-full bg-yellow-400/10 px-2 py-0.5 text-xs font-semibold tracking-widest text-yellow-400 uppercase ring-1 ring-yellow-400/20">
+                      <span class="inline-block rounded-full bg-yellow-400/10 px-2 py-0.5 text-xs font-semibold tracking-widest text-amber-600 uppercase ring-1 ring-yellow-400/20">
                         Coming soon
                       </span>
                     </div>
                   ) : (
-                    <div class="mt-1 text-xs text-neutral-500">by {p.author}</div>
+                    <div class="mt-1 text-xs text-slate-500">by {p.author}</div>
                   )}
                 </div>
               </div>
-              <p class="mt-4 flex-1 text-sm leading-relaxed text-neutral-400">
+              <p class="mt-4 flex-1 text-sm leading-relaxed text-slate-600">
                 {p.tagline}
               </p>
               <div class="mt-5 flex flex-wrap gap-2">
                 {p.tags.map((t) => (
-                  <span class="rounded-full bg-neutral-800/80 px-2.5 py-0.5 text-xs text-neutral-300">
+                  <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-600">
                     {t}
                   </span>
                 ))}
@@ -335,18 +335,18 @@ const packages = [
     </section>
 
     <section id="authors" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="rounded-3xl border border-neutral-800 bg-neutral-900/40 p-10 md:p-16">
+      <div class="rounded-3xl bc-site-card bc-site-card-yellow p-10 md:p-16">
         <div class="grid gap-12 md:grid-cols-2 md:items-center">
           <div>
             <div
-              class="mb-4 text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+              class="mb-4 text-xs font-semibold tracking-widest text-amber-600 uppercase"
             >
               For authors
             </div>
-            <h2 class="text-3xl font-semibold tracking-tight text-white md:text-4xl">
+            <h2 class="text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
               You've operated this in production.<br />Now get paid for it.
             </h2>
-            <p class="mt-6 text-neutral-400">
+            <p class="mt-6 text-slate-600">
               Agentic DevOps is not going to eliminate operators — it's going
               to eliminate operators who don't package their knowledge.
               Turn the runbooks you've built over a career into BigConfig
@@ -356,36 +356,36 @@ const packages = [
             <div class="mt-8 flex flex-col gap-4 sm:flex-row">
               <a
                 href="#contact"
-                class="rounded-full bg-yellow-400 px-6 py-3 text-center text-sm font-semibold text-neutral-950 transition hover:bg-yellow-300"
+                class="rounded-full bg-yellow-400 px-6 py-3 text-center text-sm font-semibold text-slate-950 transition hover:bg-yellow-300"
               >
                 Become an author
               </a>
               <a
                 href="/"
-                class="rounded-full border border-neutral-700 px-6 py-3 text-center text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+                class="rounded-full border border-slate-300 px-6 py-3 text-center text-sm font-semibold text-slate-700 transition hover:border-yellow-500/60 hover:text-yellow-700"
               >
                 Learn BigConfig
               </a>
             </div>
           </div>
           <ul class="grid list-none gap-6 pl-0">
-            <li class="rounded-xl border border-neutral-800 bg-neutral-950/60 p-6">
-              <div class="text-sm font-semibold text-yellow-400">Keep the majority</div>
-              <p class="mt-2 text-sm text-neutral-400">
+            <li class="rounded-xl border border-slate-200 bg-slate-50/80 p-6">
+              <div class="text-sm font-semibold text-amber-600">Keep the majority</div>
+              <p class="mt-2 text-sm text-slate-600">
                 Revenue is split between you and the marketplace. You price
                 the package, we handle billing and distribution.
               </p>
             </li>
-            <li class="rounded-xl border border-neutral-800 bg-neutral-950/60 p-6">
-              <div class="text-sm font-semibold text-yellow-400">Ship source, not secrets</div>
-              <p class="mt-2 text-sm text-neutral-400">
+            <li class="rounded-xl border border-slate-200 bg-slate-50/80 p-6">
+              <div class="text-sm font-semibold text-amber-600">Ship source, not secrets</div>
+              <p class="mt-2 text-sm text-slate-600">
                 Buyers get the full source of your package. Trust is the
                 product — and it's what makes the package worth paying for.
               </p>
             </li>
-            <li class="rounded-xl border border-neutral-800 bg-neutral-950/60 p-6">
-              <div class="text-sm font-semibold text-yellow-400">One package, many deployments</div>
-              <p class="mt-2 text-sm text-neutral-400">
+            <li class="rounded-xl border border-slate-200 bg-slate-50/80 p-6">
+              <div class="text-sm font-semibold text-amber-600">One package, many deployments</div>
+              <p class="mt-2 text-sm text-slate-600">
                 Write the runbook once. Every buyer's agent can deploy,
                 customize, and operate it on their own infrastructure.
               </p>
@@ -396,44 +396,44 @@ const packages = [
     </section>
 
     <section id="how" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="rounded-3xl border border-neutral-800 bg-neutral-900/40 p-10 md:p-16">
+      <div class="rounded-3xl bc-site-card bc-site-card-yellow p-10 md:p-16">
         <div
-          class="mb-4 text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           How it works
         </div>
-        <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
+        <h2 class="max-w-3xl text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
           From your expertise to somebody's production — in four steps.
         </h2>
         <ol class="mt-12 grid list-none gap-10 pl-0 md:grid-cols-4">
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">01 — Learn</div>
-            <h3 class="text-lg font-semibold text-white">Pick up BigConfig</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">01 — Learn</div>
+            <h3 class="text-lg font-semibold text-slate-950">Pick up BigConfig</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Clojure-based, Terraform-friendly, agent-native. A few days to
               go from "what's this" to shipping your first package.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">02 — Package</div>
-            <h3 class="text-lg font-semibold text-white">Encode the runbook</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">02 — Package</div>
+            <h3 class="text-lg font-semibold text-slate-950">Encode the runbook</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Backup, upgrade, failover, scale — every operation becomes a
               workflow the agent can execute on the buyer's behalf.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">03 — Publish</div>
-            <h3 class="text-lg font-semibold text-white">List in the marketplace</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">03 — Publish</div>
+            <h3 class="text-lg font-semibold text-slate-950">List in the marketplace</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Set your price, tag it, describe the target infrastructure.
               The marketplace handles discovery, licensing, and payouts.
             </p>
           </li>
           <li>
-            <div class="mb-3 text-sm font-semibold text-yellow-400">04 — Earn</div>
-            <h3 class="text-lg font-semibold text-white">Get paid per deployment</h3>
-            <p class="mt-2 text-sm text-neutral-400">
+            <div class="mb-3 text-sm font-semibold text-amber-600">04 — Earn</div>
+            <h3 class="text-lg font-semibold text-slate-950">Get paid per deployment</h3>
+            <p class="mt-2 text-sm text-slate-600">
               Buyers pay, their agents deploy, you earn a revenue share on
               every sale — indefinitely, not just on launch week.
             </p>
@@ -445,14 +445,14 @@ const packages = [
     <section id="contact" class="mx-auto max-w-3xl px-6 py-24">
       <div class="text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-yellow-400 uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-amber-600 uppercase"
         >
           Get access
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Request access
         </h2>
-        <p class="mx-auto mt-4 max-w-xl text-neutral-400">
+        <p class="mx-auto mt-4 max-w-xl text-slate-600">
           Let us know if you intend to buy, publish, or manage both. Our team
           will contact you to assist with the next steps.
         </p>
@@ -460,47 +460,47 @@ const packages = [
 
       <form
         id="marketplace-form"
-        class="mt-12 grid gap-5 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 md:p-10"
+        class="mt-12 grid gap-5 rounded-2xl bc-site-card bc-site-card-yellow p-8 md:p-10"
       >
         <div class="grid gap-5 md:grid-cols-2">
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Name</span>
+            <span class="mb-2 block font-medium text-slate-700">Name</span>
             <input
               name="name"
               type="text"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
               placeholder="Jane Doe"
             />
           </label>
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Work email</span>
+            <span class="mb-2 block font-medium text-slate-700">Work email</span>
             <input
               name="email"
               type="email"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
               placeholder="jane@company.com"
             />
           </label>
         </div>
         <label class="block text-sm">
-          <span class="mb-2 block font-medium text-neutral-200">Company</span>
+          <span class="mb-2 block font-medium text-slate-700">Company</span>
           <input
             name="company"
             type="text"
             required
-            class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+            class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
             placeholder="Acme Inc."
           />
         </label>
         <div class="grid gap-5 md:grid-cols-2">
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">I want to…</span>
+            <span class="mb-2 block font-medium text-slate-700">I want to…</span>
             <select
               name="intent"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none focus:border-yellow-400"
             >
               <option value="">Select one…</option>
               <option value="buy">Buy packages</option>
@@ -509,11 +509,11 @@ const packages = [
             </select>
           </label>
           <label class="block text-sm">
-            <span class="mb-2 block font-medium text-neutral-200">Years operating production</span>
+            <span class="mb-2 block font-medium text-slate-700">Years operating production</span>
             <select
               name="experience"
               required
-              class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white outline-none focus:border-yellow-400"
+              class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none focus:border-yellow-400"
             >
               <option value="">Select one…</option>
               <option value="0-2">0–2</option>
@@ -524,30 +524,30 @@ const packages = [
           </label>
         </div>
         <label class="block text-sm">
-          <span class="mb-2 block font-medium text-neutral-200">What would you build or buy?</span>
+          <span class="mb-2 block font-medium text-slate-700">What would you build or buy?</span>
           <textarea
             name="message"
             rows="4"
             required
-            class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-white placeholder-neutral-500 outline-none focus:border-yellow-400"
+            class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder-slate-400 outline-none focus:border-yellow-400"
             placeholder="Which infrastructure? What operations are painful today?"></textarea>
         </label>
         <button
           type="submit"
-          class="mt-2 rounded-full bg-yellow-400 px-6 py-4 text-base font-semibold text-neutral-950 transition hover:bg-yellow-300 disabled:opacity-60"
+          class="mt-2 rounded-full bg-yellow-400 px-6 py-4 text-base font-semibold text-slate-950 transition hover:bg-yellow-300 disabled:opacity-60"
         >
           Request access
         </button>
         <p
           id="marketplace-form-status"
-          class="hidden text-center text-sm text-neutral-400"
+          class="hidden text-center text-sm text-slate-600"
         >
         </p>
       </form>
     </section>
 
-    <footer class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500">
-      © {new Date().getFullYear()} BigConfig · <a href="/" class="text-white hover:text-neutral-300">bigconfig.ai</a>
+    <footer class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-slate-500">
+      © {new Date().getFullYear()} BigConfig · <a href="/" class="bc-footer-link">bigconfig.ai</a>
     </footer>
 
     <script is:inline>

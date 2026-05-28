@@ -1,6 +1,6 @@
 ---
 import "~/styles/global.css";
-import logo from "~/assets/logo-light.svg";
+import logo from "~/assets/logo-dark.svg";
 import YouTube from "~/components/YouTube.astro";
 
 const features = [
@@ -99,9 +99,10 @@ const links = [
         align-items: center;
         gap: 0.5rem;
         white-space: nowrap;
-        border: 1px solid rgb(38, 38, 38);
+        border: 1px solid #cbd5e1;
         border-radius: 9999px;
-        color: rgb(212, 212, 212);
+        background: #fff;
+        color: #334155;
         padding: 0.625rem 1rem;
         transition:
           background 150ms ease,
@@ -110,49 +111,50 @@ const links = [
           box-shadow 150ms ease;
       }
       .command-option:hover {
-        border-color: rgba(98, 225, 233, 0.5);
-        color: #fff;
+        background: #ecfeff;
+        border-color: rgba(8, 145, 178, 0.55);
+        color: #0e7490;
       }
       .command-option:focus-visible {
-        border-color: rgba(98, 225, 233, 0.75);
-        box-shadow: 0 0 0 3px rgba(98, 225, 233, 0.18);
-        color: #fff;
+        border-color: rgba(8, 145, 178, 0.75);
+        box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.18);
+        color: #0e7490;
         outline: none;
       }
       .command-option[aria-pressed="true"] {
-        background: rgba(98, 225, 233, 0.12);
-        border-color: rgba(98, 225, 233, 0.65);
-        color: #62e1e9;
+        background: #cffafe;
+        border-color: rgba(8, 145, 178, 0.75);
+        color: #0e7490;
       }
       [data-credential="neutral"] {
-        --credential-text: #d4d4d4;
-        --credential-border: rgba(163, 163, 163, 0.45);
-        --credential-hover-border: rgba(212, 212, 212, 0.7);
-        --credential-bg: rgba(163, 163, 163, 0.08);
-        --credential-hover-bg: rgba(163, 163, 163, 0.14);
-        --credential-selected-bg: rgba(163, 163, 163, 0.18);
-        --credential-selected-border: rgba(212, 212, 212, 0.75);
-        --credential-ring: rgba(163, 163, 163, 0.22);
+        --credential-text: #475569;
+        --credential-border: rgba(100, 116, 139, 0.42);
+        --credential-hover-border: rgba(71, 85, 105, 0.72);
+        --credential-bg: #f8fafc;
+        --credential-hover-bg: #e2e8f0;
+        --credential-selected-bg: #e2e8f0;
+        --credential-selected-border: rgba(71, 85, 105, 0.78);
+        --credential-ring: rgba(100, 116, 139, 0.2);
       }
       [data-credential="safe"] {
-        --credential-text: #34d399;
-        --credential-border: rgba(52, 211, 153, 0.45);
-        --credential-hover-border: rgba(52, 211, 153, 0.75);
-        --credential-bg: rgba(52, 211, 153, 0.08);
-        --credential-hover-bg: rgba(52, 211, 153, 0.14);
-        --credential-selected-bg: rgba(52, 211, 153, 0.18);
-        --credential-selected-border: rgba(52, 211, 153, 0.8);
-        --credential-ring: rgba(52, 211, 153, 0.22);
+        --credential-text: #047857;
+        --credential-border: rgba(16, 185, 129, 0.45);
+        --credential-hover-border: rgba(4, 120, 87, 0.72);
+        --credential-bg: #ecfdf5;
+        --credential-hover-bg: #d1fae5;
+        --credential-selected-bg: #a7f3d0;
+        --credential-selected-border: rgba(4, 120, 87, 0.78);
+        --credential-ring: rgba(16, 185, 129, 0.22);
       }
       [data-credential="danger"] {
-        --credential-text: #fb7185;
-        --credential-border: rgba(251, 113, 133, 0.45);
-        --credential-hover-border: rgba(251, 113, 133, 0.75);
-        --credential-bg: rgba(251, 113, 133, 0.08);
-        --credential-hover-bg: rgba(251, 113, 133, 0.14);
-        --credential-selected-bg: rgba(251, 113, 133, 0.18);
-        --credential-selected-border: rgba(251, 113, 133, 0.8);
-        --credential-ring: rgba(251, 113, 133, 0.22);
+        --credential-text: #be123c;
+        --credential-border: rgba(244, 63, 94, 0.45);
+        --credential-hover-border: rgba(190, 18, 60, 0.72);
+        --credential-bg: #fff1f2;
+        --credential-hover-bg: #ffe4e6;
+        --credential-selected-bg: #fecdd3;
+        --credential-selected-border: rgba(190, 18, 60, 0.78);
+        --credential-ring: rgba(244, 63, 94, 0.22);
       }
       button.command-option[data-credential] {
         background: var(--credential-bg);
@@ -181,30 +183,30 @@ const links = [
       }
     </style>
   </head>
-  <body class="bg-neutral-950 text-neutral-100 antialiased">
+  <body class="bc-page-light antialiased">
     <div
-      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(6,82,233,0.15),_transparent_60%)]"
+      class="bc-page-glow"
     >
     </div>
 
     <div
-      class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-md"
+      class="sticky top-0 z-50 border-b bc-site-header backdrop-blur-md"
     >
       <header
         class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         <a
           href="/"
-          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
+          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-950"
         >
           <img src={logo.src} alt="" class="h-7 w-auto" />
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
-          <a href="https://marketplace.bigconfig.ai" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
+          <a href="https://marketplace.bigconfig.ai" class="bc-nav-link">Marketplace ↗</a>
           <div class="group relative">
             <button
               type="button"
-              class="flex items-center gap-1 text-white transition hover:text-[#62e1e9]"
+              class="flex items-center gap-1 bc-nav-link"
               aria-haspopup="true"
             >
               Docs
@@ -222,16 +224,16 @@ const links = [
             <div
               class="invisible pointer-events-none absolute left-1/2 top-full z-50 w-44 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100"
             >
-              <div class="rounded-xl border border-neutral-800 bg-neutral-950/95 p-2 shadow-xl shadow-black/30 backdrop-blur">
-                <a href="/manual/" class="block rounded-lg px-3 py-2 text-white hover:bg-neutral-900 hover:text-[#62e1e9]">Manual ↗</a>
+              <div class="rounded-xl border border-slate-200 bg-white/95 p-2 shadow-xl shadow-slate-200/70 backdrop-blur">
+                <a href="/manual/" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]">Manual ↗</a>
                 <a
                   href="/talk"
-                  class="block rounded-lg px-3 py-2 text-white hover:bg-neutral-900 hover:text-[#62e1e9]"
+                  class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]"
                 >Talks</a>
               </div>
             </div>
           </div>
-          <a href="/blog" class="text-white hover:text-[#62e1e9]">Blog</a>
+          <a href="/blog" class="bc-nav-link">Blog</a>
         </nav>
         <a
           href="https://github.com/bigconfig-ai/big-config"
@@ -242,7 +244,7 @@ const links = [
         <button
           id="mobile-menu-toggle"
           type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-800 text-white md:hidden"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-800 transition hover:border-[#0652e9] hover:text-[#0652e9] md:hidden"
           aria-label="Toggle menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -273,15 +275,15 @@ const links = [
       </header>
       <nav
         id="mobile-menu"
-        class="hidden border-t border-neutral-800/80 px-6 py-4 md:hidden"
+        class="hidden border-t border-slate-200 px-6 py-4 md:hidden"
       >
         <div class="flex flex-col gap-4 text-sm">
-          <a href="https://marketplace.bigconfig.ai" class="text-white hover:text-[#62e1e9]">Marketplace ↗</a>
+          <a href="https://marketplace.bigconfig.ai" class="bc-nav-link">Marketplace ↗</a>
           <div class="flex flex-col gap-3">
             <button
               id="mobile-docs-toggle"
               type="button"
-              class="flex w-full items-center justify-between text-left text-white transition hover:text-[#62e1e9]"
+              class="flex w-full items-center justify-between text-left bc-nav-link"
               aria-expanded="false"
               aria-controls="mobile-docs-menu"
             >
@@ -298,12 +300,12 @@ const links = [
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div id="mobile-docs-menu" class="hidden flex-col gap-3 border-l border-neutral-800 pl-4">
-              <a href="/manual/" class="text-white hover:text-[#62e1e9]">Manual ↗</a>
-              <a href="/talk" class="text-white hover:text-[#62e1e9]">Talks</a>
+            <div id="mobile-docs-menu" class="hidden flex-col gap-3 border-l border-slate-200 pl-4">
+              <a href="/manual/" class="bc-nav-link">Manual ↗</a>
+              <a href="/talk" class="bc-nav-link">Talks</a>
             </div>
           </div>
-          <a href="/blog" class="text-white hover:text-[#62e1e9]">Blog</a>
+          <a href="/blog" class="bc-nav-link">Blog</a>
           <a
             href="https://github.com/bigconfig-ai/big-config"
             class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
@@ -316,13 +318,13 @@ const links = [
 
     <section class="mx-auto max-w-6xl px-6 pt-16 pb-24 text-center md:pt-20 md:pb-28">
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-300"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
         Agentic DevOps · TypeScript / Python / Clojure
       </div>
       <h1
-        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl"
+        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl"
       >
         The first<br />
         <span
@@ -330,7 +332,7 @@ const links = [
           >agentic package manager</span
         >
       </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 md:text-xl">
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 md:text-xl">
         You don't need to learn BigConfig, your agent can operate it for you.
       </p>
       <div
@@ -344,7 +346,7 @@ const links = [
         </a>
         <a
           href="https://github.com/bigconfig-ai/big-config"
-          class="rounded-full border border-neutral-700 px-8 py-4 text-center text-base font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+          class="rounded-full border border-slate-300 px-8 py-4 text-center text-base font-semibold text-slate-700 transition hover:border-[#0652e9]/50 hover:text-[#0652e9]"
         >
           View on GitHub
         </a>
@@ -355,31 +357,31 @@ const links = [
       <div class="grid min-w-0 gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(42rem,1.25fr)] xl:items-center">
         <div class="min-w-0">
           <div
-            class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+            class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
           >
             Packages, verbs, shells, prompts
           </div>
-          <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+          <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
             Generate a package command your agent can run.
           </h2>
-          <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-400">
+          <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
             Choose the launcher, package, target language, verb, and output
             environment. BigConfig turns those choices into either a shell
             command or an agent-ready prompt you can paste into your coding
             assistant.
           </p>
-          <div class="mt-6 flex flex-wrap gap-2 text-sm text-neutral-300">
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">uvx / npx</span>
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">once / walter / your package</span>
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">validate / build</span>
-            <span class="rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1">Shell / Prompt</span>
+          <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600">
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">uvx / npx</span>
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">once / walter / your package</span>
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">validate / build</span>
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">Shell / Prompt</span>
           </div>
         </div>
 
-        <div class="min-w-0 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 shadow-2xl shadow-black/20 sm:p-6 md:p-8">
+        <div class="min-w-0 rounded-2xl bc-site-card p-4 shadow-2xl shadow-slate-200/70 sm:p-6 md:p-8">
           <div class="space-y-6">
             <div>
-              <div id="launcher-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+              <div id="launcher-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Launcher
               </div>
               <div class="flex flex-wrap gap-2" aria-labelledby="launcher-choice-label">
@@ -401,7 +403,7 @@ const links = [
             </div>
 
             <div>
-              <div id="package-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+              <div id="package-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Package
               </div>
               <div class="flex flex-wrap gap-2" aria-labelledby="package-choice-label">
@@ -430,7 +432,7 @@ const links = [
             </div>
 
             <div>
-              <div id="language-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+              <div id="language-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Target language
               </div>
               <div class="flex flex-wrap gap-2" aria-labelledby="language-choice-label">
@@ -459,7 +461,7 @@ const links = [
             </div>
 
             <div>
-              <div id="verb-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+              <div id="verb-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Verb
               </div>
               <div class="flex flex-wrap gap-2" aria-labelledby="verb-choice-label">
@@ -512,7 +514,7 @@ const links = [
             </div>
 
             <div>
-              <div id="environment-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+              <div id="environment-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Environment
               </div>
               <div class="flex flex-wrap gap-2" aria-labelledby="environment-choice-label">
@@ -534,13 +536,13 @@ const links = [
             </div>
           </div>
 
-          <div class="mt-8 min-w-0 overflow-hidden rounded-xl border border-neutral-800 bg-black/40">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 px-4 py-3">
+          <div class="mt-8 min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span id="launcher-command-label" class="text-xs font-semibold tracking-widest text-neutral-500 uppercase">agent prompt</span>
+                <span id="launcher-command-label" class="text-xs font-semibold tracking-widest text-slate-500 uppercase">agent prompt</span>
                 <span
                   id="launcher-credential-output"
-                  class="inline-flex items-center rounded-full border border-neutral-800 bg-neutral-900/70 px-2.5 py-1 text-xs font-semibold text-neutral-300"
+                  class="inline-flex items-center rounded-full border border-slate-200 bg-white/90 px-2.5 py-1 text-xs font-semibold text-slate-600"
                   data-credential="safe"
                   aria-live="polite"
                 >
@@ -550,11 +552,11 @@ const links = [
               <button
                 id="launcher-copy"
                 type="button"
-                class="rounded-full border border-neutral-700 px-3 py-1.5 text-xs font-semibold text-neutral-200 transition hover:border-[#62e1e9]/60 hover:text-[#62e1e9] focus-visible:border-[#62e1e9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#62e1e9]/30"
+                class="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-[#62e1e9]/60 hover:text-[#0891b2] focus-visible:border-[#0891b2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0891b2]/30"
               >Copy</button>
               <span id="launcher-copy-status" class="sr-only" aria-live="polite"></span>
             </div>
-            <pre class="w-full overflow-x-auto whitespace-pre p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="block min-w-max font-mono text-neutral-200">- run npx bc-pkg bigconfig-ai/once@typescript package validate
+            <pre class="w-full overflow-x-auto whitespace-pre p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="block min-w-max font-mono text-slate-700">- run npx bc-pkg bigconfig-ai/once@typescript package validate
 - iterate on failure</code></pre>
           </div>
         </div>
@@ -564,11 +566,11 @@ const links = [
     <section id="features" class="mx-auto max-w-6xl px-6 py-20">
       <div class="mb-16 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           Why BigConfig
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Built for your agent<br />that will operate it.
         </h2>
       </div>
@@ -576,8 +578,8 @@ const links = [
       <div class="grid gap-6 md:grid-cols-2">
         {
           features.map((f) => (
-            <div class="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-[#62e1e9]/40 hover:bg-neutral-900">
-              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#62e1e9] ring-1 ring-[#62e1e9]/20">
+            <div class="group rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white">
+              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -593,8 +595,8 @@ const links = [
                   />
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white">{f.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-neutral-400">
+              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
                 {f.body}
               </p>
             </div>
@@ -606,17 +608,17 @@ const links = [
     <section id="demo" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-12 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           Demo
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           See it in action.
         </h2>
       </div>
 
       <div
-        class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/40"
+        class="overflow-hidden rounded-2xl bc-site-card"
       >
         <YouTube id="wTwMJpn6zhc" si="qkjlqMknaG461nYd" />
       </div>
@@ -625,11 +627,11 @@ const links = [
     <section class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-16 text-center">
         <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#62e1e9] uppercase"
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
         >
           Dive deeper
         </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
           Start here.
         </h2>
       </div>
@@ -639,15 +641,15 @@ const links = [
           links.map((l) => (
             <a
               href={l.href}
-              class="group flex flex-col rounded-2xl border border-neutral-800 bg-neutral-900/40 p-8 transition hover:border-[#62e1e9]/40 hover:bg-neutral-900"
+              class="group flex flex-col rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white"
             >
-              <h3 class="text-lg font-semibold text-white group-hover:text-[#62e1e9]">
+              <h3 class="text-lg font-semibold text-slate-950 group-hover:text-[#0891b2]">
                 {l.title}
               </h3>
-              <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-400">
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
                 {l.body}
               </p>
-              <div class="mt-4 text-sm font-semibold text-[#62e1e9]">
+              <div class="mt-4 text-sm font-semibold text-[#0891b2]">
                 Open →
               </div>
             </a>
@@ -657,11 +659,11 @@ const links = [
     </section>
 
     <footer
-      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-neutral-500"
+      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-slate-500"
     >
       © {new Date().getFullYear()} BigConfig · <a
         href="/"
-        class="text-white hover:text-neutral-300">bigconfig.ai</a
+        class="bc-footer-link">bigconfig.ai</a
       >
     </footer>
 
