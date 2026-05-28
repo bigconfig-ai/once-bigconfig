@@ -5,9 +5,11 @@ import logo from "~/assets/logo-light.svg";
 const tagClass = (tag: string) =>
   tag === "Meetup Talk"
     ? "bg-blue-100 text-blue-800"
-    : tag === "Design Note"
-      ? "bg-amber-100 text-amber-800"
-      : "bg-green-100 text-green-800";
+    : tag === "Demo"
+      ? "bg-cyan-100 text-cyan-800"
+      : tag === "Design Note"
+        ? "bg-amber-100 text-amber-800"
+        : "bg-green-100 text-green-800";
 
 const talks = [
   {
@@ -18,6 +20,15 @@ const talks = [
     tags: ["Meetup Talk"],
     meta: "Alberto Miorin · Valery Lavrentiev",
     slides: "~27 slides",
+  },
+  {
+    title: "BigConfig Launcher Example",
+    href: "/talk/bigconfig-launcher-example/",
+    description:
+      "A single-slide interactive demo of the BigConfig launcher: choose a launcher, package, target language, verb, and output mode, then copy a shell command or agent-ready prompt with credential feedback.",
+    tags: ["Demo"],
+    meta: "Interactive launcher demo",
+    slides: "1 slide",
   },
   {
     title: "DevOps Maturity Levels",
