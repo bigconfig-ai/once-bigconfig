@@ -126,6 +126,69 @@ const links = [
         border-color: rgba(8, 145, 178, 0.75);
         color: #0e7490;
       }
+      .package-tooltip-trigger {
+        position: relative;
+        display: inline-flex;
+      }
+      .package-tooltip-bubble {
+        pointer-events: none;
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 0.75rem);
+        z-index: 60;
+        width: max-content;
+        max-width: min(20rem, calc(100vw - 2rem));
+        transform: translateX(-50%) translateY(0.25rem);
+        border-radius: 0.875rem;
+        background: #0f172a;
+        color: #ffffff;
+        padding: 0.75rem 0.875rem;
+        font-size: 0.8125rem;
+        line-height: 1.45;
+        text-align: left;
+        box-shadow: 0 18px 40px rgb(15 23 42 / 0.22);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 150ms ease,
+          transform 150ms ease,
+          visibility 150ms ease;
+      }
+      .package-tooltip-bubble::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%);
+        border-width: 0.4rem 0.4rem 0;
+        border-style: solid;
+        border-color: #0f172a transparent transparent;
+      }
+      .package-tooltip-trigger:hover .package-tooltip-bubble,
+      .package-tooltip-trigger:focus-within .package-tooltip-bubble {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+      @media (max-width: 640px) {
+        .package-tooltip-bubble {
+          left: 0;
+          transform: translateY(0.25rem);
+        }
+        .package-tooltip-bubble::after {
+          left: 2rem;
+          transform: none;
+        }
+        .package-tooltip-trigger:hover .package-tooltip-bubble,
+        .package-tooltip-trigger:focus-within .package-tooltip-bubble {
+          transform: translateY(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .package-tooltip-bubble {
+          transition: none;
+        }
+      }
       [data-credential="neutral"] {
         --credential-text: #475569;
         --credential-border: rgba(100, 116, 139, 0.42);
@@ -407,20 +470,32 @@ const links = [
                 Package
               </div>
               <div class="flex flex-wrap gap-2" aria-labelledby="package-choice-label">
-                <button
-                  type="button"
-                  class="command-option"
-                  data-package="bigconfig-ai/once"
-                  aria-pressed="true"
-                  aria-controls="launcher-command"
-                >bigconfig-ai / once</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-package="bigconfig-ai/walter"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                >bigconfig-ai / walter</button>
+                <span class="package-tooltip-trigger">
+                  <button
+                    type="button"
+                    class="command-option"
+                    data-package="bigconfig-ai/once"
+                    aria-pressed="true"
+                    aria-controls="launcher-command"
+                    aria-describedby="package-once-tooltip"
+                  >bigconfig-ai / once</button>
+                  <span id="package-once-tooltip" role="tooltip" class="package-tooltip-bubble">
+                    once is a package that automatically sets up everything needed to run a web application on a cloud server. It provisions the server, configures the domain name, sets up email sending, and deploys the app — in the right order, all with one command.
+                  </span>
+                </span>
+                <span class="package-tooltip-trigger">
+                  <button
+                    type="button"
+                    class="command-option"
+                    data-package="bigconfig-ai/walter"
+                    aria-pressed="false"
+                    aria-controls="launcher-command"
+                    aria-describedby="package-walter-tooltip"
+                  >bigconfig-ai / walter</button>
+                  <span id="package-walter-tooltip" role="tooltip" class="package-tooltip-bubble">
+                    walter is a package that, from a single invocation, takes you from nothing to a fully provisioned, fully configured development machine in the cloud — the complete "set up my dev environment" workflow that handles both infrastructure (the VM itself) and configuration (everything installed and running on it), plus the ability to tear it all back down when you're done.
+                  </span>
+                </span>
                 <button
                   type="button"
                   class="command-option"
