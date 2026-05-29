@@ -266,16 +266,18 @@ const links = [
         </a>
         <nav class="hidden gap-8 text-sm md:flex">
           <a href="https://marketplace.bigconfig.ai" class="bc-nav-link">Marketplace ↗</a>
-          <div class="group relative">
+          <div class="bc-docs-dropdown group relative" data-docs-dropdown>
             <button
               type="button"
               class="flex items-center gap-1 bc-nav-link"
               aria-haspopup="true"
+              aria-expanded="false"
+              data-docs-dropdown-toggle
             >
               Docs
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3 transition group-hover:rotate-180 group-focus-within:rotate-180"
+                class="bc-docs-dropdown-icon h-3 w-3 transition group-hover:rotate-180"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -285,7 +287,8 @@ const links = [
               </svg>
             </button>
             <div
-              class="invisible pointer-events-none absolute left-1/2 top-full z-50 w-44 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100"
+              class="bc-docs-dropdown-menu invisible pointer-events-none absolute left-1/2 top-full z-50 w-44 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100"
+              data-docs-dropdown-menu
             >
               <div class="rounded-xl border border-slate-200 bg-white/95 p-2 shadow-xl shadow-slate-200/70 backdrop-blur">
                 <a href="/manual/" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]">Manual ↗</a>
@@ -756,6 +759,46 @@ const links = [
       const mobileDocsToggle = document.getElementById("mobile-docs-toggle");
       const mobileDocsMenu = document.getElementById("mobile-docs-menu");
       const mobileDocsIcon = document.getElementById("mobile-docs-icon");
+      document.querySelectorAll("[data-docs-dropdown]").forEach((dropdown) => {
+        if (!(dropdown instanceof HTMLElement)) return;
+        const toggle = dropdown.querySelector("[data-docs-dropdown-toggle]");
+        const menu = dropdown.querySelector("[data-docs-dropdown-menu]");
+        if (!(toggle instanceof HTMLElement) || !(menu instanceof HTMLElement)) return;
+
+        const setDocsDropdownOpen = (open) => {
+          dropdown.classList.toggle("is-open", open);
+          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        };
+
+        toggle.addEventListener("click", (event) => {
+          event.preventDefault();
+          setDocsDropdownOpen(toggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        dropdown.addEventListener("keydown", (event) => {
+          if (event.key !== "Escape") return;
+          setDocsDropdownOpen(false);
+          toggle.focus();
+        });
+
+        dropdown.addEventListener("focusout", (event) => {
+          const nextTarget = event.relatedTarget;
+          if (!(nextTarget instanceof Node) || !dropdown.contains(nextTarget)) {
+            setDocsDropdownOpen(false);
+          }
+        });
+
+        document.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target instanceof Node && !dropdown.contains(target)) {
+            setDocsDropdownOpen(false);
+          }
+        });
+
+        menu.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => setDocsDropdownOpen(false));
+        });
+      });
       let setMobileDocsOpen = () => {};
       if (mobileDocsToggle && mobileDocsMenu) {
         setMobileDocsOpen = (open) => {

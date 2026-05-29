@@ -61,6 +61,28 @@
     color: var(--bc-amber);
   }
 
+  .bc-docs-dropdown.is-open .bc-docs-dropdown-menu {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .bc-docs-dropdown.is-open .bc-docs-dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .bc-docs-dropdown:hover .bc-docs-dropdown-menu {
+      visibility: visible;
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .bc-docs-dropdown:hover .bc-docs-dropdown-icon {
+      transform: rotate(180deg);
+    }
+  }
+
   .bc-site-surface,
   .bc-site-card,
   .bc-code-card {
