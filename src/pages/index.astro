@@ -496,13 +496,19 @@ const links = [
                     walter is a package that, from a single invocation, takes you from nothing to a fully provisioned, fully configured development machine in the cloud — the complete "set up my dev environment" workflow that handles both infrastructure (the VM itself) and configuration (everything installed and running on it), plus the ability to tear it all back down when you're done.
                   </span>
                 </span>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-package="your/package"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                >your / package</button>
+                <span class="package-tooltip-trigger">
+                  <button
+                    type="button"
+                    class="command-option"
+                    data-package="your/package"
+                    aria-pressed="false"
+                    aria-controls="launcher-command"
+                    aria-describedby="package-your-tooltip"
+                  >your / package</button>
+                  <span id="package-your-tooltip" role="tooltip" class="package-tooltip-bubble">
+                    Turn your own deployment or setup workflow into a package your agent can understand, run, and iterate on. Start small with one repeatable task, then grow from there.
+                  </span>
+                </span>
               </div>
             </div>
 
