@@ -61,28 +61,6 @@
     color: var(--bc-amber);
   }
 
-  .bc-docs-dropdown.is-open .bc-docs-dropdown-menu {
-    visibility: visible;
-    pointer-events: auto;
-    opacity: 1;
-  }
-
-  .bc-docs-dropdown.is-open .bc-docs-dropdown-icon {
-    transform: rotate(180deg);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .bc-docs-dropdown:hover .bc-docs-dropdown-menu {
-      visibility: visible;
-      pointer-events: auto;
-      opacity: 1;
-    }
-
-    .bc-docs-dropdown:hover .bc-docs-dropdown-icon {
-      transform: rotate(180deg);
-    }
-  }
-
   .bc-site-surface,
   .bc-site-card,
   .bc-code-card {
@@ -146,5 +124,33 @@
   .bc-footer-link:hover,
   .bc-footer-link:focus-visible {
     color: var(--bc-accent);
+  }
+}
+
+/* In @layer utilities so these override Tailwind's base `invisible`/
+   `opacity-0`/`pointer-events-none` utilities. On touch devices (e.g. iPad)
+   there is no hover, so the menu relies entirely on the JS-toggled `is-open`
+   class — which only wins the cascade from the utilities layer. */
+@layer utilities {
+  .bc-docs-dropdown.is-open .bc-docs-dropdown-menu {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .bc-docs-dropdown.is-open .bc-docs-dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .bc-docs-dropdown:hover .bc-docs-dropdown-menu {
+      visibility: visible;
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .bc-docs-dropdown:hover .bc-docs-dropdown-icon {
+      transform: rotate(180deg);
+    }
   }
 }
