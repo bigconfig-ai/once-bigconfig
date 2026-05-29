@@ -12,6 +12,9 @@ tags:
   - package manager
   - agentic devops
   - babashka
+cover:
+  alt: BigConfig packages are more powerful than skills because they are executable, composable, testable, versioned software packages that run everywhere.
+  image: /blog/skills-vs-bigconfig-packages.png
 ---
 
 The most interesting thing about `npx skills` is not the `npx` part. It is the word **skills**.
@@ -96,10 +99,10 @@ This is the key sentence:
 An agent can still use a BigConfig package. In fact, this is the ideal shape: the agent can inspect, describe, validate, and recommend, while the package provides the stable operational interface.
 
 ```bash
-bb package validate
-bb package describe
-bb package create
-bb package delete
+npx bc-pkg validate
+npx bc-pkg describe
+npx bc-pkg create
+npx bc-pkg delete
 ```
 
 The package is not trapped inside the agent. The agent is only one possible caller.
@@ -190,7 +193,7 @@ In that model, the skill is the instruction layer. The BigConfig package is the 
 
 The skill can say:
 
-> When working with this deployment, run `bb package validate`, inspect the report, and ask the operator before running `create` or `delete`.
+> When working with this deployment, run `npx bc-pkg validate`, inspect the report, and ask the operator before running `create` or `delete`.
 
 The BigConfig package provides the actual commands, workflow, templates, dependencies, and lifecycle semantics.
 
