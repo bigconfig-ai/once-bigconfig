@@ -1,0 +1,217 @@
+---
+title: "Skills vs. BigConfig Packages"
+date: 2026-05-29
+excerpt: |-
+  A skill and a BigConfig package are both containers for procedural knowledge: how to do something. The difference is that skills are agent-native, while BigConfig packages are shell-native, library-backed software packages that agents, humans, CI, and scripts can all run.
+authors: amiorin
+tags:
+  - bigconfig
+  - skills
+  - agents
+  - procedural knowledge
+  - package manager
+  - agentic devops
+  - babashka
+---
+
+The most interesting thing about `npx skills` is not the `npx` part. It is the word **skills**.
+
+The software industry is slowly converging on a better abstraction for AI-assisted work: package the knowledge of how to do something, give it a name, and make it reusable. That is the right direction.
+
+But it also raises a useful question: what is the relationship between a **skill** and a **BigConfig package**?
+
+My answer is simple:
+
+> A skill is the equivalent of a BigConfig package. Both are containers for procedural knowledge.
+
+The difference is where that procedural knowledge lives, how it is executed, and whether it can evolve like software.
+
+## Procedural knowledge deserves a package
+
+A lot of operational knowledge is not declarative knowledge. It is not merely a list of facts. It is not just documentation. It is not even just configuration.
+
+It is procedural knowledge:
+
+- how to provision a machine
+- how to configure DNS
+- how to verify SMTP
+- how to render environment-specific files
+- how to run Terraform, OpenTofu, Ansible, or another tool in the right order
+- how to validate that the result is correct
+- how to safely delete what was created
+
+This is the knowledge teams usually keep in runbooks, shell scripts, wiki pages, tribal memory, and half-maintained CI pipelines.
+
+Skills and BigConfig packages both recognize that this knowledge should be packaged.
+
+A skill says:
+
+> Here is how to do this task.
+
+A BigConfig package says:
+
+> Here is how to do this task as executable software.
+
+That distinction matters.
+
+## The equivalence
+
+At the conceptual level, the mapping is straightforward.
+
+| Agent ecosystem | BigConfig ecosystem |
+|---|---|
+| Skill | Package |
+| Instructions | Workflow |
+| Context files | Templates and resources |
+| Agent invocation | Shell command |
+| Task knowledge | Procedural knowledge |
+
+This is why the comparison is useful. A BigConfig package is not just a pile of configuration files. It is a named, reusable unit of operational know-how.
+
+In that sense, BigConfig packages are **skills for infrastructure and application operations**.
+
+## The first difference: skills are agent-native, BigConfig packages are shell-native
+
+The biggest practical difference is the runtime.
+
+Skills work inside the agent. They make the agent better at a task. That is valuable, but it also means the skill is bound to the agent environment.
+
+BigConfig packages work in the shell.
+
+That means the same package can be used by:
+
+- a human operator in a terminal
+- an AI agent through shell access
+- CI/CD
+- a scheduled job
+- a Docker container
+- another script or package
+
+The procedure does not disappear when you change agents. It does not require a specific chat product. It is just software.
+
+This is the key sentence:
+
+> Skills make agents smarter. BigConfig makes procedures runnable.
+
+An agent can still use a BigConfig package. In fact, this is the ideal shape: the agent can inspect, describe, validate, and recommend, while the package provides the stable operational interface.
+
+```bash
+bb package validate
+bb package describe
+bb package create
+bb package delete
+```
+
+The package is not trapped inside the agent. The agent is only one possible caller.
+
+## The second difference: skills do not give you library reuse
+
+Skills are reusable procedures, but they are not software packages in the full sense.
+
+A BigConfig package can depend on libraries. It can factor repeated behavior into shared code. It can import workflow primitives, render helpers, validation functions, cloud-provider abstractions, and test utilities.
+
+That is a major difference once the knowledge base grows.
+
+Without libraries, procedural knowledge tends to duplicate:
+
+- every skill learns its own way to configure DNS
+- every skill repeats its own deployment checklist
+- every skill carries its own version of validation logic
+- every skill drifts as the platform changes
+
+With BigConfig, common behavior can be extracted once and reused everywhere.
+
+That gives BigConfig packages the normal advantages of software engineering:
+
+- dependencies
+- abstraction
+- composition
+- testing
+- versioning
+- shared fixes
+- package-level APIs
+
+So the sharper comparison is this:
+
+> A skill is a reusable procedure. A BigConfig package is a reusable procedure implemented as software.
+
+Or even shorter:
+
+> Skills make procedural knowledge portable. BigConfig makes procedural knowledge modular.
+
+## The third difference: BigConfig has an execution contract
+
+A skill can tell an agent what to do. A BigConfig package exposes a concrete interface.
+
+For infrastructure and operations, that interface usually revolves around lifecycle verbs:
+
+- `create`
+- `delete`
+- `validate`
+- `describe`
+
+Those verbs matter because they define who is allowed to do what.
+
+For example, in an agentic DevOps workflow, the agent can safely run `describe` and `validate` with read-only credentials. It can summarize the system and recommend the next step. But `create` and `delete` can remain under operator control.
+
+That separation is harder to enforce when the procedure only exists as agent instructions.
+
+A BigConfig package turns the runbook into an executable boundary.
+
+## The fourth difference: BigConfig packages can produce durable artifacts
+
+Operational procedures often need artifacts:
+
+- rendered Terraform files
+- rendered Ansible inventories
+- generated application configuration
+- lock files
+- state backend configuration
+- validation reports
+
+BigConfig is built around this idea. A package can render files, thread parameters through workflow steps, call external tools, and produce output that can be inspected outside the agent conversation.
+
+A skill can guide the agent through that process, but the artifact contract belongs naturally to the package.
+
+This is why BigConfig feels more like `npm`, Maven, or Helm than a prompt library. It packages not only advice, but an executable delivery mechanism.
+
+## Not either/or
+
+This is not an argument against skills.
+
+Skills are useful. They are a good way to teach an agent the conventions of a project, the meaning of a domain, or the preferred way to use a tool.
+
+But for operations, the most robust design is layered:
+
+1. Use a skill to teach the agent how to reason about the domain.
+2. Use a BigConfig package to execute the operational procedure.
+
+In that model, the skill is the instruction layer. The BigConfig package is the execution layer.
+
+The skill can say:
+
+> When working with this deployment, run `bb package validate`, inspect the report, and ask the operator before running `create` or `delete`.
+
+The BigConfig package provides the actual commands, workflow, templates, dependencies, and lifecycle semantics.
+
+That is a much safer split.
+
+## The summary
+
+A skill and a BigConfig package start from the same insight: procedural knowledge should be reusable.
+
+But they package that knowledge differently.
+
+| Question | Skill | BigConfig package |
+|---|---|---|
+| What is it? | Agent-native procedural knowledge | Shell-native procedural knowledge |
+| Who can run it? | An agent with skill support | Humans, agents, CI, scripts, containers |
+| Does it support library reuse? | Not as a first-class model | Yes, through normal package dependencies |
+| What is the interface? | Agent instructions | Executable commands and workflows |
+| What does it optimize for? | Making an agent better | Making a procedure runnable and reusable |
+
+So the comparison is not that BigConfig packages are unrelated to skills. It is the opposite.
+
+BigConfig packages are skills, but expressed as software packages.
+
+That is the important leap: procedural knowledge should not only be written down for an agent. It should be executable, composable, testable, versioned, and usable from the shell.
