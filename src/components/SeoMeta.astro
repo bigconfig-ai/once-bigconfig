@@ -1,0 +1,55 @@
+---
+// Shared Open Graph + Twitter Card + canonical meta tags.
+// Use in the <head> of any non-blog page. Blog pages are handled by BlogLayout.
+
+interface Props {
+  /** The <title> text (also used for og:title / twitter:title). */
+  title: string;
+  /** The <meta name="description"> text (also used for og:description / twitter:description). */
+  description: string;
+  /** Path relative to the site root, e.g. "/", "/marketplace", "/talk". */
+  path?: string;
+  /** Absolute path under public/, e.g. "/linkedin.png". */
+  image?: string;
+  /** Alt text for og:image. */
+  imageAlt?: string;
+  /** og:type — "website" for landing pages, "article" for posts. */
+  type?: "website" | "article";
+}
+
+const SITE_URL = "https://www.bigconfig.ai";
+const SITE_NAME = "BigConfig";
+const TWITTER_HANDLE = "@amiorin";
+const DEFAULT_IMAGE = "/linkedin.png";
+const DEFAULT_IMAGE_ALT =
+  "BigConfig — The Open Agent Packages Ecosystem";
+
+const {
+  title,
+  description,
+  path = "/",
+  image = DEFAULT_IMAGE,
+  imageAlt = DEFAULT_IMAGE_ALT,
+  type = "website",
+} = Astro.props;
+
+const canonical = new URL(path, SITE_URL).toString();
+const absoluteImage = new URL(image, SITE_URL).toString();
+---
+
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={TWITTER_HANDLE} />
+<meta name="twitter:creator" content={TWITTER_HANDLE} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />

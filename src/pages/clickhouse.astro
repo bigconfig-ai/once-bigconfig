@@ -1,6 +1,7 @@
 ---
 import "~/styles/global.css";
 import logo from "~/assets/logo-yellow.svg";
+import SeoMeta from "~/components/SeoMeta.astro";
 
 const features = [
   {
@@ -45,6 +46,11 @@ const features = [
     <meta
       name="description"
       content="Migrate off Snowflake, Redshift, and BigQuery. Deploy ClickHouse anywhere with plain English, operated by your agent."
+    />
+    <SeoMeta
+      title="ClickHouse by BigConfig — Own your data warehouse"
+      description="Migrate off Snowflake, Redshift, and BigQuery. Deploy ClickHouse anywhere with plain English, operated by your agent."
+      path="/clickhouse/"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon-yellow.svg" />
     <script

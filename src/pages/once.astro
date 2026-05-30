@@ -4,6 +4,7 @@ import logo from "~/assets/logo-dark.svg";
 import Tabs from "~/components/Tabs.astro";
 import TabItem from "~/components/TabItem.astro";
 import YouTube from "~/components/YouTube.astro";
+import SeoMeta from "~/components/SeoMeta.astro";
 
 const features = [
   {
@@ -88,6 +89,11 @@ $ bb once delete`;
     <meta
       name="description"
       content="Deploy any Basecamp ONCE app to your own infrastructure. BigConfig provisions the server, wires up DNS and SMTP, and hands operations to your agent."
+    />
+    <SeoMeta
+      title="BigConfig once — Self-host ONCE apps in a single command"
+      description="Deploy any Basecamp ONCE app to your own infrastructure. BigConfig provisions the server, wires up DNS and SMTP, and hands operations to your agent."
+      path="/once/"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script

@@ -3,6 +3,7 @@ import "~/styles/global.css";
 import logo from "~/assets/logo-dark.svg";
 import Tabs from "~/components/Tabs.astro";
 import TabItem from "~/components/TabItem.astro";
+import SeoMeta from "~/components/SeoMeta.astro";
 
 const features = [
   {
@@ -134,6 +135,11 @@ $ bb walter delete`;
     <meta
       name="description"
       content="Walter provisions consistent, high-productivity cloud dev boxes on any infrastructure — Hetzner, OCI, or bring your own. Like Google Cloud Workstations, with your team's toolchain, your team's data, your team's bill."
+    />
+    <SeoMeta
+      title="BigConfig walter — Standardized cloud dev environments for your team"
+      description="Walter provisions consistent, high-productivity cloud dev boxes on any infrastructure — Hetzner, OCI, or bring your own. Like Google Cloud Workstations, with your team's toolchain, your team's data, your team's bill."
+      path="/walter/"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script

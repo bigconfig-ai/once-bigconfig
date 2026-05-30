@@ -2,6 +2,7 @@
 import "~/styles/global.css";
 import logo from "~/assets/logo-dark.svg";
 import YouTube from "~/components/YouTube.astro";
+import SeoMeta from "~/components/SeoMeta.astro";
 
 const features = [
   {
@@ -106,6 +107,11 @@ const links = [
     <meta
       name="description"
       content="BigConfig is the Open Agent Packages Ecosystem. Packages are reusable units of procedural knowledge — like Skills, but executable — that your agent, your shell, and your CI can all run."
+    />
+    <SeoMeta
+      title="BigConfig — The Open Agent Packages Ecosystem"
+      description="BigConfig is the Open Agent Packages Ecosystem. Packages are reusable units of procedural knowledge — like Skills, but executable — that your agent, your shell, and your CI can all run."
+      path="/"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script

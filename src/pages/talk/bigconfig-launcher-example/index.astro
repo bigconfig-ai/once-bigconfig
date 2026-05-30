@@ -1,5 +1,6 @@
 ---
 import logo from "~/assets/logo-dark.svg";
+import SeoMeta from "~/components/SeoMeta.astro";
 ---
 
 <!DOCTYPE html>
@@ -13,6 +14,15 @@ import logo from "~/assets/logo-dark.svg";
   <meta name="apple-mobile-web-app-title" content="BigConfig Launcher" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>BigConfig Launcher Example — BigConfig</title>
+  <meta
+    name="description"
+    content="An interactive demo of the BigConfig launcher: pick a verb, a package, and a runtime to generate the exact command your agent or shell can run."
+  />
+  <SeoMeta
+    title="BigConfig Launcher Example — BigConfig"
+    description="An interactive demo of the BigConfig launcher: pick a verb, a package, and a runtime to generate the exact command your agent or shell can run."
+    path="/talk/bigconfig-launcher-example/"
+  />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/talk/bigconfig-launcher-example/manifest.webmanifest" />
   <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-4VKP1WY4QJ"></script>

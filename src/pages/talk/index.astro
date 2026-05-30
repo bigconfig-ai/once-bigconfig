@@ -1,6 +1,7 @@
 ---
 import "~/styles/global.css";
 import logo from "~/assets/logo-dark.svg";
+import SeoMeta from "~/components/SeoMeta.astro";
 
 const tagClass = (tag: string) =>
   tag === "Meetup Talk"
@@ -78,6 +79,11 @@ const talks = [
     <meta
       name="description"
       content="Slide decks, meetup presentations, and design notes about Agentic DevOps and BigConfig."
+    />
+    <SeoMeta
+      title="Talks — BigConfig"
+      description="Slide decks, meetup presentations, and design notes about Agentic DevOps and BigConfig."
+      path="/talk/"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script
