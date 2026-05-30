@@ -5,47 +5,93 @@ import YouTube from "~/components/YouTube.astro";
 
 const features = [
   {
-    title: "Deploy in plain English",
-    body: "Deploying non-trivial software is possible in English without writing a single line of code — hand your agent the generated prompt below.",
-    icon: "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z",
+    title: "Shell-native, not agent-trapped",
+    body: "Skills make agents smarter. BigConfig makes procedures runnable. The same package runs from your terminal, your agent, your CI job, your cron, or another script — not just inside one chat product.",
+    icon: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
   },
   {
-    title: "Master the Brownfield",
-    body: "You don't need a \"greenfield\" project to see immediate value. BigConfig meets you where you are, automating legacy provisioning without the \"rip and replace\" headache. Ask your agent to convert your existing DevOps project to a BigConfig package.",
-    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+    title: "Software-grade reuse",
+    body: "Packages are real software packages. They depend on libraries, share validation logic, abstract cloud providers, and version like code. Procedural knowledge stops drifting and starts compounding.",
+    icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
   },
   {
-    title: "No Kubernetes? No Problem",
-    body: "Escape the \"Kubernetes tax\". You shouldn't have to manage a complex K8s cluster just because a vendor distributed a tool via Helm. BigConfig empowers you to build packages tailored to your specific stack, giving you total sovereignty over your architecture.",
-    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+    title: "A lifecycle contract",
+    body: "Every package exposes the same verbs — validate, build, create, describe, delete — so credentials and authority can be scoped per action. Agents can safely describe and validate while humans stay in the loop for create and delete.",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
   },
   {
-    title: "Deploy Anything, Anywhere",
-    body: "Stop over-provisioning infrastructure just to meet rigid software requirements. BigConfig lets you package applications to fit your existing environment—not the other way around.",
+    title: "Durable, inspectable artifacts",
+    body: "Packages render real files: Terraform plans, Ansible inventories, app configuration, lock files, validation reports. The outputs outlive the conversation and can be reviewed, diffed, and committed.",
     icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+  },
+];
+
+const runtimes = [
+  {
+    title: "AI agent",
+    body: "The agent inspects, describes, validates, and recommends — and asks before destructive verbs.",
+    icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z",
+  },
+  {
+    title: "Human in a terminal",
+    body: "Operators run the same commands during incidents and routine work — no chat client required.",
+    icon: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "CI / CD",
+    body: "Pipelines validate on every PR and run create or delete on protected branches with scoped credentials.",
+    icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
+  },
+  {
+    title: "Cron, scripts, containers",
+    body: "Same binary, scheduled or wrapped. The package is just a command — anything that calls a command can call it.",
+    icon: "M5 12V7a2 2 0 012-2h10a2 2 0 012 2v5M5 12h14M5 12v5a2 2 0 002 2h10a2 2 0 002-2v-5M9 8h.01M9 15h.01",
+  },
+];
+
+const comparisonRows = [
+  {
+    q: "What is it?",
+    skill: "Agent-native procedural knowledge",
+    pkg: "Shell-native procedural knowledge",
+  },
+  {
+    q: "Who can run it?",
+    skill: "An agent with skill support",
+    pkg: "Humans, agents, CI, scripts, containers",
+  },
+  {
+    q: "Does it support library reuse?",
+    skill: "Not as a first-class model",
+    pkg: "Yes, through normal package dependencies",
+  },
+  {
+    q: "What is the interface?",
+    skill: "Agent instructions",
+    pkg: "Executable commands and workflows",
+  },
+  {
+    q: "What does it optimize for?",
+    skill: "Making an agent better",
+    pkg: "Making a procedure runnable and reusable",
   },
 ];
 
 const links = [
   {
     title: "Marketplace",
-    body: "Browse packages and deployment templates.",
+    body: "Browse and install packages.",
     href: "https://marketplace.bigconfig.ai",
   },
   {
-    title: "Documentation",
-    body: "Getting started guides, tutorials, and reference.",
+    title: "Manual",
+    body: "Author your own packages and libraries.",
     href: "/manual",
   },
   {
     title: "Blog",
-    body: "Articles about Agentic DevOps and BigConfig.",
+    body: "Essays on agentic DevOps and the package model.",
     href: "/blog",
-  },
-  {
-    title: "Support",
-    body: "Consulting and training from the author.",
-    href: "https://albertomiorin.com",
   },
 ];
 
@@ -56,10 +102,10 @@ const links = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BigConfig — The first agentic package manager</title>
+    <title>BigConfig — The Open Agent Packages Ecosystem</title>
     <meta
       name="description"
-      content="BigConfig is the first package manager designed to work with agents out of the box."
+      content="BigConfig is the Open Agent Packages Ecosystem. Packages are reusable units of procedural knowledge — like Skills, but executable — that your agent, your shell, and your CI can all run."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script
@@ -384,169 +430,252 @@ const links = [
       </nav>
     </div>
 
+    <!-- 1. Hero -->
     <section class="mx-auto max-w-6xl px-6 pt-16 pb-24 text-center md:pt-20 md:pb-28">
       <div
         class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
-        Agentic DevOps · TypeScript / Python / Clojure
+        Open Agent Packages Ecosystem · TypeScript / Python / Clojure
       </div>
       <h1
         class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl"
       >
-        The first<br />
+        The Open<br />
         <span
           class="bg-gradient-to-r from-[#62e1e9] via-[#3a8cec] to-[#0652e9] bg-clip-text text-transparent"
-          >agentic package manager</span
+          >Agent Packages Ecosystem</span
         >
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 md:text-xl">
-        You don't need to learn BigConfig, your agent can operate it for you.
+        Like Skills, but executable. Packages turn procedural know-how — how to
+        deploy, provision, validate, and tear down — into software your agent,
+        your shell, and your CI can all run.
       </p>
-      <div
-        class="mx-auto mt-10 flex max-w-md flex-col items-stretch justify-center gap-4 px-4 sm:max-w-none sm:flex-row sm:items-center sm:px-0"
-      >
-        <a
-          href="https://marketplace.bigconfig.ai/"
-          class="rounded-full bg-[#0652e9] px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-[#1e6cf3]"
-          style="color: #fff;"
-        >
-          Marketplace →
-        </a>
-        <a
-          href="https://github.com/bigconfig-ai/big-config"
-          class="rounded-full border border-slate-300 px-8 py-4 text-center text-base font-semibold text-slate-700 transition hover:border-[#0652e9]/50 hover:text-[#0652e9]"
-        >
-          View on GitHub
-        </a>
+    </section>
+
+    <!-- 2. What is a package? -->
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <div class="grid gap-10 md:grid-cols-2 md:items-center">
+        <div class="min-w-0">
+          <div class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase">
+            What is a package?
+          </div>
+          <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+            Procedural knowledge, expressed as software.
+          </h2>
+          <p class="mt-5 text-lg leading-relaxed text-slate-600">
+            A package is a named, reusable unit of operational know-how — how
+            to provision a server, configure DNS, render a Terraform plan,
+            validate a deployment, and safely tear it down again.
+          </p>
+          <p class="mt-4 text-lg leading-relaxed text-slate-600">
+            Skills give that knowledge to an agent. Packages give it to
+            everyone: agents, humans in a terminal, CI pipelines, and scripts.
+            Same procedure, one executable contract.
+          </p>
+        </div>
+        <div class="min-w-0">
+          <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl shadow-slate-900/20">
+            <div class="flex items-center gap-2 border-b border-slate-800 px-4 py-3">
+              <span class="h-3 w-3 rounded-full bg-rose-400"></span>
+              <span class="h-3 w-3 rounded-full bg-amber-400"></span>
+              <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+              <span class="ml-3 text-xs font-medium text-slate-400">bigconfig-ai/once</span>
+            </div>
+            <pre class="overflow-x-auto px-5 py-5 text-sm leading-relaxed text-slate-100"><code class="font-mono"><span class="text-slate-500">$</span> npx bc-pkg bigconfig-ai/once@typescript package <span class="text-emerald-300">validate</span>
+<span class="text-slate-500">$</span> npx bc-pkg bigconfig-ai/once@typescript package <span class="text-rose-300">create</span>
+<span class="text-slate-500">$</span> npx bc-pkg bigconfig-ai/once@typescript package <span class="text-rose-300">delete</span></code></pre>
+          </div>
+          <p class="mt-4 text-center text-sm text-slate-500">
+            One package. One contract. Every runtime.
+          </p>
+        </div>
       </div>
     </section>
 
+    <!-- 3. Skills vs Packages -->
+    <section class="mx-auto max-w-5xl px-6 py-24">
+      <div class="mb-12 text-center">
+        <div class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase">
+          Skill or package?
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+          The same insight, packaged differently.
+        </h2>
+        <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
+          Both start from the idea that procedural knowledge should be
+          reusable. They diverge on where that knowledge lives and how it runs.
+        </p>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl bc-site-card">
+        <!-- Desktop / tablet table -->
+        <table class="hidden w-full md:table">
+          <thead>
+            <tr class="border-b border-slate-200 bg-slate-50/60 text-left text-xs font-semibold tracking-widest text-slate-500 uppercase">
+              <th class="px-6 py-4">Question</th>
+              <th class="px-6 py-4">Skill</th>
+              <th class="px-6 py-4">BigConfig package</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              comparisonRows.map((row, idx) => (
+                <tr class={idx < comparisonRows.length - 1 ? "border-b border-slate-200" : ""}>
+                  <td class="px-6 py-4 align-top text-sm font-semibold text-slate-950">{row.q}</td>
+                  <td class="px-6 py-4 align-top text-sm text-slate-600">{row.skill}</td>
+                  <td class="px-6 py-4 align-top text-sm text-slate-700">{row.pkg}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        <!-- Mobile stacked cards -->
+        <div class="divide-y divide-slate-200 md:hidden">
+          {
+            comparisonRows.map((row) => (
+              <div class="px-6 py-5">
+                <div class="text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                  {row.q}
+                </div>
+                <div class="mt-3 space-y-2 text-sm">
+                  <div>
+                    <span class="font-semibold text-slate-950">Skill — </span>
+                    <span class="text-slate-600">{row.skill}</span>
+                  </div>
+                  <div>
+                    <span class="font-semibold text-slate-950">Package — </span>
+                    <span class="text-slate-700">{row.pkg}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <p class="mt-6 text-center text-sm text-slate-500">
+        Read the long form: <a href="/blog/skills-vs-bigconfig-packages/" class="font-semibold text-[#0891b2] hover:text-[#0652e9]">Skills vs. BigConfig Packages →</a>
+      </p>
+    </section>
+
+    <!-- 4. Four differentiators -->
+    <section id="features" class="mx-auto max-w-6xl px-6 py-20">
+      <div class="mb-16 text-center">
+        <div
+          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
+        >
+          Why packages
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+          What you get when procedures<br />become software.
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        {
+          features.map((f) => (
+            <div class="group rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white">
+              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d={f.icon}
+                  />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                {f.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 5. Who runs a package -->
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <div class="mb-12 text-center">
+        <div class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase">
+          One package, many runtimes
+        </div>
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+          Built to be called by anyone.
+        </h2>
+        <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
+          A package is not trapped inside an agent. It is a normal command-line
+          program. Anyone — or anything — that can run a shell command can run
+          it.
+        </p>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          runtimes.map((r) => (
+            <div class="group rounded-2xl bc-site-card p-6 transition hover:border-[#62e1e9]/40 hover:bg-white">
+              <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d={r.icon}
+                  />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-slate-950">{r.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{r.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 6. The lifecycle contract (restructured launcher) -->
     <section id="launcher-example" class="mx-auto max-w-6xl px-6 py-24">
       <div class="grid min-w-0 gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(42rem,1.25fr)] xl:items-center">
         <div class="min-w-0">
           <div
             class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
           >
-            Packages, verbs, shells, prompts
+            The lifecycle contract
           </div>
           <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-            Generate a package command your agent can run.
+            Pick a verb. See who can safely run it.
           </h2>
           <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-            Choose the launcher, package, target language, verb, and output
-            environment. BigConfig turns those choices into either a shell
-            command or an agent-ready prompt you can paste into your coding
-            assistant.
+            Every BigConfig package exposes the same five verbs. The
+            credentials each one needs are part of the contract — so your
+            agent can safely validate and describe with read-only access while
+            you keep create and delete behind human approval.
           </p>
           <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600">
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">uvx / npx</span>
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">once / walter / your package</span>
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">validate / build</span>
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">Shell / Prompt</span>
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">validate · build · create · describe · delete</span>
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">read-only · read-write · no creds</span>
+            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">agent · shell · CI</span>
           </div>
         </div>
 
         <div class="min-w-0 rounded-2xl bc-site-card p-4 shadow-2xl shadow-slate-200/70 sm:p-6 md:p-8">
           <div class="space-y-6">
-            <div>
-              <div id="launcher-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                Launcher
-              </div>
-              <div class="flex flex-wrap gap-2" aria-labelledby="launcher-choice-label">
-                <button
-                  type="button"
-                  class="command-option"
-                  data-launcher="uvx"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                >uvx</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-launcher="npx"
-                  aria-pressed="true"
-                  aria-controls="launcher-command"
-                >npx</button>
-              </div>
-            </div>
-
-            <div>
-              <div id="package-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                Package
-              </div>
-              <div class="flex flex-wrap gap-2" aria-labelledby="package-choice-label">
-                <span class="package-tooltip-trigger">
-                  <button
-                    type="button"
-                    class="command-option"
-                    data-package="bigconfig-ai/once"
-                    aria-pressed="true"
-                    aria-controls="launcher-command"
-                    aria-describedby="package-once-tooltip"
-                  >bigconfig-ai / once</button>
-                  <span id="package-once-tooltip" role="tooltip" class="package-tooltip-bubble">
-                    once is a package that automatically sets up everything needed to run a web application on a cloud server. It provisions the server, configures the domain name, sets up email sending, and deploys the app — in the right order, all with one command.
-                  </span>
-                </span>
-                <span class="package-tooltip-trigger">
-                  <button
-                    type="button"
-                    class="command-option"
-                    data-package="bigconfig-ai/walter"
-                    aria-pressed="false"
-                    aria-controls="launcher-command"
-                    aria-describedby="package-walter-tooltip"
-                  >bigconfig-ai / walter</button>
-                  <span id="package-walter-tooltip" role="tooltip" class="package-tooltip-bubble">
-                    walter is a package that, from a single invocation, takes you from nothing to a fully provisioned, fully configured development machine in the cloud — the complete "set up my dev environment" workflow that handles both infrastructure (the VM itself) and configuration (everything installed and running on it), plus the ability to tear it all back down when you're done.
-                  </span>
-                </span>
-                <span class="package-tooltip-trigger">
-                  <button
-                    type="button"
-                    class="command-option"
-                    data-package="your/package"
-                    aria-pressed="false"
-                    aria-controls="launcher-command"
-                    aria-describedby="package-your-tooltip"
-                  >your / package</button>
-                  <span id="package-your-tooltip" role="tooltip" class="package-tooltip-bubble">
-                    Turn your own deployment or setup workflow into a package your agent can understand, run, and iterate on. Start small with one repeatable task, then grow from there.
-                  </span>
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <div id="language-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                Target language
-              </div>
-              <div class="flex flex-wrap gap-2" aria-labelledby="language-choice-label">
-                <button
-                  type="button"
-                  class="command-option"
-                  data-language="typescript"
-                  aria-pressed="true"
-                  aria-controls="launcher-command"
-                >TypeScript</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-language="python"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                >Python</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-language="clojure"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                >Clojure</button>
-              </div>
-            </div>
-
+            <!-- Verb (promoted to top — the contract) -->
             <div>
               <div id="verb-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Verb
@@ -600,6 +729,111 @@ const links = [
               </div>
             </div>
 
+            <!-- Runtime: launcher + package + language (secondary) -->
+            <div>
+              <div class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                Runtime
+              </div>
+              <div class="grid gap-4 sm:grid-cols-3">
+                <div>
+                  <div id="launcher-choice-label" class="mb-2 text-[0.65rem] font-semibold tracking-widest text-slate-400 uppercase">
+                    Launcher
+                  </div>
+                  <div class="flex flex-wrap gap-2" aria-labelledby="launcher-choice-label">
+                    <button
+                      type="button"
+                      class="command-option"
+                      data-launcher="uvx"
+                      aria-pressed="false"
+                      aria-controls="launcher-command"
+                    >uvx</button>
+                    <button
+                      type="button"
+                      class="command-option"
+                      data-launcher="npx"
+                      aria-pressed="true"
+                      aria-controls="launcher-command"
+                    >npx</button>
+                  </div>
+                </div>
+                <div>
+                  <div id="package-choice-label" class="mb-2 text-[0.65rem] font-semibold tracking-widest text-slate-400 uppercase">
+                    Package
+                  </div>
+                  <div class="flex flex-wrap gap-2" aria-labelledby="package-choice-label">
+                    <span class="package-tooltip-trigger">
+                      <button
+                        type="button"
+                        class="command-option"
+                        data-package="bigconfig-ai/once"
+                        aria-pressed="true"
+                        aria-controls="launcher-command"
+                        aria-describedby="package-once-tooltip"
+                      >bigconfig-ai / once</button>
+                      <span id="package-once-tooltip" role="tooltip" class="package-tooltip-bubble">
+                        once is a package that automatically sets up everything needed to run a web application on a cloud server. It provisions the server, configures the domain name, sets up email sending, and deploys the app — in the right order, all with one command.
+                      </span>
+                    </span>
+                    <span class="package-tooltip-trigger">
+                      <button
+                        type="button"
+                        class="command-option"
+                        data-package="bigconfig-ai/walter"
+                        aria-pressed="false"
+                        aria-controls="launcher-command"
+                        aria-describedby="package-walter-tooltip"
+                      >bigconfig-ai / walter</button>
+                      <span id="package-walter-tooltip" role="tooltip" class="package-tooltip-bubble">
+                        walter is a package that, from a single invocation, takes you from nothing to a fully provisioned, fully configured development machine in the cloud — the complete "set up my dev environment" workflow that handles both infrastructure (the VM itself) and configuration (everything installed and running on it), plus the ability to tear it all back down when you're done.
+                      </span>
+                    </span>
+                    <span class="package-tooltip-trigger">
+                      <button
+                        type="button"
+                        class="command-option"
+                        data-package="your/package"
+                        aria-pressed="false"
+                        aria-controls="launcher-command"
+                        aria-describedby="package-your-tooltip"
+                      >your / package</button>
+                      <span id="package-your-tooltip" role="tooltip" class="package-tooltip-bubble">
+                        Turn your own deployment or setup workflow into a package your agent can understand, run, and iterate on. Start small with one repeatable task, then grow from there.
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <div id="language-choice-label" class="mb-2 text-[0.65rem] font-semibold tracking-widest text-slate-400 uppercase">
+                    Target language
+                  </div>
+                  <div class="flex flex-wrap gap-2" aria-labelledby="language-choice-label">
+                    <button
+                      type="button"
+                      class="command-option"
+                      data-language="typescript"
+                      aria-pressed="true"
+                      aria-controls="launcher-command"
+                    >TypeScript</button>
+                    <button
+                      type="button"
+                      class="command-option"
+                      data-language="python"
+                      aria-pressed="false"
+                      aria-controls="launcher-command"
+                    >Python</button>
+                    <button
+                      type="button"
+                      class="command-option"
+                      data-language="clojure"
+                      aria-pressed="false"
+                      aria-controls="launcher-command"
+                    >Clojure</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Environment -->
             <div>
               <div id="environment-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Environment
@@ -650,48 +884,7 @@ const links = [
       </div>
     </section>
 
-    <section id="features" class="mx-auto max-w-6xl px-6 py-20">
-      <div class="mb-16 text-center">
-        <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
-        >
-          Why BigConfig
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          Built for your agent<br />that will operate it.
-        </h2>
-      </div>
-
-      <div class="grid gap-6 md:grid-cols-2">
-        {
-          features.map((f) => (
-            <div class="group rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white">
-              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d={f.icon}
-                  />
-                </svg>
-              </div>
-              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-slate-600">
-                {f.body}
-              </p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
+    <!-- 7. Demo -->
     <section id="demo" class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-12 text-center">
         <div
@@ -700,7 +893,7 @@ const links = [
           Demo
         </div>
         <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          See it in action.
+          Watch a package run end-to-end.
         </h2>
       </div>
 
@@ -711,6 +904,7 @@ const links = [
       </div>
     </section>
 
+    <!-- 8. Dive deeper -->
     <section class="mx-auto max-w-6xl px-6 py-24">
       <div class="mb-16 text-center">
         <div
@@ -723,7 +917,7 @@ const links = [
         </h2>
       </div>
 
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div class="grid gap-6 md:grid-cols-3">
         {
           links.map((l) => (
             <a
