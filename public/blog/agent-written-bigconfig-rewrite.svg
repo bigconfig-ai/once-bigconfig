@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1256" viewBox="0 0 2400 1256" role="img" aria-labelledby="title desc">
+  <title id="title">I deleted the hand-written version of BigConfig</title>
+  <desc id="desc">A cover image for a blog article about rewriting the BigConfig stack with an agent across TypeScript, Python, and Clojure, then deploying bigconfig.ai with no incident.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f7fbff"/>
+      <stop offset="100%" stop-color="#eaf7ff"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#62e1e9"/>
+      <stop offset="45%" stop-color="#3a8cec"/>
+      <stop offset="100%" stop-color="#0652e9"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f2347"/>
+      <stop offset="100%" stop-color="#06152b"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6ee7b7"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="2" fill="#d6e9f8" opacity="0.55"/>
+    </pattern>
+    <filter id="cardShadow" x="-14%" y="-14%" width="128%" height="128%">
+      <feDropShadow dx="0" dy="24" stdDeviation="30" flood-color="#063a78" flood-opacity="0.16"/>
+    </filter>
+    <filter id="softGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="26" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.023 0 0 0 0 0.322 0 0 0 0 0.914 0 0 0 0.28 0"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0652e9"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .mono { font-family: "SFMono-Regular", Consolas, Menlo, monospace; }
+      .navy { fill: #06152b; }
+      .muted { fill: #526177; }
+      .blue { fill: #0652e9; }
+      .cyan { fill: #62e1e9; }
+      .white { fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="2400" height="1256" fill="url(#bg)"/>
+  <rect width="2400" height="1256" fill="url(#dots)" opacity="0.55"/>
+  <circle cx="2050" cy="190" r="290" fill="#62e1e9" opacity="0.18" filter="url(#softGlow)"/>
+  <circle cx="260" cy="1090" r="260" fill="#0652e9" opacity="0.13" filter="url(#softGlow)"/>
+
+  <!-- Headline -->
+  <g class="sans" transform="translate(150 150)">
+    <rect x="0" y="0" width="408" height="54" rx="27" fill="#ffffff" stroke="#cfe4f5" stroke-width="2"/>
+    <circle cx="31" cy="27" r="7" fill="#62e1e9"/>
+    <text x="52" y="35" class="blue" font-size="22" font-weight="950" letter-spacing="2.2">AGENT-WRITTEN REWRITE</text>
+
+    <text x="0" y="145" class="navy" font-size="88" font-weight="950" letter-spacing="-3.4">
+      <tspan x="0" dy="0">I deleted the hand-written</tspan>
+      <tspan x="0" dy="104">version of BigConfig</tspan>
+    </text>
+    <text x="0" y="355" font-size="54" font-weight="950" letter-spacing="-1.4" fill="url(#accent)">
+      and deployed the agent-written stack.
+    </text>
+    <text x="0" y="428" class="muted" font-size="31" font-weight="700">
+      TypeScript · Python · Clojure · no production incident
+    </text>
+  </g>
+
+  <!-- Flow cards -->
+  <g transform="translate(150 620)">
+    <!-- Old stack card -->
+    <g filter="url(#cardShadow)">
+      <rect x="0" y="0" width="560" height="392" rx="38" fill="#ffffff" stroke="#d8e7f5" stroke-width="2"/>
+      <g class="sans" transform="translate(42 46)">
+        <rect x="0" y="0" width="178" height="48" rx="24" fill="#fff1f2" stroke="#fecdd3"/>
+        <text x="25" y="32" fill="#be123c" font-size="22" font-weight="950" letter-spacing="1.6">DELETED</text>
+        <text x="0" y="112" class="navy" font-size="44" font-weight="950" letter-spacing="-1.1">Hand-written</text>
+        <text x="0" y="162" class="muted" font-size="30" font-weight="750">Clojure origin</text>
+      </g>
+      <g transform="translate(42 235)">
+        <rect x="0" y="0" width="474" height="100" rx="22" fill="#06152b"/>
+        <text x="28" y="39" class="mono" fill="#b9d3f4" font-size="24" font-weight="800">(def workflow ...)</text>
+        <text x="28" y="75" class="mono" fill="#64748b" font-size="24" font-weight="800">;; old implementation</text>
+      </g>
+      <path d="M76 86 L474 320" stroke="#ef4444" stroke-width="12" stroke-linecap="round" opacity="0.82"/>
+      <path d="M474 86 L76 320" stroke="#ef4444" stroke-width="12" stroke-linecap="round" opacity="0.82"/>
+    </g>
+
+    <!-- Arrow old to agent -->
+    <path d="M585 196 C655 196 680 196 738 196" fill="none" stroke="#0652e9" stroke-width="9" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+    <!-- Agent card -->
+    <g transform="translate(745 0)" filter="url(#cardShadow)">
+      <rect x="0" y="0" width="610" height="392" rx="38" fill="#ffffff" stroke="#c8def4" stroke-width="2"/>
+      <path d="M0 38 a38 38 0 0 1 38 -38 H572 a38 38 0 0 1 38 38 V130 H0 Z" fill="url(#accent)"/>
+      <g class="sans" transform="translate(42 44)">
+        <text x="0" y="0" fill="#dffbff" font-size="22" font-weight="950" letter-spacing="2">AI AGENT</text>
+        <text x="0" y="58" fill="#ffffff" font-size="43" font-weight="950" letter-spacing="-1.2">Ported the contract</text>
+      </g>
+      <g class="sans" transform="translate(42 166)">
+        <text x="0" y="0" class="muted" font-size="24" font-weight="800">Generated implementations:</text>
+        <g transform="translate(0 42)">
+          <rect x="0" y="0" width="197" height="58" rx="29" fill="#eff6ff" stroke="#bfdbfe"/>
+          <text x="22" y="38" fill="#2f74c0" font-size="24" font-weight="950">TS</text>
+          <text x="65" y="38" class="navy" font-size="20" font-weight="850">TypeScript</text>
+        </g>
+        <g transform="translate(211 42)">
+          <rect x="0" y="0" width="157" height="58" rx="29" fill="#eef8ff" stroke="#c7e5f8"/>
+          <text x="22" y="38" fill="#3572a5" font-size="24" font-weight="950">PY</text>
+          <text x="66" y="38" class="navy" font-size="20" font-weight="850">Python</text>
+        </g>
+        <g transform="translate(382 42)">
+          <rect x="0" y="0" width="172" height="58" rx="29" fill="#eef4ff" stroke="#c8d7fb"/>
+          <text x="22" y="38" fill="#5881d8" font-size="24" font-weight="950">CLJ</text>
+          <text x="79" y="38" class="navy" font-size="20" font-weight="850">Clojure</text>
+        </g>
+      </g>
+      <g class="sans" transform="translate(42 303)">
+        <text x="0" y="0" class="blue" font-size="22" font-weight="950" letter-spacing="-0.2">same lifecycle · same artifacts · same behavior</text>
+      </g>
+    </g>
+
+    <!-- Arrow agent to prod -->
+    <path d="M1380 196 C1450 196 1475 196 1533 196" fill="none" stroke="#0652e9" stroke-width="9" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+    <!-- Production card -->
+    <g transform="translate(1540 0)" filter="url(#cardShadow)">
+      <rect x="0" y="0" width="560" height="392" rx="38" fill="#ffffff" stroke="#ccebdc" stroke-width="2"/>
+      <path d="M0 38 a38 38 0 0 1 38 -38 H522 a38 38 0 0 1 38 38 V132 H0 Z" fill="url(#green)"/>
+      <g class="sans" transform="translate(42 46)">
+        <text x="0" y="0" fill="#dcfce7" font-size="22" font-weight="950" letter-spacing="2">PRODUCTION</text>
+        <text x="0" y="58" fill="#ffffff" font-size="46" font-weight="950" letter-spacing="-1.2">bigconfig.ai</text>
+      </g>
+      <g transform="translate(42 168)">
+        <rect x="0" y="0" width="474" height="116" rx="24" fill="#06152b"/>
+        <circle cx="34" cy="35" r="8" fill="#ff6b6b"/>
+        <circle cx="62" cy="35" r="8" fill="#ffd166"/>
+        <circle cx="90" cy="35" r="8" fill="#62e1e9"/>
+        <text x="34" y="78" class="mono" fill="#b9d3f4" font-size="24" font-weight="800">$ once package create</text>
+      </g>
+      <g class="sans" transform="translate(42 322)">
+        <circle cx="18" cy="-8" r="18" fill="#dcfce7"/>
+        <path d="M8 -9 L16 -1 L30 -20" fill="none" stroke="#16a34a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="48" y="0" fill="#166534" font-size="30" font-weight="950">No incident</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom contract bar -->
+  <g transform="translate(150 1090)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="2100" height="112" rx="32" fill="#ffffff" stroke="#d8e7f5" stroke-width="2"/>
+    <g class="sans" transform="translate(42 68)">
+      <text x="0" y="0" class="navy" font-size="30" font-weight="950">Lifecycle contract:</text>
+      <g transform="translate(310 -45)">
+        <rect x="0" y="0" width="175" height="58" rx="29" fill="#ecfeff" stroke="#a5f3fc"/>
+        <text x="34" y="38" class="blue" font-size="24" font-weight="950">validate</text>
+        <rect x="195" y="0" width="132" height="58" rx="29" fill="#f8fafc" stroke="#dbe5ee"/>
+        <text x="230" y="38" class="muted" font-size="24" font-weight="950">build</text>
+        <rect x="347" y="0" width="142" height="58" rx="29" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="384" y="38" fill="#dc2626" font-size="24" font-weight="950">create</text>
+        <rect x="509" y="0" width="166" height="58" rx="29" fill="#ecfeff" stroke="#a5f3fc"/>
+        <text x="543" y="38" class="blue" font-size="24" font-weight="950">describe</text>
+        <rect x="695" y="0" width="134" height="58" rx="29" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="731" y="38" fill="#dc2626" font-size="24" font-weight="950">delete</text>
+      </g>
+      <text x="1260" y="0" class="muted" font-size="28" font-weight="850">Like Skills, but executable.</text>
+    </g>
+  </g>
+</svg>
