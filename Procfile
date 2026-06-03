@@ -1,2 +1,2 @@
-web: pnpm dev
+web: pnpm install && pnpm dev
 caddy: caddy run

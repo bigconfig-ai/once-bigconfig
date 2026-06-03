@@ -36,6 +36,10 @@ export default defineConfig({
     mdx(),
   ],
 
+  server: {
+    allowedHosts: true,
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
