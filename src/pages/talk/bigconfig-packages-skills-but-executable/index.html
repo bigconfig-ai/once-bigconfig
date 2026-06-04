@@ -169,6 +169,11 @@
         font-size: 0.62em;
         line-height: 1.38;
       }
+      .tagline {
+        color: #64748b !important;
+        font-size: 0.7em;
+        line-height: 1.35;
+      }
       .tiny {
         color: var(--bc-muted) !important;
         font-size: 0.48em;
@@ -358,15 +363,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 3.2em;
-        height: 3.2em;
-        border-radius: 0.8em;
-        background: linear-gradient(135deg, #62e1e9, #3a8cec, #0652e9);
-        color: white;
-        font-size: 1em;
-        font-weight: 900;
-        letter-spacing: -0.05em;
-        box-shadow: 0 18px 40px rgba(6, 82, 233, 0.18);
+        width: 4.2em;
+        height: 3em;
+      }
+      .logo-mark img {
+        display: block;
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 18px 28px rgba(6, 82, 233, 0.16));
       }
       .diagram-box {
         border: 1px solid var(--bc-line);
@@ -405,7 +409,7 @@
         <section>
           <div class="split-title">
             <div class="center">
-              <div class="logo-mark">BC</div>
+              <div class="logo-mark"><img src="/favicon.svg" alt="BigConfig" /></div>
             </div>
             <div>
               <span class="kicker">Full technical talk · Agentic DevOps</span>
@@ -413,9 +417,6 @@
               <p class="subtitle">
                 Procedural knowledge should be executable, composable, testable,
                 and agent-safe.
-              </p>
-              <p class="small" style="margin-top: 1.8em;">
-                BigConfig · June 2026
               </p>
             </div>
           </div>
@@ -427,6 +428,29 @@
         </section>
 
         <!-- 02 -->
+        <section>
+          <span class="part">About us</span>
+          <h2>👋 Hi, We are Alberto and Valery</h2>
+          <ul>
+            <li>
+              Building <span class="accent">BigConfig</span> — The Open Agent Packages Ecosystem
+            </li>
+            <li>10+ years in DevOps, data platforms, and Clojure</li>
+            <li>
+              Obsessed with making infrastructure <em>composable</em> and
+              <em>agentic</em>
+            </li>
+          </ul>
+          <div class="big-quote" style="margin-top: 0.7em;">
+            Alberto Miorin<br />
+            Valery Lavrentiev<br />
+            Agentic DevOps · June 2026
+          </div>
+        </section>
+
+        <!-- 03 -->
+
+        <!-- 04 -->
         <section>
           <span class="part">Thesis</span>
           <h2>Skills make agents smarter.<br />Packages make operations runnable.</h2>
