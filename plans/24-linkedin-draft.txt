@@ -1,4 +1,4 @@
-DevOps innovation feels stuck.
+💔 DevOps innovation feels stuck.
 
 Every week there is another wrapper around Terraform.
 
@@ -18,21 +18,21 @@ Writing glue code, adapters, tests, reports, and package surfaces is now cheap e
 
 And once the package is a program, we are not stuck with:
 
-- plan
-- apply
-- destroy
+🔄 plan
+▶️ apply
+🗑️ destroy
 
 We can expose the verbs the domain actually needs:
 
-- validate
-- describe
-- cost-analysis
-- backup
-- restore
-- rollback
-- upgrade
-- rotate-keys
-- audit
+✅ validate
+📋 describe
+💰 cost-analysis
+💾 backup
+♻️ restore
+⏪ rollback
+⬆️ upgrade
+🔑 rotate-keys
+🔍 audit
 
 Kubernetes operators already prove that operational knowledge wants to become software.
 
@@ -58,9 +58,9 @@ They need an executable package with a stable command surface.
 Tools inside.
 Verbs outside.
 
-That is the move from Terraform apply to infrastructure programs.
+🚀 That is the move from Terraform apply to infrastructure programs.
 
-Links in the first comment.
+🔗 Links in the first comment.
 
 ---
 
