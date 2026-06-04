@@ -86,8 +86,13 @@ const links = [
   },
   {
     title: "Manual",
-    body: "Author your own packages and libraries.",
+    body: "Understand the launcher, package, SDK, and template stack.",
     href: "/manual",
+  },
+  {
+    title: "Package Spec",
+    body: "Implement a package that works with the launcher.",
+    href: "/package-spec",
   },
   {
     title: "Blog",
@@ -344,6 +349,7 @@ const links = [
             >
               <div class="rounded-xl border border-slate-200 bg-white/95 p-2 shadow-xl shadow-slate-200/70 backdrop-blur">
                 <a href="/manual/" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]">Manual ↗</a>
+                <a href="/package-spec/" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]">Package Spec ↗</a>
                 <a
                   href="/talk"
                   class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]"
@@ -421,6 +427,7 @@ const links = [
             </button>
             <div id="mobile-docs-menu" class="hidden flex-col gap-3 border-l border-slate-200 pl-4">
               <a href="/manual/" class="bc-nav-link">Manual ↗</a>
+              <a href="/package-spec/" class="bc-nav-link">Package Spec ↗</a>
               <a href="/talk" class="bc-nav-link">Talks</a>
             </div>
           </div>
@@ -923,7 +930,7 @@ const links = [
         </h2>
       </div>
 
-      <div class="grid gap-6 md:grid-cols-3">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {
           links.map((l) => (
             <a

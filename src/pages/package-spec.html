@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en" data-lang="ts">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BigConfig — Package Spec</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f7f8fa;
+    --bg-code: #f5f6f8;
+    --text: #1f2328;
+    --text-muted: #57606a;
+    --text-soft: var(--text-muted);
+    --text-mute: var(--text-muted);
+    --border: #d0d7de;
+    --border-soft: #eaeef2;
+    --accent: #2f6feb;
+    --accent-soft: #ddebff;
+    --warn: #9a6700;
+    --warn-soft: #fff5d6;
+    --danger: #cf222e;
+    --ok: #1a7f37;
+    --ok-soft: #d8f1de;
+    --kbd-bg: #f6f8fa;
+    --kw: #cf222e;
+    --str: #0a3069;
+    --num: #953800;
+    --com: #6e7781;
+    --fn: #8250df;
+    --maxw-content: 880px;
+    --lang-clj: #5881d8;
+    --lang-py: #3572a5;
+    --lang-ts: #2f74c0;
+  }
+  * { box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, pre, kbd, samp, .mono {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+  }
+  code {
+    background: var(--bg-code);
+    padding: 1px 5px;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  pre { margin: 14px 0; }
+  pre code {
+    display: block;
+    padding: 14px 16px;
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    background: var(--bg-soft);
+    color: inherit;
+    overflow-x: auto;
+    overflow-wrap: normal;
+    white-space: pre;
+    word-break: normal;
+    line-height: 1.5;
+  }
+  kbd, .kbd {
+    background: var(--kbd-bg);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--border-soft);
+    margin: 32px 0;
+  }
+  ul, ol {
+    margin: 0 0 12px;
+    padding-left: 22px;
+  }
+  li { margin: 3px 0; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    min-height: 100vh;
+  }
+  aside {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-soft);
+    background: var(--bg-soft);
+    padding: 24px 18px;
+  }
+  aside .brand {
+    display: block;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    padding: 0 6px 4px;
+    text-decoration: none;
+  }
+  aside .brand:hover { text-decoration: none; }
+  aside .tag {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin: 0 0 10px;
+    padding: 0 6px 10px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  aside nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 14px;
+  }
+  aside nav li { margin: 0; }
+  aside nav .group {
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 14px 6px 4px;
+  }
+  aside nav a {
+    display: block;
+    color: var(--text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13.5px;
+  }
+  aside nav a:hover {
+    background: var(--accent-soft);
+    text-decoration: none;
+  }
+  aside nav a.sub {
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  main {
+    padding: 0 56px 80px;
+    max-width: calc(var(--maxw-content) + 112px);
+    min-width: 0;
+    width: 100%;
+  }
+  main h1,
+  main h2,
+  main h3,
+  main h4 {
+    color: var(--text);
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+  }
+  main h1 {
+    font-size: 32px;
+    margin: 0 0 4px;
+    letter-spacing: -0.015em;
+  }
+  main h2 {
+    font-size: 22px;
+    margin: 44px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-soft);
+    letter-spacing: -0.01em;
+  }
+  main h3 {
+    font-size: 17px;
+    margin: 28px 0 8px;
+  }
+  main h4 {
+    font-size: 14px;
+    margin: 20px 0 6px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  main p,
+  main ul,
+  main ol {
+    max-width: var(--maxw-content);
+  }
+  p {
+    margin: 0 0 12px;
+    color: var(--text);
+  }
+  p.lead {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  table {
+    border-collapse: collapse;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 12px 0 18px;
+    font-size: 13.5px;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+  }
+  th {
+    background: var(--bg-soft);
+    font-weight: 600;
+    color: var(--text);
+  }
+  td code { white-space: nowrap; }
+  td.wrap code { white-space: normal; }
+
+  .note {
+    background: var(--bg-soft);
+    border: 1px solid var(--border-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .note.warn { border-left-color: var(--warn); }
+  .note.ok { border-left-color: var(--ok); }
+  .note.danger { border-left-color: var(--danger); }
+  .note p:last-child { margin-bottom: 0; }
+  .note .label {
+    display: inline-block;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+  }
+  .card {
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    padding: 14px;
+    background: var(--bg);
+  }
+  .card h4 {
+    margin: 0 0 6px;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+  }
+  .card .sub {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    margin-bottom: 8px;
+  }
+  .card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13.5px;
+  }
+  .card ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 13px;
+  }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+    margin: 14px 0 18px;
+  }
+  .pipeline.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pipeline.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pipeline .stage {
+    border: 1px solid var(--border-soft);
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .pipeline .stage .n {
+    display: inline-block;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-bottom: 6px;
+  }
+  .pipeline .stage .label {
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .pipeline .stage .sub {
+    color: var(--text-muted);
+    font-size: 10.5px;
+  }
+
+  .pill,
+  .card .pill {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+  }
+  .pill.only {
+    background: var(--warn-soft);
+    color: var(--warn);
+    margin-left: 6px;
+  }
+  .pill.ok {
+    background: var(--ok-soft);
+    color: var(--ok);
+  }
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .cols-3 {
+    column-count: 3;
+    column-gap: 24px;
+    margin: 10px 0 18px;
+    padding-left: 0;
+    list-style: none;
+  }
+  .cols-3 li {
+    break-inside: avoid;
+    margin: 2px 0;
+    font-size: 13.5px;
+  }
+  .cols-2 {
+    column-count: 2;
+    column-gap: 24px;
+    margin: 10px 0 18px;
+    padding-left: 0;
+    list-style: none;
+  }
+  .cols-2 li { break-inside: avoid; margin: 2px 0; font-size: 13.5px; }
+  @media (max-width: 720px) { .cols-3, .cols-2 { column-count: 1; } }
+
+  .kw { color: var(--kw); }
+  .str { color: var(--str); }
+  .num { color: var(--num); }
+  .com {
+    color: var(--com);
+    font-style: italic;
+  }
+  .fn { color: var(--fn); }
+  .ns { color: var(--text-muted); }
+
+  section,
+  h2,
+  h3 {
+    scroll-margin-top: 72px;
+  }
+
+  /* ---------- Sticky language switcher ---------- */
+  .lang-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 12px 0;
+    margin: 0 0 24px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .lang-tabs .label {
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 8px;
+  }
+  .lang-tab {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--text);
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+  }
+  .lang-tab:hover { background: var(--bg-soft); }
+  .lang-tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .lang-tab .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .lang-tab[data-lang="ts"] .dot { background: var(--lang-ts); }
+  .lang-tab[data-lang="py"] .dot { background: var(--lang-py); }
+  .lang-tab[data-lang="clj"] .dot { background: var(--lang-clj); }
+
+  /* ---------- Language filtering ---------- */
+  .lang-block { display: none; }
+  html[data-lang="ts"]  .lang-block[data-lang="ts"]  { display: block; }
+  html[data-lang="py"]  .lang-block[data-lang="py"]  { display: block; }
+  html[data-lang="clj"] .lang-block[data-lang="clj"] { display: block; }
+  .lang-block.inline { display: none; }
+  html[data-lang="ts"]  .lang-block.inline[data-lang="ts"]  { display: inline; }
+  html[data-lang="py"]  .lang-block.inline[data-lang="py"]  { display: inline; }
+  html[data-lang="clj"] .lang-block.inline[data-lang="clj"] { display: inline; }
+
+  .only-in { display: block; }
+
+  table.api-eq td.col-clj,
+  table.api-eq td.col-py,
+  table.api-eq td.col-ts,
+  table.api-eq th.col-clj,
+  table.api-eq th.col-py,
+  table.api-eq th.col-ts { display: none; }
+  table.api-eq th.col-any,
+  table.api-eq td.col-any { display: table-cell; }
+  html[data-lang="ts"]  table.api-eq td.col-ts,
+  html[data-lang="ts"]  table.api-eq th.col-ts,
+  html[data-lang="py"]  table.api-eq td.col-py,
+  html[data-lang="py"]  table.api-eq th.col-py,
+  html[data-lang="clj"] table.api-eq td.col-clj,
+  html[data-lang="clj"] table.api-eq th.col-clj { display: table-cell; }
+
+  table.triple td.col-clj,
+  table.triple td.col-py,
+  table.triple td.col-ts,
+  table.triple th.col-clj,
+  table.triple th.col-py,
+  table.triple th.col-ts { display: table-cell; }
+
+  .badge-row {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge-row .pill {
+    background: var(--bg-soft);
+    color: var(--text-muted);
+    border: 1px solid var(--border-soft);
+  }
+
+  .lang-marker {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: white;
+  }
+  .lang-marker.ts  { background: var(--lang-ts); }
+  .lang-marker.py  { background: var(--lang-py); }
+  .lang-marker.clj { background: var(--lang-clj); }
+
+  details.api {
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    background: var(--bg);
+  }
+  details.api > summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+    list-style: none;
+  }
+  details.api > summary::-webkit-details-marker { display: none; }
+  details.api > summary::before {
+    content: "▸";
+    color: var(--text-muted);
+    display: inline-block;
+    margin-right: 6px;
+    transition: transform 120ms;
+  }
+  details.api[open] > summary::before { transform: rotate(90deg); }
+
+  .toplevel {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 36px;
+    margin-bottom: 12px;
+    padding: 18px 0 6px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .toplevel h2 {
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+  }
+  .toplevel .pill {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside {
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    main { padding: 0 20px 60px; }
+    .grid, .grid-3 { grid-template-columns: 1fr; }
+    .pipeline { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pipeline.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pipeline.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 520px) {
+    main { padding: 0 16px 56px; }
+    aside { padding: 20px 14px; }
+    .pipeline,
+    .pipeline.three,
+    .pipeline.four { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <a class="brand" href="/">
+      ← BigConfig
+      <div class="tag">package spec · launcher · lifecycle · templates</div>
+    </a>
+    <nav>
+      <div class="group">Start here</div>
+      <ul>
+        <li><a href="#top">Package spec</a></li>
+        <li><a href="#checklist">Quick checklist</a></li>
+        <li><a href="#shape">Package shape</a></li>
+      </ul>
+
+      <div class="group">Launcher contract</div>
+      <ul>
+        <li><a href="#launcher">How bc-pkg runs a package</a></li>
+        <li><a href="#root">Repository root</a></li>
+        <li><a href="#manifests">Language manifests</a></li>
+        <li><a href="#generated">Generated consumer files</a></li>
+        <li><a href="#local">Local development mode</a></li>
+        <li><a href="#updates">Pins, updates, and re-entry</a></li>
+      </ul>
+
+      <div class="group">Package contract</div>
+      <ul>
+        <li><a href="#run-file">Root run file</a></li>
+        <li><a href="#commands">Command surface</a></li>
+        <li><a href="#lifecycle">BigConfig lifecycle</a></li>
+        <li><a href="#params">Profiles and params</a></li>
+        <li><a href="#templates">Templates and resources</a></li>
+        <li><a href="#safety">Safety conventions</a></li>
+      </ul>
+
+      <div class="group">Verify</div>
+      <ul>
+        <li><a href="#testing">Author test matrix</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#future">Future conformance tests</a></li>
+        <li><a href="/manual/">Manual ↗</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main id="top">
+    <div class="lang-tabs" role="tablist" aria-label="Active language">
+      <span class="label">Language</span>
+      <button class="lang-tab" data-lang="ts" role="tab" aria-selected="true"><span class="dot"></span>TypeScript</button>
+      <button class="lang-tab" data-lang="py" role="tab"><span class="dot"></span>Python</button>
+      <button class="lang-tab" data-lang="clj" role="tab"><span class="dot"></span>Clojure</button>
+      <span style="flex:1"></span>
+      <span class="label" title="Choice persists in localStorage" style="margin:0">persisted</span>
+    </div>
+
+    <h1>BigConfig Package Spec</h1>
+    <p class="lead">A friendly implementation guide for building a repository that <code>bc-pkg</code> can pin, initialize, and run. The launcher contract is intentionally small: one language manifest, one root <code>run</code> file, installable package code, and a command surface that forwards cleanly to your BigConfig lifecycle.</p>
+    <div class="header-meta">
+      <span class="pill">bc-pkg compatible</span>
+      <span class="pill">GitHub SHA pinned</span>
+      <span class="pill">local path dev</span>
+      <span class="pill">Clojure target</span>
+      <span class="pill">Python target</span>
+      <span class="pill">TypeScript target</span>
+      <span class="pill">validate · build · create · describe · delete</span>
+    </div>
+
+    <div class="note">
+      <span class="label">Scope</span>
+      This page describes target packages launched by <code>bc-pkg</code>. There are Python and npm implementations of the launcher; there is no Clojure implementation of <code>bc-pkg</code> itself, but both launchers can run Clojure target packages.
+    </div>
+
+    <section id="checklist">
+      <h2>Quick checklist</h2>
+      <p>If these are true, your package is usually ready for a first launcher test:</p>
+      <div class="grid">
+        <div class="card"><h4>Detectable</h4><p>Exactly one root manifest exists: <code>deps.edn</code>, <code>package.json</code>, or <code>pyproject.toml</code>. TypeScript and Python manifests declare a package name.</p></div>
+        <div class="card"><h4>Runnable</h4><p>A root <code>run</code> file exists, forwards argv, and calls your CLI/workflow with a safe default profile or options map.</p></div>
+        <div class="card"><h4>Installable</h4><p>The package works from a GitHub commit SHA and from a local path. Generated code, built JS, and template resources are included.</p></div>
+        <div class="card"><h4>Safe</h4><p>No credentials ship in source. Destructive actions require an explicit user-controlled setting or environment override.</p></div>
+      </div>
+    </section>
+
+    <section id="shape">
+      <h2>Package shape</h2>
+      <p>A BigConfig package is just a normal language package with one extra convention: a root <code>run</code> file that becomes the user-facing entrypoint after initialization.</p>
+
+<pre class="lang-block" data-lang="ts"><code>my-package/
+├── package.json          <span class="com"># exactly one root manifest</span>
+├── run                   <span class="com"># copied by GitHub mode, symlinked by local mode</span>
+├── src/
+│   ├── cli.ts
+│   └── resources/...
+└── dist/                 <span class="com"># built JS included for install/run</span></code></pre>
+
+<pre class="lang-block" data-lang="py"><code>my-package/
+├── pyproject.toml        <span class="com"># exactly one root manifest</span>
+├── run                   <span class="com"># copied by GitHub mode, symlinked by local mode</span>
+└── src/
+    ├── my_package/
+    └── resources/...</code></pre>
+
+<pre class="lang-block" data-lang="clj"><code>my-package/
+├── deps.edn              <span class="com"># exactly one root manifest</span>
+├── bb.edn                <span class="com"># useful in the package repo; generated for consumers too</span>
+├── run                   <span class="com"># copied by GitHub mode, symlinked by local mode</span>
+└── src/
+    ├── clj/...
+    └── resources/...</code></pre>
+
+      <div class="note warn">
+        <span class="label">Ambiguous roots fail fast</span>
+        The launcher treats a repo with more than one of <code>deps.edn</code>, <code>package.json</code>, and <code>pyproject.toml</code> as ambiguous. Keep each launcher target in its own language-specific root.
+      </div>
+    </section>
+
+    <div class="toplevel" id="launcher">
+      <h2>Launcher contract</h2>
+      <span class="pill">what bc-pkg does</span>
+    </div>
+
+    <p>The launcher does not know your domain model. It only resolves a target, writes a small consumer project in the current directory, then forwards the remaining arguments to your copied <code>run</code> file.</p>
+
+    <section id="root">
+      <h3>Repository root contract</h3>
+      <table>
+        <thead><tr><th>File</th><th>Used for</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>deps.edn</code></td><td>Clojure target detection</td><td>Selected only when no <code>package.json</code> or <code>pyproject.toml</code> exists at the root.</td></tr>
+          <tr><td><code>package.json</code></td><td>TypeScript target detection</td><td><code>name</code> is used as the dependency name in the generated consumer manifest.</td></tr>
+          <tr><td><code>pyproject.toml</code></td><td>Python target detection</td><td><code>[project].name</code> is used as the dependency name in the generated consumer manifest.</td></tr>
+          <tr><td><code>run</code></td><td>User-facing entrypoint</td><td>Required. GitHub targets copy it; local targets symlink it where possible.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="manifests">
+      <h3>Language-specific manifest notes</h3>
+      <div class="grid-3">
+        <div class="card"><h4>Clojure <span class="lang-marker clj">CLJ</span></h4><p>Declare normal Clojure deps and include resources in <code>:paths</code>. The launcher synthesizes the GitHub coordinate as <code>io.github.&lt;owner&gt;/&lt;repo&gt;</code> for GitHub targets.</p></div>
+        <div class="card"><h4>Python <span class="lang-marker py">PY</span></h4><p>Expose <code>[project].name</code>, keep the package installable by <code>uv</code>, and include template resources in the wheel/sdist. With Hatch, <code>force-include</code> is one option.</p></div>
+        <div class="card"><h4>TypeScript <span class="lang-marker ts">TS</span></h4><p>Expose <code>name</code>, include the root <code>run</code>, resources, and built JavaScript in <code>files</code>. Local mode expects the built runtime target to exist.</p></div>
+      </div>
+
+<pre class="lang-block" data-lang="ts"><code><span class="com">// package.json (compact shape)</span>
+{
+  <span class="str">"name"</span>: <span class="str">"my-package"</span>,
+  <span class="str">"type"</span>: <span class="str">"module"</span>,
+  <span class="str">"bin"</span>: { <span class="str">"my-package"</span>: <span class="str">"./dist/src/cli.js"</span> },
+  <span class="str">"files"</span>: [<span class="str">"dist/src"</span>, <span class="str">"src/resources"</span>, <span class="str">"run"</span>]
+}</code></pre>
+
+<pre class="lang-block" data-lang="py"><code><span class="com"># pyproject.toml (compact shape)</span>
+[project]
+name = <span class="str">"my-package"</span>
+requires-python = <span class="str">">=3.12"</span>
+dependencies = [<span class="str">"big-config @ git+https://github.com/..."</span>]
+
+[tool.hatch.build.targets.wheel]
+packages = [<span class="str">"src/my_package"</span>]
+force-include = { <span class="str">"src/resources"</span> = <span class="str">"src/resources"</span> }</code></pre>
+
+<pre class="lang-block" data-lang="clj"><code><span class="com">;; deps.edn (compact shape)</span>
+{:paths [<span class="str">"src/clj"</span> <span class="str">"src/resources"</span>]
+ :deps {io.github.bigconfig-ai/big-config {:git/sha <span class="str">"..."</span>}}}</code></pre>
+    </section>
+
+    <section id="generated">
+      <h3>Generated consumer files</h3>
+      <p>On first run, <code>bc-pkg</code> creates or updates a small native project in the current directory. The metadata records the chosen target and prevents accidental switches later.</p>
+      <table>
+        <thead><tr><th>Target language</th><th>Generated files</th><th>Runtime command</th><th>Dependency form</th></tr></thead>
+        <tbody>
+          <tr><td>Clojure</td><td><code>run</code>, <code>deps.edn</code>, <code>bb.edn</code></td><td><code>bb run ...</code></td><td><code>:git/url</code> + <code>:git/sha</code>, or <code>:local/root</code></td></tr>
+          <tr><td>TypeScript</td><td><code>run</code>, <code>package.json</code></td><td><code>node run ...</code></td><td><code>github:owner/repo#sha</code>, or <code>file:</code></td></tr>
+          <tr><td>Python</td><td><code>run</code>, <code>pyproject.toml</code></td><td><code>uv run python run ...</code></td><td>Git PEP 508 dependency, or editable <code>[tool.uv.sources]</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="local">
+      <h3>Local development mode</h3>
+      <p>For live package development, pass a local path as the first argument. Paths starting with <code>/</code>, <code>./</code>, <code>../</code>, <code>~</code>, or exactly <code>.</code>/<code>..</code> are treated as local targets.</p>
+
+<pre><code><span class="com"># Python launcher</span>
+uvx bc-pkg ../once/python package build
+
+<span class="com"># npm launcher</span>
+npx bc-pkg ../once/typescript package build
+
+<span class="com"># Clojure target through either launcher</span>
+uvx bc-pkg /abs/path/to/once/clojure package validate</code></pre>
+
+      <div class="note">
+        <span class="label">Live but isolated</span>
+        Local mode symlinks <code>run</code> so run-file edits are picked up immediately, but it refuses to target the current directory. Run the launcher from a separate consumer directory so it cannot overwrite the package's own manifest.
+      </div>
+    </section>
+
+    <section id="updates">
+      <h3>Pins, updates, and re-entry</h3>
+      <ul>
+        <li>A GitHub branch or tag is resolved once to a full 40-character commit SHA.</li>
+        <li>Subsequent runs read the generated BigConfig metadata and reuse the pinned target.</li>
+        <li>Passing the same repo/ref again is allowed only when it resolves to the same SHA.</li>
+        <li>Switching repo, ref, SHA, local path, or local-vs-GitHub mode is a hard error rather than an implicit upgrade.</li>
+      </ul>
+      <p>To intentionally move to a new package revision, use a new consumer directory or deliberately remove the generated consumer files and re-initialize with care.</p>
+    </section>
+
+    <div class="toplevel" id="run-file">
+      <h2>Package contract</h2>
+      <span class="pill">what authors provide</span>
+    </div>
+
+    <section>
+      <h3>Root <code>run</code> file</h3>
+      <p>The root <code>run</code> file is the package's handoff to the user. Treat it as both an executable launcher and a small editable config template. It should forward argv and pass a safe default profile/options map into your package CLI or workflow.</p>
+
+<pre class="lang-block" data-lang="ts"><code><span class="com">#!/usr/bin/env node</span>
+<span class="kw">const</span> DEFAULT_PROFILE = {
+  profile: <span class="str">"default"</span>,
+  params: { domain: <span class="str">"REPLACE_ME"</span>, package: <span class="str">"default"</span> },
+};
+<span class="kw">const</span> { main } = <span class="kw">await</span> <span class="fn">import</span>(<span class="str">"my-package/dist/src/cli.js"</span>);
+<span class="fn">main</span>(process.argv.slice(2), DEFAULT_PROFILE);</code></pre>
+
+<pre class="lang-block" data-lang="py"><code><span class="com">#!/usr/bin/env python3</span>
+<span class="kw">import</span> sys
+<span class="kw">from</span> my_package.cli <span class="kw">import</span> main
+
+DEFAULT_PROFILE = {
+    <span class="str">"profile"</span>: <span class="str">"default"</span>,
+    <span class="str">"params"</span>: {<span class="str">"domain"</span>: <span class="str">"REPLACE_ME"</span>, <span class="str">"package"</span>: <span class="str">"default"</span>},
+}
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">main</span>(sys.argv[1:], DEFAULT_PROFILE)</code></pre>
+
+<pre class="lang-block" data-lang="clj"><code><span class="com">#!/usr/bin/env bb</span>
+(<span class="kw">require</span> '[my.package.cli :as cli])
+
+(<span class="kw">def</span> default-profile
+  {:big-config.render/profile <span class="str">"default"</span>
+   :big-config.workflow/params {:domain <span class="str">"REPLACE_ME"</span>
+                                :package <span class="str">"default"</span>}})
+
+(<span class="fn">cli/main*</span> *command-line-args* default-profile)</code></pre>
+
+      <div class="note warn">
+        <span class="label">Keep it user-safe</span>
+        The copied <code>run</code> file lands in a user's working directory. Use placeholders like <code>REPLACE_ME</code>, never real tokens, SSH keys, API passwords, or customer-specific infrastructure IDs.
+      </div>
+    </section>
+
+    <section id="commands">
+      <h3>Command surface</h3>
+      <p>The launcher forwards arguments exactly as written. Your package decides what commands mean. A BigConfig package is easiest to understand when it exposes a small lifecycle vocabulary:</p>
+      <table>
+        <thead><tr><th>Command</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>package validate</code></td><td>Pre-flight checks: profile shape, tools, credentials, reachable dependencies, image references, and other safe checks.</td></tr>
+          <tr><td><code>package build</code></td><td>Render artifacts into <code>.dist/</code> without applying changes.</td></tr>
+          <tr><td><code>package create</code></td><td>Create or reconcile real resources.</td></tr>
+          <tr><td><code>package describe</code></td><td>Report the current state after provisioning.</td></tr>
+          <tr><td><code>package delete</code></td><td>Tear down resources, usually behind explicit safety settings.</td></tr>
+        </tbody>
+      </table>
+      <p>Packages can support chaining, for example <code>package validate create</code> or <code>package delete create</code>, when their workflow engine composes named steps in order.</p>
+    </section>
+
+    <section id="lifecycle">
+      <h3>BigConfig lifecycle</h3>
+      <p>BigConfig workflows thread an opts map/dict/object through step functions. Reserved engine keys are namespaced strings such as <code>big-config/exit</code>, <code>big-config/err</code>, <code>big-config.workflow/steps</code>, and <code>big-config.workflow/params</code>. Keep those boundary keys stable and keep shell execution behind the runner seam so package tests can run without spawning real tools.</p>
+
+      <div class="grid">
+        <div class="card"><h4>Workflow steps</h4><p>Use <code>workflow</code>, <code>workflow_star</code> / <code>createWorkflowStar</code>, and <code>run_steps</code> / <code>runSteps</code> to assemble lifecycle commands from smaller tool workflows.</p></div>
+        <div class="card"><h4>Pure reports</h4><p>Keep report builders like validation and describe pure, with side effects injected. That lets agents and CI verify behavior without provisioning resources.</p></div>
+      </div>
+    </section>
+
+    <section id="params">
+      <h3>Profiles, params, and environment overrides</h3>
+      <p>Profile params should use kebab-case strings that match template variable names. Runtime overrides use <code>BC_PAR_*</code>: uppercase the key and replace hyphens or dots with underscores.</p>
+
+<pre><code>export BC_PAR_DOMAIN=<span class="str">"example.com"</span>
+export BC_PAR_PROVIDER_BACKEND=<span class="str">"r2"</span>
+export BC_PAR_COMPUTE_PREVENT_DESTROY=<span class="str">"false"</span></code></pre>
+
+      <p>Profiles can be composed from smaller provider/application maps, as <code>once</code> does for compute provider, SMTP, DNS, backend, deploy keys, and application definitions.</p>
+    </section>
+
+    <section id="templates">
+      <h3>Templates and resources</h3>
+      <p>Put template trees in packaged resources and make sure they ship in the installable artifact. The common convention is <code>src/resources/&lt;namespace-path&gt;/tools/...</code>. The renderer copies selected templates into <code>.dist/</code>.</p>
+      <table>
+        <thead><tr><th>Language</th><th>Resource packaging reminder</th></tr></thead>
+        <tbody>
+          <tr><td>Clojure</td><td>Add <code>src/resources</code> to <code>:paths</code>.</td></tr>
+          <tr><td>Python</td><td>Include resources in the wheel/sdist; <code>force-include</code> is one Hatch option.</td></tr>
+          <tr><td>TypeScript</td><td>Include <code>src/resources</code> in <code>files</code> and resolve it from built code.</td></tr>
+        </tbody>
+      </table>
+      <p>Many BigConfig packages use custom Selmer delimiters for file content. Once configures tag open <code>&lt;</code>, tag close <code>&gt;</code>, filter open <code>{</code>, and filter close <code>}</code>, so template variables are written as <code>&lt;{ var }&gt;</code>. That leaves literal <code>{{ ... }}</code> available for downstream tools like Ansible.</p>
+      <div class="note">
+        <span class="label">Provider selection</span>
+        Directory/provider selection is usually handled by the renderer transform list, for example <code>[[provider, delimiters]]</code>, so a render step copies only the matching provider subdirectory.
+      </div>
+    </section>
+
+    <section id="safety">
+      <h3>Safety conventions</h3>
+      <ul>
+        <li>Generated output belongs in <code>.dist/</code>; never edit it as source.</li>
+        <li>Destructive operations should have an explicit guard or profile parameter.</li>
+        <li>Validation should be opt-in and runnable before create, but packages can let users chain <code>validate create</code>.</li>
+        <li>Keep credentials in the user's environment or private ignored files, not in package source or copied <code>run</code> files.</li>
+      </ul>
+    </section>
+
+    <section id="testing">
+      <h2>Author test matrix</h2>
+      <p>Before publishing a package ref, test both the GitHub and local path flows in a disposable consumer directory.</p>
+
+<pre><code><span class="com"># GitHub target through both launchers where practical</span>
+uvx bc-pkg owner/repo@ref package validate
+npx bc-pkg owner/repo@ref package validate
+
+<span class="com"># Re-entry should omit the target and use generated metadata</span>
+uvx bc-pkg package build
+npx bc-pkg package build
+
+<span class="com"># Local live-development target</span>
+uvx bc-pkg ../path/to/package package build
+npx bc-pkg ../path/to/package package build</code></pre>
+
+      <ul>
+        <li>Delete the generated <code>run</code> file and re-run to confirm restoration works.</li>
+        <li>Try an intentionally different repo/ref/local path and confirm the launcher refuses the switch.</li>
+        <li>Inspect generated manifests for correct metadata and dependency form.</li>
+        <li>Search copied files for accidental credentials.</li>
+        <li>If your package promises deterministic <code>build</code> output, compare the generated <code>.dist/</code> artifact.</li>
+      </ul>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <table>
+        <thead><tr><th>Message / symptom</th><th>Likely fix</th></tr></thead>
+        <tbody>
+          <tr><td><code>has no deps.edn, package.json, or pyproject.toml</code></td><td>Add exactly one supported root manifest.</td></tr>
+          <tr><td><code>ambiguous; found ... manifests</code></td><td>Split language implementations into separate roots or worktrees.</td></tr>
+          <tr><td><code>has no run</code></td><td>Add a root <code>run</code> file and make it executable on POSIX systems.</td></tr>
+          <tr><td>Existing non-bc-pkg manifest conflict</td><td>Initialize in a fresh consumer directory or migrate the manifest carefully.</td></tr>
+          <tr><td>Missing <code>node</code>, <code>npm</code>, or <code>uv</code></td><td>Install the runtime required by the target language.</td></tr>
+          <tr><td>Private repo or rate-limit failure</td><td>Set <code>GITHUB_TOKEN</code> and retry.</td></tr>
+          <tr><td>Clojure target cache problems</td><td>Remove the relevant <code>bc-pkg</code> cache directory for Babashka/JDK and retry; install <code>git</code> manually if auto-install is unavailable.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="future">
+      <h2>Future conformance checklist/test</h2>
+      <p>A future conformance tool could make this checklist executable. The rough shape is a small harness that creates a temporary consumer directory, runs both launchers against GitHub and local targets, verifies generated metadata, tests re-entry and refusal semantics, restores a missing <code>run</code> file, and executes a harmless lifecycle command such as <code>package validate</code> or <code>package build</code>.</p>
+      <p>That harness is intentionally not part of this page. For now, this spec is the human-readable guide package authors can use while implementing and reviewing packages.</p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  var LANGS = ["ts", "py", "clj"];
+  var STORAGE_KEY = "bigconfig-manual-lang";
+
+  function getActive() {
+    try {
+      var s = localStorage.getItem(STORAGE_KEY);
+      if (LANGS.indexOf(s) !== -1) return s;
+    } catch (e) {}
+    return "ts";
+  }
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    var btns = document.querySelectorAll(".lang-tab");
+    for (var i = 0; i < btns.length; i++) {
+      var on = btns[i].dataset.lang === lang;
+      btns[i].classList.toggle("active", on);
+      btns[i].setAttribute("aria-selected", on ? "true" : "false");
+    }
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var btns = document.querySelectorAll(".lang-tab");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function (e) {
+        apply(this.dataset.lang);
+      });
+    }
+    apply(getActive());
+  });
+})();
+</script>
+</body>
+</html>
