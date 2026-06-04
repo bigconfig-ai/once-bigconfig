@@ -1,0 +1,1374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BigConfig Packages: Skills, but Executable — BigConfig</title>
+    <meta
+      name="description"
+      content="A full technical talk for Agentic DevOps leaders about BigConfig packages as executable skills: package contracts, bc-pkg, Once, and agent-safe operations."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VKP1WY4QJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-4VKP1WY4QJ");
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/theme/white.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css"
+    />
+    <style>
+      :root {
+        --r-heading-font:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        --r-main-font:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        --bc-blue: #0652e9;
+        --bc-blue-soft: #dbeafe;
+        --bc-cyan: #0891b2;
+        --bc-cyan-soft: #cffafe;
+        --bc-ink: #0f172a;
+        --bc-muted: #475569;
+        --bc-line: #dbe4ee;
+        --bc-soft: #f8fafc;
+        --bc-green: #15803d;
+        --bc-green-soft: #dcfce7;
+        --bc-red: #b91c1c;
+        --bc-red-soft: #fee2e2;
+        --bc-amber: #a16207;
+        --bc-amber-soft: #fef3c7;
+      }
+
+      .reveal {
+        color: var(--bc-ink);
+        font-family: var(--r-main-font);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        color: var(--bc-ink);
+        letter-spacing: -0.035em;
+        line-height: 1.05;
+        text-transform: none;
+      }
+      .reveal h1 {
+        font-size: 2.45em;
+        font-weight: 820;
+      }
+      .reveal h2 {
+        font-size: 1.65em;
+        font-weight: 780;
+      }
+      .reveal h3 {
+        font-size: 1.12em;
+        font-weight: 720;
+      }
+      .reveal p,
+      .reveal li,
+      .reveal td,
+      .reveal th {
+        color: var(--bc-ink);
+      }
+      .reveal ul,
+      .reveal ol {
+        font-size: 0.78em;
+        line-height: 1.32;
+      }
+      .reveal li {
+        margin: 0.28em 0;
+      }
+      .reveal code {
+        border-radius: 0.24em;
+        background: #eef6ff;
+        color: #0f172a;
+        padding: 0.08em 0.28em;
+        font-size: 0.86em;
+      }
+      .reveal pre {
+        width: 100%;
+        margin: 0.55em 0;
+        border-radius: 0.6em;
+        box-shadow: none;
+      }
+      .reveal pre code {
+        max-height: 430px;
+        border: 1px solid var(--bc-line);
+        border-radius: 0.6em;
+        background: #f8fafc;
+        padding: 0.85em 1em;
+        line-height: 1.38;
+        font-size: 0.74em;
+      }
+      .reveal table {
+        width: 100%;
+        margin: 0.5em 0;
+        border-collapse: collapse;
+        font-size: 0.58em;
+      }
+      .reveal th {
+        background: var(--bc-soft);
+        color: #0f172a;
+        font-weight: 780;
+      }
+      .reveal td,
+      .reveal th {
+        border-bottom: 1px solid var(--bc-line);
+        padding: 0.55em 0.7em;
+        vertical-align: top;
+      }
+      .reveal a {
+        color: var(--bc-blue);
+      }
+      .accent {
+        color: var(--bc-cyan);
+      }
+      .blue {
+        color: var(--bc-blue);
+      }
+      .gradient {
+        background: linear-gradient(90deg, #0891b2, #3a8cec, #0652e9);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .kicker {
+        display: inline-block;
+        margin-bottom: 0.7em;
+        color: var(--bc-cyan);
+        font-size: 0.38em;
+        font-weight: 850;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .subtitle {
+        color: var(--bc-muted) !important;
+        font-size: 0.86em;
+        line-height: 1.35;
+      }
+      .small {
+        color: var(--bc-muted) !important;
+        font-size: 0.62em;
+        line-height: 1.38;
+      }
+      .tiny {
+        color: var(--bc-muted) !important;
+        font-size: 0.48em;
+        line-height: 1.35;
+      }
+      .center {
+        text-align: center;
+      }
+      .two-col,
+      .three-col,
+      .four-col {
+        display: grid;
+        gap: 0.65em;
+        align-items: stretch;
+      }
+      .two-col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .three-col {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .four-col {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .card,
+      .metric,
+      .quote-card {
+        border: 1px solid var(--bc-line);
+        border-radius: 0.7em;
+        background: #fff;
+        padding: 0.66em 0.72em;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07);
+      }
+      .card h3,
+      .metric h3 {
+        margin: 0 0 0.26em;
+        color: var(--bc-ink);
+        font-size: 0.68em;
+        letter-spacing: -0.015em;
+      }
+      .card p,
+      .metric p {
+        margin: 0;
+        color: var(--bc-muted) !important;
+        font-size: 0.52em;
+        line-height: 1.35;
+      }
+      .card ul {
+        margin: 0.2em 0 0;
+        padding-left: 1.1em;
+        font-size: 0.52em;
+      }
+      .pill {
+        display: inline-block;
+        margin: 0.12em 0.18em 0.12em 0;
+        border-radius: 999px;
+        background: var(--bc-blue-soft);
+        color: #1e40af;
+        padding: 0.25em 0.62em;
+        font-size: 0.46em;
+        font-weight: 760;
+        white-space: nowrap;
+      }
+      .pill.cyan {
+        background: var(--bc-cyan-soft);
+        color: #0e7490;
+      }
+      .pill.green {
+        background: var(--bc-green-soft);
+        color: var(--bc-green);
+      }
+      .pill.red {
+        background: var(--bc-red-soft);
+        color: var(--bc-red);
+      }
+      .pill.amber {
+        background: var(--bc-amber-soft);
+        color: var(--bc-amber);
+      }
+      .flow {
+        display: grid;
+        gap: 0.42em;
+        margin: 0.6em 0;
+      }
+      .flow-row {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 0.58em;
+      }
+      .node {
+        flex: 1;
+        border: 1px solid var(--bc-line);
+        border-radius: 0.62em;
+        background: #fff;
+        padding: 0.62em 0.7em;
+        text-align: center;
+        font-weight: 760;
+      }
+      .node.soft {
+        background: var(--bc-soft);
+      }
+      .node.blue {
+        border-color: #93c5fd;
+        background: #eff6ff;
+        color: #1e40af;
+      }
+      .node.cyan {
+        border-color: #67e8f9;
+        background: #ecfeff;
+        color: #0e7490;
+      }
+      .node.green {
+        border-color: #86efac;
+        background: #f0fdf4;
+        color: #166534;
+      }
+      .node.red {
+        border-color: #fecaca;
+        background: #fef2f2;
+        color: #991b1b;
+      }
+      .arrow {
+        color: var(--bc-muted);
+        font-weight: 900;
+      }
+      .big-quote {
+        border-left: 5px solid var(--bc-cyan);
+        background: #f8fafc;
+        border-radius: 0.3em;
+        padding: 0.75em 0.9em;
+        color: var(--bc-ink);
+        font-size: 1.05em;
+        font-weight: 760;
+        line-height: 1.2;
+      }
+      .part {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45em;
+        margin-bottom: 0.8em;
+        border-radius: 999px;
+        background: #ecfeff;
+        color: #0e7490;
+        padding: 0.32em 0.78em;
+        font-size: 0.42em;
+        font-weight: 820;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.8em;
+        height: 1.8em;
+        border-radius: 50%;
+        background: var(--bc-blue);
+        color: white;
+        font-size: 0.48em;
+        font-weight: 800;
+      }
+      .command {
+        border: 1px solid #cbd5e1;
+        border-radius: 0.75em;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 0.9em 1em;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.68em;
+        line-height: 1.35;
+        white-space: pre-wrap;
+      }
+      .command .prompt {
+        color: #67e8f9;
+      }
+      .command .comment {
+        color: #94a3b8;
+      }
+      .split-title {
+        display: grid;
+        grid-template-columns: 0.7fr 1.3fr;
+        gap: 0.8em;
+        align-items: center;
+      }
+      .logo-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.2em;
+        height: 3.2em;
+        border-radius: 0.8em;
+        background: linear-gradient(135deg, #62e1e9, #3a8cec, #0652e9);
+        color: white;
+        font-size: 1em;
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        box-shadow: 0 18px 40px rgba(6, 82, 233, 0.18);
+      }
+      .diagram-box {
+        border: 1px solid var(--bc-line);
+        border-radius: 0.8em;
+        background: linear-gradient(180deg, #ffffff, #f8fafc);
+        padding: 0.75em;
+      }
+      .warning {
+        border-left: 5px solid var(--bc-amber);
+        background: #fffbeb;
+        border-radius: 0.35em;
+        padding: 0.62em 0.78em;
+        font-size: 0.68em;
+      }
+      .ok {
+        border-left: 5px solid var(--bc-green);
+        background: #f0fdf4;
+        border-radius: 0.35em;
+        padding: 0.62em 0.78em;
+        font-size: 0.68em;
+      }
+      .footer-note {
+        position: fixed;
+        bottom: 18px;
+        left: 24px;
+        color: #94a3b8;
+        font-size: 12px;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 01 -->
+        <section>
+          <div class="split-title">
+            <div class="center">
+              <div class="logo-mark">BC</div>
+            </div>
+            <div>
+              <span class="kicker">Full technical talk · Agentic DevOps</span>
+              <h1>BigConfig Packages:<br /><span class="gradient">Skills, but Executable</span></h1>
+              <p class="subtitle">
+                Procedural knowledge should be executable, composable, testable,
+                and agent-safe.
+              </p>
+              <p class="small" style="margin-top: 1.8em;">
+                BigConfig · June 2026
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Open by setting the frame: this is not a talk about making agents
+            magically safe. It is a talk about the missing execution contract
+            that agentic DevOps leaders need to standardize.
+          </aside>
+        </section>
+
+        <!-- 02 -->
+        <section>
+          <span class="part">Thesis</span>
+          <h2>Skills make agents smarter.<br />Packages make operations runnable.</h2>
+          <div class="big-quote" style="margin-top: 0.7em;">
+            A BigConfig package is procedural knowledge expressed as software:
+            versioned, testable, executable, and safe to expose through a small
+            command surface.
+          </div>
+          <aside class="notes">
+            State the central distinction early. A skill can improve the agent's
+            reasoning. A package gives the agent, the shell, CI, and a control
+            plane the same executable boundary.
+          </aside>
+        </section>
+
+        <!-- 03 -->
+        <section>
+          <span class="part">Agenda</span>
+          <h2>What we will cover</h2>
+          <div class="two-col">
+            <div class="card">
+              <h3>1 · Interface problem</h3>
+              <p>Why low-level tool commands are the wrong public interface for agentic operations.</p>
+            </div>
+            <div class="card">
+              <h3>2 · Skills and packages</h3>
+              <p>Why procedural knowledge needs to move from instructions into executable software.</p>
+            </div>
+            <div class="card">
+              <h3>3 · BigConfig contract</h3>
+              <p>The root <code>run</code> file, <code>bc-pkg</code>, lifecycle verbs, artifacts, and test seams.</p>
+            </div>
+            <div class="card">
+              <h3>4 · Once + safety model</h3>
+              <p>A concrete package example and the leadership standards to adopt.</p>
+            </div>
+          </div>
+          <aside class="notes">
+            Promise a technical architecture talk. The goal is to help leaders
+            evaluate and standardize this pattern, not simply introduce a tool.
+          </aside>
+        </section>
+
+        <!-- 04 -->
+        <section>
+          <span class="part">Leadership frame</span>
+          <h2>The job for Agentic DevOps leaders</h2>
+          <div class="three-col">
+            <div class="metric">
+              <h3>Define boundaries</h3>
+              <p>Separate agent advice from state-changing authority.</p>
+            </div>
+            <div class="metric">
+              <h3>Package expertise</h3>
+              <p>Turn operational knowledge into reusable software.</p>
+            </div>
+            <div class="metric">
+              <h3>Standardize contracts</h3>
+              <p>Give humans, agents, CI, and control planes one interface.</p>
+            </div>
+          </div>
+          <div class="warning" style="margin-top: 0.9em;">
+            The failure mode is not “the agent is dumb.” The failure mode is
+            exposing raw production toolchains and asking the agent to infer the
+            safe boundary.
+          </div>
+          <aside class="notes">
+            Leaders should not ask every team to invent their own prompt
+            wrappers. They should standardize the shape of executable
+            operational contracts.
+          </aside>
+        </section>
+
+        <!-- 05 -->
+        <section>
+          <span class="part">Part 1 · Interface problem</span>
+          <h2>DevOps innovation feels stuck</h2>
+          <ul>
+            <li>Another wrapper around Terraform.</li>
+            <li>Another dashboard around plans.</li>
+            <li>Another queue, approval flow, policy layer, or YAML dialect.</li>
+            <li>Another system that still makes the low-level tool the public interface.</li>
+          </ul>
+          <div class="big-quote" style="margin-top: 0.7em;">
+            Another Terraform wrapper is not a new operating model.
+          </div>
+          <aside class="notes">
+            Be clear that the target is not Terraform itself. The target is the
+            operating model where low-level tool commands are treated as the
+            user-facing product API.
+          </aside>
+        </section>
+
+        <!-- 06 -->
+        <section>
+          <span class="part">Public interface</span>
+          <h2>Tool commands are not product interfaces</h2>
+          <div class="two-col">
+            <div class="card">
+              <h3>What teams ask</h3>
+              <ul>
+                <li>Can I deploy this?</li>
+                <li>Is the environment valid?</li>
+                <li>What changed?</li>
+                <li>Can I roll back?</li>
+                <li>Is it healthy?</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>What platforms often expose</h3>
+              <ul>
+                <li><code>terraform plan</code></li>
+                <li><code>terraform apply</code></li>
+                <li><code>helm upgrade</code></li>
+                <li><code>kubectl apply</code></li>
+                <li>provider schemas and conventions</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            This slide is the product-interface argument. Delivery teams and
+            agents ask domain questions. Tool verbs answer implementation
+            questions.
+          </aside>
+        </section>
+
+        <!-- 07 -->
+        <section>
+          <span class="part">History</span>
+          <h2>The old cost model explains the current shape</h2>
+          <div class="flow">
+            <div class="flow-row">
+              <div class="node soft">Custom operational software was expensive</div>
+              <div class="arrow">→</div>
+              <div class="node soft">Configuration became the shared interface</div>
+            </div>
+            <div class="flow-row">
+              <div class="node soft">Git was already the review system</div>
+              <div class="arrow">→</div>
+              <div class="node soft">GitOps made configuration operational</div>
+            </div>
+            <div class="flow-row">
+              <div class="node soft">Tools supplied the verbs</div>
+              <div class="arrow">→</div>
+              <div class="node soft"><code>plan</code>, <code>apply</code>, <code>destroy</code> became the API</div>
+            </div>
+          </div>
+          <p class="small">That was a rational trade when writing and maintaining workflow software was costly.</p>
+          <aside class="notes">
+            Avoid dismissing GitOps. Explain that it was a rational response to
+            the economics of the time. The point is that economics are changing.
+          </aside>
+        </section>
+
+        <!-- 08 -->
+        <section>
+          <span class="part">Agent era</span>
+          <h2>The agent era changes the cost curve</h2>
+          <div class="three-col">
+            <div class="card">
+              <h3>Adapters</h3>
+              <p>Small wrappers around tools, APIs, reports, state, and credentials.</p>
+            </div>
+            <div class="card">
+              <h3>Report builders</h3>
+              <p>Readable outputs for humans and agents, not only raw CLI logs.</p>
+            </div>
+            <div class="card">
+              <h3>Package surfaces</h3>
+              <p>Stable verbs that encode what the domain actually needs.</p>
+            </div>
+          </div>
+          <div class="warning" style="margin-top: 0.85em;">
+            This does not mean unreviewed infrastructure code is safe. It means
+            the glue code required for better interfaces is now cheap enough to
+            maintain.
+          </div>
+          <aside class="notes">
+            The nuance matters. Do not say “code is free” as an absolute. Say
+            the cost of package glue has fallen enough that better interfaces
+            become practical.
+          </aside>
+        </section>
+
+        <!-- 09 -->
+        <section>
+          <span class="part">Safety</span>
+          <h2>The safety problem gets sharper with agents</h2>
+          <div class="diagram-box">
+            <div class="flow-row">
+              <div class="node red">Agent</div>
+              <div class="arrow">→</div>
+              <div class="node red">Raw shell with cloud credentials</div>
+              <div class="arrow">→</div>
+              <div class="node red">Terraform · Helm · kubectl · cloud CLIs</div>
+            </div>
+          </div>
+          <ul>
+            <li>The agent must infer which commands are read-only.</li>
+            <li>The agent must learn local conventions and failure modes.</li>
+            <li>The agent must reason across tools that were not designed as one product.</li>
+          </ul>
+          <aside class="notes">
+            This is the core risk. The more capable the model, the more urgent
+            it becomes to give it a constrained execution contract instead of a
+            generic production shell.
+          </aside>
+        </section>
+
+        <!-- 10 -->
+        <section>
+          <span class="part">Required primitive</span>
+          <h2>Agentic operations need an executable contract</h2>
+          <div class="flow">
+            <div class="flow-row">
+              <div class="node blue">Agent instructions</div>
+              <div class="arrow">→</div>
+              <div class="node cyan">Executable package contract</div>
+              <div class="arrow">→</div>
+              <div class="node soft">Platform tools and APIs</div>
+            </div>
+          </div>
+          <div class="ok">
+            The package boundary is where you encode safe verbs, validations,
+            artifacts, report formats, dependency versions, and authority rules.
+          </div>
+          <aside class="notes">
+            Introduce the key architectural primitive. The package is not merely
+            a wrapper. It is the boundary where operational knowledge becomes a
+            stable program interface.
+          </aside>
+        </section>
+
+        <!-- 11 -->
+        <section>
+          <span class="part">Part 2 · Skills</span>
+          <h2>Skills got the key abstraction right</h2>
+          <p class="subtitle">Package the knowledge of how to do something, give it a name, and make it reusable.</p>
+          <div class="three-col">
+            <div class="card"><h3>Named</h3><p>A skill has identity. It can be invoked and discussed.</p></div>
+            <div class="card"><h3>Reusable</h3><p>The same procedure can be applied across tasks and contexts.</p></div>
+            <div class="card"><h3>Contextual</h3><p>It carries instructions, examples, and supporting context.</p></div>
+          </div>
+          <aside class="notes">
+            Give skills credit. The concept is useful because it recognizes that
+            much knowledge is procedural, not just declarative documentation.
+          </aside>
+        </section>
+
+        <!-- 12 -->
+        <section>
+          <span class="part">Procedural knowledge</span>
+          <h2>Operations are procedural knowledge</h2>
+          <div class="two-col">
+            <div>
+              <ul>
+                <li>How to provision a machine.</li>
+                <li>How to render environment-specific files.</li>
+                <li>How to configure DNS and SMTP.</li>
+                <li>How to run tools in the right order.</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li>How to validate inputs and credentials.</li>
+                <li>How to describe current state.</li>
+                <li>How to safely delete or roll back.</li>
+                <li>How to produce useful artifacts and reports.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="small">This is exactly the knowledge that tends to live in runbooks, scripts, wiki pages, and tribal memory.</p>
+          <aside class="notes">
+            Connect the skill concept to DevOps. Most operational knowledge is a
+            sequence of guarded actions and interpretations, not a static config
+            file.
+          </aside>
+        </section>
+
+        <!-- 13 -->
+        <section>
+          <span class="part">Mapping</span>
+          <h2>Skill ↔ BigConfig package</h2>
+          <table>
+            <thead>
+              <tr><th>Agent ecosystem</th><th>BigConfig ecosystem</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Skill</td><td>Package</td><td>Reusable unit of procedural knowledge</td></tr>
+              <tr><td>Instructions</td><td>Workflow</td><td>The procedure and control flow</td></tr>
+              <tr><td>Context files</td><td>Templates/resources</td><td>Supporting files and examples</td></tr>
+              <tr><td>Agent invocation</td><td>Shell command</td><td>How the procedure is triggered</td></tr>
+              <tr><td>Task knowledge</td><td>Package API</td><td>The stable operational surface</td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">
+            This table creates the conceptual bridge. The rest of the talk is
+            about why the BigConfig side must be executable software.
+          </aside>
+        </section>
+
+        <!-- 14 -->
+        <section>
+          <span class="part">Limits of skills</span>
+          <h2>Skills stop at instructions</h2>
+          <div class="four-col">
+            <div class="card"><h3>Agent-native</h3><p>Useful inside an agent runtime, less useful outside it.</p></div>
+            <div class="card"><h3>Weak reuse</h3><p>No first-class library dependency model for shared operational code.</p></div>
+            <div class="card"><h3>No contract</h3><p>Instructions do not provide stable commands or authority boundaries.</p></div>
+            <div class="card"><h3>No artifact model</h3><p>Durable rendered files and reports belong in software.</p></div>
+          </div>
+          <aside class="notes">
+            The critique is not anti-skill. It is about placing skills at the
+            right layer: guidance and reasoning, not the execution substrate.
+          </aside>
+        </section>
+
+        <!-- 15 -->
+        <section>
+          <span class="part">Executable skill</span>
+          <h2>A BigConfig package is a skill implemented as software</h2>
+          <div class="big-quote">
+            A skill says: “here is how to do this task.”<br />
+            A BigConfig package says: “here is how to do this task as a runnable program.”
+          </div>
+          <div style="margin-top: 0.8em;">
+            <span class="pill green">executable</span>
+            <span class="pill green">composable</span>
+            <span class="pill green">testable</span>
+            <span class="pill green">versioned</span>
+            <span class="pill green">shell-native</span>
+            <span class="pill green">library-backed</span>
+          </div>
+          <aside class="notes">
+            This is the product definition. BigConfig does not replace the idea
+            of skills; it moves the execution part into a stable software
+            package.
+          </aside>
+        </section>
+
+        <!-- 16 -->
+        <section>
+          <span class="part">Software properties</span>
+          <h2>Executable packages scale like software</h2>
+          <div class="three-col">
+            <div class="card"><h3>Dependencies</h3><p>Shared SDKs, renderer primitives, validators, and cloud abstractions.</p></div>
+            <div class="card"><h3>Composition</h3><p>Workflows assemble smaller tool steps into a domain lifecycle.</p></div>
+            <div class="card"><h3>Testing</h3><p>Pure reports and runner seams let tests avoid provisioning resources.</p></div>
+            <div class="card"><h3>Versioning</h3><p>Refs can be pinned to immutable commit SHAs.</p></div>
+            <div class="card"><h3>Artifacts</h3><p>Rendered files and reports survive outside the conversation.</p></div>
+            <div class="card"><h3>APIs</h3><p>The package exposes commands and reusable package-level functions.</p></div>
+          </div>
+          <aside class="notes">
+            Leaders should care about the software properties because they are
+            what prevent duplication and drift as agentic procedures multiply.
+          </aside>
+        </section>
+
+        <!-- 17 -->
+        <section>
+          <span class="part">Layering</span>
+          <h2>The safe model is layered</h2>
+          <div class="flow">
+            <div class="flow-row"><div class="node blue">Skill / prompt</div><div class="arrow">teaches</div><div class="node soft">how to reason about the domain</div></div>
+            <div class="flow-row"><div class="node cyan">BigConfig package</div><div class="arrow">executes</div><div class="node soft">the operational procedure</div></div>
+            <div class="flow-row"><div class="node green">Platform tools</div><div class="arrow">implement</div><div class="node soft">the low-level changes</div></div>
+          </div>
+          <aside class="notes">
+            This is the integration story. You can still use skills, but the
+            skill should point the agent to package commands rather than asking
+            it to synthesize operations from scratch.
+          </aside>
+        </section>
+
+        <!-- 18 -->
+        <section>
+          <span class="part">Prompt pattern</span>
+          <h2>Good agent instructions call the package</h2>
+          <pre><code class="language-md">When working with this deployment:
+
+1. Run `package validate` first.
+2. If validation fails, inspect the report and propose a fix.
+3. Run `package build` to inspect rendered artifacts.
+4. Ask the operator before running state-changing verbs.
+5. Never call Terraform, Helm, or cloud CLIs directly unless the package tells you to.</code></pre>
+          <aside class="notes">
+            This slide makes the relationship concrete. The skill becomes a
+            policy and reasoning layer. The package supplies the command surface.
+          </aside>
+        </section>
+
+        <!-- 19 -->
+        <section>
+          <span class="part">Part 3 · Package contract</span>
+          <h2>What is a BigConfig package?</h2>
+          <div class="big-quote">
+            A normal language package with one extra convention: a root
+            <code>run</code> file that becomes the user-facing entrypoint.
+          </div>
+          <ul>
+            <li>Installable package code.</li>
+            <li>Packaged resources and templates.</li>
+            <li>A stable command surface.</li>
+            <li>Lifecycle workflows that can call any underlying tool.</li>
+          </ul>
+          <aside class="notes">
+            Be precise: it is not a proprietary runtime. It is a package shape
+            and launcher contract around normal language packages.
+          </aside>
+        </section>
+
+        <!-- 20 -->
+        <section>
+          <span class="part">Polyglot shape</span>
+          <h2>Target packages are polyglot</h2>
+          <div class="three-col">
+            <div class="card"><h3>Clojure</h3><p><code>deps.edn</code><br />resources in <code>:paths</code><br />Babashka-friendly <code>run</code></p></div>
+            <div class="card"><h3>Python</h3><p><code>pyproject.toml</code><br /><code>[project].name</code><br />resources in wheel/sdist</p></div>
+            <div class="card"><h3>TypeScript</h3><p><code>package.json</code><br /><code>name</code> field<br />built JS and resources shipped</p></div>
+          </div>
+          <p class="tiny">There are Python and npm implementations of <code>bc-pkg</code>; both can run Clojure target packages.</p>
+          <aside class="notes">
+            This corrects the old Clojure-only framing. Clojure remains a strong
+            implementation path, but the current package spec is polyglot.
+          </aside>
+        </section>
+
+        <!-- 21 -->
+        <section>
+          <span class="part">Launcher contract</span>
+          <h2>The contract is intentionally small</h2>
+          <div class="four-col">
+            <div class="card"><h3>One manifest</h3><p><code>deps.edn</code>, <code>package.json</code>, or <code>pyproject.toml</code>.</p></div>
+            <div class="card"><h3>One <code>run</code></h3><p>The copied or symlinked user-facing entrypoint.</p></div>
+            <div class="card"><h3>Installable code</h3><p>Runtime files and resources must ship with the package.</p></div>
+            <div class="card"><h3>Command surface</h3><p>Arguments are forwarded exactly to the package.</p></div>
+          </div>
+          <aside class="notes">
+            The smallness is strategic. The launcher does not need to know the
+            domain. The package owns the lifecycle semantics.
+          </aside>
+        </section>
+
+        <!-- 22 -->
+        <section>
+          <span class="part">GitHub flow</span>
+          <h2>How <code>bc-pkg</code> runs a GitHub package</h2>
+          <div class="flow">
+            <div class="flow-row"><div class="node soft">User passes <code>owner/repo@ref</code></div><div class="arrow">→</div><div class="node soft">Launcher resolves a 40-char SHA</div></div>
+            <div class="flow-row"><div class="node soft">Detect target language</div><div class="arrow">→</div><div class="node soft">Write native consumer manifest</div></div>
+            <div class="flow-row"><div class="node soft">Copy root <code>run</code></div><div class="arrow">→</div><div class="node soft">Forward remaining argv</div></div>
+          </div>
+          <pre><code class="language-bash">npx bc-pkg bigconfig-ai/once@typescript package validate</code></pre>
+          <aside class="notes">
+            Emphasize pinning. A branch or tag is resolved once to a commit SHA,
+            so the consumer has a stable dependency rather than a moving target.
+          </aside>
+        </section>
+
+        <!-- 23 -->
+        <section>
+          <span class="part">Local mode</span>
+          <h2>Local path mode is for live package development</h2>
+          <div class="flow-row">
+            <div class="node cyan">Package author checkout</div>
+            <div class="arrow">→</div>
+            <div class="node cyan">Local path dependency</div>
+            <div class="arrow">→</div>
+            <div class="node cyan">Symlinked <code>run</code></div>
+          </div>
+          <pre><code class="language-bash">mkdir /tmp/once-consumer
+cd /tmp/once-consumer
+npx bc-pkg ../once/typescript package build</code></pre>
+          <p class="small">Switching between GitHub and local targets is intentionally a hard error.</p>
+          <aside class="notes">
+            Local mode matters for package authors. It supports a live edit/test
+            loop while preserving the consumer directory boundary.
+          </aside>
+        </section>
+
+        <!-- 24 -->
+        <section>
+          <span class="part"><code>run</code> handoff</span>
+          <h2>The root <code>run</code> file is the user handoff</h2>
+          <pre><code class="language-js">#!/usr/bin/env node
+const DEFAULT_PROFILE = {
+  profile: "default",
+  params: { domain: "REPLACE_ME", package: "default" },
+};
+const { main } = await import("my-package/dist/src/cli.js");
+main(process.argv.slice(2), DEFAULT_PROFILE);</code></pre>
+          <div class="warning">
+            The copied <code>run</code> file lands in a user's working directory. It
+            should contain safe placeholders, not credentials.
+          </div>
+          <aside class="notes">
+            The run file is intentionally small. It forwards argv and supplies a
+            safe default profile or options map that the user can edit.
+          </aside>
+        </section>
+
+        <!-- 25 -->
+        <section>
+          <span class="part">Lifecycle</span>
+          <h2>The common lifecycle vocabulary</h2>
+          <div class="five" style="display:grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap:0.45em;">
+            <div class="node green">validate</div>
+            <div class="node blue">build</div>
+            <div class="node red">create</div>
+            <div class="node green">describe</div>
+            <div class="node red">delete</div>
+          </div>
+          <table>
+            <tbody>
+              <tr><td><code>validate</code></td><td>Pre-flight checks and safe reports.</td></tr>
+              <tr><td><code>build</code></td><td>Render artifacts into <code>.dist/</code> without applying changes.</td></tr>
+              <tr><td><code>create</code></td><td>Create or reconcile real resources.</td></tr>
+              <tr><td><code>describe</code></td><td>Report current state after provisioning.</td></tr>
+              <tr><td><code>delete</code></td><td>Tear down resources behind explicit safety rules.</td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">
+            Present these as the minimal shared vocabulary, not a complete list
+            of all possible domain operations.
+          </aside>
+        </section>
+
+        <!-- 26 -->
+        <section>
+          <span class="part">Domain verbs</span>
+          <h2>The package can expose the verbs the domain needs</h2>
+          <div>
+            <span class="pill cyan">cost-analysis</span>
+            <span class="pill cyan">backup</span>
+            <span class="pill cyan">restore</span>
+            <span class="pill cyan">rollback</span>
+            <span class="pill cyan">upgrade</span>
+            <span class="pill cyan">rotate-keys</span>
+            <span class="pill cyan">audit</span>
+            <span class="pill cyan">migrate</span>
+          </div>
+          <div class="big-quote" style="margin-top: 0.8em;">
+            Forcing every operational question through <code>apply</code> is not
+            simplicity. It is a lack of vocabulary.
+          </div>
+          <aside class="notes">
+            This is where a package becomes a product interface. The public
+            verbs should match the lifecycle of the thing being operated.
+          </aside>
+        </section>
+
+        <!-- 27 -->
+        <section>
+          <span class="part">Workflow engine</span>
+          <h2>Workflows compose named steps</h2>
+          <div class="diagram-box">
+            <div class="flow-row">
+              <div class="node soft">opts map</div>
+              <div class="arrow">→</div>
+              <div class="node soft">step</div>
+              <div class="arrow">→</div>
+              <div class="node soft">step</div>
+              <div class="arrow">→</div>
+              <div class="node soft">opts map</div>
+            </div>
+          </div>
+          <ul>
+            <li>Reserved engine keys are namespaced strings like <code>big-config/exit</code> and <code>big-config.workflow/params</code>.</li>
+            <li>Subworkflows isolate nested lifecycle execution.</li>
+            <li>Shell command execution goes through a runner seam.</li>
+          </ul>
+          <aside class="notes">
+            Keep this technical but simple. The important property is that
+            workflows are composable programs, not opaque scripts.
+          </aside>
+        </section>
+
+        <!-- 28 -->
+        <section>
+          <span class="part">Profiles</span>
+          <h2>Profiles and params make packages reusable</h2>
+          <pre><code class="language-bash">export BC_PAR_DOMAIN="example.com"
+export BC_PAR_PROVIDER_BACKEND="r2"
+export BC_PAR_COMPUTE_PREVENT_DESTROY="false"</code></pre>
+          <ul>
+            <li>Params use kebab-case strings that match template variables.</li>
+            <li><code>BC_PAR_*</code> overrides uppercase keys and replace hyphens/dots with underscores.</li>
+            <li>Profiles compose smaller provider and application maps.</li>
+          </ul>
+          <aside class="notes">
+            Explain parameter flow as part of the package contract. The same
+            package can be reused across environments without changing the
+            package code.
+          </aside>
+        </section>
+
+        <!-- 29 -->
+        <section>
+          <span class="part">Artifacts</span>
+          <h2>Templates produce durable artifacts</h2>
+          <div class="flow-row">
+            <div class="node soft">packaged resources</div>
+            <div class="arrow">→</div>
+            <div class="node cyan">renderer</div>
+            <div class="arrow">→</div>
+            <div class="node green"><code>.dist/</code></div>
+          </div>
+          <ul>
+            <li>Templates live in packaged resources such as <code>src/resources/.../tools/</code>.</li>
+            <li>Rendered files can be inspected before mutation.</li>
+            <li>Artifacts survive outside the agent conversation and can be reviewed by humans or CI.</li>
+          </ul>
+          <aside class="notes">
+            Durable artifacts are a major difference from prompt-only workflows.
+            The agent can inspect real generated files rather than merely trust
+            text in a conversation.
+          </aside>
+        </section>
+
+        <!-- 30 -->
+        <section>
+          <span class="part">Testability</span>
+          <h2>The execution layer must be testable</h2>
+          <div class="three-col">
+            <div class="card"><h3>Pure reports</h3><p>Validation and describe builders accept injected dependencies.</p></div>
+            <div class="card"><h3>Runner seam</h3><p>Tests can swap real process execution for a fake runner.</p></div>
+            <div class="card"><h3>Deterministic build</h3><p>Rendered artifacts can be compared in `.dist/`.</p></div>
+          </div>
+          <p class="small">If the package is the boundary for agentic operations, the package itself must be reviewable and testable.</p>
+          <aside class="notes">
+            This is for leaders: require package authors to make the command
+            surface testable. Otherwise “agent-safe” is just a label.
+          </aside>
+        </section>
+
+        <!-- 31 -->
+        <section>
+          <span class="part">Part 4 · Once</span>
+          <h2>Once is an infrastructure package, not a Terraform folder</h2>
+          <div class="two-col">
+            <div class="card">
+              <h3>What it owns</h3>
+              <ul>
+                <li>Profiles and params.</li>
+                <li>Templates and rendered artifacts.</li>
+                <li>Workflow steps and plugins.</li>
+                <li>Lifecycle commands.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>What it composes</h3>
+              <ul>
+                <li>OpenTofu/Terraform stages.</li>
+                <li>DNS and SMTP workflows.</li>
+                <li>Ansible-local and Ansible.</li>
+                <li>Remote-state backend injection.</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            Use Once as the concrete example because the user requested it. The
+            point is that Once contains multiple tools but exposes one package
+            surface.
+          </aside>
+        </section>
+
+        <!-- 32 -->
+        <section>
+          <span class="part">Once commands</span>
+          <h2>Once exposes lifecycle commands</h2>
+          <div class="command"><span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package validate
+<span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package build
+<span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package create
+<span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package describe
+<span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package delete</div>
+          <p class="small">Same package contract; different authority requirements per verb.</p>
+          <aside class="notes">
+            Show the external interface first. The audience should see that
+            everything behind these commands can be complex while the public
+            contract remains small.
+          </aside>
+        </section>
+
+        <!-- 33 -->
+        <section>
+          <span class="part">Once pipeline</span>
+          <h2><code>package create</code> is a six-stage workflow</h2>
+          <div class="flow">
+            <div class="flow-row">
+              <div class="node soft">tofu</div><div class="arrow">→</div>
+              <div class="node soft">tofu-smtp</div><div class="arrow">→</div>
+              <div class="node soft">tofu-dns</div>
+            </div>
+            <div class="flow-row">
+              <div class="node soft">tofu-smtp-post</div><div class="arrow">→</div>
+              <div class="node soft">ansible-local</div><div class="arrow">→</div>
+              <div class="node soft">ansible</div>
+            </div>
+          </div>
+          <div class="ok">
+            The user does not need to orchestrate these stages manually. The
+            package owns the workflow.
+          </div>
+          <aside class="notes">
+            Explain that the pipeline illustrates why `terraform apply` is too
+            low-level as a public interface. The domain operation spans multiple
+            tools and state transitions.
+          </aside>
+        </section>
+
+        <!-- 34 -->
+        <section>
+          <span class="part">Once params</span>
+          <h2>Once threads parameters through the workflow</h2>
+          <div class="flow">
+            <div class="flow-row"><div class="node soft">profile params</div><div class="arrow">→</div><div class="node soft"><code>BC_PAR_*</code> overrides</div></div>
+            <div class="flow-row"><div class="node soft">earlier Tofu outputs</div><div class="arrow">→</div><div class="node soft">later render and tool steps</div></div>
+            <div class="flow-row"><div class="node soft">rendered templates</div><div class="arrow">→</div><div class="node soft">stage execution</div></div>
+          </div>
+          <aside class="notes">
+            Parameter flow is where many shell scripts become fragile. In a
+            package, it is part of the explicit workflow model.
+          </aside>
+        </section>
+
+        <!-- 35 -->
+        <section>
+          <span class="part">Build before mutation</span>
+          <h2><code>package build</code> renders before applying</h2>
+          <div class="command"><span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package build
+
+<span class="comment"># inspect generated artifacts</span>
+<span class="prompt">$</span> find .dist -maxdepth 3 -type f</div>
+          <ul>
+            <li>No real infrastructure mutation is required to inspect the package output.</li>
+            <li>Agents can summarize rendered artifacts before asking for authority.</li>
+            <li>CI can compare deterministic build output.</li>
+          </ul>
+          <aside class="notes">
+            Build is the bridge between reasoning and action. It gives the agent
+            something concrete to inspect without needing write credentials.
+          </aside>
+        </section>
+
+        <!-- 36 -->
+        <section>
+          <span class="part">Demo prompt</span>
+          <h2>Agent-ready prompt for Once validation</h2>
+          <pre><code class="language-md">- run npx bc-pkg bigconfig-ai/once@typescript package validate
+- inspect the validation report
+- if it fails, explain the likely cause and propose the smallest fix
+- do not run create or delete without operator approval</code></pre>
+          <div class="ok">
+            The agent receives a concrete command and a clear authority boundary.
+          </div>
+          <aside class="notes">
+            This is not a live demo slide; it is the exact form of a prompt a
+            leader can standardize. The agent is being directed to the package
+            contract.
+          </aside>
+        </section>
+
+        <!-- 37 -->
+        <section>
+          <span class="part">Demo command</span>
+          <h2>Shell command for artifact generation</h2>
+          <div class="command"><span class="prompt">$</span> npx bc-pkg bigconfig-ai/once@typescript package build</div>
+          <div class="two-col" style="margin-top: 0.85em;">
+            <div class="card"><h3>Human operator</h3><p>Runs the same command locally and reviews generated files.</p></div>
+            <div class="card"><h3>CI or agent</h3><p>Runs the same command in a sandbox and reports differences.</p></div>
+          </div>
+          <aside class="notes">
+            One command surface across callers is the point. The package is not
+            just agent tooling; the agent is one caller among many.
+          </aside>
+        </section>
+
+        <!-- 38 -->
+        <section>
+          <span class="part">Author flow</span>
+          <h2>Package authors use local mode</h2>
+          <div class="command"><span class="prompt">$</span> mkdir /tmp/once-dev-consumer
+<span class="prompt">$</span> cd /tmp/once-dev-consumer
+<span class="prompt">$</span> npx bc-pkg ../once/typescript package build
+
+<span class="comment"># edit package source in ../once/typescript, then rerun</span></div>
+          <p class="small">Local mode symlinks the root <code>run</code> file and writes native local-path dependencies.</p>
+          <aside class="notes">
+            This is important for package authoring. You can iterate locally
+            without publishing, while testing the same launcher path users will
+            exercise.
+          </aside>
+        </section>
+
+        <!-- 39 -->
+        <section>
+          <span class="part">Part 5 · Safety</span>
+          <h2>Authority boundary by verb</h2>
+          <div class="two-col">
+            <div class="card" style="border-left: 5px solid var(--bc-green);">
+              <h3>Safe for agent advice</h3>
+              <p><code>validate</code>, <code>build</code>, <code>describe</code></p>
+              <p class="small">Read-only or no-credential commands produce information and artifacts.</p>
+            </div>
+            <div class="card" style="border-left: 5px solid var(--bc-red);">
+              <h3>Requires explicit authority</h3>
+              <p><code>create</code>, <code>delete</code>, <code>rollback</code>, <code>upgrade</code></p>
+              <p class="small">State-changing commands should require human or policy-controlled approval.</p>
+            </div>
+          </div>
+          <aside class="notes">
+            This is the operating model. The package contract makes it possible
+            to standardize which verbs agents may run automatically.
+          </aside>
+        </section>
+
+        <!-- 40 -->
+        <section>
+          <span class="part">Credential model</span>
+          <h2>Credentials follow the verb, not the tool</h2>
+          <table>
+            <thead>
+              <tr><th>Verb</th><th>Typical credential class</th><th>Agent posture</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>build</code></td><td>No credentials</td><td><span class="pill green">sandbox-friendly</span></td></tr>
+              <tr><td><code>validate</code></td><td>No or read-only credentials</td><td><span class="pill green">agent-friendly</span></td></tr>
+              <tr><td><code>describe</code></td><td>Read-only credentials</td><td><span class="pill green">agent-friendly</span></td></tr>
+              <tr><td><code>create</code></td><td>Read-write credentials</td><td><span class="pill red">approval required</span></td></tr>
+              <tr><td><code>delete</code></td><td>Read-write credentials + guard</td><td><span class="pill red">approval required</span></td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">
+            The phrase “credentials follow the verb” is useful. It moves policy
+            away from raw tools and toward domain operations.
+          </aside>
+        </section>
+
+        <!-- 41 -->
+        <section>
+          <span class="part">Operators</span>
+          <h2>Kubernetes operators proved the idea, then siloed it</h2>
+          <div class="two-col">
+            <div class="card">
+              <h3>The good part</h3>
+              <p>Operational knowledge expressed as a program: watch, reconcile, encode lifecycle behavior.</p>
+            </div>
+            <div class="card">
+              <h3>The limit</h3>
+              <p>The knowledge is naturally trapped inside the Kubernetes runtime boundary.</p>
+            </div>
+          </div>
+          <div class="big-quote" style="margin-top: 0.85em;">
+            The package should be the operational boundary. It can call Kubernetes,
+            but it should not require every caller to live inside Kubernetes.
+          </div>
+          <aside class="notes">
+            This connects to leadership decisions. Operators are excellent for
+            cluster-native problems, but many agentic workflows begin outside
+            the cluster: laptop, sandbox, CI, or external control plane.
+          </aside>
+        </section>
+
+        <!-- 42 -->
+        <section>
+          <span class="part">Leadership standards</span>
+          <h2>What Agentic DevOps leaders should standardize</h2>
+          <div class="two-col">
+            <ul>
+              <li>Required lifecycle verbs and safety classes.</li>
+              <li>Where artifacts live, usually <code>.dist/</code>.</li>
+              <li>How params and environment overrides are named.</li>
+              <li>How packages are pinned and updated.</li>
+            </ul>
+            <ul>
+              <li>Pure report builders for validation and describe.</li>
+              <li>Runner seams for external commands.</li>
+              <li>No credentials in source or copied <code>run</code> files.</li>
+              <li>Local package development flow and conformance tests.</li>
+            </ul>
+          </div>
+          <aside class="notes">
+            This is the call to action for leaders: create organizational
+            standards around package contracts, not around prompt style alone.
+          </aside>
+        </section>
+
+        <!-- 43 -->
+        <section>
+          <span class="part">Adoption path</span>
+          <h2>How to start</h2>
+          <ol>
+            <li>Pick one painful operational workflow.</li>
+            <li>Wrap it in a package command surface.</li>
+            <li>Add <code>validate</code>, <code>build</code>, and <code>describe</code> before expanding mutation.</li>
+            <li>Render artifacts into <code>.dist/</code>.</li>
+            <li>Publish a pinned package ref.</li>
+            <li>Teach agents to call the package, not the raw tools.</li>
+          </ol>
+          <aside class="notes">
+            Make adoption incremental. A team does not need to rewrite its
+            platform. It can start by wrapping one workflow behind a stable
+            executable package contract.
+          </aside>
+        </section>
+
+        <!-- 44 -->
+        <section>
+          <span class="part">Close</span>
+          <h2>BigConfig Packages:<br /><span class="gradient">Skills, but Executable</span></h2>
+          <div class="big-quote">
+            Skills make agents smarter.<br />
+            BigConfig packages make operations runnable.
+          </div>
+          <p style="font-size: 0.8em; margin-top: 1.1em;">
+            <a href="https://www.bigconfig.ai" target="_blank" rel="noopener noreferrer">bigconfig.ai</a>
+            ·
+            <a href="https://www.bigconfig.ai/package-spec/" target="_blank" rel="noopener noreferrer">Package Spec</a>
+            ·
+            <a href="https://www.bigconfig.ai/manual" target="_blank" rel="noopener noreferrer">Manual</a>
+          </p>
+          <p class="small">Give agents an executable contract. Give teams a package, not a low-level tool curriculum.</p>
+          <aside class="notes">
+            Close on the core line. The purpose of BigConfig packages is to make
+            procedural operational knowledge runnable by agents, humans, CI, and
+            control planes through the same safe package contract.
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/notes.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        plugins: [RevealHighlight, RevealNotes],
+        highlight: { escapeHTML: false },
+      });
+    </script>
+  </body>
+</html>
