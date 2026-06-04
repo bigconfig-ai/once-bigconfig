@@ -585,7 +585,7 @@
   <aside>
   <a class="brand" href="/">
     ← BigConfig
-    <div class="tag">manual · launcher · once · big-config · selmer</div>
+    <div class="tag">manual · launcher · once · SDK · selmer</div>
   </a>
     <nav>
       <div class="group">Launcher · bc-pkg</div>
@@ -602,7 +602,7 @@
         <li><a href="#launcher-parity">Parity guarantee</a></li>
       </ul>
 
-      <div class="group">Once · Infrastructure</div>
+      <div class="group">Once · Package</div>
       <ul>
         <li><a href="#once">About Once</a></li>
         <li><a href="#once-cli">CLI commands</a></li>
@@ -619,9 +619,9 @@
         <li><a href="#once-build">Build artifact</a></li>
       </ul>
 
-      <div class="group">BigConfig · Engine</div>
+      <div class="group">SDK</div>
       <ul>
-        <li><a href="#bc">About BigConfig</a></li>
+        <li><a href="#bc">About the SDK</a></li>
         <li><a href="#bc-concepts">Concepts</a></li>
         <li><a href="#bc-keys">Reserved opts keys</a></li>
         <li><a href="#bc-core">Workflow primitives</a></li>
@@ -665,11 +665,11 @@
   </div>
 
   <h1>BigConfig manual</h1>
-  <p class="lead">Four libraries that compose into a one-command cloud-provisioning CLI: a <strong>launcher</strong> (<code>bc-pkg</code>) that bootstraps a target package from GitHub, an infrastructure-automation CLI (<strong>Once</strong>) built on top of a workflow + render engine (<strong>BigConfig</strong>), which itself uses a Django-style template engine (<strong>Selmer</strong>). Each leaf is implemented in TypeScript, Python and Clojure. Pick a language at the top — the manual rewrites itself.</p>
+  <p class="lead">Four libraries that compose into a one-command cloud-provisioning CLI: a <strong>launcher</strong> (<code>bc-pkg</code>) that bootstraps a target package from GitHub, an infrastructure-automation CLI (<strong>Once</strong>) built on top of a workflow + render engine (<strong>SDK</strong>), which itself uses a Django-style template engine (<strong>Selmer</strong>). Each leaf is implemented in TypeScript, Python and Clojure. Pick a language at the top — the manual rewrites itself.</p>
   <div class="header-meta">
     <span class="pill">bc-pkg</span>
     <span class="pill">once</span>
-    <span class="pill">big-config</span>
+    <span class="pill">SDK</span>
     <span class="pill">selmer</span>
     <span class="pill">TypeScript</span>
     <span class="pill">Python 3.12+</span>
@@ -975,7 +975,7 @@ cacheRoot/
 
     <div class="note warn">
       <span class="label">Known intentional divergence</span>
-      The Python launcher symlinks (or copies) <code>.venv/.../site-packages/resources</code> to <code>./resources</code> after <code>uv sync</code>, so BigConfig's renderer can find template data shipped via wheels. The TS launcher does not do this for Python targets. If a Python target ever ships <code>resources/</code> via its npm-equivalent path, mirror the symlink in <code>bc-pkg.js</code> too.
+      The Python launcher symlinks (or copies) <code>.venv/.../site-packages/resources</code> to <code>./resources</code> after <code>uv sync</code>, so the SDK renderer can find template data shipped via wheels. The TS launcher does not do this for Python targets. If a Python target ever ships <code>resources/</code> via its npm-equivalent path, mirror the symlink in <code>bc-pkg.js</code> too.
     </div>
   </section>
 
@@ -983,8 +983,8 @@ cacheRoot/
   <!-- ONCE                                                              -->
   <!-- ================================================================ -->
   <div class="toplevel" id="once">
-    <h2>Once · Infrastructure CLI</h2>
-    <span class="pill">depends on BigConfig</span>
+    <h2>Once · Package CLI</h2>
+    <span class="pill">depends on SDK</span>
   </div>
 
   <p>Once is the user-facing CLI that <code>bc-pkg</code> bootstraps. Each invocation drives a profile through a six-stage provisioning pipeline: OpenTofu for compute, SMTP, DNS and SMTP post-verification, then Ansible to configure the freshly provisioned host and deploy applications listed under the profile's <code>once.applications</code>. Profiles pin one cloud provider (DigitalOcean / hcloud / OCI / no-infra) plus shared SMTP (Resend) and DNS (Cloudflare) sub-profiles.</p>
@@ -1355,14 +1355,14 @@ export BC_PAR_HCLOUD_TOKEN=<span class="str">"xxx"</span></code></pre>
       </tbody>
     </table>
 
-    <p>Provider switching is directory-level. Each render step passes a <code>:transform [[&lt;provider&gt; delimiters]]</code> entry (<code>[["digitalocean", delimiters]]</code>, <code>[["oci", delimiters]]</code>, …) and BigConfig's renderer copies only the matching subdirectory under <code>tools/&lt;step&gt;/</code>. The rendered output lands in <code>.dist/&lt;profile-name&gt;-&lt;hash&gt;/&lt;module&gt;/</code>.</p>
+    <p>Provider switching is directory-level. Each render step passes a <code>:transform [[&lt;provider&gt; delimiters]]</code> entry (<code>[["digitalocean", delimiters]]</code>, <code>[["oci", delimiters]]</code>, …) and the SDK renderer copies only the matching subdirectory under <code>tools/&lt;step&gt;/</code>. The rendered output lands in <code>.dist/&lt;profile-name&gt;-&lt;hash&gt;/&lt;module&gt;/</code>.</p>
   </section>
 
   <!-- ---------------- -->
   <section id="once-plugin">
     <h3>Plugin system</h3>
 
-    <p>Once registers one pluggable step with BigConfig's step registry: <code>render-tofu-backend</code>. After every <code>render</code> step, the handler reads <code>provider-backend</code> from params (<code>"s3"</code> / <code>"r2"</code> / <code>"local"</code>) and writes the matching backend block into the just-rendered Tofu directory. That keeps state-backend logic out of the per-provider <code>tofu/</code> templates and isolates it in one place.</p>
+    <p>Once registers one pluggable step with the SDK's step registry: <code>render-tofu-backend</code>. After every <code>render</code> step, the handler reads <code>provider-backend</code> from params (<code>"s3"</code> / <code>"r2"</code> / <code>"local"</code>) and writes the matching backend block into the just-rendered Tofu directory. That keeps state-backend logic out of the per-provider <code>tofu/</code> templates and isolates it in one place.</p>
 
 <pre class="lang-block" data-lang="ts"><code><span class="com">// once/typescript/src/once/tools.ts (sketched)</span>
 <span class="fn">registerHandleStep</span>(<span class="str">"io.github.bigconig-ai.once.tools/render-tofu-backend"</span>, handler);</code></pre>
@@ -1393,11 +1393,11 @@ register_handle_step(<span class="str">"io.github.bigconig-ai.once.tools/render-
   <!-- BIG-CONFIG                                                        -->
   <!-- ================================================================ -->
   <div class="toplevel" id="bc">
-    <h2>BigConfig · Engine</h2>
+    <h2>SDK · Engine</h2>
     <span class="pill">depends on Selmer</span>
   </div>
 
-  <p>BigConfig is the workflow and rendering engine that <code>once</code> sits on top of. Three independent implementations (<code>big-config/clojure</code>, <code>big-config/python</code>, <code>big-config/typescript</code>) expose the same public surface: workflow primitives, a step-fn middleware system, a pluggable step dispatcher, a Selmer-based file-tree renderer, a swappable shell runner, Git-tag pessimistic locking, and OpenTofu construct helpers (<code>big-tofu</code>). Reserved keys are <em>verbatim string</em> identifiers (e.g. <code>"big-config/exit"</code>) that flow through unchanged across all three languages.</p>
+  <p>The SDK is the workflow and rendering engine that <code>once</code> sits on top of. The Clojure SDK (<code>big-config/clojure</code>), Python SDK (<code>big-config/python</code>), and TypeScript SDK (<code>big-config/typescript</code>) expose the same public surface: workflow primitives, a step-fn middleware system, a pluggable step dispatcher, a Selmer-based file-tree renderer, a swappable shell runner, Git-tag pessimistic locking, and OpenTofu construct helpers (<code>big-tofu</code>). Reserved keys are <em>verbatim string</em> identifiers (e.g. <code>"big-config/exit"</code>) that flow through unchanged across all three languages.</p>
 
   <p>Each implementation pulls in its own Selmer port: Clojure uses <code>selmer/selmer 1.13.1</code> from Maven, Python and TypeScript use the GitHub-pinned ports under <code>../selmer/</code>.</p>
 
@@ -1560,7 +1560,7 @@ validate · describe · exec · git-push · unlock-any</code></pre>
     <p>The <code>render</code> module copies a templated directory tree into <code>.dist/</code>, evaluating Selmer in file contents and selecting subdirectories by variable.</p>
 
     <ul>
-      <li><strong>File content</strong> uses the BigConfig delimiter customisation (e.g. <code>&lt;{ var }&gt;</code>) — the literal <code>{{ … }}</code> is left intact for downstream tools.</li>
+      <li><strong>File content</strong> uses the SDK delimiter customisation (e.g. <code>&lt;{ var }&gt;</code>) — the literal <code>{{ … }}</code> is left intact for downstream tools.</li>
       <li><strong>Directory names</strong> use the standard Selmer <code>{{ var }}</code> delimiters — a directory called <code>{{ provider }}</code> gets replaced by the value of <code>provider</code> at render time, and (more often) a top-level <code>:transform [[&lt;val&gt; delimiters]]</code> entry selects which subdirectory to copy.</li>
       <li>The render data is the merged <code>params</code> plus <code>target-object</code> / <code>module</code> / <code>profile</code> read out of the opts map.</li>
       <li>Reserved keys: <code>big-config.render/templates</code> (input root), <code>big-config.render/module</code> (output sub-path), <code>big-config.render/profile</code> (profile name used to derive the output directory).</li>
@@ -1590,7 +1590,7 @@ validate · describe · exec · git-push · unlock-any</code></pre>
 
     <div class="note">
       <span class="label">Why a seam, not exceptions</span>
-      BigConfig deliberately never throws across step boundaries. A failing shell command sets <code>big-config/exit</code> and <code>big-config/err</code>; the next step's wire function decides what to do. Don't add try/catch around step functions — let the engine route the failure.
+      The SDK deliberately never throws across step boundaries. A failing shell command sets <code>big-config/exit</code> and <code>big-config/err</code>; the next step's wire function decides what to do. Don't add try/catch around step functions — let the engine route the failure.
     </div>
   </section>
 
@@ -1657,9 +1657,9 @@ validate · describe · exec · git-push · unlock-any</code></pre>
 
   <!-- ---------------- -->
   <section id="bc-selmer">
-    <h3>BigConfig's Selmer filters</h3>
+    <h3>SDK Selmer filters</h3>
 
-    <p><code>big-config.selmer-filters</code> exposes BigConfig-flavoured helpers around Selmer's delimiters, including <code>normalize-delimiters</code> / <code>normalizeDelimiters</code> (default delimiter resolution, including <code>tagOpen</code>, <code>tagClose</code>, <code>filterOpen</code>, <code>filterClose</code>, <code>tagSecond</code>, <code>shortCommentSecond</code>) and <code>whitespace-control</code> / <code>whitespaceControl</code> (Selmer's whitespace-trim helper applied with BigConfig's delimiters). Downstream packages call these instead of hard-coding Selmer's defaults.</p>
+    <p><code>big-config.selmer-filters</code> exposes SDK-flavoured helpers around Selmer's delimiters, including <code>normalize-delimiters</code> / <code>normalizeDelimiters</code> (default delimiter resolution, including <code>tagOpen</code>, <code>tagClose</code>, <code>filterOpen</code>, <code>filterClose</code>, <code>tagSecond</code>, <code>shortCommentSecond</code>) and <code>whitespace-control</code> / <code>whitespaceControl</code> (Selmer's whitespace-trim helper applied with the SDK's delimiters). Downstream packages call these instead of hard-coding Selmer's defaults.</p>
   </section>
 
   <!-- ---------------- -->
@@ -1687,7 +1687,7 @@ validate · describe · exec · git-push · unlock-any</code></pre>
   <section id="bc-cli">
     <h3>CLI</h3>
 
-    <p>Each leaf exposes the BigConfig DSL through its own CLI binary (used directly when working on the engine, or indirectly through <code>once</code>):</p>
+    <p>Each language SDK exposes the SDK DSL through its own CLI binary (used directly when working on the engine, or indirectly through <code>once</code>):</p>
 
 <pre class="lang-block" data-lang="ts"><code><span class="com"># From a big-config/typescript checkout</span>
 npm run build
@@ -1943,7 +1943,7 @@ render_file(<span class="str">"page.html"</span>, {<span class="str">"title"</sp
   <section id="selmer-delim">
     <h3>Custom delimiters</h3>
 
-    <p>The four delimiters are the most-used escape hatch: pass them via the per-call options object to make Selmer's tag/filter delimiters something other than <code>{%</code> / <code>%}</code> and <code>{{</code> / <code>}}</code>. This is exactly what BigConfig does to keep its templates compatible with downstream Ansible (which itself uses <code>{{ … }}</code>).</p>
+    <p>The four delimiters are the most-used escape hatch: pass them via the per-call options object to make Selmer's tag/filter delimiters something other than <code>{%</code> / <code>%}</code> and <code>{{</code> / <code>}}</code>. This is exactly what the SDK does to keep its templates compatible with downstream Ansible (which itself uses <code>{{ … }}</code>).</p>
 
     <table class="triple">
       <thead><tr><th>Delimiter</th><th class="col-clj">Clojure</th><th class="col-py">Python</th><th class="col-ts">TypeScript</th></tr></thead>
@@ -2078,7 +2078,7 @@ clear_cache()</code></pre>
 
     <div class="note">
       <span class="label">Porting policy</span>
-      Behavioural divergence between the three implementations is a bug. If you need to change template-language semantics, change them in <code>selmer/clojure</code> first and port across to <code>selmer/python</code> and <code>selmer/typescript</code> in the same change set. Stdlib-only / no-dependency constraints on the ports are load-bearing — adding a runtime dep breaks downstream <code>big-config</code> users.
+      Behavioural divergence between the three implementations is a bug. If you need to change template-language semantics, change them in <code>selmer/clojure</code> first and port across to <code>selmer/python</code> and <code>selmer/typescript</code> in the same change set. Stdlib-only / no-dependency constraints on the ports are load-bearing — adding a runtime dep breaks downstream SDK users of <code>big-config</code>.
     </div>
   </section>
 
