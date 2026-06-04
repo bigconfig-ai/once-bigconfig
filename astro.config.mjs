@@ -38,6 +38,8 @@ export default defineConfig({
 
   server: {
     allowedHosts: true,
+    // PORT comes from .envrc (via direnv), defaults to 4321 as Astro convention
+    port: parseInt(process.env.PORT || "4321"),
   },
 
   vite: {
