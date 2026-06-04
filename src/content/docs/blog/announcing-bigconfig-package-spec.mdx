@@ -1,0 +1,227 @@
+---
+title: "Announcing the BigConfig Package Spec"
+date: 2026-06-04
+excerpt: |-
+  The BigConfig Package Spec defines the small contract a repository needs in order to be pinned, initialized, and run by bc-pkg: one language manifest, one root run file, installable package code, and the lifecycle verbs agents, humans, shells, and CI can all share.
+authors: amiorin
+tags:
+  - bigconfig
+  - package spec
+  - bc-pkg
+  - agents
+  - devops
+  - platform engineering
+  - package manager
+cover:
+  alt: BigConfig Package Spec as a small contract connecting bc-pkg, package repositories, lifecycle verbs, and generated artifacts.
+  image: /blog/bigconfig-package-spec.png
+---
+
+Operational knowledge is easy to demo once.
+
+It is much harder to package so another human, another machine, another CI job, or another agent can run it reliably six months later.
+
+That is the gap the BigConfig Package Spec is meant to close.
+
+I published the [BigConfig Package Spec](/package-spec/) as a friendly implementation guide for package authors. It describes the small repository contract that makes a package launchable by `bc-pkg`: one manifest, one root `run` file, installable code and resources, and a command surface that maps cleanly to the BigConfig lifecycle.
+
+That may sound mundane.
+
+It is not.
+
+A package manager for agents needs a package spec.
+
+## The contract is intentionally small
+
+A BigConfig package is still a normal language package.
+
+It can be written in TypeScript, Python, or Clojure. It can use the dependency system of that language. It can organize its internals however the author wants.
+
+The spec only asks for a small outside-facing shape:
+
+- exactly one supported root manifest: `package.json`, `pyproject.toml`, or `deps.edn`
+- a root `run` file that forwards arguments into the package
+- installable package code
+- packaged templates and resources
+- lifecycle commands such as `package validate`, `package build`, `package create`, `package describe`, and `package delete`
+
+That is the point.
+
+The package spec is deliberately small because the goal is not to make every package look the same inside. The goal is to make every package runnable from the outside.
+
+If a package has that shape, `bc-pkg` can initialize a consumer directory, pin the dependency, copy or link the `run` file, and forward commands to the package.
+
+## The root `run` file is the handoff
+
+The most important convention is the root `run` file.
+
+That file is the handoff from the package author to the user. In GitHub mode, `bc-pkg` copies it into the consumer directory. In local development mode, it symlinks it where possible so changes are picked up immediately.
+
+That makes the `run` file both executable and editable.
+
+It should forward argv to the real package CLI or workflow. It should include safe placeholder defaults. It should not contain credentials, customer-specific infrastructure IDs, tokens, keys, or anything that should not land in a user's working directory.
+
+In other words, `run` is the package's public operational entrypoint.
+
+The internals can be rich. The outside contract stays simple.
+
+## GitHub pins for reproducibility, local paths for iteration
+
+The spec also documents the two modes every package author should test.
+
+The first is GitHub mode:
+
+```bash
+uvx bc-pkg owner/repo@ref package validate
+npx bc-pkg owner/repo@ref package validate
+```
+
+In this mode, `bc-pkg` resolves the branch or tag to a full commit SHA and records that pinned target locally. Re-entering the directory later reuses the same package revision instead of silently upgrading underneath you.
+
+That matters for operations. A package command should not change behavior because a branch moved between two runs.
+
+The second mode is local development:
+
+```bash
+uvx bc-pkg ../my-package package build
+npx bc-pkg ../my-package package build
+```
+
+Local mode exists because package authors need a fast loop. You should be able to edit the package, render artifacts, inspect output, fix the package, and run again without publishing a commit for every iteration.
+
+Both modes are part of the contract.
+
+If a package only works from the source tree, it is not ready. If it only works after publication and cannot be exercised locally, the authoring loop is too slow.
+
+## Lifecycle verbs are authority boundaries
+
+The package spec recommends a small lifecycle vocabulary:
+
+```bash
+package validate
+package build
+package create
+package describe
+package delete
+```
+
+Those verbs are not just nice CLI names.
+
+They are authority boundaries.
+
+`validate` can check profile shape, required tools, credentials, reachable dependencies, image references, and other safe pre-flight conditions.
+
+`build` can render durable artifacts into `.dist/` without applying anything.
+
+`describe` can report state.
+
+`create` and `delete` can touch real resources.
+
+That separation matters when humans, agents, shells, and CI all share the same package. An agent can run `validate` and `describe` with limited authority. A CI job can run `build` on every pull request. A human can keep `create` and `delete` behind review and approval.
+
+A runbook does not naturally give you that boundary.
+
+A package can.
+
+## The package includes more than code
+
+Infrastructure and operations packages are not only libraries.
+
+They also carry templates, inventories, Terraform or OpenTofu modules, Ansible resources, generated configuration, and validation logic. The spec calls this out because it is a common failure mode for package authors: the code installs, but the resources do not ship with the installable artifact.
+
+A package should be usable from a pinned GitHub commit, not only from a local checkout.
+
+That means TypeScript packages need to include built JavaScript and resources. Python packages need to include resources in the wheel or source distribution. Clojure packages need resources on the classpath through `:paths`.
+
+The rendered output belongs in `.dist/`.
+
+That directory is generated output, not source. But it is also the artifact boundary that makes the operation inspectable. A package can render real files that outlive the conversation: plans, inventories, configuration, backend settings, reports, and any other operational evidence the user should review.
+
+This is one of the biggest differences between a package and a prompt.
+
+A prompt can describe what should happen.
+
+A package can render the files and run the workflow.
+
+## Parameters stay boring on purpose
+
+The spec also keeps parameter boundaries boring.
+
+Profile parameters use kebab-case keys that match template variable names. Runtime overrides use `BC_PAR_*`: uppercase the key and replace hyphens or dots with underscores.
+
+For example:
+
+```bash
+export BC_PAR_DOMAIN="example.com"
+export BC_PAR_PROVIDER_BACKEND="r2"
+export BC_PAR_COMPUTE_PREVENT_DESTROY="false"
+```
+
+That convention is intentionally plain. It works from a shell, from CI, from an agent's tool environment, and from scripts.
+
+The package can still have rich internal logic. The boundary stays inspectable.
+
+## TypeScript, Python, and Clojure targets
+
+The spec covers TypeScript, Python, and Clojure target packages.
+
+There are Python and npm implementations of the `bc-pkg` launcher. There is no Clojure implementation of `bc-pkg` itself. But both launchers can initialize and run Clojure target packages.
+
+That distinction matters.
+
+The launcher is not the package. The launcher is the bootstrap layer that detects the target package, writes the small native consumer project, and forwards the remaining command to the package's `run` file.
+
+The target package can be TypeScript, Python, or Clojure as long as it exposes the expected shape.
+
+The language is secondary.
+
+The contract is primary.
+
+## Why this matters for agents
+
+Agents are good at reading code, editing files, running commands, and iterating on validation failures.
+
+They are much less safe when the only operational interface is a prose runbook and a production shell.
+
+A BigConfig package gives the agent a better boundary:
+
+- inspect the package
+- edit the local `run` configuration
+- run `package validate`
+- run `package build`
+- inspect `.dist/`
+- summarize what would happen
+- ask before `create` or `delete`
+
+That is the kind of interface I want agents to use.
+
+Not a hidden SaaS workflow.
+
+Not a chat-only skill.
+
+Not a pile of YAML fragments copied from a wiki.
+
+A normal package with an executable lifecycle.
+
+Like Skills, but executable.
+
+## Build against the spec
+
+If you are writing a BigConfig package, the spec is now the checklist I would start from:
+
+- can the launcher detect the root?
+- does the root `run` file forward arguments cleanly?
+- does the package work from a pinned GitHub ref?
+- does it work from a local path?
+- do resources ship with the installable package?
+- do lifecycle verbs behave as advertised?
+- are credentials kept out of source and copied files?
+- can `validate` and `build` run before anything touches real infrastructure?
+
+That is the practical standard.
+
+The goal is not ceremony. The goal is repeatability.
+
+Read the BigConfig Package Spec here:
+
+[BigConfig Package Spec](/package-spec/)
