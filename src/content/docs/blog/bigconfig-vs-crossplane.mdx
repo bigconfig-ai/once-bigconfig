@@ -1,0 +1,358 @@
+---
+title: "BigConfig vs. Crossplane: APIs in Kubernetes or Packages You Can Run?"
+date: 2026-06-06
+excerpt: |-
+  Crossplane makes Kubernetes the public runtime for platform operations. BigConfig replaces that boundary with executable packages that humans, agents, CI, scripts, and backend control planes can all run.
+authors: amiorin
+tags:
+  - bigconfig
+  - crossplane
+  - platform engineering
+  - devops
+  - kubernetes
+  - agents
+  - package manager
+cover:
+  alt: Crossplane exposes infrastructure as Kubernetes APIs while BigConfig exposes infrastructure as executable packages.
+  image: /blog/bigconfig-vs-crossplane.png
+---
+
+If you are using Crossplane, the most important question is not whether infrastructure should have an abstraction layer.
+
+The question is where that abstraction should live.
+
+Crossplane answers: inside Kubernetes.
+
+BigConfig answers: inside an executable package.
+
+That difference is not cosmetic. It changes the runtime, the developer experience, the debugging model, the credential boundary, the agent story, and the path from command-line automation to a real control plane.
+
+For Crossplane users, the conclusion of this buyer guide is direct: **BigConfig replaces Crossplane**. It keeps the useful goal of platform abstraction, but removes the Kubernetes API, CRD, controller, provider, and reconciliation machinery from the public interface.
+
+Crossplane turns infrastructure into Kubernetes resources.
+
+BigConfig turns infrastructure into software you can run.
+
+![Crossplane exposes platform abstractions as Kubernetes APIs. BigConfig exposes them as executable packages.](/blog/bigconfig-vs-crossplane-diagram.png)
+
+## The core decision: API server or package boundary?
+
+Crossplane makes the Kubernetes API server the front door for infrastructure. Users interact with claims, composite resources, managed resources, providers, events, conditions, RBAC, and reconciliation loops.
+
+BigConfig makes the package the front door. Users run package verbs:
+
+```bash
+package validate
+package create
+package describe
+package delete
+```
+
+The package can still use Kubernetes. It can still run Helm. It can still render Terraform or OpenTofu. It can still call cloud APIs. It can still generate manifests. It can still be wrapped by a backend application later.
+
+The difference is that those tools are implementation details.
+
+The public interface is not a Kubernetes object graph. It is an executable package contract.
+
+| Dimension | Crossplane | BigConfig |
+|---|---|---|
+| Public boundary | Kubernetes API, CRDs, claims, composites | Package commands |
+| Runtime requirement | Kubernetes control plane | Shell, CI, agent, container, backend app, or any control plane |
+| Execution model | Asynchronous reconciliation | Explicit workflows |
+| User surface | YAML and Kubernetes resources | Lifecycle verbs and package params |
+| Tool integration | Providers, controllers, functions | Terraform/OpenTofu, Ansible, Helm, Kubernetes, APIs, scripts, libraries |
+| Agent path | Edit/apply resources or call an API/MCP bridge | Run the package directly |
+| Control-plane path | Kubernetes is the control plane substrate | Package code can be reused inside a backend app |
+
+That table is the replacement argument.
+
+Crossplane starts from a control-plane API. BigConfig starts from reusable operational code.
+
+## Kubernetes is the Crossplane tax
+
+Crossplane makes Kubernetes mandatory for platform operations.
+
+That means you do not only manage your cloud resources. You also manage the cluster that manages the resources, the providers inside that cluster, the provider credentials, the RBAC, the CRDs, the composition versions, the finalizers, the deletion behavior, the controller upgrades, and the failure modes of the whole chain.
+
+This is the Kubernetes tax.
+
+It appears even when the target workload is not primarily Kubernetes:
+
+- DNS records
+- SMTP verification
+- object storage
+- cloud networking
+- virtual machines
+- database backups
+- deployment reports
+- migration workflows
+- local agent-assisted remediation
+
+Crossplane makes all of that pass through Kubernetes as the operations runtime.
+
+BigConfig does not.
+
+A BigConfig package can run from a laptop, a CI job, a container, a sandboxed coding agent, a VM, or a backend application. Kubernetes can be one tool inside the package when it is useful. It does not have to be the universal substrate for every operation.
+
+## Reconciliation is not the same as workflow
+
+Crossplane's center is reconciliation: desired state is represented as resources, and controllers converge the world toward that state.
+
+A lot of real operations do not start as desired-state convergence. They start as workflows:
+
+```bash
+package validate
+package describe
+package cost-analysis
+package backup
+package restore
+package rotate-keys
+package migrate
+package upgrade
+package rollback
+```
+
+These verbs are not just nicer names for apply and delete.
+
+They imply different inputs, different reports, different safety checks, different credential requirements, and different human decisions.
+
+A validation command may need no mutating credentials. A describe command may gather state from cloud APIs, rendered artifacts, logs, and generated inventories. A backup command may require a maintenance window. A migration may need staged execution and a rollback report. A rotate-keys command may need to coordinate cloud credentials, application secrets, and post-rotation checks.
+
+You can force these things into a reconciliation model by creating more resources, more controllers, more functions, more CI jobs, or more scripts around the edges.
+
+But then the platform boundary becomes indirect again.
+
+BigConfig makes the workflow itself the first-class interface.
+
+## Debugging should not require spelunking through a resource graph
+
+When Crossplane fails, the failure can be spread across several layers:
+
+- a claim
+- a composite resource
+- composed managed resources
+- provider controllers
+- provider credentials
+- Kubernetes events
+- conditions
+- finalizers
+- external cloud API state
+
+The debugging question becomes: where in the chain did the intended operation stop matching reality?
+
+BigConfig gives you a command-scoped execution model. You run the package. You get output for that command. The package can render artifacts into `.dist/`, run tools in order, collect reports, and fail at a named step.
+
+That does not make infrastructure easy. It makes the operational boundary easier to inspect.
+
+For humans and agents, that matters.
+
+An agent can read a command result, inspect generated files, summarize a validation report, and propose a next action. It does not need to infer intent by traversing Kubernetes resources and controller events.
+
+## The control plane is not the holy grail
+
+A control plane is just a backend application.
+
+That sentence matters because a lot of DevOps architecture treats the control-plane API as the final destination. First build an API. Then build a UI. Then build an MCP server so an agent can call the API. Then teach the agent the API. Then route human-in-the-loop operations through a remote server even when the agent, the operator, and the package could have run on the same machine.
+
+In the agent era, that is often the long way around.
+
+With BigConfig, the package and the agent can run on the same computer:
+
+```bash
+package validate
+package describe
+package build
+```
+
+The agent can inspect the package, inspect the rendered output, and explain what it would do. If the operation needs a human, the human remains in the loop.
+
+You do not need to create an API first and an MCP bridge second just to let an agent call operational logic.
+
+If you later need a real server-side control plane, build one as a normal backend application around the same package code. The package logic remains reusable. The backend app becomes another caller of the package, not the place where the operational knowledge is trapped.
+
+That is a better layering:
+
+1. package logic first
+2. CLI and agent execution immediately
+3. CI and containers as needed
+4. backend/control-plane app later, only when there is a real reason
+
+Crossplane reverses that layering. It starts by making Kubernetes the backend application.
+
+## Credential separation does not require a cluster
+
+Crossplane often inherits Kubernetes-shaped credential boundaries: service accounts, RBAC, provider configs, secrets, and controller permissions.
+
+BigConfig can use a simpler boundary for human-in-the-loop agent work: containers.
+
+Run the package with different credential contexts:
+
+```bash
+# advisory context: agent can inspect, validate, and report
+docker run --rm company/app-platform package validate describe
+
+# operator context: human applies the fix with mutating credentials
+docker run --rm company/app-platform package create
+```
+
+The exact container image and command surface are package-specific, but the idea is simple:
+
+- the agent gets advisory or read-only credentials
+- the operator keeps mutating credentials
+- the package contract separates advice from action
+- the same package code runs in both contexts
+
+That is much easier to reason about than giving an agent access to a cluster API, an MCP bridge, and a chain of controllers that eventually mutate cloud resources.
+
+## Keep servers for autonomous loops
+
+Some automation belongs on a server.
+
+Autoscaling is the obvious example. It should run continuously. It should not wait for a human. It should react to metrics and policy.
+
+But not every DevOps operation is autoscaling.
+
+Many operations are human-in-the-loop:
+
+- diagnose why validation failed
+- inspect generated infrastructure changes
+- decide whether a migration should proceed
+- review a cost report
+- approve a rollback
+- rotate a credential after confirming impact
+- fix a deployment with operator credentials
+
+Those operations do not need to pay the Kubernetes control-plane tax by default.
+
+Keep continuous autonomous loops on the server. Keep human-guided diagnosis, validation, remediation, and package operation close to the agent and operator when that is simpler and safer.
+
+## Example: replacing a Crossplane platform with `company/app-platform`
+
+Imagine a company platform package for web applications.
+
+It provisions and operates:
+
+- DNS
+- SMTP verification
+- object storage
+- compute
+- application deployment
+- post-provision configuration
+- health and validation reports
+
+With a Kubernetes-first control plane, the platform interface becomes a set of Kubernetes resources. A user creates or updates claims. Controllers reconcile composites and managed resources. Operational status is distributed across conditions, events, provider resources, and external systems.
+
+With BigConfig, the platform interface is a package:
+
+```bash
+npx bc-pkg company/app-platform@v1 package validate create
+npx bc-pkg package describe
+npx bc-pkg package delete
+```
+
+The user does not need to know whether the package uses OpenTofu for cloud resources, Ansible for post-provision configuration, Helm for an in-cluster component, or direct API calls for DNS and SMTP.
+
+The package owns that translation.
+
+A package instance contains the app-level intent:
+
+```bash
+export BC_PAR_DOMAIN="app.example.com"
+export BC_PAR_IMAGE="ghcr.io/company/app:2026-06-06"
+export BC_PAR_PROVIDER_DNS="cloudflare"
+export BC_PAR_PROVIDER_OBJECT_STORAGE="r2"
+```
+
+The consumer runs lifecycle verbs. The platform team owns the implementation.
+
+That is the replacement: claims become package params, compositions become package code and templates, providers become implementation details, and reconciliation-only thinking becomes explicit workflows.
+
+## Hiding tools from users does not hide them from authors
+
+A common fear with package boundaries is that they make the underlying tools harder to use.
+
+BigConfig does the opposite.
+
+For package consumers, tools like Terraform/OpenTofu, Ansible, Helm, Kubernetes, and cloud APIs are hidden behind lifecycle commands.
+
+For package authors, running one underlying tool remains trivial.
+
+In a TypeScript/npm package source checkout, an author can run only the OpenTofu planning path like this:
+
+```bash
+npx . tofu render tofu:init -- tofu plan
+```
+
+Read that command as an author workflow:
+
+1. `npx .` runs the local package entrypoint from the source checkout.
+2. `tofu` selects the package's OpenTofu tool workflow.
+3. `render` renders the package templates into the generated context.
+4. `tofu:init` runs the package's OpenTofu init step.
+5. `-- tofu plan` passes the raw OpenTofu command to the execution step.
+
+The package consumer sees:
+
+```bash
+package validate create
+```
+
+The package author still gets a direct tool loop:
+
+```bash
+npx . tofu render tofu:init -- tofu plan
+```
+
+That is the point of the package boundary. It simplifies the public interface without taking tools away from the people who own the implementation.
+
+## How to migrate the mental model
+
+Replacing Crossplane with BigConfig is not a search-and-replace of YAML.
+
+It is a boundary change.
+
+Use this mapping:
+
+| Crossplane concept | BigConfig replacement |
+|---|---|
+| Claim | Package instance params |
+| Composite resource | Package workflow state and rendered artifacts |
+| Composition | Package code, templates, and workflow composition |
+| Managed resource | Tool-specific implementation detail |
+| Provider config | Package credential/input handling |
+| Conditions/events | Command output, reports, logs, and generated files |
+| Controller reconciliation | Explicit package verbs |
+| Control-plane API | Optional backend app around reusable package logic |
+
+A practical migration plan looks like this:
+
+1. Name the product interface first: `validate`, `create`, `describe`, `delete`, `backup`, `restore`, `upgrade`, `rollback`.
+2. Move user inputs from Kubernetes resources to package params.
+3. Move composition logic into package code and templates.
+4. Keep Terraform/OpenTofu, Ansible, Helm, Kubernetes, providers, and APIs inside the package.
+5. Add command-scoped reports for validation, describe, and planning.
+6. Use containers for credential separation between agent advice and operator fixes.
+7. Keep only autonomous loops, such as autoscaling, on the server by default.
+8. If a control plane is still needed, wrap the package in a backend application later.
+
+This is not less platform engineering.
+
+It is platform engineering with the right public interface.
+
+## The replacement argument
+
+Crossplane makes the Kubernetes API the center of DevOps.
+
+BigConfig makes reusable executable packages the center of DevOps.
+
+That is why BigConfig replaces Crossplane.
+
+A Kubernetes API is useful when you need to operate Kubernetes. It should not become the universal interface for DNS, SMTP, object storage, compute, backups, migrations, validation reports, agent workflows, and human-in-the-loop remediation.
+
+The package is the better boundary.
+
+It runs locally. It runs in CI. It runs in a container. It runs next to an agent. It can later run behind a backend app. It can still use Kubernetes when Kubernetes is the right implementation tool.
+
+But it does not pay the Kubernetes tax by default.
+
+Start with the [BigConfig Package Spec](/package-spec/) to see the package boundary. Use the [manual](/manual) when you want the implementation details.
