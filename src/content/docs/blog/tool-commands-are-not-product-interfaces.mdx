@@ -1,0 +1,286 @@
+---
+title: "Tool Commands Are Not Product Interfaces"
+date: 2026-06-06
+excerpt: |-
+  Delivery teams and agents ask product-level questions: can I deploy this,
+  is it valid, what changed, can I roll back, is it healthy? Platform teams
+  often answer with tool verbs like terraform apply, helm upgrade, and kubectl
+  apply. BigConfig exists to replace that mismatch with executable package
+  interfaces.
+authors: amiorin
+tags:
+  - bigconfig
+  - devops
+  - platform engineering
+  - infrastructure
+  - terraform
+  - kubernetes
+  - agents
+cover:
+  alt: Delivery teams and agents ask product-level infrastructure questions while platforms often expose low-level tool commands.
+  image: /blog/tool-commands-are-not-product-interfaces.png
+---
+
+A delivery team asks a product question:
+
+> Can I deploy this?
+
+The platform often answers with an implementation command:
+
+```bash
+terraform apply
+```
+
+The team asks:
+
+> Is the environment valid?
+
+The platform answers with another implementation command, another provider schema, another convention, another folder, another runbook, or another YAML file.
+
+That mismatch is the problem.
+
+Tool commands are not product interfaces.
+
+![Delivery teams and agents ask product-level questions while platforms often expose low-level tool commands.](/blog/tool-commands-are-not-product-interfaces.png)
+
+## What teams ask is not what platforms expose
+
+The slide version is simple.
+
+What teams ask:
+
+- Can I deploy this?
+- Is the environment valid?
+- What changed?
+- Can I roll back?
+- Is it healthy?
+
+What platforms often expose:
+
+- `terraform plan`
+- `terraform apply`
+- `helm upgrade`
+- `kubectl apply`
+- provider schemas and conventions
+
+Those are not the same layer.
+
+`terraform apply` is a tool verb. `helm upgrade` is a tool verb. `kubectl apply` is a tool verb. They are valuable commands for people building the platform implementation.
+
+But they are not the questions the consumer of the platform is trying to answer.
+
+A delivery team does not wake up wanting to operate provider schemas. It wants to ship an application, understand whether the environment is valid, inspect what changed, roll back safely, and know whether the system is healthy.
+
+An agent does not need a pile of low-level commands and a hope that it infers your local conventions correctly. It needs a small executable boundary that says which operations are safe to inspect, which operations mutate state, and what reports should be read before taking the next step.
+
+## The problem is not Terraform, Helm, or Kubernetes
+
+This is not an argument against Terraform.
+
+It is not an argument against Helm.
+
+It is not an argument against Kubernetes.
+
+Platform teams should keep the tools that work. Terraform and OpenTofu are excellent at infrastructure graph planning and provisioning. Helm is useful for packaging Kubernetes applications. `kubectl` is the native interface to Kubernetes. Ansible, cloud CLIs, provider SDKs, shell scripts, and internal APIs all have their place.
+
+The mistake is shipping those tools as the user experience.
+
+When a platform exposes raw tool commands as the public interface, every delivery team inherits the platform team's implementation details:
+
+- which directory to run from
+- which workspace or backend to use
+- which environment variables matter
+- which generated files are safe to edit
+- which command is read-only
+- which command can mutate production
+- which provider error is actionable
+- which failure means retry and which failure means stop
+
+That is not self-service. That is delegated tool operation.
+
+A product interface should hide implementation detail without hiding operational truth. It should answer the domain question in the language of the domain.
+
+## Product interfaces need domain verbs
+
+If the thing you are operating is an application environment, the public verbs should sound like application-environment operations.
+
+For a basic infrastructure package, that might be:
+
+```bash
+package validate
+package build
+package create
+package describe
+package delete
+```
+
+For a richer domain, it might include:
+
+```bash
+package cost-analysis
+package backup
+package restore
+package rollback
+package upgrade
+package rotate-keys
+package audit
+package migrate
+```
+
+These verbs are not cosmetic wrappers around `apply`.
+
+They encode intent.
+
+`validate` says: check whether the inputs, credentials, generated files, and reachable systems are coherent enough to proceed.
+
+`build` says: render durable artifacts so a human, CI job, or agent can inspect the output before mutation.
+
+`describe` says: report current state in a form that matches the domain, not just raw provider output.
+
+`rollback` says: move backward through a domain-specific recovery path, not merely destroy and hope.
+
+`backup` says: protect data before a risky operation.
+
+`upgrade` says: apply a staged change with prechecks, generated artifacts, and postchecks.
+
+The verbs become the boundary where policy, credentials, approval, and reports can attach.
+
+## The old model had a rational cost model
+
+Why did the industry end up exposing tool commands directly?
+
+Because for a long time, custom operational software was expensive.
+
+Writing adapters was expensive. Maintaining workflow code was expensive. Building report formats was expensive. Testing operational paths was expensive. Packaging resources correctly was expensive. Keeping a clean command surface across teams was expensive.
+
+So the industry made a rational trade: expose the tool, put configuration in Git, surround the dangerous parts with review and policy, and teach teams the conventions.
+
+That trade gave us a lot of useful infrastructure automation.
+
+But it also made the tool the product.
+
+The agent era changes the cost curve. It does not make unreviewed infrastructure code safe. It does not mean agents should improvise production changes from scratch. It means the glue code required to create better package interfaces is now cheap enough to maintain.
+
+That matters because the package can now be a real program.
+
+## Agents make the interface problem sharper
+
+A human can slowly learn a bad interface.
+
+A human can remember that this Terraform workspace is special, that this Helm chart requires a generated values file, that this `kubectl` command is safe, that this provider error is normal, and that this script must only run after DNS has propagated.
+
+That is already a poor operating model.
+
+With agents, it becomes dangerous.
+
+If you give an agent a raw shell with broad credentials and a pile of low-level tools, the agent has to infer the safety boundary. It has to decide which commands are read-only, which commands are mutating, which local conventions matter, and which failure modes are acceptable.
+
+That is the wrong place to put authority.
+
+The executable package should encode the boundary.
+
+Let the agent run:
+
+```bash
+package validate
+package build
+package describe
+```
+
+with no credentials or read-only credentials.
+
+Let it inspect generated artifacts, summarize reports, and propose the next action.
+
+Keep state-changing verbs behind explicit authority:
+
+```bash
+package create
+package delete
+package rollback
+package upgrade
+```
+
+That split is much easier to review than a prompt telling the agent to be careful with Terraform, Helm, Kubernetes, cloud CLIs, and internal scripts.
+
+## This is why BigConfig exists
+
+BigConfig exists to make this boundary concrete.
+
+A BigConfig package is normal package code plus a small executable contract. It can be pinned by `bc-pkg`, initialized in a consumer directory, and run by humans, agents, shells, CI, scripts, containers, and control planes.
+
+Inside the package, the platform team can use whatever tools the domain requires:
+
+- Terraform or OpenTofu
+- Helm
+- Kubernetes
+- Ansible
+- cloud APIs
+- provider SDKs
+- shell scripts
+- generated manifests
+- templates and resources
+- validation and describe reports
+
+Outside the package, the consumer gets a command surface that means something:
+
+```bash
+package validate
+package build
+package create
+package describe
+package delete
+```
+
+The package owns the translation from domain intent to tool execution.
+
+That is the difference between a tool wrapper and an infrastructure product.
+
+A tool wrapper still makes the tool the star. A package interface makes the operational capability the star.
+
+## The package is the product boundary
+
+Once the package is the boundary, the work separates cleanly.
+
+Package consumers operate an instance. They set parameters, run lifecycle verbs, inspect generated artifacts, and read reports.
+
+Package authors own the implementation. They write workflows, templates, validators, report builders, and tool adapters. They can still run the underlying tool loop when they need to debug the implementation.
+
+The consumer should not need to know whether `package create` renders Terraform first, configures DNS second, verifies SMTP third, runs Ansible fourth, and deploys an application fifth.
+
+The package should know that.
+
+The consumer should ask:
+
+```bash
+package validate create describe
+```
+
+The package should decide which tools to call, in which order, with which generated files, and with which safety checks.
+
+That is not hiding the platform. It is giving the platform a product interface.
+
+## Tools inside. Domain verbs outside.
+
+The platform team can keep Terraform.
+
+It can keep Helm.
+
+It can keep Kubernetes.
+
+It can keep OpenTofu, Ansible, cloud SDKs, provider APIs, and internal scripts.
+
+But those tools should live inside the package boundary.
+
+The outside interface should answer the questions the team and the agent actually have:
+
+- Can I deploy this?
+- Is the environment valid?
+- What changed?
+- Can I roll back?
+- Is it healthy?
+
+This is the move BigConfig is built around:
+
+> Tools inside. Domain verbs outside.
+
+If you want the package contract, start with the [BigConfig Package Spec](/package-spec/). If you want the broader argument, read [From Terraform Apply to Infrastructure Programs](/blog/from-terraform-apply-to-infrastructure-programs/). The [manual](/manual) has the implementation details.
