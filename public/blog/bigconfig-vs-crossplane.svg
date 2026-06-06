@@ -96,5 +96,8 @@
     </g>
   </g>
 
-  <text x="64" y="586" class="sans muted" font-size="16" font-weight="750">Control plane API is not the holy grail. Package logic is reusable across CLI, agents, CI, containers, and backend apps.</text>
+  <text x="64" y="574" class="sans muted" font-size="16" font-weight="750">
+    <tspan x="64" dy="0">Control plane API is not the holy grail.</tspan>
+    <tspan x="64" dy="24">Package logic is reusable across CLI, agents, CI, containers, and backend apps.</tspan>
+  </text>
 </svg>
