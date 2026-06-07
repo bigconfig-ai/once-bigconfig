@@ -78,7 +78,32 @@ It is the seed you want before adding those things.
 
 ## Install the skills
 
-Clone the skills repository and symlink the skills into Claude Code's discovered skills directory:
+The easiest path is to use the open `skills` CLI through `npx`. To install all three skills globally for Claude Code:
+
+```bash
+npx skills add bigconfig-ai/skills \
+  --global \
+  --agent claude-code \
+  --skill create-ts-bigconfig-package create-py-bigconfig-package create-clj-bigconfig-package \
+  --yes
+```
+
+If you want to preview what the repository exposes before installing, list the skills first:
+
+```bash
+npx skills add bigconfig-ai/skills --list
+```
+
+For a project-local install, run the same command from the project root and omit `--global`:
+
+```bash
+npx skills add bigconfig-ai/skills \
+  --agent claude-code \
+  --skill create-ts-bigconfig-package create-py-bigconfig-package create-clj-bigconfig-package \
+  --yes
+```
+
+You can still install manually if you prefer explicit symlinks. Clone the skills repository and symlink the skills into Claude Code's discovered skills directory:
 
 ```bash
 git clone https://github.com/bigconfig-ai/skills.git
