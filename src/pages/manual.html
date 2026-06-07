@@ -591,6 +591,11 @@
       <div class="group">Package authors</div>
       <ul>
         <li><a href="/package-spec/">BigConfig Package Spec ↗</a></li>
+        <li><a href="#package-author-skills">Scaffold with skills</a></li>
+        <li><a class="sub" href="#package-author-skills-install">Install with npx skills</a></li>
+        <li><a class="sub" href="#package-author-skills-use">Use with Claude</a></li>
+        <li><a class="sub" href="#package-author-skills-workflow">Scaffold workflow</a></li>
+        <li><a class="sub" href="#package-author-skills-verify">Verify output</a></li>
       </ul>
 
       <div class="group">Launcher · bc-pkg</div>
@@ -683,6 +688,114 @@
     <span class="pill">Ansible</span>
   </div>
   <p><a href="/package-spec/">Writing your own launcher-compatible package? Read the BigConfig Package Spec →</a></p>
+
+  <section id="package-author-skills">
+    <h3>Package-author skills</h3>
+    <p>BigConfig publishes Claude Code skills for scaffolding new launcher-compatible packages. The skills live in <a href="https://github.com/bigconfig-ai/skills">bigconfig-ai/skills</a>. Each one creates a minimal, real package that depends on the <code>big-config</code> SDK, exposes <code>package validate</code>, <code>package describe</code>, <code>package build</code>, <code>package create</code>, and <code>package delete</code>, renders one safe <code>hello</code> stage, ships a launcher-friendly root <code>run</code> file, and is ready for <code>bc-pkg</code> after you push it to GitHub.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h4><code>create-ts-bigconfig-package</code> <span class="lang-marker ts">TS</span></h4>
+        <div class="sub">npm / Node package</div>
+        <p>Use when creating a TypeScript BigConfig package with an npm manifest and Node runtime.</p>
+      </div>
+      <div class="card">
+        <h4><code>create-py-bigconfig-package</code> <span class="lang-marker py">PY</span></h4>
+        <div class="sub">PyPI / uv package</div>
+        <p>Use when creating a Python BigConfig package with <code>pyproject.toml</code> and uv workflows.</p>
+      </div>
+      <div class="card">
+        <h4><code>create-clj-bigconfig-package</code> <span class="lang-marker clj">CLJ</span></h4>
+        <div class="sub">deps.edn / Babashka package</div>
+        <p>Use when creating a Clojure BigConfig package with <code>deps.edn</code>, <code>bb.edn</code>, and a root <code>run</code>.</p>
+      </div>
+    </div>
+
+    <section id="package-author-skills-install">
+      <h4>Install/list with <code>npx skills</code></h4>
+      <pre><code># List the BigConfig skills
+npx skills add bigconfig-ai/skills -l --full-depth
+
+# Install all three skills for Claude Code globally
+npx skills add bigconfig-ai/skills \
+  --global \
+  --agent claude-code \
+  --skill create-ts-bigconfig-package create-py-bigconfig-package create-clj-bigconfig-package \
+  --yes
+
+# Or install one skill
+npx skills add bigconfig-ai/skills \
+  --global \
+  --agent claude-code \
+  --skill create-ts-bigconfig-package \
+  --yes</code></pre>
+      <p>For project-local skills, run the command inside a project and omit <code>--global</code>.</p>
+    </section>
+
+    <section id="package-author-skills-use">
+      <h4>Use with Claude</h4>
+      <p>You can also use a skill without installing it first. This starts Claude Code with the selected skill prompt:</p>
+      <pre><code>npx skills use bigconfig-ai/skills \
+  --skill create-ts-bigconfig-package \
+  --agent claude-code \
+  --full-depth</code></pre>
+      <p>For the <code>claude</code> CLI, generate the prompt and pipe it in:</p>
+      <pre><code>npx skills use bigconfig-ai/skills@create-ts-bigconfig-package --full-depth | claude</code></pre>
+      <p>After installing the skills, use the slash commands directly:</p>
+      <pre><code>/create-ts-bigconfig-package scaffold a package named analytics-worker for owner bigconfig-ai
+/create-py-bigconfig-package scaffold a package named analytics-worker for owner bigconfig-ai
+/create-clj-bigconfig-package scaffold a package named analytics-worker for owner bigconfig-ai</code></pre>
+    </section>
+
+    <section id="package-author-skills-workflow">
+      <h4>Shared scaffold workflow</h4>
+      <ol>
+        <li>Pick the language skill: TypeScript, Python, or Clojure.</li>
+        <li>Provide package name, GitHub owner, description, target directory, and SDK source.</li>
+        <li>The skill derives language-specific names and template tokens.</li>
+        <li>The skill copies bundled templates into the target package and substitutes tokens.</li>
+        <li>The skill runs the language's install, test, and lifecycle commands.</li>
+        <li>The skill reports the generated package checklist and next steps for growing the package.</li>
+      </ol>
+      <div class="note">
+        <span class="label">Language gotchas</span>
+        TypeScript package names may contain hyphens, but the exported variable must be a valid JS identifier and imports use explicit <code>.js</code> extensions. Python derives a snake_case module name that is distinct from the PyPI / CLI name. Clojure source paths munge hyphens to underscores while resource paths keep hyphens. In every language, boundary params stay kebab-case, credentials stay out of templates, and <code>.dist/</code> is generated output.
+      </div>
+    </section>
+
+    <section id="package-author-skills-verify">
+      <h4>Verify generated output</h4>
+      <pre><code># TypeScript
+npm install
+npm run build
+npm run typecheck
+npm test
+node run package validate
+node run package describe
+node run package build
+node run package create
+node run package delete
+BC_PAR_NAME=REPLACE_ME node run package validate  # expected to fail</code></pre>
+      <pre><code># Python
+uv sync
+uv run pytest -q
+uv run python run package validate
+uv run python run package describe
+uv run python run package build
+uv run python run package create
+uv run python run package delete
+BC_PAR_NAME=REPLACE_ME uv run python run package validate  # expected to fail</code></pre>
+      <pre><code># Clojure
+clojure -M:test
+bb run package validate
+bb run package describe
+bb run package build
+bb run package create
+bb run package delete
+BC_PAR_NAME=REPLACE_ME bb run package validate  # expected to fail</code></pre>
+      <p>The normal lifecycle commands exit 0. The <code>BC_PAR_NAME=REPLACE_ME … validate</code> command exits 1, proving environment overrides reach validation. <code>build</code> and <code>create</code> render <code>.dist/&lt;name&gt;-&lt;hash&gt;/.../hello/greeting.txt</code> containing <code>Hello, world!</code>.</p>
+    </section>
+  </section>
 
   <!-- ================================================================ -->
   <!-- LAUNCHER                                                          -->
