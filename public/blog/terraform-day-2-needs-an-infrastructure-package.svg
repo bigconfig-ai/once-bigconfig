@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="628" viewBox="0 0 1200 628" role="img" aria-labelledby="title desc">
+  <title id="title">Terraform Is Day 1. Day 2 Needs an Infrastructure Package</title>
+  <desc id="desc">Terraform output flows through a BigConfig package into DNS, cache, Ansible, notifications, and agent-safe lifecycle verbs.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.52" stop-color="#f7fbff"/>
+      <stop offset="1" stop-color="#e8f8ff"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#62e1e9"/>
+      <stop offset="0.52" stop-color="#3a8cec"/>
+      <stop offset="1" stop-color="#0652e9"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f2347"/>
+      <stop offset="1" stop-color="#06152b"/>
+    </linearGradient>
+    <linearGradient id="softBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecfeff"/>
+      <stop offset="1" stop-color="#eff6ff"/>
+    </linearGradient>
+    <linearGradient id="softWarn" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#ffedd5"/>
+    </linearGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.8" fill="#d6e9f8" opacity="0.58"/>
+    </pattern>
+    <filter id="shadow" x="-14%" y="-14%" width="128%" height="128%">
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#063a78" flood-opacity="0.16"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#0652e9"/>
+    </marker>
+    <marker id="arrowSlate" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .mono { font-family: "SFMono-Regular", Consolas, Menlo, monospace; }
+      .navy { fill: #06152b; }
+      .muted { fill: #526177; }
+      .blueText { fill: #0652e9; }
+      .cyanText { fill: #0891b2; }
+      .orangeText { fill: #c2410c; }
+      .white { fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="628" fill="url(#bg)"/>
+  <rect width="1200" height="628" fill="url(#dots)" opacity="0.55"/>
+  <circle cx="1048" cy="86" r="230" fill="#62e1e9" opacity="0.18"/>
+  <circle cx="90" cy="560" r="250" fill="#0652e9" opacity="0.10"/>
+
+  <g class="sans" transform="translate(62 44)">
+    <rect x="0" y="0" width="254" height="34" rx="17" fill="#ecfeff" stroke="#67e8f9"/>
+    <circle cx="22" cy="17" r="5" fill="#0891b2"/>
+    <text x="38" y="23" font-size="14" font-weight="850" fill="#0891b2" letter-spacing="1.4">DAY 2 INFRASTRUCTURE</text>
+
+    <text x="0" y="92" class="navy" font-size="48" font-weight="950" letter-spacing="-1.5">
+      <tspan x="0" dy="0">Terraform Is Day 1.</tspan>
+      <tspan x="0" dy="56">Day 2 Needs a Package.</tspan>
+    </text>
+    <text x="0" y="218" class="muted" font-size="22" font-weight="750">
+      <tspan x="0" dy="0">Keep Terraform inside. Expose lifecycle verbs outside.</tspan>
+      <tspan x="0" dy="31">code-first · local-first · agent-first</tspan>
+    </text>
+  </g>
+
+  <g filter="url(#shadow)" transform="translate(62 316)">
+    <rect x="0" y="0" width="320" height="222" rx="28" fill="#ffffff" stroke="#fed7aa"/>
+    <path d="M0 28 a28 28 0 0 1 28 -28 H292 a28 28 0 0 1 28 28 V72 H0 Z" fill="url(#softWarn)"/>
+    <text x="28" y="46" class="sans orangeText" font-size="17" font-weight="950" letter-spacing="1.4">RAW TOOL CHAIN</text>
+    <g class="mono" font-size="19" font-weight="850" transform="translate(28 106)">
+      <text x="0" y="0" class="orangeText">terraform apply</text>
+      <text x="0" y="34" class="orangeText">terraform output</text>
+      <text x="0" y="68" class="orangeText">dns upsert</text>
+      <text x="0" y="102" class="orangeText">purge cache</text>
+    </g>
+  </g>
+
+  <path d="M406 426 C436 426 454 426 486 426" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowSlate)" opacity="0.78"/>
+
+  <g filter="url(#shadow)" transform="translate(502 286)">
+    <rect x="0" y="0" width="248" height="282" rx="30" fill="#ffffff" stroke="#bdebf7"/>
+    <path d="M0 30 a30 30 0 0 1 30 -30 H218 a30 30 0 0 1 30 30 V88 H0 Z" fill="url(#blue)"/>
+    <text x="26" y="54" class="sans white" font-size="17" font-weight="950" letter-spacing="1.2">PACKAGE ABI</text>
+    <g class="sans" transform="translate(26 124)">
+      <text x="0" y="0" class="muted" font-size="16" font-weight="850">normalized outputs</text>
+      <rect x="0" y="24" width="196" height="38" rx="19" fill="#ecfeff" stroke="#a5f3fc"/>
+      <text x="26" y="49" class="blueText" font-size="17" font-weight="950">ip</text>
+      <text x="62" y="49" class="muted" font-size="15" font-weight="800">from any cloud</text>
+      <rect x="0" y="78" width="196" height="38" rx="19" fill="#eff6ff" stroke="#bfdbfe"/>
+      <text x="26" y="103" class="blueText" font-size="17" font-weight="950">domain</text>
+      <rect x="0" y="132" width="196" height="38" rx="19" fill="#f8fafc" stroke="#dbe7f4"/>
+      <text x="26" y="157" class="muted" font-size="17" font-weight="950">smtp records</text>
+    </g>
+  </g>
+
+  <path d="M774 426 C804 426 822 426 854 426" fill="none" stroke="#0652e9" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowBlue)" opacity="0.9"/>
+
+  <g filter="url(#shadow)" transform="translate(870 286)">
+    <rect x="0" y="0" width="268" height="282" rx="30" fill="#ffffff" stroke="#bdebf7"/>
+    <path d="M0 30 a30 30 0 0 1 30 -30 H238 a30 30 0 0 1 30 30 V88 H0 Z" fill="url(#dark)"/>
+    <text x="26" y="54" class="sans" fill="#62e1e9" font-size="17" font-weight="950" letter-spacing="1.2">BIGCONFIG PACKAGE</text>
+    <g class="sans" transform="translate(26 124)">
+      <text x="0" y="0" class="muted" font-size="16" font-weight="850">public lifecycle</text>
+      <g transform="translate(0 23)">
+        <rect x="0" y="0" width="100" height="34" rx="17" fill="#ecfeff" stroke="#a5f3fc"/>
+        <text x="19" y="23" class="blueText" font-size="15" font-weight="950">validate</text>
+        <rect x="114" y="0" width="88" height="34" rx="17" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="140" y="23" class="blueText" font-size="15" font-weight="950">build</text>
+        <rect x="0" y="48" width="90" height="34" rx="17" fill="#f8fafc" stroke="#dbe7f4"/>
+        <text x="22" y="71" class="muted" font-size="15" font-weight="950">create</text>
+        <rect x="104" y="48" width="98" height="34" rx="17" fill="#f8fafc" stroke="#dbe7f4"/>
+        <text x="123" y="71" class="muted" font-size="15" font-weight="950">describe</text>
+      </g>
+      <text x="0" y="150" class="muted" font-size="15" font-weight="800">inside: DNS · cache · Ansible</text>
+    </g>
+  </g>
+
+  <g transform="translate(786 58)" filter="url(#shadow)">
+    <rect x="0" y="0" width="352" height="174" rx="28" fill="#ffffff" stroke="#c8def4"/>
+    <path d="M0 28 a28 28 0 0 1 28 -28 H324 a28 28 0 0 1 28 28 V72 H0 Z" fill="url(#softBlue)"/>
+    <text x="28" y="45" class="sans cyanText" font-size="15" font-weight="950" letter-spacing="1.0">SDK: TYPESCRIPT · PYTHON · CLOJURE</text>
+    <g class="mono" transform="translate(28 104)" font-size="16" font-weight="850">
+      <text x="0" y="0" class="blueText">tofu → tofu-smtp → tofu-dns</text>
+      <text x="0" y="31" class="blueText">→ ansible-local → ansible</text>
+    </g>
+  </g>
+
+  <g class="sans" transform="translate(62 570)">
+    <rect x="0" y="0" width="1076" height="44" rx="22" fill="url(#dark)" opacity="0.98"/>
+    <text x="34" y="29" fill="#62e1e9" font-size="18" font-weight="950" letter-spacing="1.2">BIGCONFIG</text>
+    <text x="158" y="29" class="white" font-size="18" font-weight="900">Terraform output becomes package params for the whole Day 2 workflow.</text>
+  </g>
+</svg>
