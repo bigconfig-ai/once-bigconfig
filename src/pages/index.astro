@@ -1,123 +1,19 @@
 ---
-import "~/styles/global.css";
-import logo from "~/assets/logo-dark.svg";
-import YouTube from "~/components/YouTube.astro";
 import SeoMeta from "~/components/SeoMeta.astro";
 
-const features = [
-  {
-    title: "Shell-native, not agent-trapped",
-    body: "Skills make agents smarter. BigConfig makes procedures runnable. The same package runs from your terminal, your agent, your CI job, your cron, or another script — not just inside one chat product.",
-    icon: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
-  },
-  {
-    title: "Software-grade reuse",
-    body: "Packages are real software packages. They depend on libraries, share validation logic, abstract cloud providers, and version like code. Procedural knowledge stops drifting and starts compounding.",
-    icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
-  },
-  {
-    title: "A lifecycle contract",
-    body: "Every package exposes the same verbs — validate, build, create, describe, delete — so credentials and authority can be scoped per action. Agents can safely describe and validate while humans stay in the loop for create and delete.",
-    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-  },
-  {
-    title: "Durable, inspectable artifacts",
-    body: "Packages render real files: Terraform plans, Ansible inventories, app configuration, lock files, validation reports. The outputs outlive the conversation and can be reviewed, diffed, and committed.",
-    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-  },
-];
-
-const runtimes = [
-  {
-    title: "AI agent",
-    body: "The agent inspects, describes, validates, and recommends — and asks before destructive verbs.",
-    icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z",
-  },
-  {
-    title: "Human in a terminal",
-    body: "Operators run the same commands during incidents and routine work — no chat client required.",
-    icon: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
-  },
-  {
-    title: "CI / CD",
-    body: "Pipelines validate on every PR and run create or delete on protected branches with scoped credentials.",
-    icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
-  },
-  {
-    title: "Cron, scripts, containers",
-    body: "Same binary, scheduled or wrapped. The package is just a command — anything that calls a command can call it.",
-    icon: "M5 12V7a2 2 0 012-2h10a2 2 0 012 2v5M5 12h14M5 12v5a2 2 0 002 2h10a2 2 0 002-2v-5M9 8h.01M9 15h.01",
-  },
-];
-
-const comparisonRows = [
-  {
-    q: "What is it?",
-    skill: "Agent-native procedural knowledge",
-    pkg: "Shell-native procedural knowledge",
-  },
-  {
-    q: "Who can run it?",
-    skill: "An agent with skill support",
-    pkg: "Humans, agents, CI, scripts, containers",
-  },
-  {
-    q: "Does it support library reuse?",
-    skill: "Not as a first-class model",
-    pkg: "Yes, through normal package dependencies",
-  },
-  {
-    q: "What is the interface?",
-    skill: "Agent instructions",
-    pkg: "Executable commands and workflows",
-  },
-  {
-    q: "What does it optimize for?",
-    skill: "Making an agent better",
-    pkg: "Making a procedure runnable and reusable",
-  },
-];
-
-const links = [
-  {
-    title: "Marketplace",
-    body: "Browse and install packages.",
-    href: "https://marketplace.bigconfig.ai",
-  },
-  {
-    title: "Manual",
-    body: "Understand the launcher, package, SDK, and template stack.",
-    href: "/manual",
-  },
-  {
-    title: "Package Spec",
-    body: "Implement a package that works with the launcher.",
-    href: "/package-spec",
-  },
-  {
-    title: "Blog",
-    body: "Essays on agentic DevOps and the package model.",
-    href: "/blog",
-  },
-];
-
+const title = "Colors — An SDK for Package Skills";
+const description =
+  "Colors is an SDK for building Package Skills. Three libraries — red, green and blue — give agents dry-run guarantees, secret indirection, and strict lifecycle control over real infrastructure.";
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BigConfig — The Open Agent Packages Ecosystem</title>
-    <meta
-      name="description"
-      content="BigConfig is the Open Agent Packages Ecosystem. Packages are reusable units of procedural knowledge — like Skills, but executable — that your agent, your shell, and your CI can all run."
-    />
-    <SeoMeta
-      title="BigConfig — The Open Agent Packages Ecosystem"
-      description="BigConfig is the Open Agent Packages Ecosystem. Packages are reusable units of procedural knowledge — like Skills, but executable — that your agent, your shell, and your CI can all run."
-      path="/"
-    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <SeoMeta title={title} description={description} path="/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script
       is:inline
@@ -132,1062 +28,645 @@ const links = [
       gtag("config", "G-4VKP1WY4QJ");
     </script>
     <style is:global>
-      body {
-        margin-top: 0;
-        font-family:
-          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-400-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
       }
-      a {
-        text-decoration: none;
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-400-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
       }
-      :where(button) {
-        background: transparent;
-        border: 0;
-        cursor: pointer;
-        font: inherit;
-        color: inherit;
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-400-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
       }
-      pre {
-        margin: 0;
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-400-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
       }
-      .command-option {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        white-space: nowrap;
-        border: 1px solid #cbd5e1;
-        border-radius: 9999px;
-        background: #fff;
-        color: #334155;
-        padding: 0.625rem 1rem;
-        transition:
-          background 150ms ease,
-          border-color 150ms ease,
-          color 150ms ease,
-          box-shadow 150ms ease;
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-400-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
-      .command-option:hover {
-        background: #ecfeff;
-        border-color: rgba(8, 145, 178, 0.55);
-        color: #0e7490;
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-500-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
       }
-      .command-option:focus-visible {
-        border-color: rgba(8, 145, 178, 0.75);
-        box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.18);
-        color: #0e7490;
-        outline: none;
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-500-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
       }
-      .command-option[aria-pressed="true"] {
-        background: #cffafe;
-        border-color: rgba(8, 145, 178, 0.75);
-        color: #0e7490;
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-500-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
       }
-      .package-tooltip-trigger {
-        position: relative;
-        display: inline-flex;
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-500-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
       }
-      .package-tooltip-bubble {
-        pointer-events: none;
-        position: absolute;
-        left: 50%;
-        bottom: calc(100% + 0.75rem);
-        z-index: 60;
-        width: max-content;
-        max-width: min(20rem, calc(100vw - 2rem));
-        transform: translateX(-50%) translateY(0.25rem);
-        border-radius: 0.875rem;
-        background: #0f172a;
-        color: #ffffff;
-        padding: 0.75rem 0.875rem;
-        font-size: 0.8125rem;
-        line-height: 1.45;
-        text-align: left;
-        box-shadow: 0 18px 40px rgb(15 23 42 / 0.22);
-        opacity: 0;
-        visibility: hidden;
-        transition:
-          opacity 150ms ease,
-          transform 150ms ease,
-          visibility 150ms ease;
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-500-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
-      .package-tooltip-bubble::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 100%;
-        transform: translateX(-50%);
-        border-width: 0.4rem 0.4rem 0;
-        border-style: solid;
-        border-color: #0f172a transparent transparent;
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-600-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
       }
-      .package-tooltip-trigger:hover .package-tooltip-bubble,
-      .package-tooltip-trigger:focus-within .package-tooltip-bubble {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-600-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
       }
-      @media (max-width: 640px) {
-        .package-tooltip-bubble {
-          left: 0;
-          transform: translateY(0.25rem);
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-600-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-600-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-mono-600-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+      }
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+      }
+      /* greek */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-greek.woff2") format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+      }
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+      }
+      /* greek */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-greek.woff2") format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+      }
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+      }
+      /* greek */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-greek.woff2") format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      /* cyrillic-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic-ext.woff2") format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+      }
+      /* cyrillic */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-cyrillic.woff2") format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+      }
+      /* greek */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-greek.woff2") format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-vietnamese.woff2") format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin-ext.woff2") format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-stretch: 100%;
+        font-display: swap;
+        src: url("/fonts/ibm-plex-sans-400-latin.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      body { margin: 0; background: oklch(99% 0.002 90); font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif; }
+        a { color: oklch(55% 0.18 260); text-decoration: none; }
+        a:hover { color: oklch(45% 0.18 260); }
+        * { box-sizing: border-box; }
+
+      .h1:hover { background: oklch(35% 0.01 260); }
+      .h2:hover { border-color: oklch(80% 0.01 260); }
+
+      /* Responsive collapse. The export ships no media queries; these rules
+         only take effect below 860px and leave the desktop design untouched.
+         !important is required to override the inline styles. */
+      @media (max-width: 860px) {
+        .r-hero,
+        .r-2,
+        .r-3 {
+          grid-template-columns: 1fr !important;
         }
-        .package-tooltip-bubble::after {
-          left: 2rem;
-          transform: none;
+        .r-4 {
+          grid-template-columns: repeat(2, 1fr) !important;
         }
-        .package-tooltip-trigger:hover .package-tooltip-bubble,
-        .package-tooltip-trigger:focus-within .package-tooltip-bubble {
-          transform: translateY(0);
+        h1 {
+          font-size: 38px !important;
         }
       }
-      @media (prefers-reduced-motion: reduce) {
-        .package-tooltip-bubble {
-          transition: none;
+      @media (max-width: 520px) {
+        .r-4 {
+          grid-template-columns: 1fr !important;
         }
-      }
-      [data-credential="neutral"] {
-        --credential-text: #475569;
-        --credential-border: rgba(100, 116, 139, 0.42);
-        --credential-hover-border: rgba(71, 85, 105, 0.72);
-        --credential-bg: #f8fafc;
-        --credential-hover-bg: #e2e8f0;
-        --credential-selected-bg: #e2e8f0;
-        --credential-selected-border: rgba(71, 85, 105, 0.78);
-        --credential-ring: rgba(100, 116, 139, 0.2);
-      }
-      [data-credential="safe"] {
-        --credential-text: #047857;
-        --credential-border: rgba(16, 185, 129, 0.45);
-        --credential-hover-border: rgba(4, 120, 87, 0.72);
-        --credential-bg: #ecfdf5;
-        --credential-hover-bg: #d1fae5;
-        --credential-selected-bg: #a7f3d0;
-        --credential-selected-border: rgba(4, 120, 87, 0.78);
-        --credential-ring: rgba(16, 185, 129, 0.22);
-      }
-      [data-credential="danger"] {
-        --credential-text: #be123c;
-        --credential-border: rgba(244, 63, 94, 0.45);
-        --credential-hover-border: rgba(190, 18, 60, 0.72);
-        --credential-bg: #fff1f2;
-        --credential-hover-bg: #ffe4e6;
-        --credential-selected-bg: #fecdd3;
-        --credential-selected-border: rgba(190, 18, 60, 0.78);
-        --credential-ring: rgba(244, 63, 94, 0.22);
-      }
-      button.command-option[data-credential] {
-        background: var(--credential-bg);
-        border-color: var(--credential-border);
-        color: var(--credential-text);
-      }
-      button.command-option[data-credential]:hover {
-        background: var(--credential-hover-bg);
-        border-color: var(--credential-hover-border);
-        color: var(--credential-text);
-      }
-      button.command-option[data-credential]:focus-visible {
-        border-color: var(--credential-hover-border);
-        box-shadow: 0 0 0 3px var(--credential-ring);
-        color: var(--credential-text);
-      }
-      button.command-option[data-credential][aria-pressed="true"] {
-        background: var(--credential-selected-bg);
-        border-color: var(--credential-selected-border);
-        color: var(--credential-text);
-      }
-      #launcher-credential-output[data-credential] {
-        background: var(--credential-selected-bg);
-        border-color: var(--credential-selected-border);
-        color: var(--credential-text);
+        code {
+          font-size: 12px !important;
+        }
       }
     </style>
   </head>
-  <body class="bc-page-light antialiased">
-    <div
-      class="bc-page-glow"
-    >
+  <body>
+    <div style="color: oklch(20% 0.01 260); line-height: 1.5;">
+
+      <!-- NAV -->
+      <div style="display:flex; align-items:center; justify-content:space-between; max-width:1120px; margin:0 auto; padding:28px 24px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:20px; height:20px; border-radius:4px; overflow:hidden; display:flex;">
+            <div style="flex:1; background:oklch(60% 0.19 25);"></div>
+            <div style="flex:1; background:oklch(65% 0.17 145);"></div>
+            <div style="flex:1; background:oklch(55% 0.18 260);"></div>
+          </div>
+          <span style="font-weight:600; font-size:15px; letter-spacing:-0.01em;">Colors</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:28px; font-size:14px; color:oklch(45% 0.01 260);">
+          <a href="#libraries" style="color:oklch(45% 0.01 260);">Libraries</a>
+          <a href="#once" style="color:oklch(45% 0.01 260);">Once</a>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div style="max-width:1120px; margin:0 auto; padding:64px 24px 88px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;" class="r-hero">
+        <div>
+          <div style="display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.18 260); background:oklch(96% 0.03 260); border:1px solid oklch(90% 0.05 260); padding:6px 12px; border-radius:100px; margin-bottom:24px;">
+            <span>AN SDK FOR PACKAGE SKILLS</span>
+          </div>
+          <h1 style="font-size:52px; line-height:1.08; letter-spacing:-0.02em; font-weight:600; margin:0 0 20px;">Colors is an SDK for building Package Skills.</h1>
+          <p style="font-size:18px; color:oklch(45% 0.01 260); margin:0 0 32px; max-width:520px;">Three libraries — red, green, and blue — give agents dry-run guarantees, secret indirection, and strict lifecycle control over real infrastructure, in the runtime your team already uses.</p>
+          <div style="display:flex; flex-direction:column; gap:12px; max-width:480px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; background:oklch(20% 0.01 260); border-radius:8px; padding:14px 16px;">
+              <code style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:oklch(96% 0.005 260);">npx skills use bigconfig-ai/once</code>
+              <button data-copy="npx skills use bigconfig-ai/once" style="background:oklch(30% 0.01 260); color:oklch(96% 0.005 260); border:none; border-radius:6px; padding:6px 12px; font-size:12px; font-family:'IBM Plex Mono',monospace; cursor:pointer;" class="h1">Copy</button>
+            </div>
+            <span style="font-size:13px; color:oklch(55% 0.01 260);">Run inside your coding agent — it grants <strong>Once</strong>, a skill to provision a VPS with a personal PaaS like Netlify or Vercel.</span>
+          </div>
+        </div>
+        <div style="background:oklch(97% 0.005 260); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:28px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:oklch(35% 0.01 260);">
+          <div style="color:oklch(55% 0.01 260); margin-bottom:14px; font-size:12px;"># colors.yml</div>
+          <div style="white-space:pre; line-height:1.7;">host: app.example.com
+    env:
+      site-database-url:
+        -&gt; COLORS_PAR_SITE_DATABASE_URL
+    dns: managed
+    smtp: managed
+    apps:
+      - once/site</div>
+        </div>
+      </div>
+
+      <!-- BROWSER VS PACKAGE -->
+      <div style="border-top:1px solid oklch(92% 0.005 260); padding:72px 24px;">
+        <div style="max-width:1120px; margin:0 auto;">
+          <h2 style="font-size:28px; font-weight:600; letter-spacing:-0.01em; margin:0 0 12px;">A different primitive for a different job</h2>
+          <p style="font-size:16px; color:oklch(45% 0.01 260); margin:0 0 40px; max-width:640px;">Web automation and infrastructure automation demand different guarantees.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;" class="r-2">
+            <div style="border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:28px;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.01 260); margin-bottom:10px;">BROWSER SKILL</div>
+              <h3 style="font-size:19px; font-weight:600; margin:0 0 10px;">Eyes and hands on the web</h3>
+              <p style="font-size:15px; color:oklch(45% 0.01 260); margin:0;">Navigates DOM elements, fills forms, scrapes content — bridges natural language intent with web interaction.</p>
+            </div>
+            <div style="border:1px solid oklch(85% 0.06 260); background:oklch(97% 0.02 260); border-radius:12px; padding:28px;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.18 260); margin-bottom:10px;">PACKAGE SKILL</div>
+              <h3 style="font-size:19px; font-weight:600; margin:0 0 10px;">Determinism and lifecycle control</h3>
+              <p style="font-size:15px; color:oklch(40% 0.01 260); margin:0;">Provisions platforms, infrastructures, and containers — with dry-run boundaries and strict credential handling instead of raw shell access.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHAT'S INSIDE -->
+      <div style="border-top:1px solid oklch(92% 0.005 260); padding:72px 24px; background:oklch(97.5% 0.003 260);">
+        <div style="max-width:1120px; margin:0 auto;">
+          <h2 style="font-size:28px; font-weight:600; letter-spacing:-0.01em; margin:0 0 40px;">What a Package Skill bundles</h2>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;" class="r-3">
+
+              <div style="background:oklch(99% 0.002 90); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:24px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.18 260); margin-bottom:12px;">DESIRED STATE</div>
+                <h3 style="font-size:17px; font-weight:600; margin:0 0 8px;">Non-secret desired state</h3>
+                <p style="font-size:14px; color:oklch(45% 0.01 260); margin:0;">colors.yml declares hostnames, DNS zones, and mail domains directly \u2014 no separate settings to keep in sync.</p>
+              </div>
+
+              <div style="background:oklch(99% 0.002 90); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:24px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.18 260); margin-bottom:12px;">RUNTIMES</div>
+                <h3 style="font-size:17px; font-weight:600; margin:0 0 8px;">Deterministic runtimes & launchers</h3>
+                <p style="font-size:14px; color:oklch(45% 0.01 260); margin:0;">Colors\u2019 three pinned runtimes \u2014 Bun, Babashka, or uv \u2014 not ad-hoc shell scripts.</p>
+              </div>
+
+              <div style="background:oklch(99% 0.002 90); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:24px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.18 260); margin-bottom:12px;">CREDENTIALS</div>
+                <h3 style="font-size:17px; font-weight:600; margin:0 0 8px;">Environment & credential boundaries</h3>
+                <p style="font-size:14px; color:oklch(45% 0.01 260); margin:0;">Secrets stay in COLORS_PAR_* env vars, referenced by name and never rendered into files.</p>
+              </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- THREE LIBRARIES -->
+      <div id="libraries" style="border-top:1px solid oklch(92% 0.005 260); padding:72px 24px;">
+        <div style="max-width:1120px; margin:0 auto;">
+          <h2 style="font-size:28px; font-weight:600; letter-spacing:-0.01em; margin:0 0 12px;">Three libraries. One SDK.</h2>
+          <p style="font-size:16px; color:oklch(45% 0.01 260); margin:0 0 40px; max-width:640px;">Colors is an SDK made of three interchangeable libraries for building Package Skills. Pick the runtime your team already uses — the guarantees don't change: dry-run boundaries, secret indirection, identical desired-state semantics.</p>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;" class="r-3">
+
+              <a href="https://github.com/amiorin/red" style="display:block; background:oklch(97.5% 0.003 260); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:24px; color:inherit;" class="h2">
+                <div style="width:32px; height:32px; border-radius:8px; background:oklch(60% 0.19 25); margin-bottom:16px;"></div>
+                <h3 style="font-size:17px; font-weight:600; margin:0 0 4px; font-family:'IBM Plex Mono',monospace;">red</h3>
+                <div style="font-size:13px; color:oklch(55% 0.01 260); margin-bottom:12px;">TypeScript / Bun</div>
+                <p style="font-size:14px; color:oklch(45% 0.01 260); margin:0 0 12px;">Build Package Skills with a fast TypeScript/Bun runtime.</p>
+                <span style="font-size:13px; color:oklch(55% 0.18 260); font-family:'IBM Plex Mono',monospace;">View repo →</span>
+              </a>
+
+              <a href="https://github.com/amiorin/green" style="display:block; background:oklch(97.5% 0.003 260); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:24px; color:inherit;" class="h2">
+                <div style="width:32px; height:32px; border-radius:8px; background:oklch(65% 0.17 145); margin-bottom:16px;"></div>
+                <h3 style="font-size:17px; font-weight:600; margin:0 0 4px; font-family:'IBM Plex Mono',monospace;">green</h3>
+                <div style="font-size:13px; color:oklch(55% 0.01 260); margin-bottom:12px;">Clojure / Babashka</div>
+                <p style="font-size:14px; color:oklch(45% 0.01 260); margin:0 0 12px;">Build Package Skills with Clojure over Babashka.</p>
+                <span style="font-size:13px; color:oklch(55% 0.18 260); font-family:'IBM Plex Mono',monospace;">View repo →</span>
+              </a>
+
+              <a href="https://github.com/amiorin/blue" style="display:block; background:oklch(97.5% 0.003 260); border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:24px; color:inherit;" class="h2">
+                <div style="width:32px; height:32px; border-radius:8px; background:oklch(55% 0.18 260); margin-bottom:16px;"></div>
+                <h3 style="font-size:17px; font-weight:600; margin:0 0 4px; font-family:'IBM Plex Mono',monospace;">blue</h3>
+                <div style="font-size:13px; color:oklch(55% 0.01 260); margin-bottom:12px;">Python / uv</div>
+                <p style="font-size:14px; color:oklch(45% 0.01 260); margin:0 0 12px;">Build Package Skills with Python, managed by uv.</p>
+                <span style="font-size:13px; color:oklch(55% 0.18 260); font-family:'IBM Plex Mono',monospace;">View repo →</span>
+              </a>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ONCE: EXAMPLE PACKAGE -->
+      <div id="once" style="border-top:1px solid oklch(92% 0.005 260); padding:72px 24px; background:oklch(97.5% 0.003 260);">
+        <div style="max-width:1120px; margin:0 auto;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.18 260); margin-bottom:12px;">EXAMPLE PACKAGE SKILL</div>
+          <h2 style="font-size:28px; font-weight:600; letter-spacing:-0.01em; margin:0 0 12px;">Once: a personal PaaS, built with Colors</h2>
+          <p style="font-size:16px; color:oklch(45% 0.01 260); margin:0 0 40px; max-width:680px;">Once is a Package Skill built with Colors. It provisions a VPS, configures DNS and outgoing mail, installs Docker, and reconciles declared applications — a self-hosted alternative to Netlify or Vercel that an agent runs end to end.</p>
+
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:48px;" class="r-4">
+
+              <div style="position:relative;">
+                <div style="border:1px solid oklch(91% 0.005 260); border-radius:10px; padding:20px; height:100%; background:oklch(99% 0.002 90);">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:oklch(55% 0.01 260); margin-bottom:8px;">STEP 01</div>
+                  <h4 style="font-size:15px; font-weight:600; margin:0 0 6px;">Read desired state</h4>
+                  <p style="font-size:13px; color:oklch(45% 0.01 260); margin:0;">Agent reads colors.yml. Hostnames determine DNS zones and mail domains.</p>
+                </div>
+              </div>
+
+              <div style="position:relative;">
+                <div style="border:1px solid oklch(91% 0.005 260); border-radius:10px; padding:20px; height:100%; background:oklch(99% 0.002 90);">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:oklch(55% 0.01 260); margin-bottom:8px;">STEP 02</div>
+                  <h4 style="font-size:15px; font-weight:600; margin:0 0 6px;">Resolve secrets</h4>
+                  <p style="font-size:13px; color:oklch(45% 0.01 260); margin:0;">Env map points to COLORS_PAR_* variables, deferred until runtime.</p>
+                </div>
+              </div>
+
+              <div style="position:relative;">
+                <div style="border:1px solid oklch(91% 0.005 260); border-radius:10px; padding:20px; height:100%; background:oklch(99% 0.002 90);">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:oklch(55% 0.01 260); margin-bottom:8px;">STEP 03</div>
+                  <h4 style="font-size:15px; font-weight:600; margin:0 0 6px;">Dry-run boundary</h4>
+                  <p style="font-size:13px; color:oklch(45% 0.01 260); margin:0;">Builds files under .once/ and runs create --dry-run, touching nothing live.</p>
+                </div>
+              </div>
+
+              <div style="position:relative;">
+                <div style="border:1px solid oklch(91% 0.005 260); border-radius:10px; padding:20px; height:100%; background:oklch(99% 0.002 90);">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:oklch(55% 0.01 260); margin-bottom:8px;">STEP 04</div>
+                  <h4 style="font-size:15px; font-weight:600; margin:0 0 6px;">Provision & reconcile</h4>
+                  <p style="font-size:13px; color:oklch(45% 0.01 260); margin:0;">OpenTofu provisions compute/SMTP/DNS; Ansible configures local and remote hosts.</p>
+                </div>
+              </div>
+
+          </div>
+
+          <!-- DAG diagram -->
+          <div style="border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:36px; background:oklch(99% 0.002 90);">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.01 260); margin-bottom:24px;">Once — CREATE / BUILD DAG</div>
+            <div style="display:flex; align-items:center; gap:0; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:13px;">
+              <div style="background:oklch(20% 0.01 260); color:white; padding:10px 16px; border-radius:8px;">start</div>
+              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">tofu-compute</div>
+                <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">tofu-smtp</div>
+              </div>
+              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">tofu-dns</div>
+              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">smtp-post</div>
+              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">ansible-local</div>
+                <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">ansible-remote</div>
+              </div>
+            </div>
+            <p style="font-size:13px; color:oklch(45% 0.01 260); margin:20px 0 0;">Delete runs cleanup, SMTP post, and DNS, then SMTP and compute in parallel. Step failures travel as namespaced exit codes, never uncaught exceptions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINAL CTA -->
+      <div style="border-top:1px solid oklch(92% 0.005 260); padding:80px 24px; text-align:center;">
+        <div style="max-width:640px; margin:0 auto;">
+          <h2 style="font-size:30px; font-weight:600; letter-spacing:-0.01em; margin:0 0 16px;">Give your agent a new skill to create a personal PaaS.</h2>
+          <p style="font-size:16px; color:oklch(45% 0.01 260); margin:0 0 32px;">Dry-run first. Approve. Then provision — with Once, built with Colors. Paste this into your coding agent.</p>
+          <div style="display:inline-flex; align-items:center; gap:10px; background:oklch(20% 0.01 260); border-radius:8px; padding:14px 20px; margin:0 auto;">
+            <code style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:oklch(96% 0.005 260);">npx skills use bigconfig-ai/once</code>
+            <button data-copy="npx skills use bigconfig-ai/once" style="background:oklch(30% 0.01 260); color:oklch(96% 0.005 260); border:none; border-radius:6px; padding:6px 12px; font-size:12px; font-family:'IBM Plex Mono',monospace; cursor:pointer;" class="h1">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div style="border-top:1px solid oklch(92% 0.005 260); padding:28px 24px;">
+        <div style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; font-size:13px; color:oklch(55% 0.01 260);">
+          <span>Colors</span>
+          <a href="https://github.com/bigconfig-ai/once" style="color:oklch(55% 0.01 260);">GitHub</a>
+        </div>
+      </div>
+
     </div>
-
-    <div
-      class="sticky top-0 z-50 border-b bc-site-header backdrop-blur-md"
-    >
-      <header
-        class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
-      >
-        <a
-          href="/"
-          class="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-950"
-        >
-          <img src={logo.src} alt="" class="h-7 w-auto" />
-        </a>
-        <nav class="hidden gap-8 text-sm md:flex">
-          <a href="https://marketplace.bigconfig.ai" class="bc-nav-link">Marketplace ↗</a>
-          <div class="bc-docs-dropdown group relative" data-docs-dropdown>
-            <button
-              type="button"
-              class="flex items-center gap-1 bc-nav-link"
-              aria-haspopup="true"
-              aria-expanded="false"
-              data-docs-dropdown-toggle
-            >
-              Docs
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="bc-docs-dropdown-icon h-3 w-3 transition group-hover:rotate-180"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div
-              class="bc-docs-dropdown-menu invisible pointer-events-none absolute left-1/2 top-full z-50 w-44 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100"
-              data-docs-dropdown-menu
-            >
-              <div class="rounded-xl border border-slate-200 bg-white/95 p-2 shadow-xl shadow-slate-200/70 backdrop-blur">
-                <a href="/manual/" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]">Manual ↗</a>
-                <a href="/package-spec/" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]">Package Spec ↗</a>
-                <a
-                  href="/talk"
-                  class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-[#0652e9]"
-                >Talks</a>
-              </div>
-            </div>
-          </div>
-          <a href="/blog" class="bc-nav-link">Blog</a>
-        </nav>
-        <a
-          href="https://github.com/bigconfig-ai/big-config"
-          class="hidden rounded-full bg-[#0652e9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e6cf3] md:inline-block"
-          style="color: #fff;"
-        >
-          GitHub
-        </a>
-        <button
-          id="mobile-menu-toggle"
-          type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-800 transition hover:border-[#0652e9] hover:text-[#0652e9] md:hidden"
-          aria-label="Toggle menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <svg
-            id="mobile-menu-icon-open"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <svg
-            id="mobile-menu-icon-close"
-            xmlns="http://www.w3.org/2000/svg"
-            class="hidden h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18L18 6" />
-          </svg>
-        </button>
-      </header>
-      <nav
-        id="mobile-menu"
-        class="hidden border-t border-slate-200 px-6 py-4 md:hidden"
-      >
-        <div class="flex flex-col gap-4 text-sm">
-          <a href="https://marketplace.bigconfig.ai" class="bc-nav-link">Marketplace ↗</a>
-          <div class="flex flex-col gap-3">
-            <button
-              id="mobile-docs-toggle"
-              type="button"
-              class="flex w-full items-center justify-between text-left bc-nav-link"
-              aria-expanded="false"
-              aria-controls="mobile-docs-menu"
-            >
-              <span>Docs</span>
-              <svg
-                id="mobile-docs-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 transition"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div id="mobile-docs-menu" class="hidden flex-col gap-3 border-l border-slate-200 pl-4">
-              <a href="/manual/" class="bc-nav-link">Manual ↗</a>
-              <a href="/package-spec/" class="bc-nav-link">Package Spec ↗</a>
-              <a href="/talk" class="bc-nav-link">Talks</a>
-            </div>
-          </div>
-          <a href="/blog" class="bc-nav-link">Blog</a>
-          <a
-            href="https://github.com/bigconfig-ai/big-config"
-            class="mt-2 rounded-full bg-[#0652e9] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#1e6cf3]"
-            style="color: #fff;"
-          >
-            GitHub
-          </a>
-        </div>
-      </nav>
-    </div>
-
-    <!-- 1. Hero -->
-    <section class="mx-auto max-w-6xl px-6 pt-16 pb-24 text-center md:pt-20 md:pb-28">
-      <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-slate-600"
-      >
-        <span class="h-1.5 w-1.5 rounded-full bg-[#62e1e9]"></span>
-        TypeScript / Python / Clojure
-      </div>
-      <h1
-        class="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl"
-      >
-        The Open<br />
-        <span
-          class="bg-gradient-to-r from-[#62e1e9] via-[#3a8cec] to-[#0652e9] bg-clip-text text-transparent"
-          >Agent Packages Ecosystem</span
-        >
-      </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 md:text-xl">
-        Like Skills, but executable. Packages turn procedural know-how — how to
-        deploy, provision, validate, and tear down — into software your agent,
-        your shell, and your CI can all run.
-      </p>
-    </section>
-
-    <!-- 2. What is a package? -->
-    <section class="mx-auto max-w-6xl px-6 py-20">
-      <div class="grid gap-10 md:grid-cols-2 md:items-center">
-        <div class="min-w-0">
-          <div class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase">
-            What is a package?
-          </div>
-          <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-            Procedural knowledge, expressed as software.
-          </h2>
-          <p class="mt-5 text-lg leading-relaxed text-slate-600">
-            A package is a named, reusable unit of operational know-how — how
-            to provision a server, configure DNS, render a Terraform plan,
-            validate a deployment, and safely tear it down again.
-          </p>
-          <p class="mt-4 text-lg leading-relaxed text-slate-600">
-            Skills give that knowledge to an agent. Packages give it to
-            everyone: agents, humans in a terminal, CI pipelines, and scripts.
-            Same procedure, one executable contract.
-          </p>
-        </div>
-        <div class="min-w-0">
-          <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl shadow-slate-900/20">
-            <div class="flex items-center gap-2 border-b border-slate-800 px-4 py-3">
-              <span class="h-3 w-3 rounded-full bg-rose-400"></span>
-              <span class="h-3 w-3 rounded-full bg-amber-400"></span>
-              <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
-              <span class="ml-3 text-xs font-medium text-slate-400">bigconfig-ai/once</span>
-            </div>
-            <pre class="overflow-x-auto px-5 py-5 text-sm leading-relaxed text-slate-100"><code class="font-mono"><span class="text-slate-500">$</span> npx bc-pkg bigconfig-ai/once@typescript package <span class="text-emerald-300">validate</span>
-<span class="text-slate-500">$</span> npx bc-pkg bigconfig-ai/once@typescript package <span class="text-rose-300">create</span>
-<span class="text-slate-500">$</span> npx bc-pkg bigconfig-ai/once@typescript package <span class="text-rose-300">delete</span></code></pre>
-          </div>
-          <p class="mt-4 text-center text-sm text-slate-500">
-            One package. One contract. Every runtime.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Skills vs Packages -->
-    <section class="mx-auto max-w-5xl px-6 py-24">
-      <div class="mb-12 text-center">
-        <div class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase">
-          Skill or package?
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          The same insight, packaged differently.
-        </h2>
-        <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-          Both start from the idea that procedural knowledge should be
-          reusable. They diverge on where that knowledge lives and how it runs.
-        </p>
-      </div>
-
-      <div class="overflow-hidden rounded-2xl bc-site-card">
-        <!-- Desktop / tablet table -->
-        <table class="hidden w-full md:table">
-          <thead>
-            <tr class="border-b border-slate-200 bg-slate-50/60 text-left text-xs font-semibold tracking-widest text-slate-500 uppercase">
-              <th class="px-6 py-4">Question</th>
-              <th class="px-6 py-4">Skill</th>
-              <th class="px-6 py-4">BigConfig package</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              comparisonRows.map((row, idx) => (
-                <tr class={idx < comparisonRows.length - 1 ? "border-b border-slate-200" : ""}>
-                  <td class="px-6 py-4 align-top text-sm font-semibold text-slate-950">{row.q}</td>
-                  <td class="px-6 py-4 align-top text-sm text-slate-600">{row.skill}</td>
-                  <td class="px-6 py-4 align-top text-sm text-slate-700">{row.pkg}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-
-        <!-- Mobile stacked cards -->
-        <div class="divide-y divide-slate-200 md:hidden">
-          {
-            comparisonRows.map((row) => (
-              <div class="px-6 py-5">
-                <div class="text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                  {row.q}
-                </div>
-                <div class="mt-3 space-y-2 text-sm">
-                  <div>
-                    <span class="font-semibold text-slate-950">Skill — </span>
-                    <span class="text-slate-600">{row.skill}</span>
-                  </div>
-                  <div>
-                    <span class="font-semibold text-slate-950">Package — </span>
-                    <span class="text-slate-700">{row.pkg}</span>
-                  </div>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-
-      <p class="mt-6 text-center text-sm text-slate-500">
-        Read the long form: <a href="/blog/skills-vs-bigconfig-packages/" class="font-semibold text-[#0891b2] hover:text-[#0652e9]">Skills vs. BigConfig Packages →</a>
-      </p>
-    </section>
-
-    <!-- 4. Four differentiators -->
-    <section id="features" class="mx-auto max-w-6xl px-6 py-20">
-      <div class="mb-16 text-center">
-        <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
-        >
-          Why packages
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          What you get when procedures<br />become software.
-        </h2>
-      </div>
-
-      <div class="grid gap-6 md:grid-cols-2">
-        {
-          features.map((f) => (
-            <div class="group rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white">
-              <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d={f.icon}
-                  />
-                </svg>
-              </div>
-              <h3 class="text-lg font-semibold text-slate-950">{f.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-slate-600">
-                {f.body}
-              </p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- 5. Who runs a package -->
-    <section class="mx-auto max-w-6xl px-6 py-20">
-      <div class="mb-12 text-center">
-        <div class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase">
-          One package, many runtimes
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          Built to be called by anyone.
-        </h2>
-        <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-          A package is not trapped inside an agent. It is a normal command-line
-          program. Anyone — or anything — that can run a shell command can run
-          it.
-        </p>
-      </div>
-
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          runtimes.map((r) => (
-            <div class="group rounded-2xl bc-site-card p-6 transition hover:border-[#62e1e9]/40 hover:bg-white">
-              <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#62e1e9]/10 text-[#0891b2] ring-1 ring-[#62e1e9]/20">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d={r.icon}
-                  />
-                </svg>
-              </div>
-              <h3 class="text-base font-semibold text-slate-950">{r.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-slate-600">{r.body}</p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- 6. The lifecycle contract (restructured launcher) -->
-    <section id="launcher-example" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="grid min-w-0 gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(42rem,1.25fr)] xl:items-center">
-        <div class="min-w-0">
-          <div
-            class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
-          >
-            The lifecycle contract
-          </div>
-          <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-            Pick a verb. See who can safely run it.
-          </h2>
-          <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-            Every BigConfig package exposes the same five verbs. The
-            credentials each one needs are part of the contract — so your
-            agent can safely validate and describe with read-only access while
-            you keep create and delete behind human approval.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600">
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">validate · build · create · describe · delete</span>
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">read-only · read-write · no creds</span>
-            <span class="rounded-full border border-slate-200 bg-white/80 px-3 py-1">agent · shell · CI</span>
-          </div>
-        </div>
-
-        <div class="min-w-0 rounded-2xl bc-site-card p-4 shadow-2xl shadow-slate-200/70 sm:p-6 md:p-8">
-          <div class="space-y-6">
-            <!-- Verb (promoted to top — the contract) -->
-            <div>
-              <div id="verb-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                Verb
-              </div>
-              <div class="flex flex-wrap gap-2" aria-labelledby="verb-choice-label">
-                <button
-                  type="button"
-                  class="command-option"
-                  data-verb="validate"
-                  data-credential="safe"
-                  aria-pressed="true"
-                  aria-controls="launcher-command"
-                  aria-label="validate, read-only credentials"
-                >validate</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-verb="build"
-                  data-credential="neutral"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                  aria-label="build, no credentials"
-                >build</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-verb="create"
-                  data-credential="danger"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                  aria-label="create, read-write credentials"
-                >create</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-verb="describe"
-                  data-credential="safe"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                  aria-label="describe, read-only credentials"
-                >describe</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-verb="delete"
-                  data-credential="danger"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                  aria-label="delete, read-write credentials"
-                >delete</button>
-              </div>
-            </div>
-
-            <!-- Runtime: launcher + package + language (secondary) -->
-            <div>
-              <div class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                Runtime
-              </div>
-              <div class="grid gap-4 sm:grid-cols-3">
-                <div>
-                  <div id="launcher-choice-label" class="mb-2 text-[0.65rem] font-semibold tracking-widest text-slate-400 uppercase">
-                    Launcher
-                  </div>
-                  <div class="flex flex-wrap gap-2" aria-labelledby="launcher-choice-label">
-                    <button
-                      type="button"
-                      class="command-option"
-                      data-launcher="uvx"
-                      aria-pressed="false"
-                      aria-controls="launcher-command"
-                    >uvx</button>
-                    <button
-                      type="button"
-                      class="command-option"
-                      data-launcher="npx"
-                      aria-pressed="true"
-                      aria-controls="launcher-command"
-                    >npx</button>
-                  </div>
-                </div>
-                <div>
-                  <div id="package-choice-label" class="mb-2 text-[0.65rem] font-semibold tracking-widest text-slate-400 uppercase">
-                    Package
-                  </div>
-                  <div class="flex flex-wrap gap-2" aria-labelledby="package-choice-label">
-                    <span class="package-tooltip-trigger">
-                      <button
-                        type="button"
-                        class="command-option"
-                        data-package="bigconfig-ai/once"
-                        aria-pressed="true"
-                        aria-controls="launcher-command"
-                        aria-describedby="package-once-tooltip"
-                      >bigconfig-ai / once</button>
-                      <span id="package-once-tooltip" role="tooltip" class="package-tooltip-bubble">
-                        once is a package that automatically sets up everything needed to run a web application on a cloud server. It provisions the server, configures the domain name, sets up email sending, and deploys the app — in the right order, all with one command.
-                      </span>
-                    </span>
-                    <span class="package-tooltip-trigger">
-                      <button
-                        type="button"
-                        class="command-option"
-                        data-package="bigconfig-ai/walter"
-                        aria-pressed="false"
-                        aria-controls="launcher-command"
-                        aria-describedby="package-walter-tooltip"
-                      >bigconfig-ai / walter</button>
-                      <span id="package-walter-tooltip" role="tooltip" class="package-tooltip-bubble">
-                        walter is a package that, from a single invocation, takes you from nothing to a fully provisioned, fully configured development machine in the cloud — the complete "set up my dev environment" workflow that handles both infrastructure (the VM itself) and configuration (everything installed and running on it), plus the ability to tear it all back down when you're done.
-                      </span>
-                    </span>
-                    <span class="package-tooltip-trigger">
-                      <button
-                        type="button"
-                        class="command-option"
-                        data-package="your/package"
-                        aria-pressed="false"
-                        aria-controls="launcher-command"
-                        aria-describedby="package-your-tooltip"
-                      >your / package</button>
-                      <span id="package-your-tooltip" role="tooltip" class="package-tooltip-bubble">
-                        Turn your own deployment or setup workflow into a package your agent can understand, run, and iterate on. Start small with one repeatable task, then grow from there.
-                      </span>
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <div id="language-choice-label" class="mb-2 text-[0.65rem] font-semibold tracking-widest text-slate-400 uppercase">
-                    Target language
-                  </div>
-                  <div class="flex flex-wrap gap-2" aria-labelledby="language-choice-label">
-                    <button
-                      type="button"
-                      class="command-option"
-                      data-language="typescript"
-                      aria-pressed="true"
-                      aria-controls="launcher-command"
-                    >TypeScript</button>
-                    <button
-                      type="button"
-                      class="command-option"
-                      data-language="python"
-                      aria-pressed="false"
-                      aria-controls="launcher-command"
-                    >Python</button>
-                    <button
-                      type="button"
-                      class="command-option"
-                      data-language="clojure"
-                      aria-pressed="false"
-                      aria-controls="launcher-command"
-                    >Clojure</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Environment -->
-            <div>
-              <div id="environment-choice-label" class="mb-3 text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                Environment
-              </div>
-              <div class="flex flex-wrap gap-2" aria-labelledby="environment-choice-label">
-                <button
-                  type="button"
-                  class="command-option"
-                  data-environment="shell"
-                  aria-pressed="false"
-                  aria-controls="launcher-command"
-                >Shell</button>
-                <button
-                  type="button"
-                  class="command-option"
-                  data-environment="prompt"
-                  aria-pressed="true"
-                  aria-controls="launcher-command"
-                >Prompt</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-3">
-              <div class="flex flex-wrap items-center gap-2">
-                <span id="launcher-command-label" class="text-xs font-semibold tracking-widest text-slate-500 uppercase">agent prompt</span>
-                <span
-                  id="launcher-credential-output"
-                  class="inline-flex items-center rounded-full border border-slate-200 bg-white/90 px-2.5 py-1 text-xs font-semibold text-slate-600"
-                  data-credential="safe"
-                  aria-live="polite"
-                >
-                  <span id="launcher-credential-label">Read-only credentials</span>
-                </span>
-              </div>
-              <button
-                id="launcher-copy"
-                type="button"
-                class="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-[#62e1e9]/60 hover:text-[#0891b2] focus-visible:border-[#0891b2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0891b2]/30"
-              >Copy</button>
-              <span id="launcher-copy-status" class="sr-only" aria-live="polite"></span>
-            </div>
-            <pre class="w-full overflow-x-auto whitespace-pre p-4 text-sm leading-relaxed md:p-5"><code id="launcher-command" class="block min-w-max font-mono text-slate-700">- run npx bc-pkg bigconfig-ai/once@typescript package validate
-- iterate on failure</code></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Demo -->
-    <section id="demo" class="mx-auto max-w-6xl px-6 py-24">
-      <div class="mb-12 text-center">
-        <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
-        >
-          Demo
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          Watch a package run end-to-end.
-        </h2>
-      </div>
-
-      <div
-        class="overflow-hidden rounded-2xl bc-site-card"
-      >
-        <YouTube id="wTwMJpn6zhc" si="qkjlqMknaG461nYd" />
-      </div>
-    </section>
-
-    <!-- 8. Dive deeper -->
-    <section class="mx-auto max-w-6xl px-6 py-24">
-      <div class="mb-16 text-center">
-        <div
-          class="mb-4 inline-block text-xs font-semibold tracking-widest text-[#0891b2] uppercase"
-        >
-          Dive deeper
-        </div>
-        <h2 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-          Start here.
-        </h2>
-      </div>
-
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {
-          links.map((l) => (
-            <a
-              href={l.href}
-              class="group flex flex-col rounded-2xl bc-site-card p-8 transition hover:border-[#62e1e9]/40 hover:bg-white"
-            >
-              <h3 class="text-lg font-semibold text-slate-950 group-hover:text-[#0891b2]">
-                {l.title}
-              </h3>
-              <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
-                {l.body}
-              </p>
-              <div class="mt-4 text-sm font-semibold text-[#0891b2]">
-                Open →
-              </div>
-            </a>
-          ))
-        }
-      </div>
-    </section>
-
-    <footer
-      class="mx-auto max-w-6xl px-6 py-12 text-center text-sm text-slate-500"
-    >
-      © {new Date().getFullYear()} BigConfig · <a
-        href="/"
-        class="bc-footer-link">bigconfig.ai</a
-      >
-    </footer>
 
     <script is:inline>
-      const mobileToggle = document.getElementById("mobile-menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const iconOpen = document.getElementById("mobile-menu-icon-open");
-      const iconClose = document.getElementById("mobile-menu-icon-close");
-      const mobileDocsToggle = document.getElementById("mobile-docs-toggle");
-      const mobileDocsMenu = document.getElementById("mobile-docs-menu");
-      const mobileDocsIcon = document.getElementById("mobile-docs-icon");
-      document.querySelectorAll("[data-docs-dropdown]").forEach((dropdown) => {
-        if (!(dropdown instanceof HTMLElement)) return;
-        const toggle = dropdown.querySelector("[data-docs-dropdown-toggle]");
-        const menu = dropdown.querySelector("[data-docs-dropdown-menu]");
-        if (!(toggle instanceof HTMLElement) || !(menu instanceof HTMLElement)) return;
-
-        const setDocsDropdownOpen = (open) => {
-          dropdown.classList.toggle("is-open", open);
-          toggle.setAttribute("aria-expanded", open ? "true" : "false");
-        };
-
-        toggle.addEventListener("click", (event) => {
-          event.preventDefault();
-          setDocsDropdownOpen(toggle.getAttribute("aria-expanded") !== "true");
-        });
-
-        dropdown.addEventListener("keydown", (event) => {
-          if (event.key !== "Escape") return;
-          setDocsDropdownOpen(false);
-          toggle.focus();
-        });
-
-        dropdown.addEventListener("focusout", (event) => {
-          const nextTarget = event.relatedTarget;
-          if (!(nextTarget instanceof Node) || !dropdown.contains(nextTarget)) {
-            setDocsDropdownOpen(false);
-          }
-        });
-
-        document.addEventListener("click", (event) => {
-          const target = event.target;
-          if (target instanceof Node && !dropdown.contains(target)) {
-            setDocsDropdownOpen(false);
-          }
-        });
-
-        menu.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", () => setDocsDropdownOpen(false));
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", () => {
+          navigator.clipboard?.writeText(button.dataset.copy);
+          button.textContent = "Copied";
+          setTimeout(() => (button.textContent = "Copy"), 1500);
         });
       });
-      let setMobileDocsOpen = () => {};
-      if (mobileDocsToggle && mobileDocsMenu) {
-        setMobileDocsOpen = (open) => {
-          mobileDocsMenu.classList.toggle("hidden", !open);
-          mobileDocsMenu.classList.toggle("flex", open);
-          mobileDocsToggle.setAttribute("aria-expanded", open ? "true" : "false");
-          mobileDocsIcon?.classList.toggle("rotate-180", open);
-        };
-        mobileDocsToggle.addEventListener("click", () => {
-          const isOpen = mobileDocsMenu.classList.contains("hidden");
-          setMobileDocsOpen(isOpen);
-        });
-      }
-      if (mobileToggle && mobileMenu) {
-        const setOpen = (open) => {
-          mobileMenu.classList.toggle("hidden", !open);
-          mobileToggle.setAttribute("aria-expanded", open ? "true" : "false");
-          iconOpen?.classList.toggle("hidden", open);
-          iconClose?.classList.toggle("hidden", !open);
-          if (!open) {
-            setMobileDocsOpen(false);
-          }
-        };
-        mobileToggle.addEventListener("click", () => {
-          const isOpen = mobileMenu.classList.contains("hidden");
-          setOpen(isOpen);
-        });
-        mobileMenu.querySelectorAll("a").forEach((a) => {
-          a.addEventListener("click", () => setOpen(false));
-        });
-      }
-
-      const launcherExample = document.getElementById("launcher-example");
-      if (launcherExample) {
-        const state = {
-          launcher: "npx",
-          packageName: "bigconfig-ai/once",
-          language: "typescript",
-          verb: "validate",
-          environment: "prompt",
-        };
-        const credentialRequirements = {
-          build: { label: "No credentials", kind: "neutral" },
-          validate: { label: "Read-only credentials", kind: "safe" },
-          describe: { label: "Read-only credentials", kind: "safe" },
-          create: { label: "Read-write credentials", kind: "danger" },
-          delete: { label: "Read-write credentials", kind: "danger" },
-        };
-        const commandEl = document.getElementById("launcher-command");
-        const commandLabel = document.getElementById("launcher-command-label");
-        const credentialOutput = document.getElementById("launcher-credential-output");
-        const credentialLabel = document.getElementById("launcher-credential-label");
-        const copyButton = document.getElementById("launcher-copy");
-        const copyStatus = document.getElementById("launcher-copy-status");
-        const launcherButtons = launcherExample.querySelectorAll("[data-launcher]");
-        const packageButtons = launcherExample.querySelectorAll("[data-package]");
-        const languageButtons = launcherExample.querySelectorAll("[data-language]");
-        const verbButtons = launcherExample.querySelectorAll("[data-verb]");
-        const environmentButtons = launcherExample.querySelectorAll("[data-environment]");
-        let copyTimer;
-
-        const getCommand = () =>
-          `${state.launcher} bc-pkg ${state.packageName}@${state.language} package ${state.verb}`;
-
-        const getDisplayText = () =>
-          state.environment === "prompt"
-            ? `- run ${getCommand()}\n- iterate on failure`
-            : `$ ${getCommand()}`;
-
-        const getCopyText = () =>
-          state.environment === "prompt" ? getDisplayText() : getCommand();
-
-        const getCommandLabel = () =>
-          state.environment === "prompt" ? "agent prompt" : "shell command";
-
-        const updateButtons = (buttons, key, value) => {
-          buttons.forEach((button) => {
-            button.setAttribute(
-              "aria-pressed",
-              button.dataset[key] === value ? "true" : "false",
-            );
-          });
-        };
-
-        const resetCopyFeedback = () => {
-          if (copyButton) copyButton.textContent = "Copy";
-          if (copyStatus) copyStatus.textContent = "";
-          window.clearTimeout(copyTimer);
-        };
-
-        const updateCredentialOutput = () => {
-          const requirement =
-            credentialRequirements[state.verb] ?? credentialRequirements.build;
-          if (credentialOutput) {
-            credentialOutput.setAttribute("data-credential", requirement.kind);
-          }
-          if (credentialLabel) credentialLabel.textContent = requirement.label;
-        };
-
-        const updateCommand = () => {
-          if (commandEl) commandEl.textContent = getDisplayText();
-          if (commandLabel) commandLabel.textContent = getCommandLabel();
-          updateCredentialOutput();
-          resetCopyFeedback();
-        };
-
-        const copyText = async (text) => {
-          if (navigator.clipboard?.writeText && window.isSecureContext) {
-            await navigator.clipboard.writeText(text);
-            return;
-          }
-
-          const textarea = document.createElement("textarea");
-          textarea.value = text;
-          textarea.setAttribute("readonly", "");
-          textarea.style.position = "fixed";
-          textarea.style.top = "-9999px";
-          document.body.appendChild(textarea);
-          textarea.select();
-          const copied = document.execCommand("copy");
-          document.body.removeChild(textarea);
-          if (!copied) throw new Error("Copy command failed");
-        };
-
-        launcherButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            state.launcher = button.dataset.launcher;
-            updateButtons(launcherButtons, "launcher", state.launcher);
-            updateCommand();
-          });
-        });
-
-        packageButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            state.packageName = button.dataset.package;
-            updateButtons(packageButtons, "package", state.packageName);
-            updateCommand();
-          });
-        });
-
-        languageButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            state.language = button.dataset.language;
-            updateButtons(languageButtons, "language", state.language);
-            updateCommand();
-          });
-        });
-
-        verbButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            state.verb = button.dataset.verb;
-            updateButtons(verbButtons, "verb", state.verb);
-            updateCommand();
-          });
-        });
-
-        environmentButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            state.environment = button.dataset.environment;
-            updateButtons(environmentButtons, "environment", state.environment);
-            updateCommand();
-          });
-        });
-
-        copyButton?.addEventListener("click", async () => {
-          try {
-            await copyText(getCopyText());
-            copyButton.textContent = "Copied";
-            if (copyStatus) copyStatus.textContent = "Command copied";
-          } catch (error) {
-            copyButton.textContent = "Copy failed";
-            if (copyStatus) copyStatus.textContent = "Command copy failed";
-          }
-
-          window.clearTimeout(copyTimer);
-          copyTimer = window.setTimeout(resetCopyFeedback, 1800);
-        });
-      }
-
     </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
-# BigConfig Website
+# Colors Website
 
-Static Astro site for `https://www.bigconfig.ai`.
+Static Astro site for `https://www.bigconfig.ai`. One page.
 
 ## Commands
 
@@ -13,10 +13,25 @@ pnpm preview
 
 ## Structure
 
-- `src/pages/` contains first-party site pages.
-- `src/content/docs/blog/` contains MDX blog posts.
-- `src/components/` contains local Astro components used by pages and posts.
-- `src/pages/manual.html` is the manual page replacing the removed docs section.
-- `public/` contains static assets.
+- `src/pages/index.astro` is the landing page, and the only page.
+- `src/pages/blog/rss.xml.ts` serves an empty feed at the blog's old URL.
+- `src/components/SeoMeta.astro` holds the shared canonical and social tags.
+- `public/fonts/` holds the self-hosted IBM Plex woff2 files.
+- `public/og-colors.png` is the og:image; regenerate it with
+  `scripts/generate-og-image.py` rather than editing it by hand. Change the
+  filename whenever the artwork changes — social unfurl caches key on the URL.
 
-The site uses Astro, MDX, Tailwind CSS v4, and `astro-d2`.
+To check a link preview before deploying, build against the preview host so
+`og:image` is not still pointing at production:
+
+```bash
+SITE_URL=https://<preview-host> pnpm build
+```
+- `plans/colors-landing-page-export.html` is the design export the page was
+  ported from. It is a reference, not a build input.
+
+Retired routes — the blog, `/manual`, `/once`, `/walter`, and the talk decks —
+are 301'd to `/` by the `handle_errors` block in `Caddyfile.prod`.
+
+The site uses Astro. There is no CSS framework; the page is styled with inline
+attributes carried over from the design export.

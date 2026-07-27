@@ -1,8 +1,5 @@
 FROM node:22-alpine AS builder
 
-RUN apk add --no-cache curl make && \
-    curl -fsSL https://d2lang.com/install.sh | sh
-
 RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 
 WORKDIR /app

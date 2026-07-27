@@ -1,28 +1,38 @@
 ---
 // Shared Open Graph + Twitter Card + canonical meta tags.
-// Use in the <head> of any non-blog page. Blog pages are handled by BlogLayout.
+// Use in the <head> of any page.
 
 interface Props {
   /** The <title> text (also used for og:title / twitter:title). */
   title: string;
   /** The <meta name="description"> text (also used for og:description / twitter:description). */
   description: string;
-  /** Path relative to the site root, e.g. "/", "/marketplace", "/talk". */
+  /** Path relative to the site root. The site is one page, so this is "/". */
   path?: string;
-  /** Absolute path under public/, e.g. "/linkedin.png". */
+  /** Absolute path under public/, e.g. "/og-colors.png". */
   image?: string;
   /** Alt text for og:image. */
   imageAlt?: string;
+  /** og:image pixel dimensions. Defaults match the generated card. */
+  imageWidth?: number;
+  imageHeight?: number;
   /** og:type — "website" for landing pages, "article" for posts. */
   type?: "website" | "article";
 }
 
-const SITE_URL = "https://www.bigconfig.ai";
-const SITE_NAME = "BigConfig";
+// Comes from `site` in astro.config.mjs, so there is one source of truth for
+// the host. Overriding SITE_URL at build time repoints og:image and canonical
+// at a preview host, which is the only way to test an unfurl before deploying —
+// social scrapers fetch og:image as an absolute URL, so a preview build that
+// still advertises the production host shows whatever production has today.
+const SITE_URL = Astro.site?.toString() ?? "https://www.bigconfig.ai";
+const SITE_NAME = "Colors";
 const TWITTER_HANDLE = "@amiorin";
-const DEFAULT_IMAGE = "/linkedin.png";
-const DEFAULT_IMAGE_ALT =
-  "BigConfig — The Open Agent Packages Ecosystem";
+// Renaming this file is how you bust the unfurl caches at Slack, WhatsApp and
+// LinkedIn — they key on the image URL and hold it for days. New artwork at the
+// same path will keep showing the old card.
+const DEFAULT_IMAGE = "/og-colors.png";
+const DEFAULT_IMAGE_ALT = "Colors — An SDK for Package Skills";
 
 const {
   title,
@@ -30,6 +40,8 @@ const {
   path = "/",
   image = DEFAULT_IMAGE,
   imageAlt = DEFAULT_IMAGE_ALT,
+  imageWidth = 1200,
+  imageHeight = 630,
   type = "website",
 } = Astro.props;
 
@@ -45,6 +57,10 @@ const absoluteImage = new URL(image, SITE_URL).toString();
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={absoluteImage} />
+<meta property="og:image:secure_url" content={absoluteImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
 <meta property="og:image:alt" content={imageAlt} />
 
 <meta name="twitter:card" content="summary_large_image" />
