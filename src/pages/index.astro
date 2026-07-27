@@ -436,6 +436,36 @@ const description =
           font-size: 12px !important;
         }
       }
+
+      /* The DAG is a horizontal flex row with flex-wrap on desktop. Left to
+         wrap on a narrow screen it breaks mid-flow and strands the connector
+         lines at the end of a row, so below 860px it becomes a vertical
+         sequence instead: the row turns into a column and each connector
+         rotates from a 32x1 horizontal rule into a 1x20 vertical one. The
+         stacked pairs (tofu-compute/tofu-smtp, ansible-local/ansible-remote)
+         stay stacked -- that is what marks them as running in parallel. */
+      @media (max-width: 860px) {
+        .dag {
+          flex-direction: column !important;
+          align-items: stretch !important;
+          flex-wrap: nowrap !important;
+        }
+        .dag > div {
+          text-align: center;
+        }
+        .dag-edge {
+          width: 1px !important;
+          height: 20px !important;
+          margin: 0 auto !important;
+          flex: none !important;
+        }
+        .dag-group {
+          width: 100%;
+        }
+        .dag-panel {
+          padding: 24px 20px !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -613,21 +643,21 @@ const description =
           </div>
 
           <!-- DAG diagram -->
-          <div style="border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:36px; background:oklch(99% 0.002 90);">
+          <div class="dag-panel" style="border:1px solid oklch(91% 0.005 260); border-radius:12px; padding:36px; background:oklch(99% 0.002 90);">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:oklch(55% 0.01 260); margin-bottom:24px;">Once — CREATE / BUILD DAG</div>
-            <div style="display:flex; align-items:center; gap:0; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:13px;">
+            <div class="dag" style="display:flex; align-items:center; gap:0; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:13px;">
               <div style="background:oklch(20% 0.01 260); color:white; padding:10px 16px; border-radius:8px;">start</div>
-              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
+              <div class="dag-edge" style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div class="dag-group" style="display:flex; flex-direction:column; gap:8px;">
                 <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">tofu-compute</div>
                 <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">tofu-smtp</div>
               </div>
-              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div class="dag-edge" style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
               <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">tofu-dns</div>
-              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div class="dag-edge" style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
               <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">smtp-post</div>
-              <div style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
+              <div class="dag-edge" style="width:32px; height:1px; background:oklch(80% 0.005 260);"></div>
+              <div class="dag-group" style="display:flex; flex-direction:column; gap:8px;">
                 <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">ansible-local</div>
                 <div style="background:white; border:1px solid oklch(85% 0.005 260); padding:10px 16px; border-radius:8px;">ansible-remote</div>
               </div>
